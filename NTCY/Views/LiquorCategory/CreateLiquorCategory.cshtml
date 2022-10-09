@@ -1,0 +1,45 @@
+﻿@using NTCY.Models.LiquorDetails;
+@{
+    ViewBag.Title = "CreateLiquorCategory";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<section class="content">
+    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 label-area">
+        @ViewBag.message
+        @ViewBag.innerEx
+    </div>
+    <div class="container-fluid">
+        @using (Html.BeginForm("CreateLiquorCategory", "LiquorCategory", FormMethod.Post))
+        {
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card card-primary">
+                        <div class="card card-success">
+                            <div class="card-header">
+                                <h3 class="card-title">Liquor Category</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label for="lCategoryName">CategoryName</label>
+                                            @Html.TextBox("CategoryName", ViewData["CategoryName"], new { @maxlength = "12", @class="form-control", @id = "CategoryName" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-footer">
+                    <button type="submit" value="@ViewBag.submit" class="btn btn-primary" id="Btn_Submit" data-toggle="tooltip" title="Save"><span class="fas fa-save"> </span></button>
+                    <a href="@Url.Action("ViewLiquorCategory", "LiquorCategory")" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="View Member">
+                        <span class="fa-solid fa-users" aria-hidden="true"></span>
+                    </a>
+                </div>
+            </div>
+        }
+        <!-- /.row -->
+    </div><!-- /.container-fluid -->
+</section>

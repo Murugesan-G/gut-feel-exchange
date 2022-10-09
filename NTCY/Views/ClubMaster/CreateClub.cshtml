@@ -1,0 +1,150 @@
+﻿@using NTCY.Models.Club;
+@{
+    ViewBag.Title = "CreateClub";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<section class="content">
+    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 label-area">
+        @ViewBag.message
+        @ViewBag.innerEx
+    </div>
+    <div class="container-fluid">
+        @using (Html.BeginForm("CreateClub", "Club", FormMethod.Post))
+        {
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card card-primary">
+                        <div class="card card-success">
+                            <div class="card-header">
+                                <h3 class="card-title">Club Master</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <label for="lClubName">ClubName</label>
+                                            @Html.TextBox("ClubName", ViewData["ClubName"], new { @maxlength = "15", @class = "form-control", @id = "ClubName" })
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <label for="lAddress">Address</label>
+                                            @Html.TextBox("Address", ViewData["Address"], new { @maxlength = "12", @class="form-control", @id = "Address" })
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <label for="lDateOfIncorporation">DateOfIncorporation</label>
+                                            @Html.TextBox("DateOfIncorporation", ViewData["DateOfIncorporation"], new { @maxlength = "12", @class="form-control", @id = "DateOfIncorporation" })
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <label for="lLogo">Logo</label>
+                                            @Html.TextBox("Logo", ViewData["Logo"], new { @maxlength = "15", @class = "form-control", @id = "Logo" })
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">                                    
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <label for="lRegistrationNumber">RegistrationNumber</label>
+                                            @Html.TextBox("RegistrationNumber", ViewData["RegistrationNumber"], new { @maxlength = "15", @class = "form-control", @id = "RegistrationNumber" })
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <label for="lRestaurantLicense">RestaurantLicense</label>
+                                            @Html.TextBox("RestaurantLicense", ViewData["RestaurantLicense"], new { @maxlength = "15", @class = "form-control", @id = "RestaurantLicense" })
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <label for="lLiquorLicense">LiquorLicense</label>
+                                            @Html.TextBox("LiquorLicense", ViewData["LiquorLicense"], new { @maxlength = "12", @class="form-control", @id = "LiquorLicense" })
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <label for="lAmenities">Amenities</label>
+                                            @Html.TextBox("Amenities", ViewData["Amenities"], new { @maxlength = "12", @class="form-control", @id = "Amenities" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">                                    
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <label for="lGSTNumber">GSTNumber</label>
+                                            @Html.TextBox("GSTNumber", ViewData["GSTNumber"], new { @maxlength = "12", @class="form-control", @id = "GSTNumber" })
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <label for="lPAN">PAN</label>
+                                            @Html.TextBox("PAN", ViewData["PAN"], new { @maxlength = "12", @class="form-control", @id = "PAN" })
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <label for="lTAN">TAN</label>
+                                            @Html.TextBox("TAN", ViewData["TAN"], new { @maxlength = "12", @class="form-control", @id = "TAN" })
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <label for="lContactPerson">ContactPerson</label>
+                                            @Html.TextBox("ContactPerson", ViewData["ContactPerson"], new { @maxlength = "12", @class="form-control", @id = "ContactPerson" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <label for="lPhoneNumber">PhoneNumber</label>
+                                            @Html.TextBox("PhoneNumber", ViewData["PhoneNumber"], new { @maxlength = "12", @class="form-control", @id = "PhoneNumber" })
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <label for="lMobileNumber">MobileNumber</label>
+                                            @Html.TextBox("MobileNumber", ViewData["MobileNumber"], new { @maxlength = "12", @class="form-control", @id = "MobileNumber" })
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <label for="lEmailID">EmailID</label>
+                                            @Html.TextBox("EmailID", ViewData["EmailID"], new { @maxlength = "12", @class="form-control", @id = "EmailID" })
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <label for="lAbout">About</label>
+                                            @Html.TextBox("About", ViewData["About"], new { @maxlength = "12", @class="form-control", @id = "About" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">                                    
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <label for="lStatus">Status</label>
+                                            @Html.TextBox("Status", ViewData["Status"], new { @maxlength = "12", @class="form-control", @id = "Status" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card-footer">
+                    <button type="submit" value="@ViewBag.submit" class="btn btn-primary" id="Btn_Submit" data-toggle="tooltip" title="Save"><span class="fas fa-save"> </span></button>
+                    <a href="@Url.Action("ViewClub", "ClubMaster")" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="View Member">
+                        <span class="fa-solid fa-users" aria-hidden="true"></span>
+                    </a>
+                </div>
+            </div>
+        }
+    <!-- /.row -->
+    </div><!-- /.container-fluid -->
+</section>

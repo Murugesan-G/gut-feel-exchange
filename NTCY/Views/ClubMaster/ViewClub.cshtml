@@ -1,0 +1,126 @@
+﻿@using NTCY.Models.Club;
+@{
+    ViewBag.Title = "ViewClub";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@*<div class="text-center">
+    <h1 class="display-4">Welcome To Member Page</h1>
+</div>*@
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <h1> Club Details</h1>
+                    <div class="card-header">
+                        <a href="@Url.Action("CreateClub", "ClubMaster")" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Add Club">
+                            <span class="fa-solid fa-user-plus" aria-hidden="true"></span>
+                        </a>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <table id="example1" class="table table-bordered table-striped table-sm" cellspacing="0" width="100%" ">
+                            <thead>
+                                <tr>
+                                    <th> ClubName </th>
+                                    <th> Address </th>
+                                    <th> RegistrationNumber </th>
+                                    <th> RestaurantLicense </th>
+                                    <th> LiquorLicense </th>
+                                    <th> GSTNumber </th>
+                                    <th> PAN </th>
+                                    <th> TAN </th>
+                                    <th> ContactPerson </th>
+                                    <th> PhoneNumber </th>
+                                    <th> MobileNumber </th>
+                                    <th> EmailID </th>
+                                    <th> DateOfIncorporation </th>
+                                    <th> Logo </th>
+                                    <th> Amenities </th>
+                                    <th> About </th>
+                                    <th> Status </th>
+                                    <th> Edit </th>
+                                    <th> Delete </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
+                                if (ViewData["ClubList"] != null)
+                                {
+                                if (ViewData.Values != null && ViewData.Values.Count() > 0)
+                                {
+                                foreach (var Model in ViewBag.ClubList as List<Club>)
+                                {
+                                    <tr>
+                                        <td>@Model.ClubName</td>
+                                        <td>@Model.Address</td>
+                                        <td>@Model.RegistrationNumber</td>
+                                        <td>@Model.RestaurantLicense</td>
+                                        <td>@Model.LiquorLicense</td>
+                                        <td>@Model.GSTNumber</td>
+                                        <td>@Model.PAN</td>
+                                        <td>@Model.TAN</td>
+                                        <td>@Model.ContactPerson</td>
+                                        <td>@Model.PhoneNumber</td>
+                                        <td>@Model.MobileNumber</td>
+                                        <td>@Model.EmailID</td>
+                                        <td>@Model.DateOfIncorporation</td>
+                                        <td>@Model.Logo</td>
+                                        <td>@Model.Amenities</td>
+                                        <td>@Model.About</td>
+                                        <td>@Model.Status</td>
+
+                                        <td> @Html.ActionLink(" ","UpdateClub","ClubMaster", new { ClubId = Model.ClubId }, new { @class = "btn btn-block btn-primary fas fa-edit", data_toggle = "tooltip", data_placement = "bottom" }) </td>
+                                        <td> @Html.ActionLink(" ","DeleteClub","ClubMaster", new { ClubId = Model.ClubId }, new { @class = "btn btn-block bg-gradient-danger fa fa-trash-o", data_toggle = "tooltip", data_placement = "bottom" }) </td>
+                                    </tr>
+                                }
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td>
+                                            @ViewBag.message
+                                        </td>
+                                    </tr>
+                                }
+                                }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+    <div class="modal fade" id="ModalMember" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" style="color:black;font-family:'Bookman Old Style'" id="myModalLabel"><b>Member Details</b></h4>
+                    </div>
+                    <div style="color:darkslateblue" class="modal-body">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 label-area">
+            @ViewBag.message
+            @ViewBag.innerEx
+        </div>
+    </div>
+    @Html.Raw(TempData["msg"])
+</section>
+
+
+

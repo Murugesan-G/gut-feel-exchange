@@ -1,0 +1,650 @@
+﻿@using NTCY.Models.Club;
+@{
+    ViewBag.Title = "CreateMembers";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script type="text/javascript">
+    $(function () {
+        $('#DOB').datetimepicker({
+            format: 'DD/MM/YYYY',
+            ignoreReadonly: true
+        });
+        $('#DateOfInduction').datetimepicker({
+            format: 'DD/MM/YYYY',
+            ignoreReadonly: true
+        });
+
+        $('#DateOfMarriage').datetimepicker({
+            format: 'DD/MM/YYYY',
+            ignoreReadonly: true
+        });
+
+        $('#DateOfExpiry').datetimepicker({
+            format: 'DD/MM/YYYY',
+            ignoreReadonly: true
+        });
+
+        $('#DOBSpouse').datetimepicker({
+            format: 'DD/MM/YYYY',
+            ignoreReadonly: true
+        });
+
+        $('#DOBChild1').datetimepicker({
+            format: 'DD/MM/YYYY',
+            ignoreReadonly: true
+        });
+
+        $('#DOBChild2').datetimepicker({
+            format: 'DD/MM/YYYY',
+            ignoreReadonly: true
+        });
+        $('#DOBChild3').datetimepicker({
+            format: 'DD/MM/YYYY',
+            ignoreReadonly: true
+        });
+    });
+</script>
+
+@*<script type="text/javascript">
+
+    $(document).ready(function () {
+        $("#Gender").val("@ViewData["Gender"]");
+        $("#MembershipType").val("@ViewData["MembershipType"]");
+        $("#MembershipStatus").val("@ViewData["MemberShipStatus"]");
+        // $("#Alive").val("@ViewData["Alive"]");
+        var data = ViewData["Alive"];
+        if (data == "Yes") {
+
+            $("#RadioYes").prop("checked", true);
+
+        }
+        else if (data == "No") {
+
+            $("#RadioNo").prop("checked", true);
+
+        }
+
+
+    });
+</script>*@
+    <!-- Main content -->
+<section class="content">
+    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 label-area">
+        @ViewBag.message
+        @ViewBag.innerEx
+    </div>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- left column -->
+            <div class="col-md-12">
+                <div class="card-header">
+                    <h3 class="card-title">Add Member</h3>
+                </div>
+            </div>
+        </div>
+        
+        @using (Html.BeginForm("CreateMember", "Member", FormMethod.Post))
+        {
+            <div class="row">
+                <div class="col-md-9">
+                    <div class="card card-primary">
+                        <div class="card-header">
+                            <h3 class="card-title">Member Details</h3>
+                        </div>
+                        <div class="card-body">                        
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group row">
+                                        <label for="lMembershipNo">MembershipNo</label>
+                                        @Html.TextBox("MembershipNo", ViewData["MembershipNo"], new { @maxlength = "20", @class="form-control", @id = "MembershipNo" })
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label for="lMemberName">MemberName</label>
+                                        @Html.TextBox("MemberName", ViewData["memberName"], new { @maxlength = "20", @class="form-control", @id = "memberName" })
+                                        <span id="ememberName"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label for="lMobileNo">MobileNo</label>
+                                        @Html.TextBox("MobileNo", ViewData["MobileNo"], new { @maxlength = "12", @class="form-control", @id = "MobileNo" })
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group row">
+                                        <label for="lWatsupNo">Watsup No</label>
+                                        @Html.TextBox("WatsupNo", ViewData["WatsupNo"], new { @maxlength = "12", @class="form-control", @id = "WatsupNo" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label for="lDOB">DOB</label>
+                                        @Html.TextBox("DOB", ViewData["DOB"], new {@class = "form-control datepicker", @type = "date", @id = "DOB" })
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label for="lEmailId">EmailId</label>
+                                        @Html.TextBox("EmailId", ViewData["EmailId"], new { @type = "email", @maxlength = "128", @class = "form-control", @id = "EmailId" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">                                
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label for="lGender">Gender</label>
+                                        @Html.DropDownList("Gender", new List<SelectListItem> 
+                                        {
+                                            new SelectListItem { Text="Male", Value="Male"},
+                                            new SelectListItem { Text="Female", Value="Female"},
+                                            new SelectListItem { Text="Transgender", Value="Transgender"}
+                                    }, "Select Gender", new { @class = "form-control", @id = "Gender" })
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label for="lMaritalStatus">MaritalStatus</label>
+                                        @Html.DropDownList("MaritalStatus", new List<SelectListItem>
+                                        {
+                                            new SelectListItem { Text="Single", Value="Single"},
+                                            new SelectListItem { Text="Married", Value="Married"},
+                                            new SelectListItem { Text="Widow", Value="Widow"},
+                                            new SelectListItem { Text="Widower", Value="Widower"},
+                                            new SelectListItem { Text="Divorced", Value="Divorced"}
+                                    }, "MaritalStatus", new { @class = "form-control", @id = "MaritalStatus" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label for="lOccupation">Occupation</label>
+                                        @Html.TextBox("Occupation", ViewData["Occupation"], new { @maxlength = "18", @class = "form-control", @id = "Occupation" })
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label for="lQualification">Qualification</label>
+                                        @Html.TextBox("Qualification", ViewData["Qualification"], new { @maxlength = "10", @class = "form-control", @id = "Qualification" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">                                
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label for="lPrimaryProximatyCard">PrimaryProximatyCard</label>
+                                        @Html.TextBox("PrimaryProximatyCard", ViewData["PrimaryProximatyCard"], new { @maxlength = "15", @class = "form-control", @id = "PrimaryProximatyCard" })
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label for="lAreasOfInterest">Areas Of Interest</label>
+                                        @Html.TextBox("AreasOfInterest", ViewData["AreasOfInterest"], new { @maxlength = "15", @class = "form-control", @id = "AreasOfInterest" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label for="lAadharAddress">Aadhar Address</label>
+                                        @Html.TextArea("AadharAddress", new { @maxlength = "100", @class = "form-control", @id = "AadharAddress" })
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label for="lCommunictionAddress">Communication Address</label>
+                                        @Html.TextArea("CommunictionAddress", new { @maxlength = "100", @class = "form-control", @id = "CommunictionAddress" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label for="lNationality">Nationality</label>
+                                        @Html.TextBox("Nationality", ViewData["Nationality"], new { @maxlength = "15", @class = "form-control", @id = "Nationality" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-3">
+                    <div class="card card-primary">
+                        <div class="card-header">
+                            <h3 class="card-title">Member Photo</h3>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                @*<img width="350" height="500" border="0" src="@Url.Content(Model.MemberPhotoPath)" alt="User Image">*@
+                                <img width="350" height="500" border="0" src="" alt="User Image">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card card-success">
+                    <div class="card-header">
+                        <h3 class="card-title">Member Family Details</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <label for="lSpouseName">SpouseName</label>
+                                    @Html.TextBox("SpouseName", ViewData["SpouseName"], new { @maxlength = "15", @class = "form-control", @id = "SpouseName" })
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <label for="lSpouseId">SpouseId</label>
+                                    @Html.TextBox("SpouseId", ViewData["SpouseId"], new { @maxlength = "15", @class = "form-control", @id = "SpouseId" })
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <label for="lDOBSpouse">DOBSpouse</label>
+                                    @Html.TextBox("DOBSpouse", ViewData["DOBSpouse"], new { @maxlength = "12", @class="form-control", @type = "date", @id = "DOBSpouse" })
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <label for="lDateOfMarriage">DateOfMarriage</label>
+                                    @Html.TextBox("DateOfMarriage", ViewData["DateOfMarriage"], new { @maxlength = "12", @class="form-control", @type = "date",@id = "DateOfMarriage" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <label for="lChild1sName">Child1sName</label>
+                                    @Html.TextBox("Child1sName", ViewData["Child1sName"], new { @maxlength = "15", @class = "form-control", @id = "Child1sName" })
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <label for="lChild2sName">Child2sName</label>
+                                    @Html.TextBox("Child2sName", ViewData["Child2sName"], new { @maxlength = "15", @class = "form-control", @id = "Child2sName" })
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <label for="lChild3sName">Child3sName</label>
+                                    @Html.TextBox("Child3sName", ViewData["Child3sName"], new { @maxlength = "15", @class = "form-control", @id = "Child3sName" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <label for="lChildId1">ChildId1</label>
+                                    @Html.TextBox("ChildId1", ViewData["ChildId1"], new { @maxlength = "15", @class = "form-control", @id = "ChildId1" })
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <label for="lChildId2">ChildId2</label>
+                                    @Html.TextBox("ChildId2", ViewData["ChildId2"], new { @maxlength = "15", @class = "form-control", @id = "ChildId2" })
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <label for="lChildId3">ChildId3</label>
+                                    @Html.TextBox("ChildId3", ViewData["ChildId3"], new { @maxlength = "15", @class = "form-control", @id = "ChildId3" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <label for="lDOBChild1">DOBChild1</label>
+                                    @Html.TextBox("DOBChild1", ViewData["DOBChild1"], new { @maxlength = "12", @class="form-control", @type = "date", @id = "DOBChild1" })
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <label for="lDOBChild2">DOBChild2</label>
+                                    @Html.TextBox("DOBChild2", ViewData["DOBChild2"], new { @maxlength = "12", @class="form-control", @type = "date", @id = "DOBChild2" })
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <label for="lDOBChild3">DOBChild3</label>
+                                    @Html.TextBox("DOBChild3", ViewData["DOBChild3"], new { @maxlength = "12", @class="form-control", @type = "date", @id = "DOBChild3" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card card-info">
+                    <div class="card-header">
+                        <h3 class="card-title">Family Photos</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <div class="col-sm-4">
+                                        <label for="lspousephoto">Spouse Photo</label>
+                                        @*<img width="350" height="500" border="0" src="@Url.Content(Model.SpousePhotoPath)" alt="User Image">*@
+                                        <img width="250" height="250" border="0" src="" alt="User Image">
+                                        @*<button type="button" class="btn btn-block btn-primary btn-lg"><span class="fa fa-fw fa-cloud-upload"></span></button>*@
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <div class="col-sm-4">
+                                        <label for="lspousephoto">Child 1 Photo</label>
+                                        @*<img width="350" height="500" border="0" src="@Url.Content(Model.Child1PhotoPath)" alt="User Image">*@
+                                        <img width="250" height="250" border="0" src="" alt="User Image">
+                                        @*<button type="button" class="btn btn-block btn-primary btn-lg"><span class="fa fa-fw fa-cloud-upload"></span></button>*@
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <div class="col-sm-4">
+                                        <label for="lspousephoto">Child 2 Photo</label>
+                                        @*<img width="350" height="500" border="0" src="@Url.Content(Model.Child2PhotoPath)" alt="User Image">*@
+                                        <img width="250" height="250" border="0" src="" alt="User Image">
+                                        @*<button type="button" class="btn btn-block btn-primary btn-lg"><span class="fa fa-fw fa-cloud-upload"></span></button>*@
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <div class="col-sm-4">
+                                        <label for="lspousephoto">Child 3 Photo</label>
+                                        @*<img width="350" height="500" border="0" src="@Url.Content(Model.Child3PhotoPath)" alt="User Image">*@
+                                        <img width="250" height="250" border="0" src="" alt="User Image">
+                                        @*<button type="button" class="btn btn-block btn-primary btn-lg"><span class="fa fa-fw fa-cloud-upload"></span></button>*@
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card card-info">
+                    <div class="card-header">
+                        <h3 class="card-title">Membership Details</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label for="lMemberShipStatus">MemberShipStatus</label>
+                                    @Html.DropDownList("MemberShipStatus", new List<SelectListItem>
+                                    {
+                                        new SelectListItem { Text="Active", Value="1"},
+                                        new SelectListItem { Text="InActive", Value="0"}
+                                    }, "Select Status", new { @class = "form-control", @id = "MemberShipStatus" })
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label for="lMemberShipAmount">MemberShipAmount</label>
+                                    @Html.TextBox("MemberShipAmount", ViewData["MemberShipAmount"], new { @maxlength = "12", @class="form-control", @id = "MemberShipAmount" })
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label for="lMembershipCategory">MembershipCategory</label>
+                                    @*@Html.TextBox("MembershipCategory", ViewData["MembershipCategory"], new { @maxlength = "12", @class="form-control", @id = "MembershipCategory" })*@
+                                    @Html.DropDownList("MembershipCategory", new List<SelectListItem>
+                                    {
+                                        new SelectListItem { Text="LM", Value="LM"},
+                                        new SelectListItem { Text="PM Monthly", Value="PM Monthly"},
+                                        new SelectListItem { Text="PM Yearly", Value="PM Yearly"}
+                                    }, "Select Category", new { @class = "form-control", @id = "MembershipCategory" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label for="lMemberAlive">MemberAlive</label>
+                                    @Html.DropDownList("MemberAlive", new List<SelectListItem>
+                                    {
+                                        new SelectListItem { Text="Yes", Value="1"},
+                                        new SelectListItem { Text="No", Value="0"}
+                                }, "Select", new { @class = "form-control", @id = "MemberAlive" })
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label for="lDateOfInduction">DateOfInduction</label>
+                                    @Html.TextBox("DateOfInduction", ViewData["DateOfInduction"], new { @maxlength = "12", @class="form-control", @type = "date", @id = "DateOfInduction" })
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label for="lDateOfExpiry">Date Of Expiry</label>
+                                    @Html.TextBox("DateOfExpiry", ViewData["DateOfExpiry"], new { @maxlength = "12", @class="form-control", @type = "date", @id = "DateOfExpiry" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card-footer">
+                    <button type="submit" value="@ViewBag.submit" class="btn btn-primary" id="Btn_Submit" data-toggle="tooltip" title="Save"><span class="fas fa-save"> </span></button>
+                    <a href="@Url.Action("ViewMembers", "Member")" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="View Member">
+                        <span class="fa-solid fa-users" aria-hidden="true"></span>
+                    </a>
+                </div>
+            </div>
+        }
+    <!-- /.row -->
+    </div><!-- /.container-fluid -->
+
+    <script type="text/javascript">
+        //$("#MembershipType").change(function () {
+        //    //debugger;
+        //    var cost = $("#MembershipType option:selected").text();
+        //    var len = jQuery.trim(cost);
+        //    var array = [];
+        //    array = len.split(':');
+        //    $('#SubscriptionAmountPaid').val(array[1]);
+        //});
+
+
+        $(document).ready(function () {
+            $("#MemberShipAmount").keypress(function (e) {
+                if ((e.which != 46 || $(this).val().indexOf('.') != -1) && (e.which < 48 || e.which > 57)) {
+                    return false;
+                }
+            })
+            $("#LastSubscriptionPaid").keypress(function (e) {
+                if ((e.which != 46 || $(this).val().indexOf('.') != -1) && (e.which < 48 || e.which > 57)) {
+                    $('#errmsgLSPaid').css('color', 'red');
+                    $("#errmsgLSPaid").html("Invalid Data").show().fadeOut("slow");
+                    return false;
+                }
+            })
+
+            $("#EmailId").keypress(function (e) {
+                if (e.which == 32) {
+                    return false;
+                }
+            })
+
+            $("#SubscriptionAmountPaid").keypress(function (e) {
+                if ((e.which != 46 || $(this).val().indexOf('.') != -1) && (e.which < 48 || e.which > 57)) {
+                    $('#errmsgSAPaid').css('color', 'red');
+                    $("#errmsgSAPaid").html("Invalid Data").show().fadeOut("slow");
+                    return false;
+                }
+            })
+            $("#memberName").keypress(function (e) {
+                if ((e.which >= 33 && e.which <= 64) || (e.which >= 91 && e.which <= 96) ||
+                    e.which >= 123 && e.which <= 126) {
+                    $('#ememberName').css('color', 'red');
+                    $("#ememberName").html("Invalid Data").show().fadeOut("slow");
+                    return false;
+                }
+            })
+
+        });
+        //required field validation
+        $('#Btn_Submit').click(function () {
+            //debugger;
+
+            if ($('#MembershipNo').val() == '' || $('#MembershipNo').val() == "") {
+                alert('MembershipNo field is required !!!');
+                $('#MembershipNo').focus();
+                return false;
+            }
+            else if ($('#memberName').val() == '' || $('#memberName').val() == "") {
+                alert('Please Enter MemberName...')
+                $('#memberName').focus();
+                return false;
+            }
+            else if ($('#AdAadharAddressdress').val() == '' || $('#AadharAddress').val() == "") {
+                alert('Please Enter Address..')
+                $('#AadharAddress').focus();
+                return false;
+            }
+            else if ($('#DOB').val() == '' || $('#DOB').val() == "") {
+                alert('Please select Date of Birth..')
+                $('#DOB').focus();
+                return false;
+            }
+            else if ($('#Gender').val() == '' || $('#Gender').val() == "") {
+                alert('Please Select Gender..')
+                $('#Gender').focus();
+                return false;
+            }
+            else if ($('#MobileNo').val() == '' || $('#MobileNo').val() == "") {
+                alert('Enter Mobile Number..')
+                $('#MobileNo').focus();
+                return false;
+            }
+            else if ($('#EmailId').val() == '' || $('#EmailId').val() == "") {
+                alert('EmailId required!!!')
+                $('#EmailId').focus();
+                return false;
+            }
+            else if ($('#PrimaryProximatyCard').val() == '' || $('#PrimaryProximatyCard').val() == "") {
+                alert('Proximity Card Number is Required!!!')
+                $('#PrimaryProximatyCard').focus();
+                return false;
+            }
+            else if ($('#AreasOfInterest').val() == '' || $('#AreasOfInterest').val() == "") {
+                alert('Areas Of Interest Field is Required!!!')
+                $('#AreasOfInterest').focus();
+                return false;
+            }
+            else if ($('#MemberShipAmount').val() == '' || $('#MemberShipAmount').val() == "") {
+                alert('please Enter Initial Membership Amount..')
+                $('#MemberShipAmount').focus();
+                return false;
+            }
+            else if ($('#MemberSince').val() == '' || $('#MemberSince').val() == "") {
+                alert('MemberSince Field is Required..')
+                $('#MemberSince').focus();
+                return false;
+            }
+            else if ($('#DateOfInduction').val() == '' || $('#DateOfInduction').val() == "") {
+                alert('Date Of Induction  Field is Required..')
+                $('#DateOfInduction').focus();
+                return false;
+            }
+            else if ($('#DateOfExpiry').val() == '' || $('#DateOfExpiry').val() == "") {
+                alert('Date Of Expiry  Field is Required..')
+                $('#DateOfExpiry').focus();
+                return false;
+            }
+            else { return true; }
+        })
+
+        $("#DOB").keypress(function (e) {
+            if (e.which <= 47 || e.which >= 58) {
+                return false;
+            }
+        })
+        $("#DOBSpouse").keypress(function (e) {
+            if (e.which <= 47 || e.which >= 58) {
+                return false;
+            }
+        })
+        $("#DOBChild1").keypress(function (e) {
+            if (e.which <= 47 || e.which >= 58) {
+                return false;
+            }
+        })
+        $("#DOBChild2").keypress(function (e) {
+            if (e.which <= 47 || e.which >= 58) {
+                return false;
+            }
+        })
+        $("#DOBChild3").keypress(function (e) {
+            if (e.which <= 47 || e.which >= 58) {
+                return false;
+            }
+        })
+        $("#DateOfInduction").keypress(function (e) {
+            if (e.which <= 47 || e.which >= 58) {
+                return false;
+            }
+        })
+        $("#DateOfExpiry").keypress(function (e) {
+            if (e.which <= 47 || e.which >= 58) {
+                return false;
+            }
+        })
+        $("#DateOfMarriage").keypress(function (e) {
+            if (e.which <= 47 || e.which >= 58) {
+                return false;
+            }
+        })
+
+
+        $("#MobileNo").keypress(function (e) {
+            if (e.which <= 47 || e.which >= 58) {
+                return false;
+            }
+        })
+        $("#WatsupNo").keypress(function (e) {
+            if (e.which <= 47 || e.which >= 58) {
+                return false;
+            }
+        })
+
+        $("#SpouseName").keypress(function (e) {
+            if ((e.which >= 33 && e.which <= 64) || (e.which >= 91 && e.which <= 96) ||
+                e.which >= 123 && e.which <= 126) {
+                return false;
+            }
+        })
+        $("#DOBChild1").keypress(function (e) {
+            if ((e.which >= 33 && e.which <= 64) || (e.which >= 91 && e.which <= 96) ||
+                e.which >= 123 && e.which <= 126) {
+                return false;
+            }
+        })
+        $("#DOBChild2").keypress(function (e) {
+            if ((e.which >= 33 && e.which <= 64) || (e.which >= 91 && e.which <= 96) ||
+                e.which >= 123 && e.which <= 126) {
+                return false;
+            }
+        })
+        $("#DOBChild3").keypress(function (e) {
+            if ((e.which >= 33 && e.which <= 64) || (e.which >= 91 && e.which <= 96) ||
+                e.which >= 123 && e.which <= 126) {
+                return false;
+            }
+        })
+    </script>
+</section>
+

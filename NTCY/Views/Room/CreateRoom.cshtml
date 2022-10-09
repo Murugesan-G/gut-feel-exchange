@@ -1,0 +1,84 @@
+﻿@using NTCY.Models.RoomDetails;
+@{
+    ViewBag.Title = "CreateRoom";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<section class="content">
+    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 label-area">
+        @ViewBag.message
+        @ViewBag.innerEx
+    </div>
+    <div class="container-fluid">
+        @using (Html.BeginForm("CreateRoom", "Room", FormMethod.Post))
+        {
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card card-primary">
+                        <div class="card card-success">
+                            <div class="card-header">
+                                <h3 class="card-title">Room Details</h3>
+                                @Html.Hidden("RoomId", ViewData["RoomId"], new { @id = "RoomId" })
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    @*<div class="col-sm-3">
+                                        <div class="form-group">
+                                            <label for="lRoomId">RoomId</label>
+                                            @Html.TextBox("RoomId", ViewData["RoomId"], new { @maxlength = "15", @class = "form-control", @id = "RoomId" })
+                                        </div>
+                                    </div>*@
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <label for="lRoomName">RoomName</label>
+                                            @Html.TextBox("RoomName", ViewData["RoomName"], new { @maxlength = "12", @class="form-control", @id = "RoomName" })
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <label for="lRoomNo">RoomNo</label>
+                                            @Html.TextBox("RoomNo", ViewData["RoomNo"], new { @maxlength = "12", @class="form-control", @id = "RoomNo" })
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <label for="lCharges">Charges</label>
+                                            @Html.TextBox("Charges", ViewData["Charges"], new { @maxlength = "15", @class = "form-control", @id = "Charges" })
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <label for="lGST">GST</label>
+                                            @Html.TextBox("GST", ViewData["GST"], new { @maxlength = "12", @class="form-control", @id = "GST" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">                                    
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <label for="lStatus">Status</label>
+                                            @Html.TextBox("Status", ViewData["Status"], new { @maxlength = "12", @class="form-control", @id = "Status" })
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <label for="lRoomAllocated">RoomAllocated</label>
+                                            @Html.TextBox("RoomAllocated", ViewData["RoomAllocated"], new { @maxlength = "15", @class = "form-control", @id = "RoomAllocated" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-footer">
+                    <button type="submit" value="@ViewBag.submit" class="btn btn-primary" id="Btn_Submit" data-toggle="tooltip" title="Save"><span class="fas fa-save"> </span></button>
+                    <a href="@Url.Action("ViewRoom", "Room")" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="View Member">
+                        <span class="fa-solid fa-users" aria-hidden="true"></span>
+                    </a>
+                </div>
+            </div>
+        }
+        <!-- /.row -->
+    </div><!-- /.container-fluid -->
+</section>

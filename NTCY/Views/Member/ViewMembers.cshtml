@@ -1,0 +1,114 @@
+﻿@using NTCY.Models.Club;
+@{
+    ViewBag.Title = "ViewMembers";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@*<div class="text-center">
+    <h1 class="display-4">Welcome To Member Page</h1>
+</div>*@
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <h1> Member Details</h1>
+                    <div class="card-header">
+                        <a href="@Url.Action("CreateMember", "Member")" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Add Member">
+                            <span class="fa-solid fa-user-plus" aria-hidden="true"></span>
+                        </a>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <table id="example1" class="table table-bordered table-striped table-sm" cellspacing="0" width="100%"">
+                            <thead>
+                            <tr>
+                                <th> Photo </th>
+                                <th> MembershipNo </th>
+                                <th> MemberName </th>
+                                <th> MobileNo </th>
+                                <th> WatsupNo </th>
+                                <th style="display:none"> EmailId </th>
+                                <th style="display:none"> DOB </th>
+                                <th> Gender </th>
+                                <th> MaritalStatus </th>
+                                <th> MobileNo </th>
+                                <th style="display:none"> SpouseName </th>                                
+                                <th> Edit </th>
+                                <th> Delete </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @{
+                                if (ViewData["MemberList"] != null)
+                                {
+                                    if (ViewData.Values != null && ViewData.Values.Count() > 0)
+                                    {
+                                        foreach (var Model in ViewBag.MemberList as List<Member>)
+                                        {
+                                            <tr>
+                                                <td><img width="40" height="40" border="0" src="https://localhost:44324/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image"></td>
+                                                <td>@Model.MembershipNo</td>
+                                                <td>@Model.MemberName</td>
+                                                <td>@Model.MobileNo</td>
+                                                <td>@Model.WatsupNo</td>
+                                                <td style="display:none">@Model.EmailId</td>
+                                                <td style="display:none">@Model.DOB</td>
+                                                <td>@Model.Gender</td>
+                                                <td>@Model.MaritalStatus</td>
+                                                <td>@Model.MobileNo</td>
+                                                <td style="display:none">@Model.SpouseName</td>
+                                                
+                                                <td> @Html.ActionLink(" ","UpdateMember","Member", new { MembershipNo = Model.MembershipNo }, new { @class = "btn btn-block btn-primary fas fa-edit", data_toggle = "tooltip", data_placement = "bottom" }) </td>
+                                                <td> @Html.ActionLink(" ","DeleteMembers","Member", new { MembershipNo = Model.MembershipNo }, new { @class = "btn btn-block bg-gradient-danger fa fa-trash-o", data_toggle = "tooltip", data_placement = "bottom" }) </td>
+                                            </tr>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <tr>
+                                            <td>
+                                                @ViewBag.message
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                            }
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+            </div>
+                <!-- /.col -->
+        </div>
+            <!-- /.row -->
+    </div>
+        <!-- /.container-fluid -->
+    <div class="modal fade" id="ModalMember" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" style="color:black;font-family:'Bookman Old Style'" id="myModalLabel"><b>Member Details</b></h4>
+                    </div>
+                    <div style="color:darkslateblue" class="modal-body">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 label-area">
+            @ViewBag.message
+            @ViewBag.innerEx
+        </div>
+    </div>
+    @Html.Raw(TempData["msg"])
+</section>
+        
+
+        

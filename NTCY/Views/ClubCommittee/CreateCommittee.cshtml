@@ -1,0 +1,105 @@
+﻿@using NTCY.Models.Club;
+@{
+    ViewBag.Title = "CreateCommittee";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<section class="content">
+    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 label-area">
+        @ViewBag.message
+        @ViewBag.innerEx
+    </div>
+    <div class="container-fluid">
+        @using (Html.BeginForm("CreateCommittee", "ClubCommittee", FormMethod.Post))
+        {
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card card-primary">
+                        <div class="card card-success">
+                            <div class="card-header">
+                                <h3 class="card-title">Club Committee</h3>
+                                @Html.Hidden("CommitteeId", ViewData["CommitteeId"], new { @maxlength = "15", @class = "form-control", @id = "CommitteeId" })
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <label for="lClubId">ClubId</label>
+                                            @Html.TextBox("ClubId", ViewData["ClubId"], new { @maxlength = "12", @class="form-control", @id = "ClubId" })
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <label for="lChairman">Chairman</label>
+                                            @Html.TextBox("Chairman", ViewData["Chairman"], new { @maxlength = "12", @class="form-control", @id = "Chairman" })
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <label for="lPresident">President</label>
+                                            @Html.TextBox("President", ViewData["President"], new { @maxlength = "15", @class = "form-control", @id = "President" })
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <label for="lVicePresident">VicePresident</label>
+                                            @Html.TextBox("VicePresident", ViewData["VicePresident"], new { @maxlength = "15", @class = "form-control", @id = "VicePresident" })
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">                                    
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <label for="lSecretary">Secretary</label>
+                                            @Html.TextBox("Secretary", ViewData["Secretary"], new { @maxlength = "15", @class = "form-control", @id = "Secretary" })
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <label for="lTreasurer">Treasurer</label>
+                                            @Html.TextBox("Treasurer", ViewData["Treasurer"], new { @maxlength = "12", @class="form-control", @id = "Treasurer" })
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <label for="lCommitteeMembers">CommitteeMembers</label>
+                                            @Html.TextBox("CommitteeMembers", ViewData["CommitteeMembers"], new { @maxlength = "12", @class="form-control", @id = "CommitteeMembers" })
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <label for="lStatus">Status</label>
+                                            @Html.TextBox("Status", ViewData["Status"], new { @maxlength = "12", @class="form-control", @id = "Status" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">                                    
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <label for="lStartDate">StartDate</label>
+                                            @Html.TextBox("StartDate", ViewData["StartDate"], new { @maxlength = "12", @class="form-control", @id = "StartDate" })
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <label for="lEndDate">EndDate</label>
+                                            @Html.TextBox("EndDate", ViewData["EndDate"], new { @maxlength = "12", @class="form-control", @id = "EndDate" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-footer">
+                    <button type="submit" value="@ViewBag.submit" class="btn btn-primary" id="Btn_Submit" data-toggle="tooltip" title="Save"><span class="fas fa-save"> </span></button>
+                    <a href="@Url.Action("ViewCommittee", "ClubCommittee")" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="View Member">
+                        <span class="fa-solid fa-users" aria-hidden="true"></span>
+                    </a>
+                </div>
+            </div>
+        }
+        <!-- /.row -->
+    </div><!-- /.container-fluid -->
+</section>

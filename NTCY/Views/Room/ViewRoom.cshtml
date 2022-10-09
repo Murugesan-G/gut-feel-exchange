@@ -1,0 +1,100 @@
+﻿@using NTCY.Models.RoomDetails;
+@{
+    ViewBag.Title = "ViewRoom";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <h1> Room Details</h1>
+                    <div class="card-header">
+                        <a href="@Url.Action("CreateRoom", "Room")" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Add Room">
+                            <span class="fa-solid fa-user-plus" aria-hidden="true"></span>
+                        </a>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <table id="example1" class="table table-bordered table-striped table-sm" cellspacing="0" width="100%" ">
+                            <thead>
+                                <tr>
+                                    <th> RoomName </th>
+                                    <th> RoomNo </th>
+                                    <th> Charges </th>
+                                    <th> GST </th>
+                                    <th> Status </th>
+                                    <th> RoomAllocated </th>
+                                    <th> Edit </th>
+                                    <th> Delete </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
+                                if (ViewData["RoomList"] != null)
+                                {
+                                if (ViewData.Values != null && ViewData.Values.Count() > 0)
+                                {
+                                foreach (var Model in ViewBag.RoomList as List<Room>)
+                                {
+                                    <tr>
+                                        <td>@Model.RoomName</td>
+                                        <td>@Model.RoomNo</td>
+                                        <td>@Model.Charges</td>
+                                        <td>@Model.GST</td>
+                                        <td>@Model.Status</td>
+                                        <td>@Model.RoomAllocated</td>
+
+                                        <td> @Html.ActionLink(" ","UpdateRoom","Room", new { RoomId = Model.RoomId }, new { @class = "btn btn-block btn-primary fas fa-edit", data_toggle = "tooltip", data_placement = "bottom" }) </td>
+                                        <td> @Html.ActionLink(" ","DeleteRoom","Room", new { RoomId = Model.RoomId }, new { @class = "btn btn-block bg-gradient-danger fa fa-trash-o", data_toggle = "tooltip", data_placement = "bottom" }) </td>
+                                    </tr>
+                                }
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td>
+                                            @ViewBag.message
+                                        </td>
+                                    </tr>
+                                }
+                                }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+    <div class="modal fade" id="ModalMember" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" style="color:black;font-family:'Bookman Old Style'" id="myModalLabel"><b>Member Details</b></h4>
+                    </div>
+                    <div style="color:darkslateblue" class="modal-body">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 label-area">
+            @ViewBag.message
+            @ViewBag.innerEx
+        </div>
+    </div>
+    @Html.Raw(TempData["msg"])
+</section>
+
+
+

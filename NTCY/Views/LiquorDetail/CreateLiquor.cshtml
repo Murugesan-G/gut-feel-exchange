@@ -1,0 +1,104 @@
+﻿@using NTCY.Models.LiquorDetails;
+@{
+    ViewBag.Title = "CreateLiquor";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<section class="content">
+    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 label-area">
+        @ViewBag.message
+        @ViewBag.innerEx
+    </div>
+    <div class="container-fluid">
+        @using (Html.BeginForm("CreateLiquor", "LiquorDetail", FormMethod.Post))
+        {
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card card-primary">
+                        <div class="card card-success">
+                            <div class="card-header">
+                                <h3 class="card-title">Liquor</h3>
+                                @Html.Hidden("LiquorId", ViewData["LiquorId"], new { @maxlength = "15", @class = "form-control", @id = "LiquorId" })
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <label for="lLiquorCatId">LiquorCatId</label>
+                                            @Html.TextBox("LiquorCatId", ViewData["LiquorCatId"], new { @maxlength = "12", @class="form-control", @id = "LiquorCatId" })
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <label for="lLiquorName">LiquorName</label>
+                                            @Html.TextBox("LiquorName", ViewData["LiquorName"], new { @maxlength = "12", @class="form-control", @id = "LiquorName" })
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <label for="lEffectiveDate">EffectiveDate</label>
+                                            @Html.TextBox("EffectiveDate", ViewData["EffectiveDate"], new { @maxlength = "15", @class = "form-control", @id = "EffectiveDate" })
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <label for="lSoldInPegs">SoldInPegs</label>
+                                            @Html.TextBox("SoldInPegs", ViewData["SoldInPegs"], new { @maxlength = "12", @class="form-control", @id = "SoldInPegs" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <label for="lQuantityInMLBottle">QuantityInMLBottle</label>
+                                            @Html.TextBox("QuantityInMLBottle", ViewData["QuantityInMLBottle"], new { @maxlength = "12", @class="form-control", @id = "QuantityInMLBottle" })
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <label for="lPegsPerBottle">PegsPerBottle</label>
+                                            @Html.TextBox("PegsPerBottle", ViewData["PegsPerBottle"], new { @maxlength = "15", @class = "form-control", @id = "PegsPerBottle" })
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <label for="lSellingPriceBottle">SellingPriceBottle</label>
+                                            @Html.TextBox("SellingPriceBottle", ViewData["SellingPriceBottle"], new { @maxlength = "12", @class="form-control", @id = "SellingPriceBottle" })
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <label for="lSellingPricePeg">SellingPricePeg</label>
+                                            @Html.TextBox("SellingPricePeg", ViewData["SellingPricePeg"], new { @maxlength = "12", @class="form-control", @id = "SellingPricePeg" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <label for="lGST">GST</label>
+                                            @Html.TextBox("GST", ViewData["GST"], new { @maxlength = "12", @class="form-control", @id = "GST" })
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <label for="lStatus">Status</label>
+                                            @Html.TextBox("Status", ViewData["Status"], new { @maxlength = "15", @class = "form-control", @id = "Status" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-footer">
+                    <button type="submit" value="@ViewBag.submit" class="btn btn-primary" id="Btn_Submit" data-toggle="tooltip" title="Save"><span class="fas fa-save"> </span></button>
+                    <a href="@Url.Action("ViewLiquor", "LiquorDetail")" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="View Member">
+                        <span class="fa-solid fa-users" aria-hidden="true"></span>
+                    </a>
+                </div>
+            </div>
+        }
+        <!-- /.row -->
+    </div><!-- /.container-fluid -->
+</section>
