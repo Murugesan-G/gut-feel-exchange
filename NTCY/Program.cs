@@ -60,7 +60,7 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Member}/{action=ViewMembers}/{id?}");
 
-// configure HTTP request pipeline
+// configure HTTP request pipeline 
 {
     // global cors policy
     app.UseCors(x => x
