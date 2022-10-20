@@ -47,7 +47,7 @@
                                         foreach (var Model in ViewBag.MemberList as List<Member>)
                                         {
                                             <tr>
-                                                <td><img width="40" height="40" border="0" src="https://localhost:44324/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image"></td>
+                                                <td><img width="40" height="40" border="0" src="@Url.Content(Model.MemberPhotoPath)" class="img-circle elevation-2" alt="User Image"></td>
                                                 <td>@Model.MembershipNo</td>
                                                 <td>@Model.MemberName</td>
                                                 <td>@Model.MobileNo</td>

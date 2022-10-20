@@ -3,6 +3,7 @@
     ViewBag.Title = "CreateMembers";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<script src="~/plugins/jquery/jquery.min.js"></script>
 <script type="text/javascript">
     $(function () {
         $('#DOB').datetimepicker({
@@ -43,6 +44,15 @@
             ignoreReadonly: true
         });
     });
+
+    //$(document).ready(function () {
+    //    $('#MemberImgPath').change(function (event) {
+    //        //debugger;
+    //        //var tmppath = event.target.files[0].mozFullPath;
+    //        //alert(tmppath);
+    //        $("MemberPhotoPath").text($('#MemberImgPath').val(););
+    //    });
+    //});
 </script>
 
 @*<script type="text/javascript">
@@ -67,7 +77,7 @@
 
     });
 </script>*@
-    <!-- Main content -->
+<!-- Main content -->
 <section class="content">
     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 label-area">
         @ViewBag.message
@@ -82,7 +92,7 @@
                 </div>
             </div>
         </div>
-        
+
         @using (Html.BeginForm("CreateMember", "Member", FormMethod.Post))
         {
             <div class="row">
@@ -91,7 +101,7 @@
                         <div class="card-header">
                             <h3 class="card-title">Member Details</h3>
                         </div>
-                        <div class="card-body">                        
+                        <div class="card-body">
                             <div class="row">
                                 <div class="col-sm-6">
                                     <div class="form-group row">
@@ -135,15 +145,15 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">                                
+                            <div class="row">
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label for="lGender">Gender</label>
-                                        @Html.DropDownList("Gender", new List<SelectListItem> 
-                                        {
-                                            new SelectListItem { Text="Male", Value="Male"},
-                                            new SelectListItem { Text="Female", Value="Female"},
-                                            new SelectListItem { Text="Transgender", Value="Transgender"}
+                                        @Html.DropDownList("Gender", new List<SelectListItem>
+                                    {
+                                    new SelectListItem { Text="Male", Value="Male"},
+                                    new SelectListItem { Text="Female", Value="Female"},
+                                    new SelectListItem { Text="Transgender", Value="Transgender"}
                                     }, "Select Gender", new { @class = "form-control", @id = "Gender" })
                                     </div>
                                 </div>
@@ -151,12 +161,12 @@
                                     <div class="form-group">
                                         <label for="lMaritalStatus">MaritalStatus</label>
                                         @Html.DropDownList("MaritalStatus", new List<SelectListItem>
-                                        {
-                                            new SelectListItem { Text="Single", Value="Single"},
-                                            new SelectListItem { Text="Married", Value="Married"},
-                                            new SelectListItem { Text="Widow", Value="Widow"},
-                                            new SelectListItem { Text="Widower", Value="Widower"},
-                                            new SelectListItem { Text="Divorced", Value="Divorced"}
+                                    {
+                                    new SelectListItem { Text="Single", Value="Single"},
+                                    new SelectListItem { Text="Married", Value="Married"},
+                                    new SelectListItem { Text="Widow", Value="Widow"},
+                                    new SelectListItem { Text="Widower", Value="Widower"},
+                                    new SelectListItem { Text="Divorced", Value="Divorced"}
                                     }, "MaritalStatus", new { @class = "form-control", @id = "MaritalStatus" })
                                     </div>
                                 </div>
@@ -175,7 +185,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">                                
+                            <div class="row">
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label for="lPrimaryProximatyCard">PrimaryProximatyCard</label>
@@ -214,7 +224,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="col-md-3">
                     <div class="card card-primary">
                         <div class="card-header">
@@ -225,7 +235,9 @@
                         <div class="row">
                             <div class="col-sm-6">
                                 @*<img width="350" height="500" border="0" src="@Url.Content(Model.MemberPhotoPath)" alt="User Image">*@
-                                <img width="350" height="500" border="0" src="" alt="User Image">
+                                <img width="350" height="500" border="0" src="" alt="User Image" id="img">
+                                @Html.TextBox("MemberPhotoPath", ViewData["MemberPhotoPath"], new { @maxlength = "15", @class = "form-control", @type="file", @id = "MemberPhotoPath" })
+                                @*<input type="file" class="form-control" id="MemberImgPath">*@
                             </div>
                         </div>
                     </div>
@@ -385,10 +397,10 @@
                                 <div class="form-group">
                                     <label for="lMemberShipStatus">MemberShipStatus</label>
                                     @Html.DropDownList("MemberShipStatus", new List<SelectListItem>
-                                    {
-                                        new SelectListItem { Text="Active", Value="1"},
-                                        new SelectListItem { Text="InActive", Value="0"}
-                                    }, "Select Status", new { @class = "form-control", @id = "MemberShipStatus" })
+                                {
+                                new SelectListItem { Text="Active", Value="1"},
+                                new SelectListItem { Text="InActive", Value="0"}
+                                }, "Select Status", new { @class = "form-control", @id = "MemberShipStatus" })
                                 </div>
                             </div>
                             <div class="col-sm-4">
@@ -402,11 +414,11 @@
                                     <label for="lMembershipCategory">MembershipCategory</label>
                                     @*@Html.TextBox("MembershipCategory", ViewData["MembershipCategory"], new { @maxlength = "12", @class="form-control", @id = "MembershipCategory" })*@
                                     @Html.DropDownList("MembershipCategory", new List<SelectListItem>
-                                    {
-                                        new SelectListItem { Text="LM", Value="LM"},
-                                        new SelectListItem { Text="PM Monthly", Value="PM Monthly"},
-                                        new SelectListItem { Text="PM Yearly", Value="PM Yearly"}
-                                    }, "Select Category", new { @class = "form-control", @id = "MembershipCategory" })
+                                {
+                                new SelectListItem { Text="LM", Value="LM"},
+                                new SelectListItem { Text="PM Monthly", Value="PM Monthly"},
+                                new SelectListItem { Text="PM Yearly", Value="PM Yearly"}
+                                }, "Select Category", new { @class = "form-control", @id = "MembershipCategory" })
                                 </div>
                             </div>
                         </div>
@@ -415,9 +427,9 @@
                                 <div class="form-group">
                                     <label for="lMemberAlive">MemberAlive</label>
                                     @Html.DropDownList("MemberAlive", new List<SelectListItem>
-                                    {
-                                        new SelectListItem { Text="Yes", Value="1"},
-                                        new SelectListItem { Text="No", Value="0"}
+                                {
+                                new SelectListItem { Text="Yes", Value="true"},
+                                new SelectListItem { Text="No", Value="false"}
                                 }, "Select", new { @class = "form-control", @id = "MemberAlive" })
                                 </div>
                             </div>
@@ -436,7 +448,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="card-footer">
                     <button type="submit" value="@ViewBag.submit" class="btn btn-primary" id="Btn_Submit" data-toggle="tooltip" title="Save"><span class="fas fa-save"> </span></button>
                     <a href="@Url.Action("ViewMembers", "Member")" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="View Member">
@@ -445,7 +457,7 @@
                 </div>
             </div>
         }
-    <!-- /.row -->
+        <!-- /.row -->
     </div><!-- /.container-fluid -->
 
     <script type="text/javascript">

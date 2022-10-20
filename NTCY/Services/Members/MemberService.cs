@@ -68,7 +68,7 @@ namespace NTCY.Services.Members
             var memberDTO = _mapper.Map<MemberDTO>(member);
             _context.Members.Add(memberDTO);
             _context.SaveChanges();
-            //UploadPhoto(member.MembershipNo, "MEMBER_PHOTO", member.MemberPhotoPath,"ADD");
+            UploadPhoto(member.MembershipNo, "MEMBER_PHOTO", member.MemberPhotoPath,"ADD");
             //UploadPhoto(member.MembershipNo, "SPOUSE_PHOTO", member.SpousePhotoPath, "ADD");
             //UploadPhoto(member.MembershipNo, "CHILD1_PHOTO", member.Child1PhotoPath, "ADD");
             //UploadPhoto(member.MembershipNo, "CHILD2_PHOTO", member.Child2PhotoPath, "ADD");

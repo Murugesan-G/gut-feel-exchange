@@ -36,7 +36,13 @@
                                     <div class="col-sm-3">
                                         <div class="form-group">
                                             <label for="lCategory">Category</label>
-                                            @Html.TextBox("Category", ViewData["Category"], new { @maxlength = "15", @class = "form-control", @id = "Category" })
+                                            @*@Html.TextBox("Category", ViewData["Category"], new { @maxlength = "15", @class = "form-control", @id = "Category" })*@
+                                            @Html.DropDownList("Category", new List<SelectListItem>
+                                            {
+                                                    new SelectListItem { Text="Veg", Value="Veg"},
+                                                    new SelectListItem { Text="Non-Veg", Value="Non-Veg"},
+                                                    new SelectListItem { Text="Juice", Value="Juice"}
+                                            }, "Select Category", new { @class = "form-control", @id = "Category" })
                                         </div>
                                     </div>
                                     <div class="col-sm-3">
@@ -68,7 +74,12 @@
                                     <div class="col-sm-3">
                                         <div class="form-group">
                                             <label for="lStatus">Status</label>
-                                            @Html.TextBox("Status", ViewData["Status"], new { @maxlength = "12", @class="form-control", @id = "Status" })
+                                            @*@Html.TextBox("Status", ViewData["Status"], new { @maxlength = "12", @class="form-control", @id = "Status" })*@
+                                            @Html.DropDownList("Status", new List<SelectListItem> 
+                                            {
+                                                new SelectListItem { Text="Available", Value="Yes"},
+                                                new SelectListItem { Text="Not Available", Value="No"}
+                                            }, "Select Status", new { @class = "form-control", @id = "Status" })
                                         </div>
                                     </div>
                                 </div>

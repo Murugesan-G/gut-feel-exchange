@@ -1,15 +1,11 @@
-﻿@using NTCY.Models.LiquorDetails;
+﻿@model NTCY.Models.LiquorDet;
 @{
-    ViewBag.Title = "UpdateLiquor";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
 <section class="content">
-    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 label-area">
-        @ViewBag.message
-        @ViewBag.innerEx
-    </div>
     <div class="container-fluid">
-        @using (Html.BeginForm("UpdateLiquor", "LiquorDetail", FormMethod.Post))
+        @using (Html.BeginForm())
         {
             <div class="row">
                 <div class="col-md-12">
@@ -17,32 +13,41 @@
                         <div class="card card-success">
                             <div class="card-header">
                                 <h3 class="card-title">Liquor</h3>
-                                @Html.Hidden("LiquorId", ViewData["LiquorId"], new { @maxlength = "15", @class = "form-control", @id = "LiquorId" })
+                                @*@Html.Hidden("LiquorId", ViewData["LiquorId"], new { @maxlength = "15", @class = "form-control", @id = "LiquorId" })*@
+                                @Html.HiddenFor(m=> m.LiquorId, new {Value = "", @class = "form-control", @id = "LiquorId" })
                             </div>
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-sm-3">
                                         <div class="form-group">
-                                            <label for="lLiquorCatId">LiquorCatId</label>
-                                            @Html.TextBox("LiquorCatId", ViewData["LiquorCatId"], new { @maxlength = "12", @class="form-control", @id = "LiquorCatId" })
+                                            <label for="lLiquorCatId">Category Name</label>
+                                            @*@Html.DropDownListFor(m => m.LiquorCatId, new SelectList(Model.Categories,"Value","Text",ViewBag.LiquorCatId),"", new { @class = "form-control"} )*@
+                                            @Html.DropDownListFor(model => model.LiquorCatId, new SelectList(Model.Categories, "LiquorCatId", "CategoryName"), "--Select Category--", new { id = "CategoryId", @class = "form-control" })
                                         </div>
                                     </div>
                                     <div class="col-sm-3">
                                         <div class="form-group">
                                             <label for="lLiquorName">LiquorName</label>
-                                            @Html.TextBox("LiquorName", ViewData["LiquorName"], new { @maxlength = "12", @class="form-control", @id = "LiquorName" })
+                                            @*@Html.TextBox("LiquorName", ViewData["LiquorName"], new { @maxlength = "12", @class="form-control", @id = "LiquorName" })*@
+                                            @Html.TextBoxFor(model=> model.LiquorName, new {Value = "", @class = "form-control", @id = "LiquorName"})
                                         </div>
                                     </div>
                                     <div class="col-sm-3">
                                         <div class="form-group">
                                             <label for="lEffectiveDate">EffectiveDate</label>
-                                            @Html.TextBox("EffectiveDate", ViewData["EffectiveDate"], new { @maxlength = "15", @class = "form-control", @id = "EffectiveDate" })
+                                            @*@Html.TextBox("EffectiveDate", ViewData["EffectiveDate"], new { @maxlength = "12", @class = "form-control", @type = "date", @id = "EffectiveDate" })*@
+                                            @Html.TextBoxFor(model=> model.EffectiveDate, "{0:yyyy-MM-dd}", new {@maxlength = "12", @class = "form-control",  @type = "date", @id = "EffectiveDate"})
                                         </div>
                                     </div>
                                     <div class="col-sm-3">
                                         <div class="form-group">
                                             <label for="lSoldInPegs">SoldInPegs</label>
-                                            @Html.TextBox("SoldInPegs", ViewData["SoldInPegs"], new { @maxlength = "12", @class="form-control", @id = "SoldInPegs" })
+                                            @Html.DropDownListFor(model => model.SoldInPegs, new List<SelectListItem>
+                                        {
+                                        new SelectListItem { Text="Yes", Value="True"},
+                                        new SelectListItem { Text="No", Value="False"}
+                                        },"Select", new { @class = "form-control", @id = "SoldInPegs"})
+                                            @*@Html.DropDownListFor(model => model.SoldInPegs, new SelectList (new List<SelectListItem>{new SelectListItem { Text = "Yes", Value="True" } , new SelectListItem { Text = "No", Value="False"}},"Value","Text"), new {@class = "form-control"})*@
                                         </div>
                                     </div>
                                 </div>
@@ -50,25 +55,29 @@
                                     <div class="col-sm-3">
                                         <div class="form-group">
                                             <label for="lQuantityInMLBottle">QuantityInMLBottle</label>
-                                            @Html.TextBox("QuantityInMLBottle", ViewData["QuantityInMLBottle"], new { @maxlength = "12", @class="form-control", @id = "QuantityInMLBottle" })
+                                            @*@Html.TextBox("QuantityInMLBottle", ViewData["QuantityInMLBottle"], new { @maxlength = "12", @class="form-control", @id = "QuantityInMLBottle" })*@
+                                            @Html.TextBoxFor(model=> model.QuantityInMLBottle, new {Value = "", @class = "form-control", @id = "QuantityInMLBottle"})
                                         </div>
                                     </div>
                                     <div class="col-sm-3">
                                         <div class="form-group">
                                             <label for="lPegsPerBottle">PegsPerBottle</label>
-                                            @Html.TextBox("PegsPerBottle", ViewData["PegsPerBottle"], new { @maxlength = "15", @class = "form-control", @id = "PegsPerBottle" })
+                                            @*@Html.TextBox("PegsPerBottle", ViewData["PegsPerBottle"], new { @maxlength = "15", @class = "form-control", @id = "PegsPerBottle" })*@
+                                            @Html.TextBoxFor(model=> model.PegsPerBottle, new {Value = "", @class = "form-control", @id = "PegsPerBottle"})
                                         </div>
                                     </div>
                                     <div class="col-sm-3">
                                         <div class="form-group">
                                             <label for="lSellingPriceBottle">SellingPriceBottle</label>
-                                            @Html.TextBox("SellingPriceBottle", ViewData["SellingPriceBottle"], new { @maxlength = "12", @class="form-control", @id = "SellingPriceBottle" })
+                                            @*@Html.TextBox("SellingPriceBottle", ViewData["SellingPriceBottle"], new { @maxlength = "12", @class="form-control", @id = "SellingPriceBottle" })*@
+                                            @Html.TextBoxFor(model=> model.SellingPriceBottle, new {Value = "", @class = "form-control", @id = "SellingPriceBottle"})
                                         </div>
                                     </div>
                                     <div class="col-sm-3">
                                         <div class="form-group">
                                             <label for="lSellingPricePeg">SellingPricePeg</label>
-                                            @Html.TextBox("SellingPricePeg", ViewData["SellingPricePeg"], new { @maxlength = "12", @class="form-control", @id = "SellingPricePeg" })
+                                            @*@Html.TextBox("SellingPricePeg", ViewData["SellingPricePeg"], new { @maxlength = "12", @class="form-control", @id = "SellingPricePeg" })*@
+                                            @Html.TextBoxFor(model=> model.SellingPricePeg, new {Value = "", @class = "form-control", @id = "SellingPricePeg"})
                                         </div>
                                     </div>
                                 </div>
@@ -76,13 +85,20 @@
                                     <div class="col-sm-3">
                                         <div class="form-group">
                                             <label for="lGST">GST</label>
-                                            @Html.TextBox("GST", ViewData["GST"], new { @maxlength = "12", @class="form-control", @id = "GST" })
+                                            @*@Html.TextBox("GST", ViewData["GST"], new { @maxlength = "12", @class="form-control", @id = "GST" })*@
+                                            @Html.TextBoxFor(model=> model.GST, new {Value = "", @class = "form-control", @id = "GST"})
                                         </div>
                                     </div>
                                     <div class="col-sm-3">
                                         <div class="form-group">
                                             <label for="lStatus">Status</label>
-                                            @Html.TextBox("Status", ViewData["Status"], new { @maxlength = "15", @class = "form-control", @id = "Status" })
+                                            @Html.DropDownListFor(model => model.Status, new List<SelectListItem>
+                                            {
+                                                new SelectListItem { Text="Available", Value="True"},
+                                                new SelectListItem { Text="Not Available", Value="False"}
+                                            },"Select Status", new { @class = "form-control", @id = "Status"})
+                                            @*@Html.DropDownList("AvailableStatus", null, htmlAttributes: new { @id = "Status", @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })*@
                                         </div>
                                     </div>
                                 </div>

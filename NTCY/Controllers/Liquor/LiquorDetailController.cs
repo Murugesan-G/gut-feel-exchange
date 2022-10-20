@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using NTCY.Models;
 using NTCY.Services.FoodService;
 using NTCY.Models.LiquorDetails;
 using Microsoft.Extensions.Options;
@@ -9,81 +10,69 @@ using NTCY.Models.Table;
 using NTCY.Entities;
 using NTCY.Models.Foods;
 using NTCY.Services.LiquorDetails;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace NTCY.Controllers.Liquor
 {
     public class LiquorDetailController : Controller
     {
-        private ILiquorService _LiquorService;
-
-        private readonly AppSettings _appSettings;
-        private readonly IMapper _mapper;
-
-        public LiquorDetailController(ILiquorService liquorService, IMapper mapper, IOptions<AppSettings> appSettings)
-        {
-            _LiquorService = liquorService;
-            _appSettings = appSettings.Value;
-            _mapper = mapper;
-        }
         [HttpGet]
-        public IActionResult CreateLiquor()
+        public ActionResult CreateLiquor()
         {
-            return View();
+            LiquorDet liquorDet = new LiquorDet();
+            LiquorService liquorService = new LiquorService();
+            liquorDet.Categories = liquorService.GetLiquorCategories();
+            return View(liquorDet);
         }
+
         [HttpPost]
-        public IActionResult CreateLiquor(NTCY.Models.LiquorDetails.Liquor liquor)
+        public ActionResult CreateLiquor(LiquorDet liquorDet)
         {
-            _LiquorService.Add(liquor);
+            LiquorService liquorService = new LiquorService();
+            liquorService.SaveLiquourDetails(liquorDet);
             TempData["msg"] = "<script>alert('Liquor Added Succesfully');</script>";
-            return RedirectToAction("Viewliquor", "Liquor");
+            return RedirectToAction("Viewliquor", "LiquorDetail");
         }
+
         [HttpGet]
         public IActionResult ViewLiquor()
         {
-            try
-            {
-                List<NTCY.Models.LiquorDetails.Liquor> liquor = new List<NTCY.Models.LiquorDetails.Liquor>();
+            List<LiquorDet> liquor = new List<LiquorDet>();
 
-                var liquorData = _LiquorService.GetAll();
-                foreach (var liquordata in liquorData)
-                {
-                    var liquorCategoryObj = _mapper.Map<NTCY.Models.LiquorDetails.Liquor>(liquordata);
-                    liquor.Add(liquorCategoryObj);
-                }
-                if (liquor != null)
-                {
-                    ViewBag.LiquorList = liquor;
-                }
-                else
-                {
-                    TempData["msg"] = "<script>alert('Liquor Details Not Available');</script>";
-                }
-            }
-            catch (Exception ex)
-            {
-                ViewBag.message = ex.Message;
-                ViewBag.innerEx = ex.InnerException.Message;
-            }
+            LiquorService liquorService = new LiquorService();
+            liquor = (List<LiquorDet>)liquorService.GetAll();
+            ViewBag.LiquorList = liquor;
             return View();
         }
+
         [HttpGet]
         public IActionResult UpdateLiquor(int liquorId)
         {
-            var liquorData = _LiquorService.GetById(liquorId);
-            return View(liquorData);
+            LiquorDet liquorDet = new LiquorDet();
+            LiquorService liquorService = new LiquorService();
+            liquorDet = liquorService.GetById(liquorId);
+            liquorDet.Categories = liquorService.GetLiquorCategories();
+            return View(liquorDet);
         }
         [HttpPost]
-        public IActionResult UpdateLiquor(int liquorId, NTCY.Models.LiquorDetails.Liquor liquor)
+        public IActionResult UpdateLiquor(int liquorId, LiquorDet liquorDet)
         {
-            _LiquorService.Update(liquorId, liquor);
+            LiquorService liquorService = new LiquorService();
+            liquorService.Update(liquorId,liquorDet);
             TempData["msg"] = "<script>alert('liquor Updated Succesfully');</script>";
-            return RedirectToAction("ViewLiquor", "Liquor");
+            return RedirectToAction("ViewLiquor", "LiquorDetail");
         }
         public IActionResult DeleteLiquor(int liquorId)
         {
-            _LiquorService.Delete(liquorId);
+            LiquorService liquorService = new LiquorService();
+            liquorService.Delete(liquorId);
             TempData["msg"] = "<script>alert('Liquor Deleted Succesfully');</script>";
-            return RedirectToAction("ViewLiquor", "Liquor");
+            return RedirectToAction("ViewLiquor", "LiquorDetail");
+        }
+        [NonAction]
+        public void FinalAddUpdate(LiquorDet liquorDet)
+        {
+            //To reduce the code in Main Controller we can use NonAction to keep the clean code. It will avoid duplicate coding.
         }
     }
 }

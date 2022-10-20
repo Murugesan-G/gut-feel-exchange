@@ -1,4 +1,4 @@
-﻿@using NTCY.Models.LiquorDetails;
+﻿@using NTCY.Models.LiquorDetails
 @{
     ViewBag.Title = "ViewLiquor";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -19,7 +19,7 @@
                         <table id="example1" class="table table-bordered table-striped table-sm" cellspacing="0" width="100%" ">
                             <thead>
                                 <tr>
-                                    <th> LiquorCatId </th>
+                                    <th> CategoryName </th>
                                     <th> LiquorName </th>
                                     <th> EffectiveDate </th>
                                     <th> SoldInPegs </th>
@@ -39,10 +39,10 @@
                                 {
                                 if (ViewData.Values != null && ViewData.Values.Count() > 0)
                                 {
-                                foreach (var Model in ViewBag.LiquorList as List<Liquor>)
+                                foreach (var Model in ViewBag.LiquorList as List<LiquorDet>)
                                 {
                                     <tr>
-                                        <td>@Model.LiquorCatId</td>
+                                        <td>@Model.CategoryName</td>
                                         <td>@Model.LiquorName</td>
                                         <td>@Model.EffectiveDate</td>
                                         <td>@Model.SoldInPegs</td>
@@ -95,10 +95,6 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 label-area">
-            @ViewBag.message
-            @ViewBag.innerEx
         </div>
     </div>
     @Html.Raw(TempData["msg"])
