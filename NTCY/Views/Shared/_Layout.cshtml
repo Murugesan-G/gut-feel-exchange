@@ -393,15 +393,27 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="pages/search/simple.html" class="nav-link">
+                                    <a href="@Url.Action("FoodOrder", "FoodOrder")" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Food Order</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="@Url.Action("ViewProcessingOrders", "FoodOrder")" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>View Food Order</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
                                     <a href="pages/search/enhanced.html" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Drinks Order</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="@Url.Action("ViewProcessingOrders", "LiquorOrder")" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>View Drinks Order</p>
                                     </a>
                                 </li>
                             </ul>

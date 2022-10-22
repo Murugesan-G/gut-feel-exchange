@@ -246,5 +246,40 @@ namespace NTCY.Services.Members
                 return fileUrl;
             }
         }
+
+        public DataSet GetMembers(string Prefix)
+        {
+            IConfigurationRoot configuration = new ConfigurationBuilder()
+                .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
+                .AddJsonFile("appsettings.json")
+                .Build();
+            string cnn = configuration.GetConnectionString("WebApiDatabase");
+            DataSet ds = new DataSet();
+
+            string response = string.Empty;
+            SqlCommand cmd = new SqlCommand();
+            cmd.Parameters.Clear();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.CommandText = "spGetMembers";
+            cmd.Parameters.AddWithValue("@Prefix", Prefix);
+            using (SqlConnection MyCon = new SqlConnection(cnn))
+            {
+                cmd.Connection = MyCon;
+                try
+                {
+                    SqlDataAdapter da = new SqlDataAdapter(cmd);
+                    da.Fill(ds);
+                }
+                catch (SqlException e)
+                {
+                    response = e.ToString();
+                }
+                finally
+                {
+                    //
+                }
+                return ds;
+            }
+        }
     }
 }

@@ -3,6 +3,7 @@ using NTCY.Entities;
 using NTCY.Models.Club;
 using NTCY.Models.Users;
 using System.Collections.Generic;
+using System.Data;
 
 namespace NTCY.Services.MemberService
 {
@@ -26,6 +27,7 @@ namespace NTCY.Services.MemberService
         public Dictionary<string, string> GetPhoto(string membershipNo, string photoType);
         void saveFile(string membershipNo, FileType photoType, IFormFile inputFile);
         bool CheckMemberPhotoExists(string membershipNo, FileType fileType);
+        public DataSet GetMembers(string Prefix);
 
     }
 }

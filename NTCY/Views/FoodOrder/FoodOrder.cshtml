@@ -1,0 +1,89 @@
+﻿@using NTCY.Models.Foods;
+@{
+    ViewBag.Title = "FoodOrder";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script src="~/plugins/jquery/jquery.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () 
+    {
+        //debugger;
+        $(document).ready(function () {
+            $('#TotalAmountValue').hide();
+            $('#TotalGstValue').hide();
+            //debugger;
+            ///////////////////////MembershipNo Search option//////////////////////////
+            $("#MembershipNo").autocomplete({
+                source: function (request, response) {
+                    //debugger;
+                    $.ajax({
+                        url: "@Url.Content("~/Member/GetMembers")",
+                        type: "POST",
+                        dataType: "json",
+                        data: { prefix: request.term },
+                        success: function (data) {
+                            if (!data.length) {
+                                var result = [
+                                    {
+                                        label: 'Enter only Valid MembershipNo',
+                                        value: response.term
+                                    }
+                                ];
+                                response(result);
+                                $("#Btn_Order").attr("disabled", true);
+                            }
+                            else {
+                                response($.map(data, function (item) {
+                                    debugger;
+                                    alert(item.MembershipNo);
+                                    return { value: item.MembershipNo, label: item.MembershipNo + "-" + item.MemberName };
+                                }))
+                                $("#Btn_Order").attr("disabled", false);
+                            }
+                        }
+                    })
+                },
+            });
+        });
+    });
+</script>
+
+<section class="content">
+    <div class="container-fluid">
+        @using (Html.BeginForm("FoodOrder", "Food", FormMethod.Post))
+        {
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card card-primary">
+                        <div class="card card-success">
+                            <div class="card-header">
+                                <h3 class="card-title">Liquor Category</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label for="lCategoryName">Membership No</label>
+                                            @*@Html.TextBox("CategoryName", ViewData["CategoryName"], new { @maxlength = "12", @class="form-control", @id = "CategoryName" })*@
+                                                <input type="text" maxlength="20" autocomplete="off" placeholder="Enter MembershipNo.." name="MembershipNo" id="MembershipNo" class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-footer">
+                    <button type="submit" value="@ViewBag.submit" class="btn btn-primary" id="Btn_Order" data-toggle="tooltip" title="Save"><span class="fas fa-save"> </span></button>
+                    <a href="@Url.Action("FoodOrder", "Food")" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="View Member">
+                        <span class="fa-solid fa-users" aria-hidden="true"></span>
+                    </a>
+                </div>
+            </div>
+        }
+        @Html.TextBox("TotalAmountValue", ViewData["TotalAmountValue"], new { @type = "text", @class = "qty-box", @id = "TotalAmountValue" })
+        @Html.TextBox("TotalGstValue", ViewData["TotalGstValue"], new { @min = "1", @max = "20", @type = "text", @class = "qty-box", @id = "TotalGstValue" })
+        <!-- /.row -->
+    </div><!-- /.container-fluid -->
+</section>

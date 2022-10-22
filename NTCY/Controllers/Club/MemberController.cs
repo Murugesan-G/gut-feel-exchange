@@ -13,6 +13,10 @@ using System.Globalization;
 using System.Diagnostics.Contracts;
 using Microsoft.VisualBasic.FileIO;
 using static System.Net.WebRequestMethods;
+using AutoMapper.Execution;
+using System.Data;
+using Member = NTCY.Models.Club.Member;
+
 
 namespace NTCY.Controllers.Club
 {
@@ -203,6 +207,23 @@ namespace NTCY.Controllers.Club
             _memberService.saveFile(membershipNo, FileType.CHILD3_PHOTO, child3Photo);
 
             return View(new { message = "Member documents added successfully" });
+        }
+
+        public JsonResult GetMembers(string Prefix)
+        {
+            // Generate Member List
+            List<Member> memberList = new List<Member>();
+            DataSet ds = _memberService.GetMembers(Prefix);
+
+            foreach (DataRow dr in ds.Tables[0].Rows)
+            {
+                memberList.Add(new Member
+                {
+                    MembershipNo = dr["MemberShipNo"].ToString(),
+                    MemberName = dr["MemberName"].ToString()
+                });
+            }
+            return Json(memberList);
         }
     }
 }
