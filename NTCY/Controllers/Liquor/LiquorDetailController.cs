@@ -59,7 +59,7 @@ namespace NTCY.Controllers.Liquor
         {
             LiquorService liquorService = new LiquorService();
             liquorService.Update(liquorId,liquorDet);
-            TempData["msg"] = "<script>alert('liquor Updated Succesfully');</script>";
+            TempData["msg"] = "<script>alert('Liquor Updated Succesfully');</script>";
             return RedirectToAction("ViewLiquor", "LiquorDetail");
         }
         public IActionResult DeleteLiquor(int liquorId)

@@ -16,3 +16,34 @@ html {
 body {
   margin-bottom: 60px;
 }
+.container-fluid
+{
+	color:black;
+}
+.card-header 
+{
+	background-color:#001a5e !important;
+	color:#fff;
+	margin-bottom:1%;
+	border-radius:10px 10px 0px 0px;
+}
+.card-footer {
+	background-color: #001a5e !important;
+	color: #fff;
+	margin-bottom: 1%;
+	border-radius: 10px 10px 0px 0px;
+}
+.row 
+{
+	padding-top:5px;
+}
+.btn-primary1
+{
+color: #001a5e !important;
+background-color: #fff !important;
+border-color: #fff !important;
+box-shadow: none !important;
+border-radius: 9px !important;
+font-size: 18px !important;
+margin-right:15px;
+}

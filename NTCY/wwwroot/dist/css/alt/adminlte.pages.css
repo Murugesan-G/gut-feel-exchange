@@ -442,7 +442,7 @@ a.close.disabled, a.disabled.mailbox-attachment-close {
 }
 
 .dark-mode .lockscreen-item {
-  background-color: #343a40;
+  background-color: #001a5e;
 }
 
 .dark-mode .lockscreen-logo a {
@@ -450,7 +450,7 @@ a.close.disabled, a.disabled.mailbox-attachment-close {
 }
 
 .dark-mode .lockscreen-credentials .btn {
-  background-color: #343a40;
+  background-color: #001a5e;
 }
 
 .dark-mode .lockscreen-image {
@@ -572,7 +572,7 @@ a.close.disabled, a.disabled.mailbox-attachment-close {
 
 .dark-mode .login-card-body,
 .dark-mode .register-card-body {
-  background-color: #343a40;
+  background-color: #001a5e;
   border-color: #6c757d;
   color: #fff;
 }
@@ -639,7 +639,7 @@ a.close.disabled, a.disabled.mailbox-attachment-close {
 }
 
 .dark-mode .invoice {
-  background-color: #343a40;
+  background-color: #001a5e;
 }
 
 .profile-user-img {
@@ -847,7 +847,7 @@ body.iframe-mode-fullscreen.layout-navbar-fixed .wrapper .content-wrapper {
   left: 0;
   width: 100%;
   display: none;
-  background-color: #f4f6f9;
+  background-color: #4679ff;
 }
 
 .content-wrapper.iframe-mode .tab-loading > div {
@@ -892,7 +892,7 @@ body.iframe-mode-fullscreen .content-wrapper.iframe-mode {
 }
 
 .dark-mode .content-wrapper.iframe-mode .tab-loading {
-  background-color: #343a40;
+  background-color: #001a5e;
 }
 
 .content-wrapper.kanban {

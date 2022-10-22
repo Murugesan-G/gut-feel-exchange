@@ -509,76 +509,7 @@
 
         });
         //required field validation
-        $('#Btn_Submit').click(function () {
-            //debugger;
-
-            if ($('#MembershipNo').val() == '' || $('#MembershipNo').val() == "") {
-                alert('MembershipNo field is required !!!');
-                $('#MembershipNo').focus();
-                return false;
-            }
-            else if ($('#memberName').val() == '' || $('#memberName').val() == "") {
-                alert('Please Enter MemberName...')
-                $('#memberName').focus();
-                return false;
-            }
-            else if ($('#AdAadharAddressdress').val() == '' || $('#AadharAddress').val() == "") {
-                alert('Please Enter Address..')
-                $('#AadharAddress').focus();
-                return false;
-            }
-            else if ($('#DOB').val() == '' || $('#DOB').val() == "") {
-                alert('Please select Date of Birth..')
-                $('#DOB').focus();
-                return false;
-            }
-            else if ($('#Gender').val() == '' || $('#Gender').val() == "") {
-                alert('Please Select Gender..')
-                $('#Gender').focus();
-                return false;
-            }
-            else if ($('#MobileNo').val() == '' || $('#MobileNo').val() == "") {
-                alert('Enter Mobile Number..')
-                $('#MobileNo').focus();
-                return false;
-            }
-            else if ($('#EmailId').val() == '' || $('#EmailId').val() == "") {
-                alert('EmailId required!!!')
-                $('#EmailId').focus();
-                return false;
-            }
-            else if ($('#PrimaryProximatyCard').val() == '' || $('#PrimaryProximatyCard').val() == "") {
-                alert('Proximity Card Number is Required!!!')
-                $('#PrimaryProximatyCard').focus();
-                return false;
-            }
-            else if ($('#AreasOfInterest').val() == '' || $('#AreasOfInterest').val() == "") {
-                alert('Areas Of Interest Field is Required!!!')
-                $('#AreasOfInterest').focus();
-                return false;
-            }
-            else if ($('#MemberShipAmount').val() == '' || $('#MemberShipAmount').val() == "") {
-                alert('please Enter Initial Membership Amount..')
-                $('#MemberShipAmount').focus();
-                return false;
-            }
-            else if ($('#MemberSince').val() == '' || $('#MemberSince').val() == "") {
-                alert('MemberSince Field is Required..')
-                $('#MemberSince').focus();
-                return false;
-            }
-            else if ($('#DateOfInduction').val() == '' || $('#DateOfInduction').val() == "") {
-                alert('Date Of Induction  Field is Required..')
-                $('#DateOfInduction').focus();
-                return false;
-            }
-            else if ($('#DateOfExpiry').val() == '' || $('#DateOfExpiry').val() == "") {
-                alert('Date Of Expiry  Field is Required..')
-                $('#DateOfExpiry').focus();
-                return false;
-            }
-            else { return true; }
-        })
+        
 
         $("#DOB").keypress(function (e) {
             if (e.which <= 47 || e.which >= 58) {

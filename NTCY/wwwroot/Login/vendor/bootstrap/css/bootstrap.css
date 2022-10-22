@@ -2185,8 +2185,8 @@ fieldset[disabled] a.btn {
 
 .btn-dark {
   color: #fff;
-  background-color: #343a40;
-  border-color: #343a40;
+  background-color: #001a5e;
+  border-color: #001a5e;
 }
 
 .btn-dark:hover {
@@ -2200,8 +2200,8 @@ fieldset[disabled] a.btn {
 }
 
 .btn-dark.disabled, .btn-dark:disabled {
-  background-color: #343a40;
-  border-color: #343a40;
+  background-color: #001a5e;
+  border-color: #001a5e;
 }
 
 .btn-dark:active, .btn-dark.active,
@@ -2415,16 +2415,16 @@ fieldset[disabled] a.btn {
 }
 
 .btn-outline-dark {
-  color: #343a40;
+  color: #001a5e;
   background-color: transparent;
   background-image: none;
-  border-color: #343a40;
+  border-color: #001a5e;
 }
 
 .btn-outline-dark:hover {
   color: #fff;
-  background-color: #343a40;
-  border-color: #343a40;
+  background-color: #001a5e;
+  border-color: #001a5e;
 }
 
 .btn-outline-dark:focus, .btn-outline-dark.focus {
@@ -2432,15 +2432,15 @@ fieldset[disabled] a.btn {
 }
 
 .btn-outline-dark.disabled, .btn-outline-dark:disabled {
-  color: #343a40;
+  color: #001a5e;
   background-color: transparent;
 }
 
 .btn-outline-dark:active, .btn-outline-dark.active,
 .show > .btn-outline-dark.dropdown-toggle {
   color: #fff;
-  background-color: #343a40;
-  border-color: #343a40;
+  background-color: #001a5e;
+  border-color: #001a5e;
 }
 
 .btn-link {
@@ -4068,7 +4068,7 @@ tbody.collapse.show {
 
 .badge-dark {
   color: #fff;
-  background-color: #343a40;
+  background-color: #001a5e;
 }
 
 .badge-dark[href]:focus, .badge-dark[href]:hover {
@@ -5287,7 +5287,7 @@ a.bg-light:focus, a.bg-light:hover {
 }
 
 .bg-dark {
-  background-color: #343a40 !important;
+  background-color: #001a5e !important;
 }
 
 a.bg-dark:focus, a.bg-dark:hover {
@@ -5355,7 +5355,7 @@ a.bg-dark:focus, a.bg-dark:hover {
 }
 
 .border-dark {
-  border-color: #343a40 !important;
+  border-color: #001a5e !important;
 }
 
 .border-white {
@@ -8156,7 +8156,7 @@ a.text-light:focus, a.text-light:hover {
 }
 
 .text-dark {
-  color: #343a40 !important;
+  color: #001a5e !important;
 }
 
 a.text-dark:focus, a.text-dark:hover {
