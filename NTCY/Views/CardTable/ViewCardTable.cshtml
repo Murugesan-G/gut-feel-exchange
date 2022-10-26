@@ -10,7 +10,7 @@
                 <div class="card">
                     <h1> Card Table Details</h1>
                     <div class="card-header">
-                        <a href="@Url.Action("CreateCardTable", "CardTable")" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Add Table">
+                        <a href="@Url.Action("CreateCardTable", "CardTable")" class="btn btn-primary1" data-toggle="tooltip" data-placement="bottom" title="Add Table">
                             <span class="fa-solid fa-user-plus" aria-hidden="true"></span>
                         </a>
                     </div>
@@ -19,7 +19,7 @@
                         <table id="example1" class="table table-bordered table-striped table-sm" cellspacing="0" width="100%" ">
                             <thead>
                                 <tr>
-                                    <th> TableNo </th>
+                                    @*<th> TableNo </th>*@
                                     <th> TableName </th>
                                     <th> Status </th>
                                     <th> Edit </th>
@@ -35,7 +35,7 @@
                                 foreach (var Model in ViewBag.CardTableList as List<CardTable>)
                                 {
                                     <tr>
-                                        <td>@Model.TableNo</td>
+                                        @*<td>@Model.TableNo</td>*@
                                         <td>@Model.TableName</td>
                                         <td>@Model.Status</td>
 

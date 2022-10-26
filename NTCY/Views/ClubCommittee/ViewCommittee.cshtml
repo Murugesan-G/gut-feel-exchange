@@ -10,7 +10,7 @@
                 <div class="card">
                     <h1> Committee Details</h1>
                     <div class="card-header">
-                        <a href="@Url.Action("CreateCommittee", "ClubCommittee")" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Add Committee">
+                        <a href="@Url.Action("CreateCommittee", "ClubCommittee")" class="btn btn-primary1" data-toggle="tooltip" data-placement="bottom" title="Add Committee">
                             <span class="fa-solid fa-user-plus" aria-hidden="true"></span>
                         </a>
                     </div>
@@ -19,16 +19,16 @@
                         <table id="example1" class="table table-bordered table-striped table-sm" cellspacing="0" width="100%" ">
                             <thead>
                                 <tr>
-                                    <th> ClubId </th>
+                                    <th> Club Name </th>
                                     <th> Chairman </th>
                                     <th> President </th>
-                                    <th> VicePresident </th>
+                                    <th> Vice President </th>
                                     <th> Secretary </th>
                                     <th> Treasurer </th>
-                                    <th> CommitteeMembers </th>
+                                    <th> Committee Members </th>
                                     <th> Status </th>
-                                    <th> StartDate </th>
-                                    <th> EndDate </th>
+                                    <th> Start Date </th>
+                                    <th> End Date </th>
                                     <th> Edit </th>
                                     <th> Delete </th>
                                 </tr>
@@ -42,7 +42,7 @@
                                 foreach (var Model in ViewBag.CommitteeList as List<ClubCommittee>)
                                 {
                                     <tr>
-                                        <td>@Model.ClubId</td>
+                                        <td>@Model.ClubName</td>
                                         <td>@Model.Chairman</td>
                                         <td>@Model.President</td>
                                         <td>@Model.VicePresident</td>

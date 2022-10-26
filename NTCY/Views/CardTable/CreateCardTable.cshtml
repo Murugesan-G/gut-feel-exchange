@@ -35,7 +35,12 @@
                                     <div class="col-sm-3">
                                         <div class="form-group">
                                             <label for="lStatus">Status</label>
-                                            @Html.TextBox("Status", ViewData["Status"], new { @maxlength = "12", @class="form-control", @id = "Status" })
+                                            @*@Html.TextBox("Status", ViewData["Status"], new { @maxlength = "12", @class="form-control", @id = "Status" })*@
+                                            @Html.DropDownList("Status", new List<SelectListItem>
+                                        {
+                                        new SelectListItem { Text="Available", Value="Available"},
+                                        new SelectListItem { Text="Not Available", Value="Not Available"}
+                                        }, "Select", new { @class = "form-control", @id = "Status" })
                                         </div>
                                     </div>
                                 </div>

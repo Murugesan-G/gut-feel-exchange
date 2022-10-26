@@ -1,6 +1,7 @@
 ﻿using NTCY.Entities;
 using NTCY.Models.Users;
 using NTCY.Models.Club;
+using NTCY.Models;
 
 namespace NTCY.Services.Club
 {

@@ -41,12 +41,12 @@ namespace NTCY.Controllers.Foods
         {
             try
             {
-                List<FoodOrder> food = new List<FoodOrder>();
+                List<Food> food = new List<Food>();
 
                 var foodData = _foodService.GetAll();
                 foreach (var fooddata in foodData)
                 {
-                    var foodObj = _mapper.Map<FoodOrder>(fooddata);
+                    var foodObj = _mapper.Map<Food>(fooddata);
                     food.Add(foodObj);
                 }
                 if (food != null)

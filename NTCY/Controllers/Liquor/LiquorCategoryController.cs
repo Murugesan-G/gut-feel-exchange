@@ -77,7 +77,7 @@ namespace NTCY.Controllers.LiquorC
         public IActionResult UpdateLiquorCategory(int liquorCatId, LiquorCategory liquorCategory)
         {
             _LiquorCategoryService.Update(liquorCatId, liquorCategory);
-            TempData["msg"] = "<script>alert('liquor Category Updated Succesfully');</script>";
+            TempData["msg"] = "<script>alert('Liquor Category Updated Succesfully');</script>";
             return RedirectToAction("ViewLiquorCategory", "LiquorCategory");
         }
         public IActionResult DeleteLiquorCategory(int liquorCatId)

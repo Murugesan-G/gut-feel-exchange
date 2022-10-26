@@ -12,6 +12,7 @@ using System.Diagnostics.Contracts;
 using Microsoft.VisualBasic.FileIO;
 using System.Security.Policy;
 using Microsoft.EntityFrameworkCore.Metadata.Conventions;
+using NTCY.Models;
 
 namespace NTCY.Controllers.Club
 {
@@ -76,8 +77,12 @@ namespace NTCY.Controllers.Club
         [HttpGet]
         public IActionResult UpdateCommittee(int committeeId)
         {
-            var committee = _clubCommitteeService.GetById(committeeId);
-            return View(committee);
+            ClubCommitteeDet clubCommitteeDet = new ClubCommitteeDet();
+            ClubComtService clubService = new ClubComtService();
+            clubCommitteeDet = clubService.GetById(committeeId);
+            clubCommitteeDet.clubDetails = clubService.GetClubDetails();
+            
+            return View(clubCommitteeDet);
         }
 
         [HttpPost]

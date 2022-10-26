@@ -12,6 +12,8 @@ using Microsoft.EntityFrameworkCore;
 using Azure.Storage.Blobs;
 using Microsoft.VisualBasic.FileIO;
 using System.Net;
+using NTCY.Business;
+using NTCY.Models;
 
 namespace NTCY.Services.Club
 {
@@ -104,6 +106,11 @@ namespace NTCY.Services.Club
             var committee = _context.ClubCommittee.FirstOrDefault(m => m.CommitteeId == comiteeId);
             if (committee == null) throw new KeyNotFoundException("Club not found");
             return committee;   
+        }
+
+        public List<ClubDetails> GetClubDetails()
+        {
+            throw new NotImplementedException();
         }
     }
 }

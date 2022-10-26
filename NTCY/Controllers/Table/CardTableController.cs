@@ -6,6 +6,7 @@ using AutoMapper;
 using Microsoft.Extensions.Options;
 using NTCY.Models.Table;
 using NTCY.Models.Club;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace NTCY.Controllers.Table
 {
@@ -73,9 +74,9 @@ namespace NTCY.Controllers.Table
         }
 
         [HttpPost]
-        public IActionResult UpdateCardTable(int cardTableNo, CardTable cardTable)
+        public IActionResult UpdateCardTable(int tableNo, CardTable cardTable)
         {
-            _cardTableService.Update(cardTableNo, cardTable);
+            _cardTableService.Update(tableNo, cardTable);
             TempData["msg"] = "<script>alert('Card Table Updated Succesfully');</script>";
             return RedirectToAction("ViewCardTable", "CardTable");
         }

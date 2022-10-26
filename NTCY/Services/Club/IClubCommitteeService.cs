@@ -1,4 +1,5 @@
 ﻿using NTCY.Entities;
+using NTCY.Models;
 using NTCY.Models.Club;
 using NTCY.Models.Users;
 
@@ -12,5 +13,6 @@ namespace NTCY.Services.Club
         void Add(ClubCommittee clubComitee);
         void Update(int comiteeId, ClubCommittee clubComitee);
         void Delete(int comiteeId);
+        public List<ClubDetails> GetClubDetails();
     }
 }

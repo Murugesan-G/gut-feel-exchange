@@ -17,15 +17,16 @@
                         <div class="card card-success">
                             <div class="card-header">
                                 <h3 class="card-title">Card Table</h3>
+                                @Html.Hidden("TableNo", ViewData["TableNo"], new { @id = "TableNo" })
                             </div>
                             <div class="card-body">
                                 <div class="row">
-                                    <div class="col-sm-3">
+                                    @*<div class="col-sm-3">
                                         <div class="form-group">
                                             <label for="lTableNo">TableNo</label>
                                             @Html.TextBox("TableNo", ViewData["TableNo"], new { @maxlength = "15", @class = "form-control", @id = "TableNo" })
                                         </div>
-                                    </div>
+                                    </div>*@
                                     <div class="col-sm-3">
                                         <div class="form-group">
                                             <label for="lTableName">TableName</label>
@@ -35,7 +36,12 @@
                                     <div class="col-sm-3">
                                         <div class="form-group">
                                             <label for="lStatus">Status</label>
-                                            @Html.TextBox("Status", ViewData["Status"], new { @maxlength = "12", @class="form-control", @id = "Status" })
+                                            @*@Html.TextBox("Status", ViewData["Status"], new { @maxlength = "12", @class="form-control", @id = "Status" })*@
+                                            @Html.DropDownList("Status", new List<SelectListItem>
+                                        {
+                                        new SelectListItem { Text="Available", Value="Available"},
+                                        new SelectListItem { Text="Not Available", Value="Not Available"}
+                                        }, "Select", new { @class = "form-control", @id = "Status" })
                                         </div>
                                     </div>
                                 </div>
@@ -45,8 +51,8 @@
                 </div>
 
                 <div class="card-footer">
-                    <button type="submit" value="@ViewBag.submit" class="btn btn-primary" id="Btn_Submit" data-toggle="tooltip" title="Save"><span class="fas fa-save"> </span></button>
-                    <a href="@Url.Action("ViewCardTable", "CardTable")" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="View Member">
+                    <button type="submit" value="@ViewBag.submit" class="btn btn-primary1" id="Btn_Submit" data-toggle="tooltip" title="Save"><span class="fas fa-save"> </span></button>
+                    <a href="@Url.Action("ViewCardTable", "CardTable")" class="btn btn-primary1" data-toggle="tooltip" data-placement="bottom" title="View Table">
                         <span class="fa-solid fa-users" aria-hidden="true"></span>
                     </a>
                 </div>

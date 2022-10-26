@@ -1,4 +1,4 @@
-﻿@using NTCY.Models.Club;
+﻿@model NTCY.Models.ClubCommitteeDet;
 @{
     ViewBag.Title = "CreateCommittee";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -17,73 +17,94 @@
                         <div class="card card-success">
                             <div class="card-header">
                                 <h3 class="card-title">Club Committee</h3>
-                                @Html.Hidden("CommitteeId", ViewData["CommitteeId"], new { @maxlength = "15", @class = "form-control", @id = "CommitteeId" })
+                                @*@Html.Hidden("CommitteeId", ViewData["CommitteeId"], new { @maxlength = "15", @class = "form-control", @id = "CommitteeId" })*@
+                                @Html.HiddenFor(m=> m.CommitteeId, new {Value = "", @class = "form-control", @id = "CommitteeId" })
                             </div>
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-sm-3">
                                         <div class="form-group">
-                                            <label for="lClubId">ClubId</label>
-                                            @Html.TextBox("ClubId", ViewData["ClubId"], new { @maxlength = "12", @class="form-control", @id = "ClubId" })
+                                            <label for="lClubId">Club Name</label>
+                                            @*@Html.TextBox("ClubId", ViewData["ClubId"], new { @maxlength = "12", @class="form-control", @id = "ClubId" })*@
+                                            @Html.DropDownListFor(model => model.ClubId, new SelectList(Model.clubDetails, "ClubId", "ClubName"), "--Select Club--", new { id = "ClubId", @class = "form-control" })
                                         </div>
                                     </div>
                                     <div class="col-sm-3">
                                         <div class="form-group">
                                             <label for="lChairman">Chairman</label>
-                                            @Html.TextBox("Chairman", ViewData["Chairman"], new { @maxlength = "12", @class="form-control", @id = "Chairman" })
+                                            @*@Html.TextBox("Chairman", ViewData["Chairman"], new { @maxlength = "12", @class="form-control", @id = "Chairman" })*@
+                                            @Html.TextBoxFor(model=> model.Chairman, new {Value = "", @class = "form-control", @id = "Chairman"})
                                         </div>
                                     </div>
                                     <div class="col-sm-3">
                                         <div class="form-group">
                                             <label for="lPresident">President</label>
-                                            @Html.TextBox("President", ViewData["President"], new { @maxlength = "15", @class = "form-control", @id = "President" })
+                                            @*@Html.TextBox("President", ViewData["President"], new { @maxlength = "15", @class = "form-control", @id = "President" })*@
+                                            @Html.TextBoxFor(model=> model.President, new {Value = "", @class = "form-control", @id = "President"})
                                         </div>
                                     </div>
                                     <div class="col-sm-3">
                                         <div class="form-group">
                                             <label for="lVicePresident">VicePresident</label>
-                                            @Html.TextBox("VicePresident", ViewData["VicePresident"], new { @maxlength = "15", @class = "form-control", @id = "VicePresident" })
+                                            @*@Html.TextBox("VicePresident", ViewData["VicePresident"], new { @maxlength = "15", @class = "form-control", @id = "VicePresident" })*@
+                                            @Html.TextBoxFor(model=> model.VicePresident, new {Value = "", @class = "form-control", @id = "VicePresident"})
                                         </div>
                                     </div>
                                 </div>
 
-                                <div class="row">                                    
+                                <div class="row">
                                     <div class="col-sm-3">
                                         <div class="form-group">
                                             <label for="lSecretary">Secretary</label>
-                                            @Html.TextBox("Secretary", ViewData["Secretary"], new { @maxlength = "15", @class = "form-control", @id = "Secretary" })
+                                            @*@Html.TextBox("Secretary", ViewData["Secretary"], new { @maxlength = "15", @class = "form-control", @id = "Secretary" })*@
+                                            @Html.TextBoxFor(model=> model.Secretary, new {Value = "", @class = "form-control", @id = "Secretary"})
                                         </div>
                                     </div>
                                     <div class="col-sm-3">
                                         <div class="form-group">
                                             <label for="lTreasurer">Treasurer</label>
-                                            @Html.TextBox("Treasurer", ViewData["Treasurer"], new { @maxlength = "12", @class="form-control", @id = "Treasurer" })
+                                            @*@Html.TextBox("Treasurer", ViewData["Treasurer"], new { @maxlength = "12", @class="form-control", @id = "Treasurer" })*@
+                                            @Html.TextBoxFor(model=> model.Treasurer, new {Value = "", @class = "form-control", @id = "Treasurer"})
                                         </div>
                                     </div>
                                     <div class="col-sm-3">
                                         <div class="form-group">
                                             <label for="lCommitteeMembers">CommitteeMembers</label>
-                                            @Html.TextBox("CommitteeMembers", ViewData["CommitteeMembers"], new { @maxlength = "12", @class="form-control", @id = "CommitteeMembers" })
+                                            @*@Html.TextBox("CommitteeMembers", ViewData["CommitteeMembers"], new { @maxlength = "12", @class="form-control", @id = "CommitteeMembers" })*@
+                                            @Html.TextBoxFor(model=> model.CommitteeMembers, new {Value = "", @class = "form-control", @id = "CommitteeMembers"})
                                         </div>
                                     </div>
                                     <div class="col-sm-3">
                                         <div class="form-group">
                                             <label for="lStatus">Status</label>
-                                            @Html.TextBox("Status", ViewData["Status"], new { @maxlength = "12", @class="form-control", @id = "Status" })
+                                            @*@Html.TextBox("Status", ViewData["Status"], new { @maxlength = "12", @class="form-control", @id = "Status" })*@
+                                            @*@Html.DropDownList("Status", new List<SelectListItem>
+                                        {
+                                        new SelectListItem { Text="Active", Value="Active"},
+                                        new SelectListItem { Text="InActive", Value="InActive"}
+                                        }, "Select Status", new { @class = "form-control", @id = "Status" })*@
+
+                                            @Html.DropDownListFor(model => model.Status, new List<SelectListItem>
+                                        {
+                                        new SelectListItem { Text="Active", Value="Active"},
+                                        new SelectListItem { Text="InActive", Value="InActive"}
+                                        },"Select", new { @class = "form-control", @id = "Status"})
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row">                                    
+                                <div class="row">
                                     <div class="col-sm-3">
                                         <div class="form-group">
                                             <label for="lStartDate">StartDate</label>
-                                            @Html.TextBox("StartDate", ViewData["StartDate"], new { @maxlength = "12", @class="form-control", @id = "StartDate" })
+                                            @*@Html.TextBox("StartDate", ViewData["StartDate"], new { @maxlength = "12", @class="form-control", @id = "StartDate" })*@
+                                            @Html.TextBoxFor(model=> model.StartDate, new {Value = "", @class = "form-control", @id = "StartDate"})
                                         </div>
                                     </div>
                                     <div class="col-sm-3">
                                         <div class="form-group">
                                             <label for="lEndDate">EndDate</label>
-                                            @Html.TextBox("EndDate", ViewData["EndDate"], new { @maxlength = "12", @class="form-control", @id = "EndDate" })
+                                            @*@Html.TextBox("EndDate", ViewData["EndDate"], new { @maxlength = "12", @class="form-control", @id = "EndDate" })*@
+                                            @Html.TextBoxFor(model=> model.EndDate, new {Value = "", @class = "form-control", @id = "EndDate"})
                                         </div>
                                     </div>
                                 </div>
@@ -93,8 +114,8 @@
                 </div>
 
                 <div class="card-footer">
-                    <button type="submit" value="@ViewBag.submit" class="btn btn-primary" id="Btn_Submit" data-toggle="tooltip" title="Save"><span class="fas fa-save"> </span></button>
-                    <a href="@Url.Action("ViewCommittee", "ClubCommittee")" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="View Member">
+                    <button type="submit" value="@ViewBag.submit" class="btn btn-primary1" id="Btn_Submit" data-toggle="tooltip" title="Save"><span class="fas fa-save"> </span></button>
+                    <a href="@Url.Action("ViewCommittee", "ClubCommittee")" class="btn btn-primary1" data-toggle="tooltip" data-placement="bottom" title="View Member">
                         <span class="fa-solid fa-users" aria-hidden="true"></span>
                     </a>
                 </div>

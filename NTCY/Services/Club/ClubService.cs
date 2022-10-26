@@ -12,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using Azure.Storage.Blobs;
 using Microsoft.VisualBasic.FileIO;
 using System.Net;
+using NTCY.Models;
 
 namespace NTCY.Services.Club
 {

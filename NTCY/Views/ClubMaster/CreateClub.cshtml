@@ -9,7 +9,7 @@
         @ViewBag.innerEx
     </div>
     <div class="container-fluid">
-        @using (Html.BeginForm("CreateClub", "Club", FormMethod.Post))
+        @using (Html.BeginForm("CreateClub", "ClubMaster", FormMethod.Post))
         {
             <div class="row">
                 <div class="col-md-12">
@@ -17,6 +17,7 @@
                         <div class="card card-success">
                             <div class="card-header">
                                 <h3 class="card-title">Club Master</h3>
+                                @Html.Hidden("ClubId", ViewData["ClubId"], new { @maxlength = "15", @class = "form-control", @id = "ClubId" })
                             </div>
                             <div class="card-body">
                                 <div class="row">
@@ -29,24 +30,25 @@
                                     <div class="col-sm-3">
                                         <div class="form-group">
                                             <label for="lAddress">Address</label>
-                                            @Html.TextBox("Address", ViewData["Address"], new { @maxlength = "12", @class="form-control", @id = "Address" })
+                                            @*@Html.TextBox("Address", ViewData["Address"], new { @maxlength = "100", @class="form-control", @id = "Address" })*@
+                                            @Html.TextArea("Address", new { @maxlength = "100", @class = "form-control", @id = "Address" })
                                         </div>
                                     </div>
                                     <div class="col-sm-3">
                                         <div class="form-group">
                                             <label for="lDateOfIncorporation">DateOfIncorporation</label>
-                                            @Html.TextBox("DateOfIncorporation", ViewData["DateOfIncorporation"], new { @maxlength = "12", @class="form-control", @id = "DateOfIncorporation" })
+                                            @Html.TextBox("DateOfIncorporation", ViewData["DateOfIncorporation"], new { @maxlength = "12", @class="form-control", @type = "date", @id = "DateOfIncorporation" })
                                         </div>
                                     </div>
                                     <div class="col-sm-3">
                                         <div class="form-group">
-                                            <label for="lLogo">Logo</label>
-                                            @Html.TextBox("Logo", ViewData["Logo"], new { @maxlength = "15", @class = "form-control", @id = "Logo" })
+                                            <label for="lAbout">About</label>
+                                            @Html.TextBox("About", ViewData["About"], new { @maxlength = "12", @class="form-control", @id = "About" })
                                         </div>
                                     </div>
                                 </div>
 
-                                <div class="row">                                    
+                                <div class="row">
                                     <div class="col-sm-3">
                                         <div class="form-group">
                                             <label for="lRegistrationNumber">RegistrationNumber</label>
@@ -72,7 +74,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row">                                    
+                                <div class="row">
                                     <div class="col-sm-3">
                                         <div class="form-group">
                                             <label for="lGSTNumber">GSTNumber</label>
@@ -114,21 +116,18 @@
                                     <div class="col-sm-3">
                                         <div class="form-group">
                                             <label for="lEmailID">EmailID</label>
-                                            @Html.TextBox("EmailID", ViewData["EmailID"], new { @maxlength = "12", @class="form-control", @id = "EmailID" })
+                                            @Html.TextBox("EmailID", ViewData["EmailID"], new { @maxlength = "128", @class="form-control", @id = "EmailID" })
                                         </div>
                                     </div>
-                                    <div class="col-sm-3">
-                                        <div class="form-group">
-                                            <label for="lAbout">About</label>
-                                            @Html.TextBox("About", ViewData["About"], new { @maxlength = "12", @class="form-control", @id = "About" })
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">                                    
                                     <div class="col-sm-3">
                                         <div class="form-group">
                                             <label for="lStatus">Status</label>
-                                            @Html.TextBox("Status", ViewData["Status"], new { @maxlength = "12", @class="form-control", @id = "Status" })
+                                            @*@Html.TextBox("Status", ViewData["Status"], new { @maxlength = "12", @class="form-control", @id = "Status" })*@
+                                            @Html.DropDownList("Status", new List<SelectListItem>
+                                        {
+                                        new SelectListItem { Text="Active", Value="Active"},
+                                        new SelectListItem { Text="InActive", Value="InActive"}
+                                        }, "Select Status", new { @class = "form-control", @id = "Status" })
                                         </div>
                                     </div>
                                 </div>
@@ -136,15 +135,15 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="card-footer">
                     <button type="submit" value="@ViewBag.submit" class="btn btn-primary1" id="Btn_Submit" data-toggle="tooltip" title="Save"><span class="fas fa-save"> </span></button>
-                    <a href="@Url.Action("ViewClub", "ClubMaster")" class="btn btn-primary1" data-toggle="tooltip" data-placement="bottom" title="View Member">
+                    <a href="@Url.Action("ViewClub", "ClubMaster")" class="btn btn-primary1" data-toggle="tooltip" data-placement="bottom" title="View Club">
                         <span class="fa-solid fa-users" aria-hidden="true"></span>
                     </a>
                 </div>
             </div>
         }
-    <!-- /.row -->
+        <!-- /.row -->
     </div><!-- /.container-fluid -->
 </section>
