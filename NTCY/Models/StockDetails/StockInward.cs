@@ -25,6 +25,7 @@ namespace NTCY.Models.StockDetails
         public int StockSubId { get; set; }
         public int GrnId { get; set; }
         public int LiquorId { get; set; }
+        public string? LiquorName { get; set; }
         public float PurchaseOrderRate { get; set; }
         public int PurchaseOrderQty { get; set; }
         public float MRP { get; set; }

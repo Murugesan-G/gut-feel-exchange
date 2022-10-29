@@ -27,44 +27,44 @@ namespace NTCY.Controllers.StockDetails
             return View();
         }
         [HttpPost]
-        public ActionResult AddStockInward(StockInward StockInwardData, StockInwardSub[] ExList)
+        public ActionResult AddStockInward(List<StockInwardSub> arrData)
         {
             IStockService stockInwardService = new StockService();
-            int iGrnNo = stockInwardService.AddStockInwardDetails(StockInwardData);
+            //int iGrnNo = stockInwardService.AddStockInwardDetails(StockInwardData);
 
             StockInwardSub[] lStockInwardSub;
-            lStockInwardSub = (StockInwardSub[]) ExList;
+            //lStockInwardSub = (StockInwardSub[]) ExList;
 
-            if(ExList!=null)
-            {
-                if(ExList.Length>0)
-                {
-                    Dictionary<string, object> StockInwardSubDictionary = new Dictionary<string, object>();
-                    for (int i=0; i<ExList.Length; i++)
-                    {
-                        StockInwardSubDictionary["GrnId"] = iGrnNo;
-                        StockInwardSubDictionary["LiquorId"] = lStockInwardSub[i].LiquorId;
-                        StockInwardSubDictionary["PurchaseOrderRate"] = lStockInwardSub[i].PurchaseOrderRate;
-                        StockInwardSubDictionary["PurchaseOrderQty"] = lStockInwardSub[i].PurchaseOrderQty;
-                        StockInwardSubDictionary["MRP"] = lStockInwardSub[i].MRP;
-                        StockInwardSubDictionary["TaxAmount"] = lStockInwardSub[i].TaxAmount;
-                        StockInwardSubDictionary["TaxPercentage"] = lStockInwardSub[i].TaxPercentage;
-                        StockInwardSubDictionary["DiscountAmount"] = lStockInwardSub[i].DiscountAmount;
-                        StockInwardSubDictionary["DiscountPercentage"] = lStockInwardSub[i].DiscountPercentage;
-                        StockInwardSubDictionary["RejectedQty"] = lStockInwardSub[i].RejectedQty;
-                        StockInwardSubDictionary["AcceptedQty"] = lStockInwardSub[i].AcceptedQty;
-                        if (lStockInwardSub[i].RejectedRemarks == null || lStockInwardSub[i].RejectedRemarks == "")
-                        {
-                            StockInwardSubDictionary["RejectedRemarks"] = "NA";
-                        }
-                        else
-                        {
-                            StockInwardSubDictionary["RejectedRemarks"] = lStockInwardSub[i].RejectedRemarks;
-                        }
-                    }
-                    stockInwardService.AddStockInwardSubDetails(StockInwardSubDictionary, iGrnNo);
-                }
-            }            
+            //if(ExList!=null)
+            //{
+            //    if(ExList.Length>0)
+            //    {
+            //        Dictionary<string, object> StockInwardSubDictionary = new Dictionary<string, object>();
+            //        for (int i=0; i<ExList.Length; i++)
+            //        {
+            //            StockInwardSubDictionary["GrnId"] = iGrnNo;
+            //            StockInwardSubDictionary["LiquorId"] = lStockInwardSub[i].LiquorId;
+            //            StockInwardSubDictionary["PurchaseOrderRate"] = lStockInwardSub[i].PurchaseOrderRate;
+            //            StockInwardSubDictionary["PurchaseOrderQty"] = lStockInwardSub[i].PurchaseOrderQty;
+            //            StockInwardSubDictionary["MRP"] = lStockInwardSub[i].MRP;
+            //            StockInwardSubDictionary["TaxAmount"] = lStockInwardSub[i].TaxAmount;
+            //            StockInwardSubDictionary["TaxPercentage"] = lStockInwardSub[i].TaxPercentage;
+            //            StockInwardSubDictionary["DiscountAmount"] = lStockInwardSub[i].DiscountAmount;
+            //            StockInwardSubDictionary["DiscountPercentage"] = lStockInwardSub[i].DiscountPercentage;
+            //            StockInwardSubDictionary["RejectedQty"] = lStockInwardSub[i].RejectedQty;
+            //            StockInwardSubDictionary["AcceptedQty"] = lStockInwardSub[i].AcceptedQty;
+            //            if (lStockInwardSub[i].RejectedRemarks == null || lStockInwardSub[i].RejectedRemarks == "")
+            //            {
+            //                StockInwardSubDictionary["RejectedRemarks"] = "NA";
+            //            }
+            //            else
+            //            {
+            //                StockInwardSubDictionary["RejectedRemarks"] = lStockInwardSub[i].RejectedRemarks;
+            //            }
+            //        }
+            //        stockInwardService.AddStockInwardSubDetails(StockInwardSubDictionary, iGrnNo);
+            //    }
+            //}            
             return RedirectToAction("AddStockInward");
         }
     }

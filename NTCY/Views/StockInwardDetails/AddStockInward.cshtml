@@ -89,7 +89,8 @@
                         data: { prefix: request.term },
                         success: function (data) {
                             response($.map(data, function (item) {
-                                return { value: item.LiquorName, Id: item.LiquorId };
+                                //debugger;
+                                return { value: item.liquorName, Id: item.liquorId };
                             }))
                         }
                     })
@@ -396,7 +397,7 @@
     });
 
     $('#Btn_Submit').click(function () {
-        debugger;
+        //debugger;
         if ($('#GrnDate').val() == '' || $('#GrnDate').val() == "") {
             alert('GrnDate field is required !!!');
             $('#GrnDate').focus();
@@ -508,48 +509,45 @@
         StockInwards.TotalTax = $('#TotalTax').val();
         StockInwards.TotalDiscount = $('#TotalDiscount').val();
         StockInwards.NetAmount = $('#NetAmount').val();
-        debugger;
+        //debugger;
         var arrData = [];
         $('#Table1 tr').each(function (i) {
-            var StockInwardSubTable = new Object();
+            var StockInwardSubTable = {};
             $(this).children('td').each(function (j) {
-
                 if (j < 11) {
-                    var cellVal = $(this).children('input').val(); 
-
                     switch (j) {
                         case 0:
-                            StockInwardSubTable.ItemName = cellVal;
+                            StockInwardSubTable.LiquorName = $(this).children('input').val();
                             break;
                         case 1:
-                            StockInwardSubTable.PurchaseOrderRate = cellVal;
+                            StockInwardSubTable.PurchaseOrderRate = $(this).children('input').val();
                             break;
                         case 2:
-                            StockInwardSubTable.PurchaseOrderQty = cellVal;
+                            StockInwardSubTable.PurchaseOrderQty = $(this).children('input').val();
                             break;
                         case 3:
-                            StockInwardSubTable.RejectedQty = cellVal;
+                            StockInwardSubTable.RejectedQty = $(this).children('input').val();
                             break;
                         case 4:
-                            StockInwardSubTable.DiscountPercentage = cellVal;
+                            StockInwardSubTable.DiscountPercentage = $(this).children('input').val();
                             break;
                         case 5:
-                            StockInwardSubTable.DiscountAmount = cellVal;
+                            StockInwardSubTable.DiscountAmount = $(this).children('input').val();
                             break;
                         case 6:
-                            StockInwardSubTable.TaxPercentage = cellVal;
+                            StockInwardSubTable.TaxPercentage = $(this).children('input').val();
                             break;
                         case 7:
-                            StockInwardSubTable.TaxAmount = cellVal;
+                            StockInwardSubTable.TaxAmount = $(this).children('input').val();
                             break;
                         case 8:
-                            StockInwardSubTable.MRP = cellVal;
+                            StockInwardSubTable.MRP = $(this).children('input').val();
                             break;
                         case 9:
-                            StockInwardSubTable.RejectedRemarks = cellVal;
+                            StockInwardSubTable.RejectedRemarks = $(this).children('input').val();
                             break;
                         case 10:
-                            StockInwardSubTable.LiquorId = cellVal;
+                            StockInwardSubTable.LiquorId = $(this).children('input').val();
                             break;
 
                         default:
@@ -557,9 +555,9 @@
                     }
                 }
             });
-            if (StockInwardSubTable.ItemName) {
-                alert('Push Data');
+            if (StockInwardSubTable.LiquorName != undefined) {
                 arrData.push(StockInwardSubTable);
+                debugger;
             }
         });
 
@@ -568,7 +566,7 @@
             url: "@Url.Content("~/StockInwardDetails/AddStockInward")",
             type: "POST",
             cache: false,
-            data: JSON.stringify({ 'ExList': arrData, 'StockInwardData': StockInwards }),
+            data: JSON.stringify({arrData }),
             contentType: 'application/json',
             datatype: 'json',
             success: function (data) {
