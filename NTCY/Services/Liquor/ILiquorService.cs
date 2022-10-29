@@ -3,6 +3,7 @@ using NTCY.Models;
 using NTCY.Models.Foods;
 using NTCY.Models.LiquorDetails;
 using NTCY.Models.Users;
+using System.Data;
 
 namespace NTCY.Services.LiquorDetails
 {
@@ -13,5 +14,6 @@ namespace NTCY.Services.LiquorDetails
         public LiquorDet GetById(int liquorId);
         public void Update(int liquorId, LiquorDet liquor);
         public void Delete(int liquorId);
+        public DataSet GetByName(string sLiquorName);
     }
 }

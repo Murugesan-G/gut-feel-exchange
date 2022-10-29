@@ -284,5 +284,40 @@ namespace NTCY.Services.LiquorDetails
                 }
             }
         }
+
+        public DataSet GetByName(string sLiquorName)
+        {
+            IConfigurationRoot configuration = new ConfigurationBuilder()
+            .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
+            .AddJsonFile("appsettings.json")
+            .Build();
+
+            string cnn = configuration.GetConnectionString("WebApiDatabase");
+            DataSet dsLiquor = new DataSet();
+            SqlCommand cmd = new SqlCommand();
+            cmd.Parameters.Clear();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.CommandText = "sp_GetLiquor";
+            cmd.Parameters.AddWithValue("@Prefix", sLiquorName);
+            using (SqlConnection MyCon = new SqlConnection(cnn))
+            {
+                cmd.Connection = MyCon;
+                try
+                {
+                    SqlDataAdapter da = new SqlDataAdapter(cmd);
+                    da.Fill(dsLiquor);
+                }
+                catch (SqlException e)
+                {
+                    //return list;
+
+                }
+                finally
+                {
+                    //
+                }
+            }
+            return dsLiquor;
+        }
     }
 }
