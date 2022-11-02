@@ -72,7 +72,7 @@
             </div>
         </div>
         
-        @using (Html.BeginForm("UpdateMember", "Member", FormMethod.Post))
+        @using (Html.BeginForm("UpdateMember", "Member", FormMethod.Post, new { @enctype = "multipart/form-data" }))
         {
             <div class="row">
                 <div class="col-md-9">
@@ -213,17 +213,12 @@
                         <div class="row">
                             <div class="col-sm-6">
                                 <div class="col-sm-4">
-                                    <img width="350" height="500" border="0" src="@Url.Content(Model.MemberPhotoPath)" alt="User Image">
+                                    @Html.Hidden("MemberPhotoPath", ViewData["MemberPhotoPath"], new { @maxlength = "15", @class = "form-control", @id = "MemberPhotoPath" })
+                                    <img width="350" height="500" border="0" src="@Url.Content(Model.MemberPhotoPath)" alt="User Image" id="imgMemberPhoto">
+                                    <input class = "form-control" type="file" name="memberformFile" onchange="document.getElementById('imgMemberPhoto').src = window.URL.createObjectURL(this.files[0])">
                                 </div>                                
                             </div>
                         </div>
-                        @*<div class="row">
-                            <div class="col-sm-6">
-                                <div class="col-sm-4">
-                                    @Html.TextBox("MemberPhotoPath", ViewData["MemberPhotoPath"], new { @maxlength = "255", @class = "form-control", @type="file", @id = "MemberPhotoPath" })
-                                </div>                                
-                            </div>
-                        </div>*@
                     </div>
                 </div>
 
@@ -331,8 +326,9 @@
                                 <div class="form-group">
                                     <div class="col-sm-4">
                                         <label for="lspousephoto">Spouse Photo</label>
-                                        <img width="250" height="250" border="0" src="@Url.Content(Model.SpousePhotoPath)" alt="User Image">
-                                        @*<button type="button" class="btn btn-block btn-primary btn-lg"><span class="fa fa-fw fa-cloud-upload"></span></button>*@
+                                        @Html.Hidden("SpousePhotoPath", ViewData["SpousePhotoPath"], new { @maxlength = "15", @class = "form-control", @id = "SpousePhotoPath" })
+                                        <img width="350" height="500" border="0" src="@Url.Content(Model.SpousePhotoPath)" alt="User Image" id="imgSpousePhoto">
+                                        <input class = "form-control" type="file" name="spouseformFile" onchange="document.getElementById('imgSpousePhoto').src = window.URL.createObjectURL(this.files[0])">
                                     </div>
                                 </div>
                             </div>
@@ -340,8 +336,9 @@
                                 <div class="form-group">
                                     <div class="col-sm-4">
                                         <label for="lspousephoto">Child 1 Photo</label>
-                                        <img width="250" height="250" border="0" src="@Url.Content(Model.Child1PhotoPath)" alt="User Image">
-                                        @*<button type="button" class="btn btn-block btn-primary btn-lg"><span class="fa fa-fw fa-cloud-upload"></span></button>*@
+                                        @Html.Hidden("Child1PhotoPath", ViewData["Child1PhotoPath"], new { @maxlength = "15", @class = "form-control", @id = "Child1PhotoPath" })
+                                        <img width="350" height="500" border="0" src="@Url.Content(Model.Child1PhotoPath)" alt="User Image" id="imgChild1Photo">
+                                        <input class = "form-control" type="file" name="child1formFile" onchange="document.getElementById('imgChild1Photo').src = window.URL.createObjectURL(this.files[0])">
                                     </div>
                                 </div>
                             </div>
@@ -349,8 +346,9 @@
                                 <div class="form-group">
                                     <div class="col-sm-4">
                                         <label for="lspousephoto">Child 2 Photo</label>
-                                        <img width="250" height="250" border="0" src="@Url.Content(Model.Child2PhotoPath)" alt="User Image">
-                                        @*<button type="button" class="btn btn-block btn-primary btn-lg"><span class="fa fa-fw fa-cloud-upload"></span></button>*@
+                                        @Html.Hidden("Child2PhotoPath", ViewData["Child2PhotoPath"], new { @maxlength = "15", @class = "form-control", @id = "Child2PhotoPath" })
+                                        <img width="350" height="500" border="0" src="@Url.Content(Model.Child2PhotoPath)" alt="User Image" id="imgChild2Photo">
+                                        <input class = "form-control" type="file" name="child2formFile" onchange="document.getElementById('imgChild2Photo').src = window.URL.createObjectURL(this.files[0])">
                                     </div>
                                 </div>
                             </div>
@@ -358,8 +356,9 @@
                                 <div class="form-group">
                                     <div class="col-sm-4">
                                         <label for="lspousephoto">Child 3 Photo</label>
-                                        <img width="250" height="250" border="0" src="@Url.Content(Model.Child3PhotoPath)" alt="User Image">
-                                        @*<button type="button" class="btn btn-block btn-primary btn-lg"><span class="fa fa-fw fa-cloud-upload"></span></button>*@
+                                        @Html.Hidden("Child3PhotoPath", ViewData["Child3PhotoPath"], new { @maxlength = "15", @class = "form-control", @id = "Child3PhotoPath" })
+                                        <img width="350" height="500" border="0" src="@Url.Content(Model.Child3PhotoPath)" alt="User Image" id="imgChild3Photo">
+                                        <input class = "form-control" type="file" name="child3formFile" onchange="document.getElementById('imgChild3Photo').src = window.URL.createObjectURL(this.files[0])">
                                     </div>
                                 </div>
                             </div>

@@ -55,28 +55,41 @@
     //});
 </script>
 
-@*<script type="text/javascript">
+<script type="text/javascript">
 
     $(document).ready(function () {
-        $("#Gender").val("@ViewData["Gender"]");
-        $("#MembershipType").val("@ViewData["MembershipType"]");
-        $("#MembershipStatus").val("@ViewData["MemberShipStatus"]");
-        // $("#Alive").val("@ViewData["Alive"]");
-        var data = ViewData["Alive"];
-        if (data == "Yes") {
-
-            $("#RadioYes").prop("checked", true);
-
-        }
-        else if (data == "No") {
-
-            $("#RadioNo").prop("checked", true);
-
-        }
-
-
+        //$("#MembershipNo").val("1988");
+        //$("#memberName").val("Sheshu");
+        //$("#MobileNo").val("1234567890");
+        //$("#WatsupNo").val("1234567890");
+        //$("#EmailId").val("sheshu@sheshu.com");
+        //$("#Occupation").val("NA");
+        //$("#Qualification").val("NA");
+        //$("#PrimaryProximatyCard").val("NA");
+        //$("#AreasOfInterest").val("NA");
+        //$("#AadharAddress").val("NA");
+        //$("#CommunictionAddress").val("NA");
+        //$("#Nationality").val("Indian");
+        //$("#SpouseName").val("Mrs.Sheshu");
+        //$("#SpouseId").val("1988.A");
+        //$("#Child1sName").val("NA");
+        //$("#Child2sName").val("NA");
+        //$("#Child3sName").val("NA");
+        //$("#ChildId1").val("1988.B");
+        //$("#ChildId2").val("1988.C");
+        //$("#ChildId3").val("1988.D");
+        //$("#MemberShipAmount").val("1000");
+        //$("#DateOfExpiry").val("@ViewBag.DateOfExpiry");
+        //$("#DOB").val("@ViewBag.DOB");
+        //$("#DOBSpouse").val("@ViewBag.DOBSpouse");
+        //$("#DateOfMarriage").val("@ViewBag.DateOfMarriage");
+        //$("#DOBChild1").val("@ViewBag.DOBChild1");
+        //$("#DOBChild2").val("@ViewBag.DOBChild2");
+        //$("#DOBChild3").val("@ViewBag.DOBChild3");
+        //$("#DateOfInduction").val("@ViewBag.DateOfInduction");
+        //$("#DateOfExpiry").val("@ViewBag.DateOfExpiry");
     });
-</script>*@
+</script>
 <!-- Main content -->
 <section class="content">
     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 label-area">
@@ -93,7 +106,7 @@
             </div>
         </div>
 
-        @using (Html.BeginForm("CreateMember", "Member", FormMethod.Post))
+        @using (Html.BeginForm("CreateMember", "Member", FormMethod.Post, new { @enctype = "multipart/form-data" }))
         {
             <div class="row">
                 <div class="col-md-9">
@@ -234,10 +247,9 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-sm-6">
-                                @*<img width="350" height="500" border="0" src="@Url.Content(Model.MemberPhotoPath)" alt="User Image">*@
-                                <img width="350" height="500" border="0" src="" alt="User Image" id="img">
-                                @Html.TextBox("MemberPhotoPath", ViewData["MemberPhotoPath"], new { @maxlength = "15", @class = "form-control", @type="file", @id = "MemberPhotoPath" })
-                                @*<input type="file" class="form-control" id="MemberImgPath">*@
+                                @Html.Hidden("MemberPhotoPath", ViewData["MemberPhotoPath"], new { @maxlength = "15", @class = "form-control", @id = "MemberPhotoPath" })
+                                <img width="350" height="500" border="0" src="" alt="User Image" id="imgMemberPhoto">
+                                <input class = "form-control" type="file" name="memberformFile" onchange="document.getElementById('imgMemberPhoto').src = window.URL.createObjectURL(this.files[0])">
                             </div>
                         </div>
                     </div>
@@ -347,39 +359,39 @@
                                 <div class="form-group">
                                     <div class="col-sm-4">
                                         <label for="lspousephoto">Spouse Photo</label>
-                                        @*<img width="350" height="500" border="0" src="@Url.Content(Model.SpousePhotoPath)" alt="User Image">*@
-                                        <img width="250" height="250" border="0" src="" alt="User Image">
-                                        @*<button type="button" class="btn btn-block btn-primary btn-lg"><span class="fa fa-fw fa-cloud-upload"></span></button>*@
+                                        @Html.Hidden("SpousePhotoPath", ViewData["SpousePhotoPath"], new { @maxlength = "15", @class = "form-control", @id = "SpousePhotoPath" })
+                                        <img width="350" height="500" border="0" src="" alt="User Image" id="imgSpousePhoto">
+                                        <input class = "form-control" type="file" name="spouseformFile" onchange="document.getElementById('imgSpousePhoto').src = window.URL.createObjectURL(this.files[0])">
                                     </div>
                                 </div>
                             </div>
                             <div class="col-sm-3">
                                 <div class="form-group">
                                     <div class="col-sm-4">
-                                        <label for="lspousephoto">Child 1 Photo</label>
-                                        @*<img width="350" height="500" border="0" src="@Url.Content(Model.Child1PhotoPath)" alt="User Image">*@
-                                        <img width="250" height="250" border="0" src="" alt="User Image">
-                                        @*<button type="button" class="btn btn-block btn-primary btn-lg"><span class="fa fa-fw fa-cloud-upload"></span></button>*@
+                                        <label for="lChild1PhotoPath">Child 1 Photo</label>
+                                        @Html.Hidden("Child1PhotoPath", ViewData["Child1PhotoPath"], new { @maxlength = "15", @class = "form-control", @id = "Child1PhotoPath" })
+                                        <img width="350" height="500" border="0" src="" alt="User Image" id="imgChild1Photo">
+                                        <input class = "form-control" type="file" name="child1formFile" onchange="document.getElementById('imgChild1Photo').src = window.URL.createObjectURL(this.files[0])">
                                     </div>
                                 </div>
                             </div>
                             <div class="col-sm-3">
                                 <div class="form-group">
                                     <div class="col-sm-4">
-                                        <label for="lspousephoto">Child 2 Photo</label>
-                                        @*<img width="350" height="500" border="0" src="@Url.Content(Model.Child2PhotoPath)" alt="User Image">*@
-                                        <img width="250" height="250" border="0" src="" alt="User Image">
-                                        @*<button type="button" class="btn btn-block btn-primary btn-lg"><span class="fa fa-fw fa-cloud-upload"></span></button>*@
+                                        <label for="lChild2PhotoPath">Child 2 Photo</label>
+                                        @Html.Hidden("Child2PhotoPath", ViewData["Child2PhotoPath"], new { @maxlength = "15", @class = "form-control", @id = "Child2PhotoPath" })
+                                        <img width="350" height="500" border="0" src="" alt="User Image" id="imgChild2Photo">
+                                        <input class = "form-control" type="file" name="child2formFile" onchange="document.getElementById('imgChild2Photo').src = window.URL.createObjectURL(this.files[0])">
                                     </div>
                                 </div>
                             </div>
                             <div class="col-sm-3">
                                 <div class="form-group">
                                     <div class="col-sm-4">
-                                        <label for="lspousephoto">Child 3 Photo</label>
-                                        @*<img width="350" height="500" border="0" src="@Url.Content(Model.Child3PhotoPath)" alt="User Image">*@
-                                        <img width="250" height="250" border="0" src="" alt="User Image">
-                                        @*<button type="button" class="btn btn-block btn-primary btn-lg"><span class="fa fa-fw fa-cloud-upload"></span></button>*@
+                                        <label for="lChild3PhotoPath">Child 3 Photo</label>
+                                        @Html.Hidden("Child3PhotoPath", ViewData["Child3PhotoPath"], new { @maxlength = "15", @class = "form-control", @id = "Child3PhotoPath" })
+                                        <img width="350" height="500" border="0" src="" alt="User Image" id="imgChild3Photo">
+                                        <input class = "form-control" type="file" name="child3formFile" onchange="document.getElementById('imgChild3Photo').src = window.URL.createObjectURL(this.files[0])">
                                     </div>
                                 </div>
                             </div>
@@ -398,8 +410,8 @@
                                     <label for="lMemberShipStatus">MemberShipStatus</label>
                                     @Html.DropDownList("MemberShipStatus", new List<SelectListItem>
                                 {
-                                new SelectListItem { Text="Active", Value="1"},
-                                new SelectListItem { Text="InActive", Value="0"}
+                                new SelectListItem { Text="Active", Value="true"},
+                                new SelectListItem { Text="InActive", Value="false"}
                                 }, "Select Status", new { @class = "form-control", @id = "MemberShipStatus" })
                                 </div>
                             </div>
@@ -510,6 +522,79 @@
         });
         //required field validation
         
+        $('#Btn_Submit').click(function () {
+            $('#MemberPhotoPath').val(document.getElementById("imgMemberPhoto").src);
+            $('#SpousePhotoPath').val(document.getElementById("imgSpousePhoto").src);
+            $('#Child1PhotoPath').val(document.getElementById("imgChild1Photo").src);
+            $('#Child2PhotoPath').val(document.getElementById("imgChild2Photo").src);
+            $('#Child3PhotoPath').val(document.getElementById("imgChild3Photo").src);
+            if ($('#MembershipNo').val() == '' || $('#MembershipNo').val() == "") {
+                alert('MembershipNo field is required !!!');
+                $('#MembershipNo').focus();
+                return false;
+            }
+            else if ($('#memberName').val() == '' || $('#memberName').val() == "") {
+                alert('Please Enter MemberName...')
+                $('#memberName').focus();
+                return false;
+            }
+            else if ($('#AdAadharAddressdress').val() == '' || $('#AadharAddress').val() == "") {
+                alert('Please Enter Address..')
+                $('#AadharAddress').focus();
+                return false;
+            }
+            else if ($('#DOB').val() == '' || $('#DOB').val() == "") {
+                alert('Please select Date of Birth..')
+                $('#DOB').focus();
+                return false;
+            }
+            else if ($('#Gender').val() == '' || $('#Gender').val() == "") {
+                alert('Please Select Gender..')
+                $('#Gender').focus();
+                return false;
+            }
+            else if ($('#MobileNo').val() == '' || $('#MobileNo').val() == "") {
+                alert('Enter Mobile Number..')
+                $('#MobileNo').focus();
+                return false;
+            }
+            else if ($('#EmailId').val() == '' || $('#EmailId').val() == "") {
+                alert('EmailId required!!!')
+                $('#EmailId').focus();
+                return false;
+            }
+            else if ($('#PrimaryProximatyCard').val() == '' || $('#PrimaryProximatyCard').val() == "") {
+                alert('Proximity Card Number is Required!!!')
+                $('#PrimaryProximatyCard').focus();
+                return false;
+            }
+            else if ($('#AreasOfInterest').val() == '' || $('#AreasOfInterest').val() == "") {
+                alert('Areas Of Interest Field is Required!!!')
+                $('#AreasOfInterest').focus();
+                return false;
+            }
+            else if ($('#MemberShipAmount').val() == '' || $('#MemberShipAmount').val() == "") {
+                alert('please Enter Initial Membership Amount..')
+                $('#MemberShipAmount').focus();
+                return false;
+            }
+            else if ($('#MemberSince').val() == '' || $('#MemberSince').val() == "") {
+                alert('MemberSince Field is Required..')
+                $('#MemberSince').focus();
+                return false;
+            }
+            else if ($('#DateOfInduction').val() == '' || $('#DateOfInduction').val() == "") {
+                alert('Date Of Induction  Field is Required..')
+                $('#DateOfInduction').focus();
+                return false;
+            }
+            else if ($('#DateOfExpiry').val() == '' || $('#DateOfExpiry').val() == "") {
+                alert('Date Of Expiry  Field is Required..')
+                $('#DateOfExpiry').focus();
+                return false;
+            }
+            else { return true; }
+        })
 
         $("#DOB").keypress(function (e) {
             if (e.which <= 47 || e.which >= 58) {

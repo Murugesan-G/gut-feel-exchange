@@ -17,6 +17,7 @@ using System.Collections.Generic;
 using System.Collections;
 using static System.Net.WebRequestMethods;
 using File = System.IO.File;
+using System.IO;
 
 namespace NTCY.Services.Members
 {
@@ -55,50 +56,261 @@ namespace NTCY.Services.Members
         {
             return getMember(membershipNo);
         }
-        public string Add(Member member)
+        public string Add(Member member, IFormFile memberformFile, IFormFile spouseformFile, IFormFile child1formFile, IFormFile child2formFile, IFormFile child3formFile)
         {
             if (_context.Members.Any(x => x.MembershipNo == member.MembershipNo))
                 throw new AppException("Member '" + member.MembershipNo + "' is already exists");
+            
+            string sMemberPP = "", sSpousePP = "", sChild1PP = "", sChild2PP = "", sChild3PP = "";
+            try
+            {
+                string fileName = "";
+                if (memberformFile!= null)
+                {
+                    fileName = Path.GetFileName(memberformFile.FileName);
+                    if (fileName != "")
+                    {
+                        sMemberPP = Path.Combine(Directory.GetCurrentDirectory(), "MemberPhotos", fileName);
+                        var stream = new FileStream(sMemberPP, FileMode.Create);
+                        memberformFile.CopyToAsync(stream);
+                        stream.Close();
+                        Thread.Sleep(10000);
+                        UploadPhoto(member.MembershipNo, "MEMBER_PHOTO", sMemberPP);
+                        member.MemberPhotoPath = "https://ntcynkphoto.blob.core.windows.net/" + member.MembershipNo + "/MEMBER_PHOTO.jpeg";
+                        System.GC.Collect();
+                        System.GC.WaitForPendingFinalizers();
+                        File.Delete(sMemberPP);
+                    }
+                    else
+                    {
+                        member.MemberPhotoPath = "";
+                    }
+                }
 
-            member.MemberPhotoPath = "https://ntcynkphoto.blob.core.windows.net/" + member.MembershipNo + "/MEMBER_PHOTO.jpeg";
-            member.SpousePhotoPath = "https://ntcynkphoto.blob.core.windows.net/" + member.MembershipNo + ".A/SPOUSE_PHOTO.jpeg";
-            member.Child1PhotoPath = "https://ntcynkphoto.blob.core.windows.net/" + member.MembershipNo + ".B/CHILD1_PHOTO.jpeg";
-            member.Child2PhotoPath = "https://ntcynkphoto.blob.core.windows.net/" + member.MembershipNo + ".C/CHILD2_PHOTO.jpeg";
-            member.Child3PhotoPath = "https://ntcynkphoto.blob.core.windows.net/" + member.MembershipNo + ".D/CHILD3_PHOTO.jpeg";
+                if (spouseformFile!= null)
+                {
+                    fileName = Path.GetFileName(spouseformFile.FileName);
+                    if (fileName != "")
+                    {
+                        sSpousePP = Path.Combine(Directory.GetCurrentDirectory(), "MemberPhotos", fileName);
+                        var stream = new FileStream(sSpousePP, FileMode.Create);
+                        spouseformFile.CopyToAsync(stream);
+                        stream.Close();
+                        Thread.Sleep(10000);
+                        UploadPhoto(member.MembershipNo, "SPOUSE_PHOTO", sSpousePP);
+                        member.SpousePhotoPath = "https://ntcynkphoto.blob.core.windows.net/" + member.MembershipNo + "/SPOUSE_PHOTO.jpeg";
+                        File.Delete(sSpousePP);
+                    }
+                    else
+                    {
+                        member.SpousePhotoPath = "";
+                    }
+                }
+
+                if (child1formFile!=null)
+                {
+                    fileName = Path.GetFileName(child1formFile.FileName);
+                    if (fileName != "")
+                    {
+                        sChild1PP = Path.Combine(Directory.GetCurrentDirectory(), "MemberPhotos", fileName);
+                        var stream = new FileStream(sChild1PP, FileMode.Create);
+                        child1formFile.CopyToAsync(stream);
+                        stream.Close();
+                        Thread.Sleep(10000);
+                        UploadPhoto(member.MembershipNo, "CHILD1_PHOTO", sChild1PP);
+                        member.Child1PhotoPath = "https://ntcynkphoto.blob.core.windows.net/" + member.MembershipNo + "/CHILD1_PHOTO.jpeg";
+                        System.GC.Collect();
+                        System.GC.WaitForPendingFinalizers();
+                        File.Delete(sChild1PP);
+                    }
+                    else
+                    {
+                        member.Child1PhotoPath = "";
+                    }
+                }
+
+                if (child2formFile!=null)
+                {
+                    fileName = Path.GetFileName(child2formFile.FileName);
+                    if (fileName != "")
+                    {
+                        sChild2PP = Path.Combine(Directory.GetCurrentDirectory(), "MemberPhotos", fileName);
+                        var stream = new FileStream(sChild2PP, FileMode.Create);
+                        child2formFile.CopyToAsync(stream);
+                        stream.Close();
+                        Thread.Sleep(10000);
+                        UploadPhoto(member.MembershipNo, "CHILD2_PHOTO", sChild2PP);
+                        member.Child2PhotoPath = "https://ntcynkphoto.blob.core.windows.net/" + member.MembershipNo + "/CHILD2_PHOTO.jpeg";
+                        System.GC.Collect();
+                        System.GC.WaitForPendingFinalizers();
+                        File.Delete(sChild2PP);
+                    }
+                    else
+                    {
+                        member.Child2PhotoPath = "";
+                    }
+                }
+
+                if (child3formFile!=null)
+                {
+                    fileName = Path.GetFileName(child3formFile.FileName);
+                    if (fileName != "")
+                    {
+                        sChild3PP = Path.Combine(Directory.GetCurrentDirectory(), "MemberPhotos", fileName);
+                        var stream = new FileStream(sChild3PP, FileMode.Create);
+                        child3formFile.CopyToAsync(stream);
+                        stream.Close();
+                        Thread.Sleep(10000);
+                        UploadPhoto(member.MembershipNo, "CHILD3_PHOTO", sChild3PP);
+                        member.Child3PhotoPath = "https://ntcynkphoto.blob.core.windows.net/" + member.MembershipNo + "/CHILD3_PHOTO.jpeg";
+                        System.GC.Collect();
+                        System.GC.WaitForPendingFinalizers();
+                        File.Delete(sChild3PP);
+                    }
+                    else
+                    {
+                        member.Child3PhotoPath = "";
+                    }
+                }
+            }
+            catch
+            {
+                throw;
+            }
             var memberDTO = _mapper.Map<MemberDTO>(member);
             _context.Members.Add(memberDTO);
             _context.SaveChanges();
-            //UploadPhoto(member.MembershipNo, "MEMBER_PHOTO", member.MemberPhotoPath,"ADD");
-            //UploadPhoto(member.MembershipNo, "SPOUSE_PHOTO", member.SpousePhotoPath, "ADD");
-            //UploadPhoto(member.MembershipNo, "CHILD1_PHOTO", member.Child1PhotoPath, "ADD");
-            //UploadPhoto(member.MembershipNo, "CHILD2_PHOTO", member.Child2PhotoPath, "ADD");
-            //UploadPhoto(member.MembershipNo, "CHILD3_PHOTO", member.Child3PhotoPath, "ADD");
-
             return member.MembershipNo;
         }
-        public void Update(string membershipNo, Member member)
+        public void Update(string membershipNo, Member member, IFormFile memberformFile, IFormFile spouseformFile, IFormFile child1formFile, IFormFile child2formFile, IFormFile child3formFile)
         {
             var memberDto = getMember(membershipNo);
 
             if (memberDto.MembershipNo != member.MembershipNo && _context.Members.Any(x => x.MembershipNo == member.MembershipNo))
                 throw new AppException("Member '" + member.MembershipNo + "' is already exists");
 
-            member.MemberPhotoPath = "https://ntcynkphoto.blob.core.windows.net/" + member.MembershipNo + "/MEMBER_PHOTO.jpeg";
-            member.SpousePhotoPath = "https://ntcynkphoto.blob.core.windows.net/" + member.MembershipNo + ".A/SPOUSE_PHOTO.jpeg";
-            member.Child1PhotoPath = "https://ntcynkphoto.blob.core.windows.net/" + member.MembershipNo + ".B/CHILD1_PHOTO.jpeg";
-            member.Child2PhotoPath = "https://ntcynkphoto.blob.core.windows.net/" + member.MembershipNo + ".C/CHILD2_PHOTO.jpeg";
-            member.Child3PhotoPath = "https://ntcynkphoto.blob.core.windows.net/" + member.MembershipNo + ".D/CHILD3_PHOTO.jpeg";
+            string sMemberPP = "", sSpousePP = "", sChild1PP = "", sChild2PP = "", sChild3PP = "";
+            try
+            {
+                string fileName = "";
+                if (memberformFile != null)
+                {
+                    fileName = Path.GetFileName(memberformFile.FileName);
+                    if (fileName != "")
+                    {
+                        sMemberPP = Path.Combine(Directory.GetCurrentDirectory(), "MemberPhotos", fileName);
+                        var stream = new FileStream(sMemberPP, FileMode.Create);
+                        memberformFile.CopyToAsync(stream);
+                        stream.Close();
+                        Thread.Sleep(10000);
+                        UploadPhoto(member.MembershipNo, "MEMBER_PHOTO", sMemberPP);
+                        member.MemberPhotoPath = "https://ntcynkphoto.blob.core.windows.net/" + member.MembershipNo + "/MEMBER_PHOTO.jpeg";
+                        System.GC.Collect();
+                        System.GC.WaitForPendingFinalizers();
+                        File.Delete(sMemberPP);
+                    }
+                    else
+                    {
+                        member.MemberPhotoPath = "";
+                    }
+                }
+
+                if (spouseformFile != null)
+                {
+                    fileName = Path.GetFileName(spouseformFile.FileName);
+                    if (fileName != "")
+                    {
+                        sSpousePP = Path.Combine(Directory.GetCurrentDirectory(), "MemberPhotos", fileName);
+                        var stream = new FileStream(sSpousePP, FileMode.Create);
+                        spouseformFile.CopyToAsync(stream);
+                        stream.Close();
+                        Thread.Sleep(10000);
+                        UploadPhoto(member.MembershipNo, "SPOUSE_PHOTO", sSpousePP);
+                        member.SpousePhotoPath = "https://ntcynkphoto.blob.core.windows.net/" + member.MembershipNo + "/SPOUSE_PHOTO.jpeg";
+                        System.GC.Collect();
+                        System.GC.WaitForPendingFinalizers();
+                        File.Delete(sSpousePP);
+                    }
+                    else
+                    {
+                        member.SpousePhotoPath = "";
+                    }
+                }
+
+                if (child1formFile != null)
+                {
+                    fileName = Path.GetFileName(child1formFile.FileName);
+                    if (fileName != "")
+                    {
+                        sChild1PP = Path.Combine(Directory.GetCurrentDirectory(), "MemberPhotos", fileName);
+                        var stream = new FileStream(sChild1PP, FileMode.Create);
+                        child1formFile.CopyToAsync(stream);
+                        stream.Close();
+                        Thread.Sleep(15000);
+                        UploadPhoto(member.MembershipNo, "CHILD1_PHOTO", sChild1PP);
+                        member.Child1PhotoPath = "https://ntcynkphoto.blob.core.windows.net/" + member.MembershipNo + "/CHILD1_PHOTO.jpeg";
+                        System.GC.Collect();
+                        System.GC.WaitForPendingFinalizers();
+                        File.Delete(sChild1PP);
+                    }
+                    else
+                    {
+                        member.Child1PhotoPath = "";
+                    }
+                }
+
+                if (child2formFile != null)
+                {
+                    fileName = Path.GetFileName(child2formFile.FileName);
+                    if (fileName != "")
+                    {
+                        sChild2PP = Path.Combine(Directory.GetCurrentDirectory(), "MemberPhotos", fileName);
+                        var stream = new FileStream(sChild2PP, FileMode.Create);
+                        child2formFile.CopyToAsync(stream);
+                        stream.Close();
+                        Thread.Sleep(10000);
+                        UploadPhoto(member.MembershipNo, "CHILD2_PHOTO", sChild2PP);
+                        member.Child2PhotoPath = "https://ntcynkphoto.blob.core.windows.net/" + member.MembershipNo + "/CHILD2_PHOTO.jpeg";
+                        System.GC.Collect();
+                        System.GC.WaitForPendingFinalizers();
+                        File.Delete(sChild2PP);
+                    }
+                    else
+                    {
+                        member.Child2PhotoPath = "";
+                    }
+                }
+
+                if (child3formFile != null)
+                {
+                    fileName = Path.GetFileName(child3formFile.FileName);
+                    if (fileName != "")
+                    {
+                        sChild3PP = Path.Combine(Directory.GetCurrentDirectory(), "MemberPhotos", fileName);
+                        var stream = new FileStream(sChild3PP, FileMode.Create);
+                        child3formFile.CopyToAsync(stream);
+                        stream.Close();
+                        Thread.Sleep(10000);
+                        UploadPhoto(member.MembershipNo, "CHILD3_PHOTO", sChild3PP);
+                        member.Child3PhotoPath = "https://ntcynkphoto.blob.core.windows.net/" + member.MembershipNo + "/CHILD3_PHOTO.jpeg";
+                        System.GC.Collect();
+                        System.GC.WaitForPendingFinalizers();
+                        File.Delete(sChild3PP);
+                    }
+                    else
+                    {
+                        member.Child3PhotoPath = "";
+                    }
+                }
+            }
+            catch
+            {
+                throw;
+            }
 
             _mapper.Map(member, memberDto);
             _context.Members.Update(memberDto);
             _context.SaveChanges();
-
-            //UploadPhoto(member.MembershipNo, "MEMBER_PHOTO", member.MemberPhotoPath, "ADD");
-            //UploadPhoto(member.MembershipNo, "SPOUSE_PHOTO", member.SpousePhotoPath, "ADD");
-            //UploadPhoto(member.MembershipNo, "CHILD1_PHOTO", member.Child1PhotoPath, "ADD");
-            //UploadPhoto(member.MembershipNo, "CHILD2_PHOTO", member.Child2PhotoPath, "ADD");
-            //UploadPhoto(member.MembershipNo, "CHILD3_PHOTO", member.Child3PhotoPath, "ADD");
-
         }
 
         public void Delete(string membershipNo)
@@ -166,7 +378,7 @@ namespace NTCY.Services.Members
             }
         }
 
-        public void UploadPhoto(string membershipNo, string photoType, string photoPath, string sMode)
+        public void UploadPhoto(string membershipNo, string photoType, string photoPath)
         {
             //BlobServiceClient serviceClient = new BlobServiceClient("DefaultEndpointsProtocol=https;AccountName=ntcynkphoto;AccountKey=qYr30nnXpc9WmvJSsup6BNrGAyllMJdxTbSaz7Pwfw+Nb7UQQpGhwyzN0inoCKD7qoapA/fQo/3J+ASt70cCbQ==;EndpointSuffix=core.windows.net");
             BlobServiceClient serviceClient = new BlobServiceClient("DefaultEndpointsProtocol=https;AccountName=ntcynkphoto;AccountKey=qYr30nnXpc9WmvJSsup6BNrGAyllMJdxTbSaz7Pwfw+Nb7UQQpGhwyzN0inoCKD7qoapA/fQo/3J+ASt70cCbQ==;EndpointSuffix=core.windows.net");
@@ -187,12 +399,9 @@ namespace NTCY.Services.Members
                 {
                     blob.Delete();
                 }
-                if(sMode == "ADD")
+                using (Stream stream = new MemoryStream(File.ReadAllBytes(photoPath)))
                 {
-                    using (Stream stream = new MemoryStream(File.ReadAllBytes(photoPath)))
-                    {
-                        blob.Upload(stream);
-                    }
+                    blob.Upload(stream);
                 }
             }
         }

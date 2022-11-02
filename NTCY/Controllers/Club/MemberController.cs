@@ -16,6 +16,7 @@ using static System.Net.WebRequestMethods;
 using AutoMapper.Execution;
 using System.Data;
 using Member = NTCY.Models.Club.Member;
+using Microsoft.AspNetCore.Http;
 
 
 namespace NTCY.Controllers.Club
@@ -37,13 +38,23 @@ namespace NTCY.Controllers.Club
         [HttpGet]
         public IActionResult CreateMember()
         {
+            //ViewBag.DateOfExpiry = Convert.ToDateTime(DateTime.Now).ToString("yyyy-MM-dd");
+            //ViewBag.DOB = Convert.ToDateTime(DateTime.Now).ToString("yyyy-MM-dd");
+            //ViewBag.DOBSpouse = Convert.ToDateTime(DateTime.Now).ToString("yyyy-MM-dd");
+            //ViewBag.DOBChild1 = Convert.ToDateTime(DateTime.Now).ToString("yyyy-MM-dd");
+            //ViewBag.DOBChild2 = Convert.ToDateTime(DateTime.Now).ToString("yyyy-MM-dd");
+            //ViewBag.DOBChild3 = Convert.ToDateTime(DateTime.Now).ToString("yyyy-MM-dd");
+            //ViewBag.DateOfInduction = Convert.ToDateTime(DateTime.Now).ToString("yyyy-MM-dd");
+            //ViewBag.DateOfExpiry = Convert.ToDateTime(DateTime.Now).ToString("yyyy-MM-dd");
+            //ViewBag.DateOfMarriage = Convert.ToDateTime(DateTime.Now).ToString("yyyy-MM-dd");
             return View();
         }
 
         [HttpPost]
-        public IActionResult CreateMember(Member member)
+        public IActionResult CreateMember(Member member, IFormFile memberformFile, IFormFile spouseformFile, IFormFile child1formFile, IFormFile child2formFile, IFormFile child3formFile)
         {
-            var membershipNo = _memberService.Add(member);
+            var membershipNo = _memberService.Add(member, memberformFile, spouseformFile, child1formFile, child2formFile, child3formFile);
+
             TempData["msg"] = "<script>alert('Member Added Succesfully');</script>";
             return RedirectToAction("ViewMembers", "Member");
         }
@@ -69,9 +80,9 @@ namespace NTCY.Controllers.Club
         }
 
         [HttpPost]
-        public IActionResult UpdateMember(string membershipNo, Member member)
+        public IActionResult UpdateMember(string membershipNo, Member member, IFormFile memberformFile, IFormFile spouseformFile, IFormFile child1formFile, IFormFile child2formFile, IFormFile child3formFile)
         {
-            _memberService.Update(membershipNo, member);
+            _memberService.Update(membershipNo, member, memberformFile, spouseformFile, child1formFile, child2formFile, child3formFile);
             TempData["msg"] = "<script>alert('Member Updated Succesfully');</script>";
             return RedirectToAction("ViewMembers", "Member");
         }

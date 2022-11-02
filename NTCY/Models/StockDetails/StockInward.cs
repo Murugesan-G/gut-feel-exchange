@@ -22,19 +22,19 @@ namespace NTCY.Models.StockDetails
 
     public class StockInwardSub
     {
-        public int StockSubId { get; set; }
-        public int GrnId { get; set; }
-        public int LiquorId { get; set; }
+        public string? StockSubId { get; set; }
+        public string? GrnId { get; set; }
+        public string? LiquorId { get; set; }
         public string? LiquorName { get; set; }
-        public float PurchaseOrderRate { get; set; }
-        public int PurchaseOrderQty { get; set; }
-        public float MRP { get; set; }
-        public float TaxAmount { get; set; }
-        public float TaxPercentage { get; set; }
-        public float DiscountAmount { get; set; }
-        public float DiscountPercentage { get; set; }
-        public int RejectedQty { get; set; }
-        public int AcceptedQty { get; set; }
+        public string? PurchaseOrderRate { get; set; }
+        public string? PurchaseOrderQty { get; set; }
+        public string? MRP { get; set; }
+        public string? TaxAmount { get; set; }
+        public string? TaxPercentage { get; set; }
+        public string? DiscountAmount { get; set; }
+        public string? DiscountPercentage { get; set; }
+        public string? RejectedQty { get; set; }
+        public string? AcceptedQty { get; set; }
         public string? RejectedRemarks { get; set; }
     }
 }

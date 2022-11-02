@@ -19,6 +19,8 @@
     }
     $(document).ready(function () {
         $("#GrnNo").val("@ViewBag.finalGrnNo");
+        
+
         $("#TableSelect").hide();
         $(function () {
             $("#GrnDate").datetimepicker({
@@ -38,6 +40,14 @@
                 ignoreReadonly: true
             });
             $("#PurchaseOrderDate").datetimepicker();
+
+            $("#GrnDate").val("@ViewBag.GrnDate");
+            $("#Deliverydate").val("@ViewBag.Deliverydate");
+            $("#PurchaseOrderDate").val("@ViewBag.PurchaseOrderDate");
+            $("#Supplier").val("Supplier101");
+            $("#PermitNo").val("1234567890");
+            $("#DeliveryChallanNo").val("1234567890");
+            $("#PurchaseOrderNo").val("1234567890");
         });
 
         $(function () {
@@ -136,7 +146,7 @@
                             <div class="col-sm-3">
                                 <div class="form-group">
                                     <label for="lGrnDate">GrnDate</label>
-                                    @Html.TextBox("GrnDate", ViewData["GrnDate"], new {  @class = "form-control", @type = "date", @id = "Deliverydate", @autocomplete = "off" })
+                                    @Html.TextBox("GrnDate", ViewData["GrnDate"], new {  @class = "form-control", @type = "date", @id = "GrnDate", @autocomplete = "off" })
                                 </div>
                             </div>
                             <div class="col-sm-3">
@@ -156,7 +166,7 @@
                             <div class="col-sm-3">
                                 <div class="form-group">
                                     <label for="lDeliveryChallanNo">DeliveryChallanNo</label>
-                                    @Html.TextBox("DeliveryChallanNo", ViewData["DeliveryChallanNo"], new {  @class = "form-control", @type = "date", @id = "DeliveryChallanNo", @autocomplete = "off" })
+                                    @Html.TextBox("DeliveryChallanNo", ViewData["DeliveryChallanNo"], new {  @class = "form-control", @id = "DeliveryChallanNo", @autocomplete = "off" })
                                 </div>
                             </div>
                             <div class="col-sm-3">
@@ -188,7 +198,7 @@
                     </div>
                     <div class="card-body">
                         <div class="row">
-                            <table id="Table1" class="table blk-thm-table table-condensed">
+                            <table id="Table1" class="table table-bordered table-striped table-sm" cellspacing="0" width="100%" >
                                 <thead>
                                     <tr>
                                         <th>Liquor Name</th>
@@ -222,12 +232,8 @@
                                         <td>@Html.TextBox("MRP", ViewData["MRP"], new { @maxlength = "10", style = "width:160px", @class = "form-control", @id = "MRP", @autocomplete = "off", @onclick = "selectRow(this);" })</td>
                                         <td>@Html.TextBox("Rejected Remarks", ViewData["RejectedRemarks"], new { @maxlength = "150", @class = "form-control", @id = "RejectedRemarks", @autocomplete = "off", @onclick = "selectRow(this);" })</td>
                                         <td style="display:none">@Html.TextBox("LiquorId", ViewData["LiquorId"], new { @class = "form-control glyphicon", @id = "LiquorId", @onclick = "selectRow(this);" })</td>
-                                        @*<td><button type="button" class="btn-sm btn-primary" data-toggle="modal" data-target="#myModal" data-backdrop="static" onclick="selectRow(this);">Edit</button></td>*@
                                         <td><button value="Cancel" id="Btn_Cancel" data-toggle="tooltip" data-placement="bottom" title="Cancel Item" class="btn-xs btn-danger"><span class="fas fa-remove"></span></button></td>
-
                                     </tr>
-                                    @*<tr border="none"></tr>*@
-
                                 </tbody>
 
                             </table>
@@ -422,15 +428,18 @@
             alert('Please Enter PurchaseOrder Number...')
             $('#PurchaseOrder').focus();
             return false;
-        } else if ($('#PurchaseOrderDate').val() == '' || $('#PurchaseOrderDate').val() == "") {
+        } 
+        else if ($('#PurchaseOrderDate').val() == '' || $('#PurchaseOrderDate').val() == "") {
             alert('Please Enter PurchaseOrder Date...')
             $('#PurchaseOrderDate').focus();
             return false;
-        } else if ($('.sel #ItemName').val() == '' || $('.sel #ItemName').val() == "") {
+        } 
+        else if ($('.sel #ItemName').val() == '' || $('.sel #ItemName').val() == "") {
             alert('Please Enter ItemName...')
             $('.sel #ItemName').focus();
             return false;
-        } else if ($('.sel #PurchaseOrderRate').val() == '' || $('.sel #PurchaseOrderRate').val() == "") {
+        } 
+        else if ($('.sel #PurchaseOrderRate').val() == '' || $('.sel #PurchaseOrderRate').val() == "") {
             alert('Please Enter PurchaseOrderRate...')
             $('.sel #PurchaseOrderRate').focus();
             return false;
@@ -444,7 +453,8 @@
             alert('Please Enter MRP...')
             $('.sel #MRP').focus();
             return false;
-        } else if ($('.sel #TaxAmount').val() == '' || $('.sel #TaxAmount').val() == "") {
+        } 
+        else if ($('.sel #TaxAmount').val() == '' || $('.sel #TaxAmount').val() == "") {
             alert('Please Enter TaxAmount...')
             $('.sel #TaxAmount').focus();
             return false;
@@ -468,23 +478,28 @@
             alert('Please Enter DiscountPercentage...')
             $('.sel #DiscountPercentage').focus();
             return false;
-        } else if ($('.sel #RejectedQty').val() == '' || $('.sel #RejectedQty').val() == "") {
+        } 
+        else if ($('.sel #RejectedQty').val() == '' || $('.sel #RejectedQty').val() == "") {
             alert('Please Enter RejectedQty...')
             $('.sel #RejectedQty').focus();
             return false;
-        } else if ($('#TotalAmount').val() == '' || $('#TotalAmount').val() == "") {
+        } 
+        else if ($('#TotalAmount').val() == '' || $('#TotalAmount').val() == "") {
             alert('Please Enter TotalAmount...')
             $('#TotalAmount').focus();
             return false;
-        } else if ($('#TotalTax').val() == '' || $('#TotalTax').val() == "") {
+        } 
+        else if ($('#TotalTax').val() == '' || $('#TotalTax').val() == "") {
             alert('Please Enter TotalTax...')
             $('#TotalTax').focus();
             return false;
-        } else if ($('#TotalDiscount').val() == '' || $('#TotalDiscount').val() == "") {
+        } 
+        else if ($('#TotalDiscount').val() == '' || $('#TotalDiscount').val() == "") {
             alert('Please Enter TotalDiscount...')
             $('#TotalDiscount').focus();
             return false;
-        } else if ($('#NetAmount').val() == '' || $('#NetAmount').val() == "") {
+        } 
+        else if ($('#NetAmount').val() == '' || $('#NetAmount').val() == "") {
             alert('Please Enter NetAmount...')
             $('#NetAmount').focus();
             return false;
@@ -512,52 +527,50 @@
         //debugger;
         var arrData = [];
         $('#Table1 tr').each(function (i) {
-            var StockInwardSubTable = {};
+            var StockInwardSub = new Object();
             $(this).children('td').each(function (j) {
                 if (j < 11) {
                     switch (j) {
                         case 0:
-                            StockInwardSubTable.LiquorName = $(this).children('input').val();
+                            StockInwardSub.LiquorName = $(this).children('input').val();
                             break;
                         case 1:
-                            StockInwardSubTable.PurchaseOrderRate = $(this).children('input').val();
+                            StockInwardSub.PurchaseOrderRate = $(this).children('input').val();
                             break;
                         case 2:
-                            StockInwardSubTable.PurchaseOrderQty = $(this).children('input').val();
+                            StockInwardSub.PurchaseOrderQty = $(this).children('input').val();
                             break;
                         case 3:
-                            StockInwardSubTable.RejectedQty = $(this).children('input').val();
+                            StockInwardSub.RejectedQty = $(this).children('input').val();
                             break;
                         case 4:
-                            StockInwardSubTable.DiscountPercentage = $(this).children('input').val();
+                            StockInwardSub.DiscountPercentage = $(this).children('input').val();
                             break;
                         case 5:
-                            StockInwardSubTable.DiscountAmount = $(this).children('input').val();
+                            StockInwardSub.DiscountAmount = $(this).children('input').val();
                             break;
                         case 6:
-                            StockInwardSubTable.TaxPercentage = $(this).children('input').val();
+                            StockInwardSub.TaxPercentage = $(this).children('input').val();
                             break;
                         case 7:
-                            StockInwardSubTable.TaxAmount = $(this).children('input').val();
+                            StockInwardSub.TaxAmount = $(this).children('input').val();
                             break;
                         case 8:
-                            StockInwardSubTable.MRP = $(this).children('input').val();
+                            StockInwardSub.MRP = $(this).children('input').val();
                             break;
                         case 9:
-                            StockInwardSubTable.RejectedRemarks = $(this).children('input').val();
+                            StockInwardSub.RejectedRemarks = $(this).children('input').val();
                             break;
                         case 10:
-                            StockInwardSubTable.LiquorId = $(this).children('input').val();
+                            StockInwardSub.LiquorId = $(this).children('input').val();
                             break;
-
                         default:
                             // code to be executed if n is different from case 1 and 2
                     }
                 }
             });
-            if (StockInwardSubTable.LiquorName != undefined) {
-                arrData.push(StockInwardSubTable);
-                debugger;
+            if (StockInwardSub.LiquorName != undefined) {
+                arrData.push(StockInwardSub);
             }
         });
 
@@ -566,7 +579,7 @@
             url: "@Url.Content("~/StockInwardDetails/AddStockInward")",
             type: "POST",
             cache: false,
-            data: JSON.stringify({arrData }),
+            data: JSON.stringify({ 'StockInwardData': StockInwards, 'ExList': arrData }),
             contentType: 'application/json',
             datatype: 'json',
             success: function (data) {

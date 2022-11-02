@@ -20,10 +20,10 @@ namespace NTCY.Services.MemberService
         AuthenticateResponse Authenticate(AuthenticateRequest model);
         IEnumerable<MemberDTO> GetAll();
         MemberDTO GetById(string MembershipNo);
-        string Add(Member member);
-        void Update(string MembershipNo, Member member);
+        public string Add(Member member, IFormFile memberformFile, IFormFile spouseformFile, IFormFile child1formFile, IFormFile child2formFile, IFormFile child3formFile);
+        void Update(string MembershipNo, Member member, IFormFile memberformFile, IFormFile spouseformFile, IFormFile child1formFile, IFormFile child2formFile, IFormFile child3formFile);
         void Delete(string MembershipNo);
-        public void UploadPhoto(string membershipNo, string photoType, string photoPath, string sMode);
+        public void UploadPhoto(string membershipNo, string photoType, string photoPath);
         public Dictionary<string, string> GetPhoto(string membershipNo, string photoType);
         void saveFile(string membershipNo, FileType photoType, IFormFile inputFile);
         bool CheckMemberPhotoExists(string membershipNo, FileType fileType);

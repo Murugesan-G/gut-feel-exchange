@@ -24,11 +24,15 @@ namespace NTCY.Controllers.StockDetails
             string currYear = DateTime.Now.ToString("yy");
             int nextYear = int.Parse(currYear.ToString()) + 1;
             ViewBag.finalGrnNo = "NTCY/" + currYear + "-" + nextYear + "/" + number;
+            ViewBag.GrnDate = Convert.ToDateTime(DateTime.Now).ToString("yyyy-MM-dd");
+            ViewBag.Deliverydate = Convert.ToDateTime(DateTime.Now).ToString("yyyy-MM-dd");
+            ViewBag.PurchaseOrderDate = Convert.ToDateTime(DateTime.Now).ToString("yyyy-MM-dd");
             return View();
         }
         [HttpPost]
-        public ActionResult AddStockInward(List<StockInwardSub> arrData)
+        public ActionResult AddStockInward(StockInward StockInwardData, List<StockInwardSub> ExList)
         {
+
             IStockService stockInwardService = new StockService();
             //int iGrnNo = stockInwardService.AddStockInwardDetails(StockInwardData);
 
@@ -66,6 +70,7 @@ namespace NTCY.Controllers.StockDetails
             //    }
             //}            
             return RedirectToAction("AddStockInward");
+            //return Json(ExList);
         }
     }
 }
