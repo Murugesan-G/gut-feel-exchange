@@ -70,11 +70,12 @@ namespace NTCY.Services.Members
                     fileName = Path.GetFileName(memberformFile.FileName);
                     if (fileName != "")
                     {
-                        sMemberPP = Path.Combine(Directory.GetCurrentDirectory(), "MemberPhotos", fileName);
+                        //sMemberPP = Path.Combine(Directory.GetCurrentDirectory(), "MemberPhotos", fileName);
+                        sMemberPP = Path.Combine(Directory.GetCurrentDirectory(), fileName);
                         var stream = new FileStream(sMemberPP, FileMode.Create);
                         memberformFile.CopyToAsync(stream);
                         stream.Close();
-                        Thread.Sleep(10000);
+                        Thread.Sleep(15000);
                         UploadPhoto(member.MembershipNo, "MEMBER_PHOTO", sMemberPP);
                         member.MemberPhotoPath = "https://ntcynkphoto.blob.core.windows.net/" + member.MembershipNo + "/MEMBER_PHOTO.jpeg";
                         System.GC.Collect();
@@ -92,11 +93,12 @@ namespace NTCY.Services.Members
                     fileName = Path.GetFileName(spouseformFile.FileName);
                     if (fileName != "")
                     {
-                        sSpousePP = Path.Combine(Directory.GetCurrentDirectory(), "MemberPhotos", fileName);
+                        //sSpousePP = Path.Combine(Directory.GetCurrentDirectory(), "MemberPhotos", fileName);
+                        sSpousePP = Path.Combine(Directory.GetCurrentDirectory(), fileName);
                         var stream = new FileStream(sSpousePP, FileMode.Create);
                         spouseformFile.CopyToAsync(stream);
                         stream.Close();
-                        Thread.Sleep(10000);
+                        Thread.Sleep(15000);
                         UploadPhoto(member.MembershipNo, "SPOUSE_PHOTO", sSpousePP);
                         member.SpousePhotoPath = "https://ntcynkphoto.blob.core.windows.net/" + member.MembershipNo + "/SPOUSE_PHOTO.jpeg";
                         File.Delete(sSpousePP);
@@ -112,11 +114,12 @@ namespace NTCY.Services.Members
                     fileName = Path.GetFileName(child1formFile.FileName);
                     if (fileName != "")
                     {
-                        sChild1PP = Path.Combine(Directory.GetCurrentDirectory(), "MemberPhotos", fileName);
+                        //sChild1PP = Path.Combine(Directory.GetCurrentDirectory(), "MemberPhotos", fileName);
+                        sChild1PP = Path.Combine(Directory.GetCurrentDirectory(), fileName);
                         var stream = new FileStream(sChild1PP, FileMode.Create);
                         child1formFile.CopyToAsync(stream);
                         stream.Close();
-                        Thread.Sleep(10000);
+                        Thread.Sleep(15000);
                         UploadPhoto(member.MembershipNo, "CHILD1_PHOTO", sChild1PP);
                         member.Child1PhotoPath = "https://ntcynkphoto.blob.core.windows.net/" + member.MembershipNo + "/CHILD1_PHOTO.jpeg";
                         System.GC.Collect();
@@ -134,11 +137,12 @@ namespace NTCY.Services.Members
                     fileName = Path.GetFileName(child2formFile.FileName);
                     if (fileName != "")
                     {
-                        sChild2PP = Path.Combine(Directory.GetCurrentDirectory(), "MemberPhotos", fileName);
+                        //sChild2PP = Path.Combine(Directory.GetCurrentDirectory(), "MemberPhotos", fileName);
+                        sChild2PP = Path.Combine(Directory.GetCurrentDirectory(), fileName);
                         var stream = new FileStream(sChild2PP, FileMode.Create);
                         child2formFile.CopyToAsync(stream);
                         stream.Close();
-                        Thread.Sleep(10000);
+                        Thread.Sleep(15000);
                         UploadPhoto(member.MembershipNo, "CHILD2_PHOTO", sChild2PP);
                         member.Child2PhotoPath = "https://ntcynkphoto.blob.core.windows.net/" + member.MembershipNo + "/CHILD2_PHOTO.jpeg";
                         System.GC.Collect();
@@ -156,11 +160,12 @@ namespace NTCY.Services.Members
                     fileName = Path.GetFileName(child3formFile.FileName);
                     if (fileName != "")
                     {
-                        sChild3PP = Path.Combine(Directory.GetCurrentDirectory(), "MemberPhotos", fileName);
+                        //sChild3PP = Path.Combine(Directory.GetCurrentDirectory(), "MemberPhotos", fileName);
+                        sChild3PP = Path.Combine(Directory.GetCurrentDirectory(), fileName);
                         var stream = new FileStream(sChild3PP, FileMode.Create);
                         child3formFile.CopyToAsync(stream);
                         stream.Close();
-                        Thread.Sleep(10000);
+                        Thread.Sleep(15000);
                         UploadPhoto(member.MembershipNo, "CHILD3_PHOTO", sChild3PP);
                         member.Child3PhotoPath = "https://ntcynkphoto.blob.core.windows.net/" + member.MembershipNo + "/CHILD3_PHOTO.jpeg";
                         System.GC.Collect();
@@ -198,11 +203,12 @@ namespace NTCY.Services.Members
                     fileName = Path.GetFileName(memberformFile.FileName);
                     if (fileName != "")
                     {
-                        sMemberPP = Path.Combine(Directory.GetCurrentDirectory(), "MemberPhotos", fileName);
+                        //sMemberPP = Path.Combine(Directory.GetCurrentDirectory(), "MemberPhotos", fileName);
+                        sMemberPP = Path.Combine(Directory.GetCurrentDirectory(), fileName);
                         var stream = new FileStream(sMemberPP, FileMode.Create);
                         memberformFile.CopyToAsync(stream);
                         stream.Close();
-                        Thread.Sleep(10000);
+                        Thread.Sleep(15000);
                         UploadPhoto(member.MembershipNo, "MEMBER_PHOTO", sMemberPP);
                         member.MemberPhotoPath = "https://ntcynkphoto.blob.core.windows.net/" + member.MembershipNo + "/MEMBER_PHOTO.jpeg";
                         System.GC.Collect();
@@ -220,11 +226,12 @@ namespace NTCY.Services.Members
                     fileName = Path.GetFileName(spouseformFile.FileName);
                     if (fileName != "")
                     {
-                        sSpousePP = Path.Combine(Directory.GetCurrentDirectory(), "MemberPhotos", fileName);
+                        //sSpousePP = Path.Combine(Directory.GetCurrentDirectory(), "MemberPhotos", fileName);
+                        sSpousePP = Path.Combine(Directory.GetCurrentDirectory(), fileName);
                         var stream = new FileStream(sSpousePP, FileMode.Create);
                         spouseformFile.CopyToAsync(stream);
                         stream.Close();
-                        Thread.Sleep(10000);
+                        Thread.Sleep(15000);
                         UploadPhoto(member.MembershipNo, "SPOUSE_PHOTO", sSpousePP);
                         member.SpousePhotoPath = "https://ntcynkphoto.blob.core.windows.net/" + member.MembershipNo + "/SPOUSE_PHOTO.jpeg";
                         System.GC.Collect();
@@ -242,7 +249,8 @@ namespace NTCY.Services.Members
                     fileName = Path.GetFileName(child1formFile.FileName);
                     if (fileName != "")
                     {
-                        sChild1PP = Path.Combine(Directory.GetCurrentDirectory(), "MemberPhotos", fileName);
+                        //sChild1PP = Path.Combine(Directory.GetCurrentDirectory(), "MemberPhotos", fileName);
+                        sChild1PP = Path.Combine(Directory.GetCurrentDirectory(), fileName);
                         var stream = new FileStream(sChild1PP, FileMode.Create);
                         child1formFile.CopyToAsync(stream);
                         stream.Close();
@@ -264,11 +272,12 @@ namespace NTCY.Services.Members
                     fileName = Path.GetFileName(child2formFile.FileName);
                     if (fileName != "")
                     {
-                        sChild2PP = Path.Combine(Directory.GetCurrentDirectory(), "MemberPhotos", fileName);
+                        //sChild2PP = Path.Combine(Directory.GetCurrentDirectory(), "MemberPhotos", fileName);
+                        sChild2PP = Path.Combine(Directory.GetCurrentDirectory(), fileName);
                         var stream = new FileStream(sChild2PP, FileMode.Create);
                         child2formFile.CopyToAsync(stream);
                         stream.Close();
-                        Thread.Sleep(10000);
+                        Thread.Sleep(15000);
                         UploadPhoto(member.MembershipNo, "CHILD2_PHOTO", sChild2PP);
                         member.Child2PhotoPath = "https://ntcynkphoto.blob.core.windows.net/" + member.MembershipNo + "/CHILD2_PHOTO.jpeg";
                         System.GC.Collect();
@@ -286,11 +295,12 @@ namespace NTCY.Services.Members
                     fileName = Path.GetFileName(child3formFile.FileName);
                     if (fileName != "")
                     {
-                        sChild3PP = Path.Combine(Directory.GetCurrentDirectory(), "MemberPhotos", fileName);
+                        //sChild3PP = Path.Combine(Directory.GetCurrentDirectory(), "MemberPhotos", fileName);
+                        sChild3PP = Path.Combine(Directory.GetCurrentDirectory(), fileName);
                         var stream = new FileStream(sChild3PP, FileMode.Create);
                         child3formFile.CopyToAsync(stream);
                         stream.Close();
-                        Thread.Sleep(10000);
+                        Thread.Sleep(15000);
                         UploadPhoto(member.MembershipNo, "CHILD3_PHOTO", sChild3PP);
                         member.Child3PhotoPath = "https://ntcynkphoto.blob.core.windows.net/" + member.MembershipNo + "/CHILD3_PHOTO.jpeg";
                         System.GC.Collect();
