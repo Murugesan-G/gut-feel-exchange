@@ -30,7 +30,7 @@ namespace NTCY.Controllers.StockDetails
             return View();
         }
         [HttpPost]
-        public ActionResult AddStockInward(StockInward StockInwardData, List<StockInwardSub> ExList)
+        public ActionResult AddStockInward(StockInwardCommon model)
         {
 
             IStockService stockInwardService = new StockService();

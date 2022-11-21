@@ -37,4 +37,10 @@ namespace NTCY.Models.StockDetails
         public string? AcceptedQty { get; set; }
         public string? RejectedRemarks { get; set; }
     }
+
+    public class StockInwardCommon
+    {
+        public StockInward stockInward { get; set; }
+        public StockInwardSub stockInwardSub { get; set; }
+    }
 }

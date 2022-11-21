@@ -1,4 +1,4 @@
-﻿@model NTCY.Models.StockDetails.StockInward;
+﻿@model NTCY.Models.StockDetails.StockInwardCommon;
 @{
     ViewBag.Title = "Add Stock Inward";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -525,62 +525,27 @@
         StockInwards.TotalDiscount = $('#TotalDiscount').val();
         StockInwards.NetAmount = $('#NetAmount').val();
         //debugger;
-        var arrData = [];
-        $('#Table1 tr').each(function (i) {
-            var StockInwardSub = new Object();
-            $(this).children('td').each(function (j) {
-                if (j < 11) {
-                    switch (j) {
-                        case 0:
-                            StockInwardSub.LiquorName = $(this).children('input').val();
-                            break;
-                        case 1:
-                            StockInwardSub.PurchaseOrderRate = $(this).children('input').val();
-                            break;
-                        case 2:
-                            StockInwardSub.PurchaseOrderQty = $(this).children('input').val();
-                            break;
-                        case 3:
-                            StockInwardSub.RejectedQty = $(this).children('input').val();
-                            break;
-                        case 4:
-                            StockInwardSub.DiscountPercentage = $(this).children('input').val();
-                            break;
-                        case 5:
-                            StockInwardSub.DiscountAmount = $(this).children('input').val();
-                            break;
-                        case 6:
-                            StockInwardSub.TaxPercentage = $(this).children('input').val();
-                            break;
-                        case 7:
-                            StockInwardSub.TaxAmount = $(this).children('input').val();
-                            break;
-                        case 8:
-                            StockInwardSub.MRP = $(this).children('input').val();
-                            break;
-                        case 9:
-                            StockInwardSub.RejectedRemarks = $(this).children('input').val();
-                            break;
-                        case 10:
-                            StockInwardSub.LiquorId = $(this).children('input').val();
-                            break;
-                        default:
-                            // code to be executed if n is different from case 1 and 2
-                    }
-                }
-            });
-            if (StockInwardSub.LiquorName != undefined) {
-                arrData.push(StockInwardSub);
-            }
+        var arrData = {};
+        var StockInwardSub = {};
+        $('#Table1 tr').each(function (i) {            
+            StockInwardSub.LiquorName = "Sample";
+            //if (StockInwardSub.LiquorName != undefined) {
+            //    arrData.push(StockInwardSub);
+            //}
         });
-
+        //debugger;
+        var model = 
+            {
+                "stockInward": StockInwards,
+                "stockInwardSub": StockInwardSub
+            };
+            //debugger;
         $.ajax({
 
             url: "@Url.Content("~/StockInwardDetails/AddStockInward")",
-            type: "POST",
+            type: "post",
             cache: false,
-            data: JSON.stringify({ 'StockInwardData': StockInwards, 'ExList': arrData }),
-            contentType: 'application/json',
+            data: model,
             datatype: 'json',
             success: function (data) {
             },
