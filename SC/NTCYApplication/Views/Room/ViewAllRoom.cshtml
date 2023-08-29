@@ -1,0 +1,98 @@
+﻿@using NTCYApplication.Models.Room
+@{
+    ViewBag.Title="ViewAllRoom";
+    Layout="~/Views/Shared/_Layout.cshtml";
+}
+<div id="mySidenav" class="col-xs-4 col-sm-4 col-md-2 col-lg-2 sidenav">
+
+    @Html.Partial("_left_admin_submenu")
+</div>
+
+@*<script>
+    $(document).ready(function () {
+       // $("#Status").val("@ViewData["Status"]");
+        $('[data-toggle="tooltip"]').tooltip();
+        $(document).tooltip({
+            track: true
+        });
+    })
+</script>*@
+
+<div class="col-xs-8 col-sm-8 col-md-10 col-lg-10 main">
+
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 page-title-outer">
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 page-title">View All Rooms</div>
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 page-title-btn">
+
+            <a href="@Url.Action("CreateRoom", "Room")" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Back">
+                <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
+            </a>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 workarea-outer">
+
+
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 scrolling-area"  style="height: 565px;">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 table-title">Rooms</div>
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 table-responsive  " style="height: 515px;overflow: auto;">
+
+                @{
+                    if (ViewData["RoomList"]!=null)
+                    {
+                        if (ViewData.Values!=null&&ViewData.Values.Count()>0)
+                        {
+                            <table class="table blk-thm-table table-condensed" id="TblGridId">
+                                <thead>
+                                    <tr>
+
+                                        <th style="display:none">Room Id</th>
+                                        <th>Room Name</th>
+                                        <th>RoomNo</th>
+                                        <th>Status</th>
+                                        <th>Charges</th>
+                                        <th>GST%</th>
+                                        <th>Edit</th>
+                                        <th>Delete</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        @foreach (var Model in ViewBag.RoomList as List<Room>)
+                                        {
+                                        <tr>
+                                            <td style="display:none">@Model.RoomId</td>
+                                            <td>@Model.RoomName</td>
+                                            <td>@Model.RoomNo</td>
+                                            <td>@Model.Status</td>
+                                            <td>@Model.Charges</td>
+                                            <td>@Model.GST</td>
+                                           
+                                            <td>@Html.ActionLink(" ", "SelectRoom", "Room", new { RoomId = Model.RoomId }, new { @class = "btn-sm btn-primary glyphicon glyphicon-pencil", @title = "Edit", data_toggle = "tooltip", data_placement = "bottom" })</td>
+                                            <td>@Html.ActionLink(" ", "DeleteRoom", "Room", new { RoomId = Model.RoomId }, new { @class = "btn-sm btn-primary glyphicon glyphicon-trash", @title = "Delete", data_toggle = "tooltip", data_placement = "bottom" })</td>
+                                        </tr>
+                                        }
+                                        </tr>
+                                    </tbody>
+                                </table>
+                        }
+                        else
+                        {
+                            <table class="table blk-thm-table table-condensed" id="norecord">
+                                <thead>
+                                    <tr>
+                                        <td style="font-size:18px;font-weight:bold; text-align:center;">No Records Found</td>
+                                    </tr>
+                                </thead>
+                            </table>
+                        }
+                    }
+                }
+
+            </div>
+
+        </div>
+        <p>@ViewBag.message</p>
+        <p>@ViewBag.innerEx</p>
+
+    </div>
+</div>

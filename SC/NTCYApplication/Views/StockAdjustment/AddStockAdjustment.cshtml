@@ -1,0 +1,576 @@
+﻿@{
+    ViewBag.Title = "StockAdjustment";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script>
+
+    function selectRow(elm) {
+        $("#Table1 tr").removeClass('sel');
+        $(elm).closest("tr").addClass('sel');
+    }
+
+    function populatetable(rec,Id) {
+        if ($('.sel #LiquorId')) {
+            $('.sel #LiquorId').val(Id);
+        }
+        if ($('.sel #CurrentStockBottles')) {
+            $('.sel #CurrentStockBottles').val(rec.ListStockAdj[0].CurrentStockBottles);
+        }
+        if ($('.sel #CurrentStockPegs')) {
+            $('.sel #CurrentStockPegs').val(rec.ListStockAdj[0].CurrentStockPegs);
+        }
+        if ($('.sel #SellingPricePerBottle')) {
+            $('.sel #SellingPricePerBottle').val(rec.ListStockAdj[0].SellingPricePerBottle);
+        }
+        if ($('.sel #SellingPricePerPeg')) {
+            $('.sel #SellingPricePerPeg').val(rec.ListStockAdj[0].SellingPricePerPeg);
+        }
+    }
+
+    $(function () {
+        $('#Btn_Select').click(function () {
+            $('#Table1').show();
+            //debugger;
+            var markup = '<tr><td style="display:none">@Html.TextBox("LiquorId", ViewData["LiquorId"], new { @class = "blckthm-form-control",@autocomplete="off", @id = "LiquorId" })</td>'
+                + '<td>@Html.TextBox("LiquorName", ViewData["LiquorName"], new {
+                      @autocomplete = "off",placeholder ="Enter Liquor Name", @class = "blckthm-form-control", @id = "LiquorName",
+                      @onclick = "selectRow(this);"})</td>'
+ + '<td>@Html.TextBox("GrnNo", ViewData["GrnNo"], new { @autocomplete = "off", @maxlength = "20", @class = "blckthm-form-control", @id = "GrnNo" })</td>'
+ + '<td> <input  type="date" name="Date" id="Date" class="blckthm-form-control"> </td>'
+ + '<td>@Html.TextBox("CurrentStockBottles", ViewData["CurrentStockBottles"], new { @maxlength = "10", @class = "blckthm-form-control", @id = "CurrentStockBottles" })</td>'
+ + '<td>@Html.TextBox("CurrentStockPegs", ViewData["CurrentStockPegs"], new { @maxlength = "10", @class = "blckthm-form-control", @id = "CurrentStockPegs" })</td>'
+ +'<td>'+
+ '<select id="Add_Sub" class="select blckthm-form-control"><option value="Add">Add</option><option value="Sub">Sub</option></select>' + '</td>'
+ + '<td>'+"<input class='blckthm-form-control' type='text' id='Qty_Bottles'>"+'</td>'
+ + '<td>@Html.TextBox("Peg Qty", ViewData["Qty_Pegs"], new { @maxlength = "10", @class = "blckthm-form-control", @id = "Qty_Pegs" })</td>'
+ + '<td>@Html.TextBox("Price Per Bottle", ViewData["SellingPricePerBottle"], new { @maxlength = "10", @class = "blckthm-form-control", @id = "SellingPricePerBottle" })</td>'
+ + '<td>@Html.TextBox("Price Per Peg ", ViewData["SellingPricePerPeg"], new { @maxlength = "10", @class = "blckthm-form-control", @id = "SellingPricePerPeg" })</td>'
+ + '<td>@Html.TextBox("Bottle Amount", ViewData["BottleAmount"], new { @maxlength = "10", @class = "blckthm-form-control", @id = "BottleAmount" })</td>'
+ + '<td>@Html.TextBox("Peg Amount", ViewData["PegAmount"], new { @maxlength = "10", @class = "blckthm-form-control", @id = "PegAmount" })</td>'
+ + '<td>@Html.TextBox("Remarks", ViewData["Remarks"], new { @maxlength = "30", @class = "blckthm-form-control", @id = "Remarks" })</td>'
+ + '<td><button value="Cancel" id="Btn_Cancel" data-toggle="tooltip" data-placement="bottom" title="Cancel Item" class="btn-xs btn-danger"><span class="glyphicon glyphicon-remove"></span></button></td>'
+            "</tr>"
+            $("#Table1 tbody").append(markup);
+                });
+    });
+
+
+    $(function () {
+        $("#Table1").on('click', '#Btn_Cancel', function () {
+            $(this).closest("tr").remove();
+
+        })
+    });
+</script>
+<script>
+    $(document).on('keyup', "#Table1 input[id='Qty_Bottles']", function () {
+        //debugger;
+        var currentRow = $(this).closest("tr");
+        var x = currentRow.find("#Add_Sub option:selected").val();
+        if (x == 'Sub') {
+            var temp = currentRow.find("#CurrentStockBottles").val();
+            var value = $(this).val();
+            if ((value !== '') && (value.indexOf('.') === -1)) {
+                $(this).val(Math.max(Math.min(value, temp), -temp));
+            }
+        }
+        var radioValue = currentRow.find("#Add_Sub option:selected").val();
+        var type = radioValue;
+
+
+        if (radioValue == "Add") {
+            var x = parseFloat(currentRow.find("#CurrentStockBottles").val());
+            var y = parseFloat(currentRow.find("#Qty_Bottles").val());
+            var z = parseFloat(currentRow.find("#SellingPricePerBottle").val());
+            var tot = (x + y) * z;
+            currentRow.find("#BottleAmount").val(tot);
+        }
+        else if (radioValue == "Sub") {
+            var x = parseFloat(currentRow.find("#CurrentStockBottles").val());
+            var y = parseFloat(currentRow.find("#Qty_Bottles").val());
+            var z = parseFloat(currentRow.find("#SellingPricePerBottle").val());
+            var tot = (x - y) * z;
+            currentRow.find("#BottleAmount").val(tot);
+        }
+
+    })
+
+
+    $(document).on('keyup', "#Table1 input[id='Qty_Pegs']", function () {
+        //debugger;
+        var currentRow = $(this).closest("tr");
+        var x = currentRow.find("#Add_Sub option:selected").val();
+        if (x == 'Sub') {
+            var temp = currentRow.find("#CurrentStockPegs").val();
+            var value = $(this).val();
+            if ((value !== '') && (value.indexOf('.') === -1)) {
+                $(this).val(Math.max(Math.min(value, temp), -temp));
+            }
+        }
+        var radioValue = currentRow.find("#Add_Sub option:selected").val();
+        var type = radioValue;
+
+
+        if (radioValue == 'Add') {
+            var x = parseFloat(currentRow.find("#CurrentStockPegs").val());
+            var y = parseFloat(currentRow.find("#Qty_Pegs").val());
+            var z = parseFloat(currentRow.find("#SellingPricePerPeg").val());
+            var tot = (x + y) * z;
+            currentRow.find("#PegAmount").val(tot);
+        }
+        else if (radioValue == 'Sub') {
+            var x = parseFloat(currentRow.find("#CurrentStockPegs").val());
+            var y = parseFloat(currentRow.find("#Qty_Pegs").val());
+            var z = parseFloat(currentRow.find("#SellingPricePerPeg").val());
+            var tot = (x - y) * z;
+            currentRow.find("#PegAmount").val(tot);
+        }
+
+    })
+ </script>
+<script>
+    $(document).ready(function () {
+
+       // $("#Table1").on('input', "#Qty_Bottles", function () {
+            //var row = $(this).closest("tr");
+            //var x = row.find("#Add_Sub option:selected").val();
+            //if (x == 'Sub') {
+            //    var temp = row.find("#CurrentStockBottles").val();
+            //    var value = $(this).val();
+            //    if ((value !== '') && (value.indexOf('.') === -1)) {
+            //        $(this).val(Math.max(Math.min(value, temp), -temp));
+            //    }
+            //}
+            //else { alert("hi"); }
+       // });
+
+
+
+
+
+
+
+        $("#SellingPricePerBottle").keypress(function (e) {
+            if (e.which <= 47 || e.which >= 58) {          
+                return false;
+            }
+        })
+        $("#SellingPricePerPeg").keypress(function (e) {
+            if (e.which <= 47 || e.which >= 58) {
+                return false;
+            }
+        })
+        $("#BottleAmount").keypress(function (e) {
+            if (e.which <= 47 || e.which >= 58) {
+                return false;
+            }
+        })
+        $("#PegAmount").keypress(function (e) {
+            if (e.which <= 47 || e.which >= 58) {
+                return false;
+            }
+        })
+        
+
+        $("#Qty_Bottles").keypress(function (e) {
+            if (e.which <= 47 || e.which >= 58) {
+                $('#errmsgQtyBottles').css('color', 'tomato');
+                $("#errmsgQtyBottles").html("Enter Digits Only").show().fadeOut(1500);
+                return false;
+            }
+        })
+        $("#Qty_Pegs").keypress(function (e) {
+            if (e.which <= 45 || e.which >= 58) {
+                $('#errmsgQtyPegs').css('color', 'tomato');
+                $("#errmsgQtyPegs").html("Enter Digits Only").show().fadeOut(1500);
+                return false;
+            }
+        })
+        $('#Table1').on('keydown.autocomplete', '#LiquorName', function () {
+            //debugger;
+            $(this).autocomplete({
+                source: function (request, response) {
+                    //debugger;
+                    $.ajax({
+
+                        url: "@Url.Content("~/StockAdjustment/GetLiquors")",
+                        type: "POST",
+                        dataType: "json",
+                        data: { prefix: request.term },
+                        success: function (data) {
+                            response($.map(data, function (item) {
+                              
+                                return { value: item.LiquorName, Id: item.LiquorId };
+                               
+                            }))
+                        }
+                    })
+                },
+                select: function (event, ui) {
+                    var Id = ui.item.Id;
+                    //debugger;
+                    $.ajax({
+
+                        url: "@Url.Content("~/StockAdjustment/GetLiquorsDetails")",
+                        type: "POST",
+                        dataType: "json",
+                        data: { LiquorId: ui.item.Id },
+                        success: function (data) {
+                          
+                            populatetable(data,Id);
+
+                            //debugger;
+                        },
+                    })
+                }
+            });
+        });
+
+        $("#Btn_Submit").click(function () { //Click on submit button to insert
+            //debugger;
+            if ($('#GrnNo').val() == '' || $('#GrnNo').val() == "") {
+                alert('GrnNo is required !!!');
+                $('#GrnNo').focus();
+                return false;
+            }
+            else if ($('#Date').val() == '' || $('#Date').val() == "") {
+                alert('Please Select Date.')
+                $('#Date').focus();
+                return false;
+            }
+            else if ($('#CurrentStockBottles').val() == '' || $('#CurrentStockBottles').val() == "") {
+                alert('Current Stock Bottles are Not Available')
+                $('#CurrentStockBottles').focus();
+                return false;
+            }
+            else if ($('#CurrentStockPegs').val() == '' || $('#CurrentStockPegs').val() == "") {
+                alert('Current Stock Pegs are Not Available')
+                $('#CurrentStockPegs').focus();
+                return false;
+            }
+            //else if ($('#Add_Sub').val() == '' || $('#Add_Sub').val() == "") {
+            //    alert('Add/Subtract')
+            //    $('#Add_Sub').focus();
+            //    return false;
+            //}
+            else if ($('#Qty_Bottles').val() == '' || $('#Qty_Bottles').val() == "") {
+                alert('Add Bottle Quantity')
+                $('#Qty_Bottles').focus();
+                return false;
+            }
+            //else if ($('#Qty_Pegs').val() == '' || $('#Qty_Pegs').val() == "") {
+            //    alert('Add Peg Quantity')
+            //    $('#Qty_Pegs').focus();
+            //    return false;
+            //}
+            else if ($('#SellingPricePerBottle').val() == '' || $('#SellingPricePerBottle').val() == "") {
+                alert('Selling Price Per Bottle are Not Available')
+                $('#SellingPricePerBottle').focus();
+                return false;
+            }
+            else if ($('#SellingPricePerPeg').val() == '' || $('#SellingPricePerPeg').val() == "") {
+                alert('Selling Price Per Peg are Not Available')
+                $('#SellingPricePerPeg').focus();
+                return false;
+            }
+            var arrData = [];
+            $('#Table1 tr').each(function (i) {//for each row in the table
+                var StockAdjustment = new Object();
+                $(this).children('td').each(function (j) {//for each cell in the row
+                    //debugger;
+                    if (j < 15) {
+                        var cellVal = $(this).children('input').val(); //value of the input box within the table cell;
+                        //StockAdjustment.push( cellVal );
+
+
+                       
+                        switch (j) {
+                            case 0:
+                                //execute code block 1
+                                StockAdjustment.LiquorId = cellVal;
+                                break;
+                            case 1:
+                                //execute code block 1
+                                StockAdjustment.LiquorName = cellVal;
+                                break;
+                            case 2:
+                                //execute code block 1
+                                StockAdjustment.GrnNo = cellVal;
+                                break;
+                            case 3:
+                                //execute code block 1
+                                StockAdjustment.Date = cellVal;
+                                break;
+                            case 4:
+                                //execute code block 1
+                                StockAdjustment.CurrentStockBottles = cellVal;
+                                break;
+                            case 5:
+                                //execute code block 1
+                                StockAdjustment.CurrentStockPegs = cellVal;
+                                break;
+                            case 6:
+                                //debugger;
+                                // alert($("#Add_Sub option:selected").val())
+                                var row = $(this).closest("tr");
+                                var x = row.find("#Add_Sub option:selected").val();                              
+                                    StockAdjustment.Flag = x;
+                                    break;                                
+                            case 7:
+                                //execute code block 2
+                                StockAdjustment.Qty_Bottles = cellVal;
+                                break;
+                            case 8:
+                                //execute code block 1
+                                StockAdjustment.Qty_Pegs = cellVal;
+                                break;
+                            case 9:
+                                //execute code block 1
+                                StockAdjustment.SellingPricePerBottle = cellVal;
+                                break;
+                            case 10:
+                                //execute code block 1
+                                StockAdjustment.SellingPricePerPeg = cellVal;
+                                break;
+                            case 11:
+                                //execute code block 1
+                                StockAdjustment.BottleAmount = cellVal;
+                                break;
+                            case 12:
+                                //execute code block 1
+                                StockAdjustment.PegAmount = cellVal;
+                                break;
+                            case 13:
+                                //execute code block 1
+                                StockAdjustment.Remarks = cellVal;
+                                break;
+                               
+                            default:
+                                // code to be executed if n is different from case 1 and 2
+                        }
+                    }
+                });
+                //here a record for the row is complete. will now go to the next record (row)
+                if (StockAdjustment.LiquorName) {
+                    arrData.push(StockAdjustment);
+                    //alert(arrData);
+                }
+            });
+
+            $.ajax({
+
+                url: "@Url.Content("~/StockAdjustment/InsertStockAdjustment")",
+                type: "POST",
+                cache: false,
+                data: JSON.stringify({ 'ExList': arrData }),
+                contentType: 'application/json',
+                datatype: 'json',
+                success: function (data) {
+                    location.reload();
+                },
+            });
+
+        });
+    });
+
+
+</script>
+
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 main">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 page-title-outer">
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 page-title">Add Stock Adjustment</div>
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 page-title-btn">
+
+            <a href="@Url.Action("ViewAllStockAdjustment", "StockAdjustment")" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="View">
+                <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
+            </a>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 workarea-outer">
+  
+
+
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 scrolling-area">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 form-outer">
+
+                @*<div class="col-xs-12 col-sm-12 col-md-2 col-lg-1 label-left">
+                        Grn No
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2 textbox-area">
+                        @Html.TextBox("GrnNo", ViewData["GrnNo"], new { @class = "blckthm-form-control", @id = "GrnNo" })
+                        <span id="errmsgRoomNo"></span>
+                    </div>*@
+
+                @*<div class="col-xs-12 col-sm-12 col-md-2 col-lg-1 label-left">
+                        Grn Date
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-3 textbox-area">
+                        @Html.TextBox("GrnDate", ViewData["GrnDate"], new { @readonly = "readonly", @class = "blckthm-form-control", @id = "GrnDate" })
+
+                    </div>*@
+            </div>
+
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 form-outer">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 table-title">
+                    Stock Adjustment
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 table-responsive" id="disptable">
+                    <table id="Table1" class="table blk-thm-table table-condensed">
+                        <thead>
+                            <tr>
+                                <th>Liquor Name</th>
+                                <th>GrnNo</th>
+                                <th>Date</th>
+                                <th>Current Stock Bottles</th>
+                                <th>Current Stock Pegs</th>
+                                <th>Add/Sub</th>
+                                @*<th></th>*@
+                                <th>Bottle Qty</th>
+                                <th>Peg Qty</th>
+                                <th>Price Per Bottle</th>
+                                <th>Price Per Peg </th>
+                                <th>Bottle Amount</th>
+                                <th>Peg Amount</th>
+                                <th>Remarks</th>
+                                <th>
+                                    <button class="btn btn-primary btn-sm" onclick="return false;" type="submit" value="Select" id="Btn_Select" data-toggle="tooltip" data-placement="bottom" title="Select">
+                                        <span class="glyphicon glyphicon-plus"></span>
+                                    </button>
+                                </th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="Searching">
+                            <tr class="sel">
+                                <td style="display:none">@Html.TextBox("LiquorId", ViewData["LiquorId"], new { @class = "blckthm-form-control", @id = "LiquorId" })</td>
+                                <td>
+                                <input type="text" autocomplete="off" placeholder="Enter LiquorName.." name="LiquorName" id="LiquorName" class="blckthm-form-control" onclick="selectRow(this);" />
+                                </td>
+                                <td><input type="text" autocomplete="off" name="GrnNo" id="GrnNo" class="blckthm-form-control" onclick="selectRow(this);" /></td>
+                           @*@Html.TextBox("GrnNo", ViewData["GrnNo"], new { @maxlength = "20", @class = "blckthm-form-control", @id = "GrnNo" })*@
+                            @*<td>@Html.TextBox("Date", ViewData["Date"], new { @readonly = "readonly", @class = "blckthm-form-control", @id = "Date" })</td>*@
+                                <td>                   
+                                    <input  type="date" name="Date" id="Date" class="blckthm-form-control">    
+                                    @*@Html.TextBox("Date", ViewData["Date"], new { @readonly = "readonly", @class = "blckthm-form-control", @id = "Date" })*@        
+                                </td>                               
+                            <td>@Html.TextBox("CurrentStockBottles", ViewData["CurrentStockBottles"], new { @maxlength = "10", @class = "blckthm-form-control", @id = "CurrentStockBottles" })</td>
+                            <td>@Html.TextBox("CurrentStockPegs", ViewData["CurrentStockPegs"], new { @maxlength = "10", @class = "blckthm-form-control", @id = "CurrentStockPegs" })</td>
+                            <td>
+                                <select id="Add_Sub" class="select blckthm-form-control" style="width: 75px;">     
+                                        <option value="Add">Add</option>
+                                        <option value="Sub">Sub</option>         
+                                </select>
+                            </td>
+                               @*<td> @Html.DropDownList("Status", new List<SelectListItem> {
+                        new SelectListItem { Text="Add", Value="Add"},
+                        new SelectListItem { Text="Sub", Value="Sub"}
+                        }, "", new { @class = "blckthm-form-control", @id = "Add_Sub" })
+                                </td>*@
+                                @*<td><input type="radio" name="cal" value="Add"id="add">
+                                    <label for="Add">Add</label></td>
+                                <td><input type="radio" name="cal" value="Sub"id="sub">
+                                <label for="Sub">Subtract</label></td>*@
+                                    @*<input type="radio" name="gender" value="male" checked> Male<br>
+                                    <input type="radio" name="gender" value="female"> Female<br>
+                                    <input type="radio" name="gender" value="other"> Other*@                                 
+                                    @*<label for="add">Add</label>
+                                    <input type="radio" name="cal" value="Sub">
+                                    <label for="sub">Substract</label>*@
+                                                                     
+                                @*@Html.TextBox("+/-", ViewData["+/-"], new { @maxlength = "1", @class = "blckthm-form-control", @id = "AddOrSubstract" })
+                            <span id="errmsgAddSub"></span>*@        
+                        <td>@*@Html.TextBox("Bottle Qty", ViewData["Qty_Bottles"], new { @class = "blckthm-form-control", @id = "Qty_Bottles" })*@
+                                <input class="blckthm-form-control" maxlength="5" type="text" id="Qty_Bottles"></td>
+                        <td>@Html.TextBox("Peg Qty", ViewData["Qty_Pegs"], new { @maxlength = "5", @class = "blckthm-form-control", @id = "Qty_Pegs" })</td>
+                        <td>@Html.TextBox("Price Per Bottle", ViewData["SellingPricePerBottle"], new { @maxlength = "10", @class = "blckthm-form-control", @id = "SellingPricePerBottle" })</td>
+                        <td>@Html.TextBox("Price Per Peg ", ViewData["SellingPricePerPeg"], new { @maxlength = "10", @class = "blckthm-form-control", @id = "SellingPricePerPeg" })</td>
+                        <td>@Html.TextBox("Bottle Amount", ViewData["BottleAmount"], new { @maxlength = "10", @class = "blckthm-form-control", @id = "BottleAmount" })</td>
+                        <td>@Html.TextBox("Peg Amount", ViewData["PegAmount"], new { @maxlength = "10", @class = "blckthm-form-control", @id = "PegAmount" })</td>
+                        <td>@Html.TextBox("Remarks", ViewData["Remarks"], new { @maxlength = "30", @class = "blckthm-form-control", @id = "Remarks" })</td>
+                        @*<td><button type="button" class="btn-sm btn-primary" data-toggle="modal" data-target="#myModal" data-backdrop="static">Edit</button></td>*@
+                        <td><button value="Cancel" id="Btn_Cancel" data-toggle="tooltip" data-placement="bottom" title="Cancel Item" class="btn-xs btn-danger"><span class="glyphicon glyphicon-remove"></span></button></td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 form-outer">
+
+        @*<div class="col-xs-12 col-sm-12 col-md-2 col-lg-1 label-left">
+                Remarks
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2 textbox-area">
+                @Html.TextBox("Remarks", ViewData["Remarks"], new { @class = "blckthm-form-control", @id = "Remarks" })
+                <span id="errmsgRoomNo"></span>
+            </div>*@
+        @*<div class="col-xs-12 col-sm-12 col-md-2 col-lg-1 label-left">
+               Ref Date
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2 textbox-area">
+                @Html.TextBox("Stock No", ViewData["RoomNo"], new { @class = "blckthm-form-control", @id = "RoomNo" })
+                <span id="errmsgRoomNo"></span>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-2 col-lg-1 label-left">
+               Ref No
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2 textbox-area">
+                @Html.TextBox("Stock No", ViewData["RoomNo"], new { @class = "blckthm-form-control", @id = "RoomNo" })
+                <span id="errmsgRoomNo"></span>
+            </div>*@
+
+    </div>
+
+
+
+</div>
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 action-outer">
+    @*<input type="submit" value="@ViewBag.submit" class="btn btn-primary" id="Btn_Submit" />*@
+    <button type="submit" value="@ViewBag.submit" class="btn btn-primary" id="Btn_Submit" data-toggle="tooltip" title="Save">
+
+        <span class="glyphicon glyphicon-floppy-save"> </span>
+    </button>
+</div>
+</div>
+</div>
+<script>
+    
+    $('#Table1').on('keydown.autocomplete', '#GrnNo', function () {
+        var lname = $("#LiquorName").val();
+        $(this).autocomplete({
+            source: function (request, response) {
+                //debugger;
+                $.ajax({
+                    url: "@Url.Content("~/StockInward/GetStockInward")",
+                    type: "POST",
+                    dataType: "json",
+                    data: { prefix: request.term,LName:lname },
+                    success: function (data) {
+                        if (!data.length) {
+                            var result = [
+                             {
+                                 label: 'No matches found',
+                                 value: response.term
+                             }
+                            ];
+                            response(result);
+                        }
+                        else {
+                            response($.map(data, function (item) {
+
+                                return { value: item.GrnNo};
+                            }))
+                        }
+                    }
+                })
+            },
+
+
+
+        });
+    })
+</script>
+
+

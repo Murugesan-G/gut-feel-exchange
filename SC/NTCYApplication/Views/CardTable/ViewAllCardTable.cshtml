@@ -1,0 +1,88 @@
+﻿@using System.Data
+@using NTCYApplication.Models.CardGame
+@{
+    ViewBag.Title = "ViewAllCardTableDetails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div id="mySidenav" class="col-xs-4 col-sm-4 col-md-2 col-lg-2 sidenav">
+    @Html.Partial("_left_admin_submenu")
+</div>
+
+@*<script>
+    $(document).ready(function () {
+       // $("#Status").val("@ViewData["Status"]");
+        $('[data-toggle="tooltip"]').tooltip();
+        $(document).tooltip({
+            track: true
+        });
+    })
+</script>*@
+
+<div class="col-xs-8 col-sm-8 col-md-10 col-lg-10 main"><div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 page-title-outer">
+    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 page-title">View All Table Details</div>
+    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 page-title-btn">
+
+        <a href="@Url.Action("CreateCardTable", "CardTable")" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Back">
+            <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
+        </a>
+    </div>
+</div>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 workarea-outer">
+ 
+
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 scrolling-area" style="height: 560px;">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 table-title">Card Table Details</div>
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 table-responsive  " style="height: 510px;overflow: auto;">
+                <table class="table blk-thm-table table-condensed">
+                    <thead>
+                        <tr>
+                            <th style="display:none">Table No</th>
+                            <th>Table No.</th>
+                            <th>Status</th>
+                            <th>Edit</th>
+                            <th>Delete</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            @{
+                                if (ViewData["TableList"] != null)
+                                {
+                                    if (ViewData.Values != null && ViewData.Values.Count() > 0)
+                                    {
+                                        foreach (var Model in ViewBag.TableList as List<CardTable>)
+                                        {
+                                        <tr>
+                                            <td style="display:none">@Model.TableNo</td>
+                                            <td>@Model.TableName</td>
+                                            <td>@Model.Status</td>
+                                            <td>@Html.ActionLink(" ", "ViewCardTable", "CardTable", new { TableNo = Model.TableNo }, new { @class = "btn-sm btn-primary glyphicon glyphicon-pencil",@title = "Edit", data_toggle = "tooltip", data_placement = "bottom" })</td>
+                                            <td>@Html.ActionLink(" ", "DeleteCardTable", "CardTable", new { TableNo = Model.TableNo }, new { @class = "btn-sm btn-primary glyphicon glyphicon-trash", @title = "Delete", data_toggle = "tooltip", data_placement = "bottom" })</td>
+                                        </tr>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <tr>
+                                            <td>
+                                                @ViewBag.message
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+
+                            }
+
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 label-area">
+            <p>@ViewBag.message</p>
+            <p>@ViewBag.innerEx</p>
+        </div>
+</div>
+</div>

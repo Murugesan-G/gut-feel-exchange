@@ -1,0 +1,369 @@
+﻿@using NTCYApplication.Models.Liquor
+@{
+    ViewBag.Title="CreateLiquorItem";
+    Layout="~/Views/Shared/_Layout.cshtml";
+}
+<div id="mySidenav" class="col-xs-4 col-sm-4 col-md-2 col-lg-2 sidenav">
+
+    @Html.Partial("_left_admin_submenu")
+</div>
+<script type="text/javascript" lang="javascript">
+    $(function () {
+        $("#LiquorCategory").val("@ViewData["LiquorCategoryId"]");
+      
+    
+        $('#Date').datetimepicker({
+            format: 'DD/MM/YYYY',
+            ignoreReadonly: true
+        });
+    });
+</script>
+
+<script>
+    $(document).ready(function () {
+        // $("#Status").val("@ViewData["Status"]");
+        $("#Date").val("@ViewData["Date"]");
+        //$('[data-toggle="tooltip"]').tooltip();
+        //$(document).tooltip({
+        //    track: true
+        //});
+    })
+</script>
+
+<div class="col-xs-8 col-sm-8 col-md-10 col-lg-10 main"><div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 page-title-outer">
+    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 page-title">Create Liquor Items</div>
+    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 page-title-btn">
+
+        <a href="@Url.Action("ViewAllLiquorItem", "Liquor")" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="View All">
+            <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
+        </a>
+    </div>
+</div>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 workarea-outer">
+ 
+
+
+        @using (Html.BeginForm("CreateLiquorItem", "Liquor", new { @class = "beginform-outer" }, FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 scrolling-area">
+                <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 form-outer">
+                    @Html.Hidden("LiquorId", ViewData["LiquorId"], new { @id = "LiquorId" })
+
+                    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 label-right">
+                        Liquor Name
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 textbox-area">
+                        @Html.TextBox("LiquorName", ViewData["LiquorName"], new { @maxlength = "20", @class = "blckthm-form-control", @id = "LiquorName" })
+                        <span id="errmsgLiquorName"></span>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 label-left">
+                        Sold in Pegs
+                        <input type="checkbox"
+                               id="PegorBottle"
+                               name="Sold in Pegs"
+                               value="true" />
+                    </div>
+                    @Html.Hidden("PegorBottleChk", ViewData["PegorBottleChk"], new { @id = "PegorBottleChk" })
+                    <div class="clearfix"></div>
+                    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 label-right">
+                        Liquor Category
+                    </div>
+
+
+                    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 textbox-area">
+                        @*  @Html.TextBox("LiquorCategory", ViewData["LiquorCategory"], new { @class = "blckthm-form-control", @id = "LiquorCategory" })*@
+                        <select name="LiquorCategory" id="LiquorCategory" class="blckthm-form-control">
+                            <option value="">
+                                Select Category
+                            </option>
+                            @foreach (var Model in ViewBag.CategoryList as List<Liquor>)
+                            {
+
+                                <option value="@Model.LiquorCategoryId" class="blckthm-form-control">
+                                    @Model.CategoryName
+                                </option>
+                            }
+                        </select>
+                        <span id="errmsgLiquorCategory"></span>
+                    </div>
+                    <div class="clearfix"></div>
+                    
+                    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 label-right">
+                        Effective Date
+                    </div>
+
+                    <div class="col-sm-12 col-md-4 col-lg-4 textbox-area">
+                        @Html.TextBox("Date", ViewData["Date"], new { @readonly = "readonly", @class = "blckthm-form-control", @id = "Date" })
+
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 label-right">
+                        Quantity in ml<br />(Bottle)
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2 textbox-area">
+                        @Html.TextBox("QuantityPerBottle", ViewData["QuantityPerBottle"], new { @maxlength = "10", @class = "blckthm-form-control", @id = "QuantityPerBottle" })
+
+                        <span id="errmsgQty"></span>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 label-right">
+                        Number of Pegs<br />
+                        (1peg=60 ml)
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2 textbox-area">
+                        @Html.TextBox("QuantityNoOfPegs", ViewData["QuantityNoOfPegs"], new { @readonly = "readonly", @class = "blckthm-form-control", @id = "QuantityNoOfPegs" })
+                        <span id="errmsgNoPegs"></span>
+                    </div>
+                    <div class="clearfix"></div>
+                    @*<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 label-right">
+                              Purchase Rate/Bottle
+                          </div>
+                          <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2 textbox-area">
+                              @Html.TextBox("RatePerBottle", ViewData["RatePerBottle"], new { @class = "blckthm-form-control", @id = "RatePerBottle" })
+                         <span id="errmsgRBottle"></span>
+                           </div>
+                          <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 label-right">
+                              Rate/peg
+                          </div>
+                          <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2 textbox-area">
+                              @Html.TextBox("RatePerPeg", ViewData["RatePerPeg"], new {@readonly="readonly", @class = "blckthm-form-control", @id = "RatePerPeg" })
+                        <span id="errmsgRPeg"></span>
+                            </div>
+                          <div class="clearfix"></div>*@
+                    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 label-right">
+                        Selling Price/Bottle
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2 textbox-area">
+                        @Html.TextBox("SellingPriceBottle", ViewData["SellingPriceBottle"], new { @maxlength = "5", @class = "blckthm-form-control", @id = "SellingPriceBottle" })
+                        <span id="errmsgSPBottle"></span>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 label-right">
+                        Selling Price/peg
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2 textbox-area">
+                        @Html.TextBox("SellingPricePeg", ViewData["SellingPricePeg"], new { @maxlength = "5", @class = "blckthm-form-control", @id = "SellingPricePeg" })
+                        <span id="errmsgSPPeg"></span>
+                    </div><div class="clearfix"></div>
+                    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 label-right">
+                        GST%
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2 textbox-area">
+                        @Html.TextBox("GST", ViewData["GST"], new { @maxlength = "5", @class = "blckthm-form-control", @id = "GST" })
+                        <span id="errmsgGST"></span>
+                    </div><div class="clearfix"></div>
+                    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 label-right">
+                        Status
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                        @Html.DropDownList("Status", new List<SelectListItem> {
+                        new SelectListItem { Text="Yes", Value="Yes"},
+                        new SelectListItem { Text="No", Value="No"}
+                        }, "Select Status", new { @class = "blckthm-form-control", @id = "Status" })
+                    </div>
+
+                </div>
+
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 form-outer">
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 action-outer">
+                @*@Html.ActionLink("Submit", "Club_master", "Admin", null, new { @class = "btn btn-primary  " })*@
+                @*<input type="submit" value="@ViewBag.submit" class="btn btn-primary" id="Btn_Submit" />*@
+                <button type="submit" value="@ViewBag.submit" class="btn btn-primary" id="Btn_Submit" data-toggle="tooltip" title="Save">
+                    <span class="glyphicon glyphicon-floppy-save"></span>
+                </button>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 label-area">
+                <p>@ViewBag.message</p>
+                <p>@ViewBag.innerEx</p>
+
+            </div>
+        }
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#QuantityNoOfPegs').hide();
+        $('#RatePerPeg').hide();
+        $('#SellingPricePeg').hide();
+
+
+        $("#QuantityPerBottle").keypress(function (e) {
+            if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+                $('#errmsgQty').css('color', 'red');
+                $("#errmsgQty").html("Digits Only").show().fadeOut("slow");
+                return false;
+            }
+        })
+
+        //textbox hide function
+        $('#PegorBottle').click(function () {
+            var $this = $(this);
+            if ($this.is(':checked')) {
+                $('#QuantityNoOfPegs').show();
+                $('#RatePerPeg').show();
+                $('#SellingPricePeg').show();
+
+            } else {
+                $('#QuantityNoOfPegs').hide();
+                $('#RatePerPeg').hide();
+                $('#SellingPricePeg').hide();
+            }
+        })
+        $("#QuantityNoOfPegs").keypress(function (e) {
+            if ((e.which != 46 || $(this).val().indexOf('.') != -1) && (e.which < 48 || e.which > 57)) {
+                $('#errmsgNoPegs').css('color', 'red');
+                $("#errmsgNoPegs").html("Digits Only").show().fadeOut("slow");
+                return false;
+            }
+
+
+        })
+        $("#SellingPricePeg").keypress(function (e) {
+            if ((e.which != 46 || $(this).val().indexOf('.') != -1) && (e.which < 48 || e.which > 57)) {
+                $('#errmsgSPPeg').css('color', 'red');
+                $("#errmsgSPPeg").html("Invalid Data").show().fadeOut("slow");
+                return false;
+            }
+        })
+        $("#SellingPriceBottle").keypress(function (e) {
+            if ((e.which != 46 || $(this).val().indexOf('.') != -1) && (e.which < 48 || e.which > 57)) {
+                $('#errmsgSPBottle').css('color', 'red');
+                $("#errmsgSPBottle").html("Invalid Data").show().fadeOut("slow");
+                return false;
+            }
+        })
+        //$("#RatePerBottle").keypress(function (e) {
+        //    if ((e.which != 46 || $(this).val().indexOf('.') != -1) && (e.which < 48 || e.which > 57)) {
+        //        $('#errmsgRBottle').css('color', 'red');
+        //        $("#errmsgRBottle").html("Invalid Data").show().fadeOut("slow");
+        //        return false;
+        //    }
+        //})
+
+        $("#GST").keypress(function (e) {
+            if ((e.which != 46 || $(this).val().indexOf('.') != -1) && (e.which < 48 || e.which > 57)) {
+                $('#errmsgGST').css('color', 'red');
+                $("#errmsgGST").html("Invalid Data").show().fadeOut("slow");
+                return false;
+            }
+        })
+        $("#LiquorName").keypress(function (e) {
+            if ((e.which >= 33 && e.which <= 47) || (e.which >= 58 && e.which <= 64) || (e.which >= 91 && e.which <= 96) ||
+                e.which >= 123 && e.which <= 126) {
+                $('#errmsgLiquorName').css('color', 'red');
+                $("#errmsgLiquorName").html("Invalid Data").show().fadeOut("slow");
+                return false;
+            }
+        })
+        $("#LiquorCategory").keypress(function (e) {
+            if ((e.which >= 33 && e.which <= 47) || (e.which >= 58 && e.which <= 64) || (e.which >= 91 && e.which <= 96) ||
+                e.which >= 123 && e.which <= 126) {
+                $('#errmsgLiquorCategory').css('color', 'red');
+                $("#errmsgLiquorCategory").html("Invalid Data").show().fadeOut("slow");
+                return false;
+            }
+        })
+        //$("#Vendor").keypress(function (e) {
+        //    if ((e.which >= 33 && e.which <= 47) || (e.which >= 58 && e.which <= 64) || (e.which >= 91 && e.which <= 96) ||
+        //        e.which >= 123 && e.which <= 126) {
+        //        $('#errmsgVendor').css('color', 'red');
+        //        $("#errmsgVendor").html("Invalid Data").show().fadeOut("slow");
+        //        return false;
+        //    }
+        //})
+
+
+        //calculate total no of pegs
+        $("#QuantityPerBottle").keyup(function () {
+
+            total = $("#QuantityPerBottle").val() / "60";
+            $("#QuantityNoOfPegs").val(total);
+        });
+        $("#RatePerBottle").keyup(function () {
+            tot = ($("#RatePerBottle").val() * "60") / ($("#QuantityPerBottle").val());
+            $("#RatePerPeg").val(tot);
+        });
+
+
+        //sold in Pegs or Bottle
+        //(check whether checkbox is checked or not)
+       // $('#Btn_Submit').click(function () {
+           
+       // });
+
+
+        //required field validation
+        $('#Btn_Submit').click(function () {
+            if ($('#PegorBottle').is(':checked', true)) {
+                $("#PegorBottleChk").val("Peg");
+
+            }
+            else {
+                $("#PegorBottleChk").val("Bottle");
+                $("#QuantityNoOfPegs").val("0");
+                $("#RatePerPeg").val("0");
+                $("#SellingPricePeg").val("0");
+            }
+            if ($('#LiquorName').val() == '' || $('#LiquorName').val() == "") {
+                alert('LiquorName field is required !!!');
+                $('#LiquorName').focus();
+                return false;
+            }
+
+
+
+            else if ($('#LiquorCategory').val() == '' || $('#LiquorCategory').val() == "") {
+                alert('Please Enter Liquor Category..')
+                $('#LiquorCategory').focus();
+                return false;
+            }
+
+                //else if ($('#Vendor').val() == '' || $('#Vendor').val() == "") {
+                //    alert('Vendor Field is Required!!!')
+                //    $('#Vendor').focus();
+                //    return false;
+                //}
+            else if ($('#Date').val() == '' || $('#Date').val() == "") {
+                alert('Please select Date!!!')
+                $('#Date').focus();
+                return false;
+            }
+            else if ($('#QuantityPerBottle').val() == '' || $('#QuantityPerBottle').val() == "") {
+                alert('Enter Quantity ml!!!')
+                $('#QuantityPerBottle').focus();
+                return false;
+            }
+            else if ($('#QuantityNoOfPegs').val() == '' || $('#QuantityNoOfPegs').val() == "") {
+                alert('Enter No of Pegs!!!')
+                $('#QuantityNoOfPegs').focus();
+                return false;
+            }
+            else if ($('#RatePerBottle').val() == '' || $('#RatePerBottle').val() == "") {
+                alert('Enter Rate/Bottle!!!')
+                $('#RatePerBottle').focus();
+                return false;
+            }
+                //else if ($('#RatePerPeg').val() == '' || $('#RatePerPeg').val() == "") {
+                //    alert('Enter Rate/Peg!!!')
+                //    $('#RatePerPeg').focus();
+                //    return false;
+                //}
+            else if ($('#GST').val() == '' || $('#GST').val() == "") {
+                alert('Enter GST!!!')
+                $('#GST').focus();
+                return false;
+            }
+            else if ($('#Status').val() == '' || $('#Status').val() == "") {
+                alert('Status field is required!!!')
+                $('#Status').focus();
+                return false;
+            }
+            else { return true; }
+        })
+    });
+
+
+</script>

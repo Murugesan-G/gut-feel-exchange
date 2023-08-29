@@ -1,0 +1,41 @@
+username : shylagc@gmail.com
+pwd: welcome@2ibm
+
+aryagowda2010@gmail.com
+bhramari@123
+
+Orders - > Food Order  >> http://localhost:50666/FoodOrder/TakeFoodOrder
+** Kitchen --> Pending Orders >> http://localhost:50666/KitchenOrder/ViewAllOrders	(  FoodOrderList >> STATUS = 'Processing'  )				:	sp_GetAllFoodOrderList			: 	Completed
+** Kitchen --> Completed Orders >> http://localhost:50666/KitchenOrder/ViewCompletedKitchenOrder	(  FoodOrderList >> STATUS = 'Completed'  )	:	spViewCompletedKitchenOrder		:	Completed
+
+Orders - > Drinks Order  >> http://localhost:50666/LiquorOrder/TakeLiquorOrder
+** Bar -> Pending Orders >> http://localhost:50666/LiquorAreaOrder/ViewAllOrders																:	spGetAllLiquorOrderDetails		:	Completed
+** Bar --> Completed Orders >> http://localhost:50666/LiquorAreaOrder/ViewCompletedLiquorOrder													:	spViewCompletedLiquorOrder		: 	Completed
+
+
+Store -> Stock Inward >> http://localhost:50666/StockInward/AddStockInward
+** Store --> View All Stock Inward >> http://localhost:50666/StockInward/ViewAllStockInward >> Bill Wise Details								:	sp_ViewAllRecieptDetails
+
+Store -> Add Stock Adjustment >> http://localhost:50666/StockAdjustment/AddStockAdjustment
+** Store -> View All Stock Adjustment >> http://localhost:50666/StockAdjustment/ViewAllStockAdjustment											:	sp_ViewAllStockAdjustment
+
+FoodOrderList:
+Column: 
+	Status >> Food Preparation Status (Completed,Processing)
+	Served Status >> Served to the Table Status (Null,Served)
+	
+NTYC:
+FoodController >> Add, Modify, Delete & View Food
+FoodOrderController >> Load Available Foods (Veg / NonVeg / Juice)
+
+NTYCApplication:
+KitchenController >> Add, Modify, Delete & View Food
+
+KitchenOrderController >> 		: Pending Orders, Completed Orders
+	ViewAllOrders 				:	sp_GetAllFoodOrderList			>> FoodOrderList >> STATUS = 'Processing'
+	CompleteOrder				:	spUpdateFoodOrderList			>> Update Food Order Status as Served >> "Tick Icon" call this SP
+	ViewCompletedKitchenOrder	:	spViewCompletedKitchenOrder		>> FoodOrderList >> STATUS = 'Completed'
+	
+FoodOrderController >> sp_InsertAllFoodOrder
+
+FoodOrderListController >> 

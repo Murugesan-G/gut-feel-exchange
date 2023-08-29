@@ -1,0 +1,225 @@
+254668775
+---------
+Reports >> Liquor Report
+Daily Report
+Not all the day some time it will show wrong total
+
+Reports >> Member >> Address
+Order by Membership Number
+A4 Size alignment need space
+
+Contact Details >> Member Number Orderwise
+
+Admin >> Member >> Create Member
+Member Name >> Limited to few characters
+Spouse Name >> Limited to few characters
+
+Child1 >> Not Saving it's saved as NA - Completed
+Chlid2 >> Working as expected
+
+Membership Status >> Active
+If it's InActive it should not show in any filter
+
+
+===========================================================
+spLiquorDailyReportTotal
+
+252231
+
+28-Jan-2023
+-----------
+Database Backup - 2022
+Database 2023 - Delete all transaction details and Bill Number reset to 1
+
+Liquor Report = based on selected date
+
+Payment >> Guest <Orange Button> > Eye Button >> Delete Option required
+
+Member >> Delete Option >> Required Password to delete
+
+SMS Not sending
+
+Member Number Reset
+
+Hello Everyone,
+Today I have called Mahesh and completed all below bugs which was reported 24-Jan.
+
+Completed Pending Tasks :
+1) InActive member is not showing in Member Form
+2) Liquor Order Form data entry mistake
+3) Reports are not loading in newly deployed code
+
+Today Mahesh has given below new requirement in the existing software:
+1) Need to take Database Backup as NTCYSTAGING_2022.
+2) Clear all transaction details (master data like Member Details etc) and reset the Bill Number to "1"
+3) Like Liquor Today's Report, need a new report which user can able to select the Report Date.
+4) Delete Option required for Guest Bill
+5) Need to enable SMS Service - Need to renew SMS Provider Subscription
+6) Membership Number need to reset to new  Membership Number
+7) If members have more then one bill due. Liquor order should not take
+
+===========================================================
+06-Feb-2023
+-----------
+ViewMembers.cshtml
+
+Hello Everyone,
+Yesterday me and Mahesh discussed and deployed all the Bug Fixes and addtional requirements in testing environment.
+Mahesh already tested other bug fixes and new requirements and confirmed that all are working as expected.
+Only Delete Functionality in Member Form and Guest Bill Form needs to be test by Mahesh.
+
+Completed bug fixed and new requirements:
+1) InActive member Should not show in any other form except Member Search Form
+2) Liquor Order Form data entry mistake
+3) Liquor Report = Based on selected date. Like Liquor Today's Report, need a new report which user can able to select the Report Date.
+4) Delete Option required for Guest Bill with confirmation message.
+5) In Member Details form while deleting confirmation message should show.
+6) If members have pending liquor due then Liquor order should not take. It should show error message and it shold not allow to order.
+7) SMS should send from "SMS" form.
+
+For SMS service, subscription in "https://api.textlocal.in". API is free from this vendor.
+But based on number of message we need to buy number of messages from this vendor.
+
+SMS Bundle
+----------
+1,000 Messages	₹295
+2,000 Messages	₹590
+5,000 Messages	₹1,375
+10,000 Messages	₹2,750
+25,000 Messages	₹6,250
+50,000 Messages	₹10,750
+1,00,000 Messages	₹19,500
+2,50,000 Messages	₹46,250
+5,00,000 Messages	₹87,500
+10,00,000 Messages	₹1,70,000
+
+https://www.textlocal.in/bulk-sms-pricing-india/
+
+Apart from bug fix and new requirements, Liquor Bill Number need to reset to "1".
+For this requirement we need to follow the below steps:
+>> Need to take Database Backup as NTCYSTAGING_2022.
+>> Clear all transaction details but should keep Master Data like Club, Member, Liquor Name, etc., Reset the Bill Number to "1"
+
+We had taken the list of member details like Membername, MembershipNo in excel sheet.
+Mahesh will reset the Membership number in the excel sheet to new membership number and we will upload the same into the new database.
+
+Hello Mahesh Sir,
+Yesterday I've deployed all the Bug Fixes and New Requirements in the application.
+Modified version of the application has moved to "Live" and it's working as expected.
+
+I'm working on SMS configuration issue and will update to you.
+Shall I reset the bill number to "1" now or "01-Apr-2023"? Please check and confirm.
+
+Please test the application and let me know if you are getting any errors.
+
+          IMS      Soda     Cola    Tax 18   Tax28   Total	
+Summary : 41903 + 1003.81 + 87.50 + 152.01 + 69.10 = 43215.42 --> Correct Amount	
+	
+Daily	: 41903 + 1003.81 + 87.50 + 139.85 + 63.85 = 43198.01 (42495.67 -> 702.34) --> Diff 
+	
+Difference 	                    12.16  + 5.25 = 17.41
+	
+Total Difference: 	      43215.42 - 43198.01 = 17.41
+	
+159.29+811.20+33.32=1003.81	
+
+ntcynk@gmail.com
+Town@123
+
+murugesh1506@gmail.com
+Sh@n2606
+
+username
+password
+
+95021 95021
+
+Hello Mahesh,
+I had a discussion with TextLocal support team.
+They are asking whether we did DLT Registration or not.
+From their record, NTCYNK account registered with DLT-Videocon.
+Since the registration and configuration not been done in DLT, all the templates are in "Rejected" status.
+May I know who has configured DLT-Videocon earlier. I need the login URL, User Name and Password to continue further.
+
+For total mismatch issue, I found that the issue in OrderId "257784" and "257785".
+These orders not paid due to wrong MembershipNo "97".
+Actual MembershipNo is 57 and OrderId is 257816.
+Reason is Liquor "BREEZER CRANBERRY" ordered only by the MembershipNo 57. 
+So confirmed that 97 is misplaced with 57.
+
+After deleting the wrong entry from database, the total is matching in both reports
+
+Eventhough the MembershipNo 97 not available in application accepting the wrong MembershipNo.
+I'm working on this issue.
+
+IML & BEER						41287.00
+SODA 300ML (28%)				140.55
+SOFT DRINKS (28%)				87.50
+WATER 1 LTR (18%)				743.60
+WATER 1/2 LTR (18%)				33.32
+
+Tax 5%(CGST 2.5%,SGST 2.5%)		0.00
+Tax 18%(CGST 9%,SGST 9%)		139.85
+Tax 28%(CGST 14%,SGST 14%)		63.85
+Cess(12%)						0.00
+Cess(36%)						0.00
+adv								0.00
+TOTAL(Rs.)						42495.67
+
+
+Sl. No.	Date		IML & BEER	Soda_Water	Soft Drinks Cola	Mixture	Cigarette	Tax1(5%)	Tax2(18%)	Tax3(28%)	Cess(12%/36%)	adv			Total Amount
+1		25/02/2023	41287.00	917.47		87.50		0.00	0.00	0.00		139.85		63.85		0.00		0.00			0.00		42495.67	
+Grand Total(Rs.)	41287		917			88			0		0		0			140			64			0			0.00			0.00		42496
+
+
+
+
+<script>
+    //Mode of Payment
+    //Cash
+    $("#btnsubmit1").click(function (e) {
+        //var Ltax = $('#LiquorGst').html();
+        //if (Ltax == undefined) {
+        //    Ltax = '0';
+        //}
+        //var amt=(parseFloat($('#cash').val())+parseFloat(Ltax.trim()));       
+        var Payment = {};
+        Payment.MembershipNo = $('#MembershipNo').val();
+        Payment.ModeOfPayment = "Cash";
+        Payment.BillDate = $('#Date').val();
+        Payment.CardType = "Empty";
+        Payment.CardNo_ChequeNo = "Empty";
+        Payment.ExpDate = "Empty";
+        Payment.BankName = "Empty";
+        Payment.Flag = $('#Flag').val();
+        Payment.Amount = $('#cash').val();
+        //Payment.Amount = amt;
+       $.ajax({
+            url: "@Url.Content("~/FrontOffice/InsertIndividualPayment")",
+            type: 'POST',
+            cache: false,
+            data: JSON.stringify({ 'PaymentData': Payment,'BillNo': $('#ModalBillNo').val() }),
+            contentType: 'application/json; charset=utf-8',
+            datatype: 'json',
+            success: function (data) {
+                debugger;
+                alert(data);
+            },
+            error: function (data) {
+                var x = 0;
+               
+            },
+        });
+    })
+</script>
+
+https://smartping.live/entity/login
+User Id: ntcynk@gmail.com
+Password: Ntcynk560064*
+
+dlt.helpdesk@vmipl.in
+
+1701160199761082358
+
+ntcynk@gmail.com
+Town@123

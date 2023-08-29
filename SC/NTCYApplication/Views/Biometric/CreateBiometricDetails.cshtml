@@ -1,0 +1,166 @@
+﻿@{
+    ViewBag.Title="CreateBiometricDetails";
+    Layout="~/Views/Shared/_Layout.cshtml";
+}
+<div id="mySidenav" class="col-xs-4 col-sm-4 col-md-2 col-lg-2 sidenav">
+
+    @Html.Partial("_left_admin_submenu")
+</div>
+
+
+<div class="col-xs-8 col-sm-8 col-md-10 col-lg-10 main">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 page-title-outer">
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 page-title ui-widget">Biometric Details</div>
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 page-title-btn">
+
+            <a href="@Url.Action("ViewBiometricDetails", "Biometric")" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="View All">
+                <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
+            </a>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 workarea-outer">
+
+
+
+        @using (Html.BeginForm("CreateBiometricDetails", "Biometric", new { @class = "beginform-outer" }, FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 scrolling-area">
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 form-outer">
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 label-right ui-widget">
+                        IP Address
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 textbox-area">
+                        @Html.TextBox("IPAddress", ViewData["IPAddress"], new { @class = "blckthm-form-control ui-widget", @id = "IPAddress" })
+                        <span id="errmsgIPAddress"></span>
+                    </div>
+                    @*<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 label-right ui-widget">
+                        Database name
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 textbox-area">
+                        @Html.TextBox("DataBaseName", ViewData["DataBaseName"], new { @maxlength = "20", @class = "blckthm-form-control ui-widget", @id = "DataBaseName" })
+                        <span id="errmsgCatalog"></span>
+                    </div>*@
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 label-right ui-widget">
+                        Catalog
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 textbox-area">
+                        @Html.TextBox("Catalog", ViewData["Catalog"], new { @maxlength = "20", @class = "blckthm-form-control ui-widget", @id = "Catalog" })
+                        <span id="errmsgCatalog"></span>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 label-right ui-widget">
+                        User Name
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 textbox-area">
+                        @Html.TextBox("Username", ViewData["Username"], new { @maxlength = "20", @class = "blckthm-form-control ui-widget", @id = "Username" })
+                        <span id="errmsgUser"></span>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 label-right ui-widget">
+                        Password
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 textbox-area">
+                        @Html.TextBox("Password", ViewData["Password"], new { @maxlength = "20", @class = "blckthm-form-control ui-widget", @id = "Password" })
+
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 label-right ui-widget">
+                        Status
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 dropdown">
+                        <select id="Status" name="Status" class="blckthm-form-control ui-widget">
+                            <option value="">Select Status</option>
+                            <option id="active" value="Active">Active</option>
+                            <option id="inActive" value="InActive">InActive</option>
+                            <option id="disabled" value="Disabled">Disabled</option>
+
+                        </select>
+                    </div>
+
+                </div>
+
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 form-outer">
+                </div>
+
+            </div>
+
+
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 action-outer">
+                @*@Html.ActionLink("Submit", "Club_master", "Admin", null, new { @class = "btn btn-primary  " })*@
+                @*<input type="submit" value="@ViewBag.submit" class="btn btn-primary" id="Btn_Submit" />*@
+                <button type="submit" value="@ViewBag.submit" class="btn btn-primary" id="Btn_Submit" title="Save" data-toggle="tooltip">
+                    <span class="glyphicon glyphicon-floppy-save "> </span>
+                </button>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 label-area ">
+
+                <p>@ViewBag.message</p>
+                <p>@ViewBag.innerEx</p>
+
+
+
+            </div>
+
+        }
+    </div>
+</div>
+
+<style type="text/css">
+    .ui-tooltip {
+        font-size: large;
+        font-family: Arial;
+    }
+</style>
+
+@*<script>
+        $(document).ready(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+            $(document).tooltip({
+                track: true
+            });
+        })
+    </script>*@
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#Status").val("@ViewData["Status"]");
+        //email id text box will not allow white spaces
+        $('#Btn_Submit').click(function () {
+           // debugger;
+            if ($('#IPAddress').val() == '' || $('#IPAddress').val() == "") {
+                alert('IP Address field required !!!');
+                $('#IPAddress').focus();
+                return false;
+            }
+
+            //else if ($('#DataBaseName').val() == '' || $('#DataBaseName').val() == "") {
+            //    alert('DataBaseName is Required!!!')
+            //    $('#DataBaseName').focus();
+            //    return false;
+            //}
+            else if ($('#Catalog').val() == '' || $('#Catalog').val() == "") {
+                alert('Catalog is Required!!!')
+                $('#Catalog').focus();
+                return false;
+            }
+
+            else if ($('#Username').val() == '' || $('#Username').val() == "" || $('#Username').val() <= "17") {
+                alert('Username is Required!!!')
+                $('#Username').focus();
+                return false;
+            }
+            else if ($('#Password').val() == '' || $('#Password').val() == "") {
+                alert('Password is Required!!!')
+                $('#Password').focus();
+                return false;
+            }
+            else if ($('#Status').val() == '' || $('#Status').val() == "" || $('#Status').val() == "Select Status") {
+                alert('please Select Status!!!')
+                $('#Status').focus();
+                return false;
+            }
+            else { return true; }
+        })
+    });
+
+</script>

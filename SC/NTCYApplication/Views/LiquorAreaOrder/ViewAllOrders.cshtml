@@ -1,0 +1,168 @@
+﻿@using NTCYApplication.Models.Liquor
+
+@{
+    ViewBag.Title="ViewAllOrders";
+}
+
+
+
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 main">
+    
+     
+
+
+    <script type="text/javascript">
+    $(document).ready(function () {
+        $('#Table1').DataTable({
+            initComplete: function () {
+                this.api().columns().every(function () {
+                    var column = this;
+                    var select = $('<select><option value=""></option></select>')
+                        .appendTo($(column.footer()).empty())
+                        .on('change', function () {
+                            var val = $.fn.dataTable.util.escapeRegex(
+                                $(this).val()
+                            );
+                            //to select and search from grid
+                            column
+                                .search(val ? '^' + val + '$' : '', true, false)
+                                .draw();
+                        });
+
+                    column.data().unique().sort().each(function (d, j) {
+                        select.append('<option value="' + d + '">' + d + '</option>')
+                    });
+                });
+            }
+        });
+    });
+    </script>
+    <meta charset="utf-8">
+    <meta http-equiv="refresh" content="120">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 page-title-outer">
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 page-title">Dining Area - Liquor Orders</div>
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 page-title-btn">
+
+            <a href="@Url.Action("ViewCompletedLiquorOrder","LiquorAreaOrder")" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="View All">
+                <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
+            </a>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 workarea-outer">
+
+
+
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 scrolling-area">
+
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 table-title"> Pending Orders </div>
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 table-responsive" style="height: 517px;overflow: auto;">
+                <table class="table blk-thm-table table-condensed" id="Table1">
+                    <thead>
+                        <tr>
+                            <th>Order Number</th>
+                            <th>Membership No</th>
+                            <th>Member Name</th>
+                            <th>Table</th>
+                            <th>Items</th>
+                            <th>Qty</th>
+                            <th>Type</th>
+                            <th>Status</th>
+                            <th>Complete</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            if (ViewData["LiquorOrderlist"]!=null)
+                            {
+                                if (ViewData.Values!=null&&ViewData.Values.Count()>0)
+                                {
+                                    foreach (var Model in ViewBag.LiquorOrderlist as List<LiquorOrderArea>)
+                                    {
+                                        <tr>
+                                            <td>@Model.OrderNumber</td>
+                                            <td>@Model.MembershipNo</td>
+                                            <td>@Model.MemberName</td>
+                                            <td>@Model.TableNo</td>
+                                            <td>@Model.Items</td>
+                                            <td>@Model.Qty</td>
+                                            <td>@Model.Type</td>
+                                            <td>@Html.Label("Processing", new { id = "Status" })</td>
+                                            <td>
+                                                <button class="btn btn-primary" type="submit" Value="Done" id="Complete" data-toggle="tooltip" data-placement="bottom" title="Complete Order">
+                                                    <span class="glyphicon glyphicon-ok"></span>
+                                                </button>
+                                            </td>
+                                            <td style="visibility:hidden">@Model.SubOrderId</td>
+                                        </tr>
+                                    }
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td>
+                                            @ViewBag.message
+                                        </td>
+                                    </tr>
+                                }
+                            }
+
+                        }                     
+
+                    </tbody>
+                </table>
+
+
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+<script>
+    @*$(document).ready(function () {
+
+        $("#Table1").on('click', '#Complete', function (e) {
+            //debugger;
+            var currentRow = $(this).closest("tr");
+            suborderid = currentRow.find("td:eq(8)").html(); // get current row 1st table cell TD value
+            var url = '@Url.Action("CompleteOrder", "LiquorAreaOrder")'
+            $.post(url, { SubOrderId: suborderid }, function (data) {
+
+            });
+            $(this).closest('tr').remove();
+        })
+
+    })*@
+
+    $(document).ready(function () {
+
+        $("#Table1").on('click', '#Complete', function (e) {
+            //debugger;
+            var currentRow = $(this).closest("tr");
+            suborderid = currentRow.find("td:eq(9)").html(); // get current row 1st table cell TD value
+             var url = '@Url.Action("CompleteOrder", "LiquorAreaOrder")'
+            $.post(url, { SubOrderId: suborderid }, function (data) {
+
+            });
+            $(this).closest('tr').remove();
+        })
+
+   })
+</script>
+<style type="text/css">
+    .ui-tooltip {
+        font-size: large;
+        font-family: Arial;
+    }
+</style>
+@*<script>
+    $(document).ready(function () {
+        $('[data-toggle="tooltip"]').tooltip();
+        $(document).tooltip({
+            track: true
+        });
+    })
+</script>*@
+

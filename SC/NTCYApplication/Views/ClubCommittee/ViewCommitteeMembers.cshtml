@@ -1,0 +1,170 @@
+﻿@using NTCYApplication.Models.Club;
+
+@{
+    ViewBag.Title="ViewCommitteeMembers";
+    Layout="~/Views/Shared/_Layout.cshtml";
+}
+
+<div id="mySidenav" class="col-xs-4 col-sm-4 col-md-2 col-lg-2 sidenav">
+
+    @Html.Partial("_left_admin_submenu")
+</div>
+
+@*<script>
+    $(document).ready(function () {
+       // $("#Status").val("@ViewData["Status"]");
+        $('[data-toggle="tooltip"]').tooltip();
+        $(document).tooltip({
+            track: true
+        });
+    })
+</script>*@
+
+<div class="col-xs-8 col-sm-8 col-md-10 col-lg-10 main">
+
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 page-title-outer">
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 page-title">View All Committee Members</div>
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 page-title-btn">
+
+            <a href="@Url.Action("CreateCommittee", "ClubCommittee")" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Back">
+
+                <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
+            </a>
+        </div>
+    </div>
+
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 workarea-outer">
+     
+
+
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 scrolling-area" style="height: 476px;">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 table-title">Committee Members</div>
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 table-responsive  " style="height: 424px;overflow: auto;">
+
+                @{
+                    if (ViewData["CommitteeList"]!=null)
+                    {
+                        if (ViewData.Values!=null&&ViewData.Values.Count()>0)
+                        {
+                            <table class="table blk-thm-table table-condensed" id="TblGridId">
+                                <thead>
+                                    <tr>
+                                       
+                                        @*<th>Delete</th>*@
+                                        <th style="display:none">Committee_Id</th>
+                                        <th style="display:none">ClubId</th>
+                                        <th>Chairman</th>
+                                        <th>President</th>
+                                        <th>VicePresident</th>
+                                        <th>Secretary</th>
+                                        <th>Treasurer</th>
+                                        <th style="display:none">CommitteeMembers</th>
+                                        <th style="display:none">Status</th>
+                                        <th>StartDate</th>
+                                        <th>EndDate</th>
+                                        <th>Edit</th>
+                                        <th>Detail</th>
+                                        
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        @foreach (var Model in ViewBag.CommitteeList as List<ClubCommittee>)
+                                        {
+                                    <tr>
+                                        
+                                        @*<td>@Html.ActionLink(" ", "DeleteCommittee", "ClubCommittee", new { CommitteeId = Model.CommitteeId }, new { @class = "btn-sm btn-primary glyphicon glyphicon-trash", @title = "Delete", data_toggle = "tooltip", data_placement = "bottom" })</td>*@
+                                        <td style="display:none">@Model.CommitteeId</td>
+                                        <td style="display:none">@Model.ClubId</td>
+                                        <td>@Model.Chairman</td>
+                                        <td>@Model.President</td>
+                                        <td>@Model.VicePresident</td>
+                                        <td>@Model.Secretary</td>
+                                        <td>@Model.Treasurer</td>
+                                        <td style="display:none">@Model.CommitteeMembers</td>
+                                        <td style="display:none">@Model.Status</td>
+                                        <td>@Model.StartDate.ToString("dd/MM/yyyy")</td>
+                                        <td>@Model.EndDate.ToString("dd/MM/yyyy")</td>
+                                        <td>@Html.ActionLink(" ", "ViewCommitteeMemberDetails", "ClubCommittee", new { CommitteeId = Model.CommitteeId }, new { @class = "btn-sm btn-primary glyphicon glyphicon-pencil", @title = "Edit", data_toggle = "tooltip", data_placement = "bottom", onclick = "myfunction();" })</td>
+                                        <td><button class="btn-sm btn-primary" title="View Detail" type="button" id="btn_ViewDetail" data-toggle="modal" data-target="#ModalClub"><span class="glyphicon glyphicon-list-alt"></span></button></td>
+                                        
+                                    </tr>
+                                        }
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                        }
+                        else
+                        {
+                            <table class="table blk-thm-table table-condensed" id="norecord">
+                                <thead>
+                                    <tr>
+                                        <td style="font-size:18px;font-weight:bold; text-align:center;">No Records Found</td>
+                                    </tr>
+                                </thead>
+                            </table>
+                        }
+                    }
+                }
+
+            </div>
+
+@*///////////////////////////////////////////////////////////////////////////////////*@
+
+<!-- Modal -->
+<div class="modal fade" id="ModalClub" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" style="color:black;font-family:'Bookman Old Style'" id="myModalLabel"><b>Club Committee Details</b></h4>
+            </div>
+            <div style="color:darkslateblue" class="modal-body">
+                @*<table class="table" id="ClubDetailTable">
+                <tbody>
+                </tbody>
+            </table>*@
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+@*///////////////////////////////////////////////////////////////////////////////////////////////////////////*@
+
+
+        </div>
+        <p>@ViewBag.message</p>
+        <p>@ViewBag.innerEx</p>
+    </div>
+</div>
+<script>
+
+    $("#TblGridId tbody").on('click', '#btn_ViewDetail', function () {
+        //debugger;
+        $(".modal-body").empty();
+        var currentRow = $(this).closest("tr");
+        var chairman = currentRow.find("td:eq(2)").html();
+        var president = currentRow.find("td:eq(3)").html();
+        var vicepresident = currentRow.find("td:eq(4)").html();    
+        var Secretary = currentRow.find("td:eq(5)").html();
+        var treasurer = currentRow.find("td:eq(6)").html();
+        var committeemembers = currentRow.find("td:eq(7)").html();
+        var status = currentRow.find("td:eq(8)").html();
+        var startdate = currentRow.find("td:eq(9)").html();
+        var enddate = currentRow.find("td:eq(10)").html();
+
+        var markup = "<b><table class='table table-striped' id='ViewDetailTable'><tr><td>" + "Chairman" + "</td><td>" + chairman + "</td></tr><tr><td>" + "President" + "</td><td>" + president + "</td></tr><tr><td>" + "VicePresident" + "</td><td>" + vicepresident + "</td></tr><tr><td>" + "Secretary" + "</td><td>" + Secretary + "</td></tr><tr><td>" + "Treasurer" + "</td><td>" + treasurer + "</td></tr><tr><td>" + "CommitteeMembers" + "</td><td>" + committeemembers + "</td></tr><tr><td>" + "Status" + "</td><td>" + status + "</td></tr><tr><td>" + "StartDate" + "</td><td>" + startdate + "</td></tr><tr><td>" + "EndDate" + "</td><td>" + enddate + "</td></tr></table></b>";
+        $(".modal-body").append(markup);
+
+    })
+
+</script>
+<style>
+    #ViewDetailTable tr td {
+        width: 200px;
+    }
+</style>

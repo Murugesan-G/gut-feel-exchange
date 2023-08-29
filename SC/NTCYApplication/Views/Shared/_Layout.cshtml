@@ -1,0 +1,228 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - New Town Club Yelahanka</title>
+    <script src="@Url.Content("~/Scripts/jquery.min.js")"></script>  
+    <script src="@Url.Content("~/Scripts/jquery-1.12.4.js")"></script>
+    <script src="@Url.Content("~/Scripts/jquery-1.12.3.js")"></script> 
+    <script src="@Url.Content("~/Scripts/jquery-ui.js")"></script>
+    <script src="@Url.Content("~/Scripts/bootstrap.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/jquery.dataTables.min.js")"></script> 
+    
+
+    <script src="@Url.Content("~/Scripts/moment.min.js")"></script> 
+    <script src="@Url.Content("~/Scripts/bootstrap-datetimepicker.min.js")"></script> 
+    <link href="@Url.Content("~/Content/jquery.dataTables.min.css")" rel="stylesheet" />
+   
+    <link href="@Url.Content("~/Content/bootstrap.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/bootstrap-datetimepicker.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/bootstrap.min.css")" rel="stylesheet" />
+    @*<link href="@Url.Content("~/Content/jquery-ui.css")" rel="stylesheet" />*@
+    <link rel="stylesheet" href="~/Content/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+    <style>
+        body{
+            background-color: #000;
+            overflow:hidden;
+            height:100%;
+        }
+        .navbar-inverse .navbar-nav > li > a {
+            color: #ffffff;
+        }
+
+        .logo {
+            color: #fff !important;
+        }
+    </style>
+    <script>
+        function showmenu() {
+            $("#usersubmenu").show();
+        }
+    </script>
+
+</head>
+<body>
+    <div class="navbar navbar-inverse" style="margin-bottom:0px;">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <div class="logo">
+                                      <img src="~/Images/NTCYLogo-01.png" alt="New Town Club Yelahanka" />
+                </div>
+
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav navbar-right mainmenu" style="padding-right: 12px;">
+
+                    <li>
+                        @if (User.IsInRole("Admin")||User.IsInRole("Management"))
+                        {
+                        <a href="@Url.Action("CreateClub", "Club")">
+                            <img src="~/Images/admin.png" />
+                            Admin
+                        </a>
+                       
+                        }
+                    </li>
+
+                    @if (User.IsInRole("Admin")||User.IsInRole("FrontOffice")||User.IsInRole("Management"))
+                    {
+                    <li>
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            <img src="~/Images/frontoffice.png" />
+                            Front Office<span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="@Url.Action("ViewAllFrontOfficePayment", "FrontOffice")">Payments</a></li>
+                            <li><a href="@Url.Action("Attendance", "FrontOffice")">Attendance</a></li>
+                            <li><a href="@Url.Action("Room_Bookings", "RoomBooking")">Room Bookings</a></li>
+                        </ul>
+                    </li>
+                    }
+                    @if (User.IsInRole("Admin")||User.IsInRole("Management")||User.IsInRole("StoreManager"))
+                    {
+                    <li>
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            <img src="~/Images/kitty.png" />
+                            Store<span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="@Url.Action("AddStockInward", "StockInward")">Stock Inward</a></li>
+                            <li><a href="@Url.Action("AddStockAdjustment", "StockAdjustment")">Stock Adjustment</a></li>
+                        </ul>
+                    </li>
+                    }
+                    @if (User.IsInRole("Admin") || User.IsInRole("Management"))
+                    {
+                    @*<li>
+                        <a href="@Url.Action("Index", "TallyIntegration")">
+                            <img src="~/Images/accounts.png" />
+                            Accounts
+                        </a>
+                    </li>*@
+                    <li>
+                        
+                            <a href="~/Report/ASPX/UserReport.aspx">  
+                            <img src="~/Images/accounts.png" />
+                            Reports
+                        </a>
+                    </li>
+                    }
+                    @*@if (User.IsInRole("Admin")||User.IsInRole("Management"))
+                    {
+                        <li>
+                            <a href="#">
+                                <img src="~/Images/accounts.png" />
+                                Reports
+                            </a>
+                        </li>
+                    }*@
+                    @if (User.IsInRole("Admin")||User.IsInRole("Chef") || User.IsInRole("Management"))
+                    {
+                    <li>
+                        <a href="@Url.Action("ViewAllOrders", "KitchenOrder")">
+                            <img src="~/Images/kitchen.png" />
+                            Kitchen
+                        </a>
+                    </li>
+                    }
+                    @if (User.IsInRole("Admin")||User.IsInRole("BarTender") || User.IsInRole("Management"))
+                    {
+                    <li>
+                        <a href="@Url.Action("ViewAllOrders", "LiquorAreaOrder")">
+                            <img src="~/Images/liquor.png" />
+                            Bar
+                        </a>
+                    </li>
+                    }
+                    @if (User.IsInRole("Admin")||User.IsInRole("KittyPaymentCollector") || User.IsInRole("Management"))
+                    {
+                    <li>
+
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            <img src="~/Images/cardtable.png" />
+                            Kitty Collection<span class="caret"></span>
+                        </a>
+
+                        <ul class="dropdown-menu">
+                            @if (User.IsInRole("Admin")||User.IsInRole("KittyPaymentCollector") || User.IsInRole("Management"))
+                            {
+                                <li><a href="@Url.Action("Collection", "Collection")">Collection</a></li>
+                                }
+                            @if (User.IsInRole("Admin")||User.IsInRole("KittyPaymentCollector") || User.IsInRole("Management"))
+                            {
+                                <li><a href="@Url.Action("KittyPaymentView", "KittyPayment")">Payment</a></li>
+                                }
+                        </ul>
+                    </li>
+                    }
+                    @*<li>@Html.ActionLink("Users", "UsersWithRoles", "ManageUsers")</li>
+                        <li>@Html.ActionLink("Manage Roles", "Index", "ManageRoles")</li>
+                        <li>@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>*@
+                    @*<li>@Html.ActionLink("Log out", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>*@
+                    <li class="dropdown">
+                        @if (User.IsInRole("Admin") || User.IsInRole("Management") || User.IsInRole("RestaurantWaiter") ||User.IsInRole("BarWaiter"))
+                        {
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            <img src="~/Images/dinning.png" />
+                            Orders
+                            <span class="caret"></span>
+                        </a>
+                        }
+                        <ul class="dropdown-menu">
+                            @if (User.IsInRole("Admin") || User.IsInRole("Management") || User.IsInRole("RestaurantWaiter"))
+                            {
+                            <li><a href="@Url.Action("TakeFoodOrder", "FoodOrder")">Food Order</a></li>
+                            }
+                            @if (User.IsInRole("Admin") || User.IsInRole("Management") || User.IsInRole("BarWaiter"))
+                            {
+                            <li><a href="@Url.Action("TakeLiquorOrder", "LiquorOrder")">Drinks Order</a></li>
+                            }
+                        </ul>
+                    </li>
+
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            <img src="~/Images/login.png" />
+
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            @*<li><a href="#">Help</a></li>
+                                <li><a href="#">Settings</a></li>*@
+                            <li>@Html.Partial("_LoginPartial")</li>
+                        </ul>
+                    </li>
+
+
+
+                </ul>
+
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid" style="background-color: #1a1a1a;height: 90%;overflow: hidden;padding: 0px;">
+        @RenderBody()
+
+    </div>
+
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 footer" id="app_footer">
+        <p style="margin: 0px; padding: 0px;">&copy; @DateTime.Now.Year - Powered By SPIGOT Software Pvt.Ltd</p>
+    </div>
+
+
+    @RenderSection("scripts", required: false)
+
+
+
+
+</body>
+
+
+</html>

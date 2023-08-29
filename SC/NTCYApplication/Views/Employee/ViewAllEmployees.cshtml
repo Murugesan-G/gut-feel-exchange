@@ -1,0 +1,192 @@
+﻿@using NTCYApplication.Models.Club
+
+@{
+    ViewBag.Title="ViewAllEmployees";
+    Layout="~/Views/Shared/_Layout.cshtml";
+}
+<div id="mySidenav" class="col-xs-4 col-sm-4 col-md-2 col-lg-2 sidenav">
+
+    @Html.Partial("_left_admin_submenu")
+</div>
+
+@*<script>
+    $(document).ready(function () {
+        // $("#Status").val("@ViewData["Status"]");
+        $('[data-toggle="tooltip"]').tooltip();
+        $(document).tooltip({
+            track: true
+        });
+    })
+</script>*@
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#TblGridId').DataTable({
+            initComplete: function () {
+                this.api().columns().every(function () {
+                    var column = this;
+                    var select = $('<select><option value=""></option></select>')
+                        .appendTo($(column.footer()).empty())
+                        .on('change', function () {
+                            var val = $.fn.dataTable.util.escapeRegex(
+                                $(this).val()
+                            );
+                            //to select and search from grid
+                            column
+                                .search(val ? '^' + val + '$' : '', true, false)
+                                .draw();
+                        });
+
+                    column.data().unique().sort().each(function (d, j) {
+                        select.append('<option value="' + d + '">' + d + '</option>')
+                    });
+                });
+            }
+        });
+    });
+</script>
+<div class="col-xs-8 col-sm-8 col-md-10 col-lg-10 main"><div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 page-title-outer">
+    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 page-title">View All Employees</div>
+    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 page-title-btn">
+
+        <a href="@Url.Action("CreateEmployee", "Employee")" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Back">
+            <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
+        </a>
+    </div>
+</div>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 workarea-outer">
+
+
+
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 scrolling-area" style="height: 565px;">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 table-title">Employees</div>
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 table-responsive  " style="height: 515px;overflow: auto;">
+                <table id="TblGridId" class="table blk-thm-table table-condensed">
+                    <thead>
+                        <tr>
+                            <th style="display:none">Employee Id</th>
+                            <th>Employee Name</th>
+                            <th>Employee Category </th>
+                            <th style="display:none">DOB</th>
+                            <th style="display:none">Gender</th>
+                            <th>PhoneNo</th>
+                            <th style="display:none">Address</th>
+                            <th style="display:none">Email ID</th>                      
+                            <th>Joining Date</th>
+                            <th>Leaving Date</th>
+                            <th>Status</th>
+                            <th>Edit</th>
+                            <th>Delete</th>
+                            <th>Detail</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                      
+                            @{
+                                if (ViewData["SubList"]!=null)
+                                {
+                                    if (ViewData.Values!=null&&ViewData.Values.Count()>0)
+                                    {
+                                        foreach (var Model in ViewBag.SubList as List<Employees>)
+                                        {
+                                        <tr>
+                                            <td style="display:none">@Model.Empid</td>
+                                            <td>@Model.EmployeeName</td>
+                                            <td>@Model.EmployeeCategory</td>
+                                            <td style="display:none">@Model.DOB.ToString("dd/MM/yyyy")</td>
+                                            <td style="display:none">@Model.Gender</td>
+                                            <td>@Model.PhoneNo</td>
+                                            <td style="display:none">@Model.Address</td>
+                                            <td style="display:none">@Model.EmailId</td>
+                                       
+                                            <td>@Model.JoiningDate.ToString("dd/MM/yyyy")</td>
+                                            @if (Model.LeavingDate==Convert.ToDateTime(("01-01-0001").ToString()))
+                                            {
+                                                <td>------</td>
+                                            }
+                                            else
+                                            {
+                                                <td>@Model.LeavingDate.ToString("dd/MM/yyyy")</td>
+                                            }
+                                            <td>@Model.Status</td>
+                                            <td>@Html.ActionLink(" ", "ViewEmployee", "Employee", new { EmployeeId = Model.EmployeeId }, new { @class = "btn-sm btn-primary glyphicon glyphicon-pencil", @title = "Edit", data_toggle = "tooltip", data_placement = "bottom" })</td>
+                                            <td>@Html.ActionLink(" ", "DeleteEmployee", "Employee", new { EmployeeId = Model.EmployeeId }, new { @class = "btn-sm btn-primary glyphicon glyphicon-trash", @title = "Delete", data_toggle = "tooltip", data_placement = "bottom" })</td>
+
+                                            <td><button class="btn-sm btn-primary" title="View Detail" type="button" id="btn_ViewDetail" data-toggle="modal" data-target="#ModalClub"><span class="glyphicon glyphicon-list-alt"></span></button></td>
+
+                                        </tr>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <tr>
+                                            <td>
+                                                @ViewBag.message
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+
+                            }
+                    
+                        </tbody>
+                    </table>
+                  </div>
+@*///////////////////////////////////////////////////////////////////////////////////*@
+
+<!-- Modal -->
+<div class="modal fade" id="ModalClub" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" style="color:black;font-family:'Bookman Old Style'" id="myModalLabel"><b>Employee Details</b></h4>
+            </div>
+            <div style="color:darkslateblue" class="modal-body">
+                @*<table class="table" id="ClubDetailTable">
+                <tbody>
+                </tbody>
+            </table>*@
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+@*///////////////////////////////////////////////////////////////////////////////////////////////////////////*@
+            </div>
+        <p>@ViewBag.message</p>
+        <p>@ViewBag.innerEx</p>
+        </div>
+    </div>
+
+<script>
+
+    $("#TblGridId tbody").on('click', '#btn_ViewDetail', function () {
+        //debugger;
+        $(".modal-body").empty();
+        var currentRow = $(this).closest("tr");
+        var employeename = currentRow.find("td:eq(1)").html();
+        var category = currentRow.find("td:eq(2)").html();
+        var dob = currentRow.find("td:eq(3)").html();
+        var gender = currentRow.find("td:eq(4)").html();
+        var phoneno = currentRow.find("td:eq(5)").html();
+        var address = currentRow.find("td:eq(6)").html();      
+        var emailid = currentRow.find("td:eq(7)").html();
+        var joiningdate = currentRow.find("td:eq(8)").html();
+        var leavingdate = currentRow.find("td:eq(9)").html();
+        var status = currentRow.find("td:eq(10)").html();
+     
+
+        var markup = "<b><table id='ViewDetailTable'><tr><td>" + "EmployeeName" + "</td><td>" + employeename + "</td></tr><tr><td>" + "EmployeeCategory" + "</td><td>" + category + "</td></tr><tr><td>" + "DOB" + "</td><td>" + dob + "</td></tr><tr><td>" + "Gender" + "</td><td>" + gender + "</td></tr><tr><td>" + "PhoneNo" + "</td><td>" + phoneno + "</td></tr><tr><td>" + "Address" + "</td><td>" + address + "</td></tr><tr><td>" + "EmailId" + "</td><td>" + emailid + "</td></tr><tr><td>" + "JoiningDate" + "</td><td>" + joiningdate + "</td></tr><tr><td>" + "LeavingDate" + "</td><td>" + leavingdate +"</td></tr><tr><td>"+"Status"+"</td><td>"+status+"</td></tr></table></b>";
+        $(".modal-body").append(markup);
+
+    })
+
+</script>
+<style>
+    #ViewDetailTable tr td {
+        width: 200px;
+    }
+</style>

@@ -1,0 +1,142 @@
+﻿@using NTCYApplication.Models.Liquor
+@model List<Liquor>
+@{
+    ViewBag.Title="ViewAllLiquorItem";
+    Layout="~/Views/Shared/_Layout.cshtml";
+}
+<div id="mySidenav" class="col-xs-4 col-sm-4 col-md-2 col-lg-2 sidenav">
+
+    @Html.Partial("_left_admin_submenu")
+</div>
+
+<script>
+$(document).ready(function(){
+    $("#LiquorName").on("keyup", function () {
+    var value = $(this).val().toLowerCase();
+    $("#Search tr").filter(function () {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+});
+</script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#Table1').DataTable({
+            initComplete: function () {
+                this.api().columns().every(function () {
+                    var column = this;
+                    var select = $('<select><option value=""></option></select>')
+                        .appendTo($(column.footer()).empty())
+                        .on('change', function () {
+                            var val = $.fn.dataTable.util.escapeRegex(
+                                $(this).val()
+                            );
+                            //to select and search from grid
+                            column
+                                .search(val ? '^' + val + '$' : '', true, false)
+                                .draw();
+                        });
+
+                    column.data().unique().sort().each(function (d, j) {
+                        select.append('<option value="' + d + '">' + d + '</option>')
+                    });
+                });
+            }
+        });
+    });
+</script>
+<div class="col-xs-8 col-sm-8 col-md-10 col-lg-10 main"><div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 page-title-outer">
+    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 page-title">View All Liquor Items</div>
+    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 page-title-btn">
+
+        <a href="@Url.Action("CreateLiquorItem", "Liquor")" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Back">
+            <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
+        </a>
+    </div>
+</div>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 workarea-outer">
+  
+
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 scrolling-area" style="height: 565px;">
+            @*<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 table-title">Liquor Details</div>*@
+            @*<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 search-area">
+                <div class="col-xs-12 col-sm-6 col-md-2 col-lg-2 label-right">
+                    Search Liquor
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-2 col-lg-2 textbox-area">
+                    <input type="text" maxlength="20" autocomplete="off" placeholder="Enter LiquorName" name="LiquorName" id="LiquorName" class="blckthm-form-control" style="font-size:13px  ">
+
+                </div>
+
+                <div class="col-xs-12 col-sm-6 col-md-2 col-lg-2 textbox-area">
+                    <a href="@Url.Action("ViewAllLiquorItem", "Liquor")" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Refresh">
+                        <span class="glyphicon glyphicon-refresh"></span>
+                    </a>
+                </div>
+            </div>*@
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 table-title">Liquor List </div>
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 table-responsive  " style="height: 515px;overflow: auto;">
+                @{
+                    if (Model!=null)
+                    {
+                        <table id="Table1" class="table blk-thm-table table-condensed">
+                            <thead>
+                                <tr>
+                                    <th style="display:none">Liquor Id</th>
+                                    <th>Liquor Name</th>
+                                    <th>Liquor Category</th>
+                                    <th>Effective Date</th>
+                                    <th>Quantity in ml</th>
+                                    <th>No. of Pegs</th>
+                                    <th>Selling Price/Bottle</th>
+                                    <th>Selling Price/Peg</th>
+                                    <th>GST%</th>
+                                    <th>Status</th>
+                                    <th>Edit</th>
+                                    <th>Delete</th>
+
+                                </tr>
+                            </thead>
+
+                            <tbody id="Search">
+                                
+                                    @foreach (var item in Model)
+                                    {
+                                    <tr>
+                                        <td style="display:none">@item.LiquorId</td>
+                                        <td>@item.LiquorName</td>
+                                        <td>@item.CategoryName</td>
+                                        <td>@item.EffectiveDate.ToString("dd/MM/yyyy")</td>
+                                        <td>@item.Volume</td>
+                                        <td>@item.PegsPerBottle</td>
+                                        <td>@item.SellingPriceBottle</td>
+                                        <td>@item.SellingPricePeg</td>
+                                        <td>@item.GST</td>
+                                        <td>@item.Status</td>
+                                        <td>@Html.ActionLink(" ", "ViewLiquor", "Liquor", new { LiquorId = item.LiquorId }, new { @class = "btn-sm btn-primary glyphicon glyphicon-pencil", @title = "Edit", data_toggle = "tooltip", data_placement = "bottom" })</td>
+                                        <td>@Html.ActionLink(" ", "DeleteLiquor", "Liquor", new { LiquorId = item.LiquorId }, new { @class = "btn-sm btn-primary glyphicon glyphicon-trash", @title = "Delete", data_toggle = "tooltip", data_placement = "bottom" })</td>
+                                    </tr>
+                                    }
+                                  
+
+                                </tbody>
+
+                            </table>
+                    }
+                    else
+                    {
+                        <table class="table blk-thm-table table-condensed" id="norecord">
+                            <thead>
+                                <tr>
+                                    <td style="font-size:18px;font-weight:bold; text-align:center;">No Records Found</td>
+                                </tr>
+                            </thead>
+                        </table>
+                    }
+                }
+                </div>
+            </div>
+        <p>@ViewBag.message</p>
+        <p>@ViewBag.innerEx</p>
+        </div>
+    </div>

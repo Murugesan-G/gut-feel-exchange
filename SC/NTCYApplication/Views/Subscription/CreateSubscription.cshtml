@@ -1,0 +1,246 @@
+﻿@{
+    ViewBag.Title="CreateSubscription";
+    Layout="~/Views/Shared/_Layout.cshtml";
+}
+
+<div id="mySidenav" class="col-xs-4 col-sm-4 col-md-2 col-lg-2 sidenav">
+
+    @Html.Partial("_left_admin_submenu")
+</div>
+
+<div class="col-xs-8 col-sm-8 col-md-10 col-lg-10 main">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 page-title-outer">
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 page-title">Subscription</div>
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 page-title-btn">
+
+            <a href="@Url.Action("ViewAllSubscriptions", "Subscription")" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="View All">
+                <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
+            </a>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 workarea-outer">
+   
+
+
+        @using (Html.BeginForm("CreateSubscription", "Subscription", new { @class = "beginform-outer" }, FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 scrolling-area">
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 form-outer">
+                    @Html.Hidden("SubscriptionId", ViewData["SubscriptionId"], new { @id = "SubscriptionId" })
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 label-right">
+                        Membership Type
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 textbox-area">
+                        @Html.TextBox("SubscriptionType", ViewData["SubscriptionType"], new { maxlength = 25, @class = "blckthm-form-control", @id = "SubscriptionType" })
+                        <span id="errmsgSubType"></span>
+
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 label-right">
+                        Subscription Rate/ Amount
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 textbox-area">
+                        @Html.TextBox("SubscriptionRate", ViewData["SubscriptionRate"], new { @maxlength = "10", @class = "blckthm-form-control", @id = "SubscriptionRate" })
+                        <span id="errmsgSAmount"></span>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 label-right">
+                        Subscription Validity
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 textbox-area">
+                        @Html.TextBox("SubscriptionValidity", ViewData["SubscriptionValidity"], new { @readonly = "readonly", @class = "blckthm-form-control", @id = "SubscriptionValidity" })
+                        <span id="errmsgJAmount"></span>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 label-right">
+                        Payment<strong> Installments</strong>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 textbox-area">
+                        <input type="radio" name="Installments" value="0" id="0"> No Installment<br />
+                        <input type="radio" name="Installments" value="1" id="1"> 1 Installments<br />
+                        <input type="radio" name="Installments" value="3" id="3"> 3 Installments<br />
+                        <input type="radio" name="Installments" value="6" id="6"> 6 Installments<br />
+                        <input type="radio" name="Installments" value="12" id="12"> 12 Installments
+
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 label-right">
+                        Joining Amount
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 textbox-area">
+                        @Html.TextBox("JoiningAmount", ViewData["JoiningAmount"], new { @maxlength = "10", @class = "blckthm-form-control", @id = "JoiningAmount" })
+                        <span id="errmsgJAmount"></span>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 label-right">
+                        Status
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 textbox-area ui-widget">
+                        @Html.DropDownList("Status", new List<SelectListItem> {
+                        new SelectListItem { Text="Availalble", Value="Availalble"},
+                        new SelectListItem { Text="UnAvailalble", Value="UnAvailalble"}
+                        }, "Select Status", new { @class = "blckthm-form-control", @id = "Status" })
+                    </div>
+
+                </div>
+
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 form-outer">
+
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 action-outer">
+
+                @*<input type="submit" value="@ViewBag.submit" class="btn btn-primary" id="Btn_Submit" />*@
+                <button type="submit" value="@ViewBag.submit" class="btn btn-primary" id="Btn_Submit" data-toggle="tooltip" title="Save">
+                    <span class="glyphicon glyphicon-floppy-save"> </span>
+                </button>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 label-area">
+                <p>@ViewBag.message</p>
+                <p>@ViewBag.innerEx</p>
+
+                </div>
+        }
+    </div>
+</div>
+
+
+@*@if (ViewBag.message!=null)
+{
+    <script type="text/javascript">
+        window.onload = function () {
+            alert("@ViewBag.message");
+        };
+    </script>
+}*@
+
+<script>
+    $(document).ready(function () {
+        $(function () {
+            $('#SubscriptionValidity').datetimepicker({
+                format: 'DD/MM/YYYY',
+                ignoreReadonly: true
+            });
+        });
+
+        //Selecting the Status
+        $("#Status").val("@ViewData["Status"]");
+        $("#SubscriptionValidity").val("@ViewData["SubscriptionValidity"]");
+
+        //tooltip
+        //$('[data-toggle="tooltip"]').tooltip();
+        //$(document).tooltip({
+        //    track: true
+        //});
+    });
+</script>
+@{
+    var data = ViewBag.radio;
+    if (data=="1")
+    {
+        <script>
+            $("#1").prop("checked", true);
+        </script>
+    }
+    else if (data=="0")
+    {
+        <script>
+            $("#0").prop("checked", true);
+        </script>
+
+    }
+    else if (data=="3")
+    {
+        <script>
+            $("#3").prop("checked", true);
+        </script>
+
+    }
+    else if (data=="6")
+    {
+        <script>
+            $("#9").prop("checked", true);
+        </script>
+
+    }
+    else if (data=="12")
+    {
+        <script>
+            $("#12").prop("checked", true);
+        </script>
+
+    }
+    else
+    {
+
+    }
+}
+
+
+@*//Required Field Validation*@
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $("#JoiningAmount").keypress(function (e) {
+            if ((e.which != 46 || $(this).val().indexOf('.') != -1) && (e.which < 48 || e.which > 57)) {
+                $('#errmsgJAmount').css('color', 'red');
+                $("#errmsgJAmount").html("Invalid Data").show().fadeOut("slow");
+                return false;
+            }
+        })
+        $("#SubscriptionRate").keypress(function (e) {
+            if ((e.which != 46 || $(this).val().indexOf('.') != -1) && (e.which < 48 || e.which > 57)) {
+                $('#errmsgSAmount').css('color', 'red');
+                $("#errmsgSAmount").html("Invalid Data").show().fadeOut("slow");
+                return false;
+            }
+        })
+        $("#SubscriptionType").keypress(function (e) {
+            if ((e.which >= 33 && e.which <= 64) || (e.which >= 91 && e.which <= 96) ||
+                e.which >= 123 && e.which <= 126) {
+                $('#errmsgSubType').css('color', 'red');
+                $("#errmsgSubType").html("Should Contain Alphabets").show().fadeOut("slow");
+                return false;
+            }
+        })
+
+
+
+        $('#Btn_Submit').click(function () {
+            if ($('#SubscriptionType').val() == '' || $('#SubscriptionType').val() == "") {
+                alert('Membership Type field is required !!!');
+                $('#SubscriptionType').focus();
+                return false;
+            }
+
+            else if ($('#SubscriptionRate').val() == '' || $('#SubscriptionRate').val() == "") {
+                alert('Please Enter Subscription Rate!!!')
+                $('#SubscriptionRate').focus();
+                return false;
+            }
+            else if ($('#SubscriptionValidity').val() == '' || $('#SubscriptionValidity').val() == "") {
+                alert('Please Enter Subscription Validity!!!')
+                $('#SubscriptionValidity').focus();
+                return false;
+            }
+            //else if ($("#1").prop('checked', false) || $("#3").prop('checked', false) || $("#6").prop('checked', false) || $("#12").prop('checked', false)) {
+            //    alert('Installments is Required!!!')
+            //    return false;
+            //}
+            else if ($('#JoiningAmount').val() == '' || $('#JoiningAmount').val() == "") {
+                alert('Joining Amount Field is Required!!!')
+                $('#JoiningAmount').focus();
+                return false;
+            }
+            else if ($('#Status').val() == '' || $('#Status').val() == "" || $('#Status').val() == "Select Status") {
+                alert('Please Select Status !!!')
+                $('#Status').focus();
+                return false;
+            }
+
+            else { return true; }
+
+
+        })
+
+    });
+</script>

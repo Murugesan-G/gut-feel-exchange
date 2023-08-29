@@ -1,0 +1,292 @@
+﻿@using NTCYApplication.Models.CardGame
+@{
+    ViewBag.Title="KittyPaymentView";
+    Layout="~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+
+<script>
+$(document).ready(function(){
+    $("#MemberName").on("keyup", function () {
+    var value = $(this).val().toLowerCase();
+    $("#Searching tr").filter(function () {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+});
+</script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#Table1').DataTable({
+            initComplete: function () {
+                this.api().columns().every(function () {
+                    var column = this;
+                    var select = $('<select><option value=""></option></select>')
+                        .appendTo($(column.footer()).empty())
+                        .on('change', function () {
+                            var val = $.fn.dataTable.util.escapeRegex(
+                                $(this).val()
+                            );
+                            //to select and search from grid
+                            column
+                                .search(val ? '^' + val + '$' : '', true, false)
+                                .draw();
+                        });
+
+                    column.data().unique().sort().each(function (d, j) {
+                        select.append('<option value="' + d + '">' + d + '</option>')
+                    });
+                });
+            }
+        });
+    });
+</script>
+@*&&&&&&&&&&&&&&&&&&&&*@@*&&&&&&&&&&&&&&&&&&&&*@@*&&&&&&&&&&&&&&&&&&&&*@@*&&&&&&&&&&&&&&&&&&&&*@
+<div id="Print" class="col-xs-12 col-sm-12 col-md-6 col-lg-6" style="margin-top:0%; display:block;height:100%;">
+    <table height="80%" width="100%" id="PrintTable" style="border:1px solid black;border-collapse:collapse">
+        <thead>
+            <tr>
+                <th><img style="padding-left:10px" height="80px" width="80px" src="~/Images/hdlogo-01.png" alt="NTCY Logo" /></th>
+                <th colspan="5" style="vertical-align:middle;text-align:center">
+
+                    THE NEW TOWN CLUB, Yelahanka (R)<br />
+                    CA-22/D,I Main Road,Yelahanka New Town<br />
+                    BANGALORE - 64 Ph: 28460688<br />
+                    GST: 29AADAT7494B1Z6<br />
+                    <b>KITTY COLLECTION BILL</b>
+                </th>
+
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+</div>
+@*&&&&&&&&&&&&&&&&&&&&*@@*&&&&&&&&&&&&&&&&&&&&*@@*&&&&&&&&&&&&&&&&&&&&*@@*&&&&&&&&&&&&&&&&&&&&*@
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 main">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 workarea-outer">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 page-title-outer">
+            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 page-title">Payment</div>
+            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 page-title-btn">
+                @*<a href="@Url.Action("Collection", "Collection")" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Back">
+                    <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
+                </a>*@
+            </div>
+            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 page-title-btn">
+                <a href="@Url.Action("KittyCollectionTableView", "Collection")" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="View All">
+                    <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
+                </a>           
+                <a href="@Url.Action("Collection", "Collection")" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Back">
+                    <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
+                </a>
+            </div>
+        </div>
+
+
+
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 scrolling-area ui-widget">
+                        @*<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 search-area">
+        <div class="col-xs-12 col-sm-6 col-md-2 col-lg-2 label-right">
+            Search Member
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-2 col-lg-2 textbox-area">
+                <input type="text" maxlength="20" placeholder="Enter MemberName" name="MemberName" id="MemberName" class="blckthm-form-control" style="font-size:13px  ">
+
+        </div>
+
+        @*<div class="col-xs-12 col-sm-6 col-md-2 col-lg-2 textbox-area">
+            <button type="button" value="Search" class="btn btn-primary" id="Search"data-toggle="tooltip" data-placement="bottom" title="Search"><span class="glyphicon glyphicon-search"></span></button>
+        @*</div>*@
+          @*      <div class="col-xs-12 col-sm-6 col-md-2 col-lg-2 textbox-area">
+            <a href="@Url.Action("KittyPaymentView", "KittyPayment")" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Refresh">
+                <span class="glyphicon glyphicon-refresh"></span>
+            </a>
+        </div>
+    </div>*@
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 table-title">List of Members</div>
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 table-responsive" id="disptable">
+                @*<div id="disptable"></div>*@
+                @{
+                    if (ViewData["CardGameList"]!=null)
+                    {
+                        if (ViewData.Values!=null&&ViewData.Values.Count()>0)
+                        {
+                            if (ViewBag.CardGameList!=null)
+                            {
+
+                                <table id="Table1" class="table blk-thm-table table-condensed">
+                                    <thead>
+                                        <tr>
+                                            <th></th>
+                                            <th>Table No</th>
+                                            <th>Game</th>
+                                            <th>Winner</th>
+                                            <th>Amount</th>
+                                            <th>Status</th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody id="Searching">
+                                       
+                                            @foreach (var Model in ViewBag.CardGameList as List<CardRoomGame>)
+                                            {
+                                            <tr>
+                                                <td style="display:none">@Model.GameId</td>
+                                                <td>@Model.TableNo</td>
+                                                <td>@Model.Game</td>
+                                                <td>@Model.Winner</td>
+                                                <td>@Html.TextBox("AmountPaid", @Model.AmountPaid, new { @maxlength = "10", @class = "qty-box", @id = "AmountPaid" }) <span id="errmsgAmount"></span></td>
+                                                <td>@Html.Label("Not Paid", new { id = "Status" })</td>
+                                                <td width="20px"><Button Value="Pay" class="btn-sm btn-primary" id="BtnPaid"onclick = "selectRow(this);"><img src="~/Images/pay.png" height="20" /></Button></td>
+                                                <td><button class="btn btn-primary btn-sm" id="btnPrint" title="Print"><span class="glyphicon glyphicon-print"></span></button></td>
+                                                <td style="display:none">@Model.GameId</td>
+                                            </tr>
+                                            }
+                                           
+                                        </tbody>
+
+                                    </table>
+                            }
+                            else
+                            {
+                                <table class="table blk-thm-table table-condensed" id="norecord">
+                                    <thead>
+                                        <tr>
+                                            <td style="font-size:18px;font-weight:bold; text-align:center;">No Records Found</td>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            }
+                        }
+                    }
+                    else
+                    {
+                        <table class="table blk-thm-table table-condensed" id="norecord">
+                            <thead>
+                                <tr>
+                                    <td style="font-size:18px;font-weight:bold; text-align:center;">No Records Found</td>
+                                </tr>
+                            </thead>
+                        </table>
+                    }
+                }
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<script>
+
+    function selectRow(elm) {
+        //alert(elm);
+        $("#Table1 tr").removeClass('sel');
+        $(elm).closest("tr").addClass('sel');
+
+      
+        var TableIndex = elm.parentElement.parentElement;
+       
+
+        var currentRow = $(TableIndex).closest("tr");
+        gameid = currentRow.find("td:eq(0)").html(); // get current row 1st table cell TD value
+        tableno = currentRow.find("td:eq(1)").html(); // get current row 2nd table cell TD value
+        game = currentRow.find("td:eq(2)").html();
+        winner = currentRow.find("td:eq(2)").html();
+        amount = currentRow.find('#AmountPaid').val();
+        $('#Paid').toggle();
+        var url = '@Url.Action("PayKittyAmount", "KittyPayment")'
+        $('.sel #Status').text(@ViewBag.Status);
+        //document.getElementById("AmountPaid").readOnly = true;
+        if ($('.sel #AmountPaid').val() == "0" || $('.sel #AmountPaid').val() == '0' || $('.sel #AmountPaid').val() == null) {
+            alert("Please Enter Amount");
+            return false;
+        } else {
+            $.post(url, { GameId: gameid, TableNo: tableno, Winner: winner, Game: game, AmountPaid: amount }, function (data) {
+
+            });
+            $(TableIndex).closest('tr').remove();
+            return true;
+        }
+    }
+
+    $(document).ready(function () {
+        $("#Print").hide();
+        $("#AmountPaid").keypress(function (e) {
+            if ((e.which != 46 || $(this).val().indexOf('.') != -1) && (e.which < 48 || e.which > 57)) {
+                $('#errmsgAmount').css('color', 'red');
+                $("#errmsgAmount").html("Numbers Only").show().fadeOut("slow");
+                return false;
+            }
+        });
+    
+    });
+</script>
+
+
+<script>
+    var d = new Date();
+    var t = new Date(Date.now());
+    var str = t.getHours() + ":" + t.getMinutes() + ":" + t.getSeconds();
+    var strDate = d.getDate() + "/" + (d.getMonth() + 1) + "/" + d.getFullYear();
+
+    $("#disptable #Table1 tbody").on("click", "#btnPrint", function (e) {
+        //debugger;
+        cRow = $(this).closest("tr");
+        var billno = cRow.find("td:eq(0)").html();
+        var tableno = cRow.find("td:eq(1)").html();
+        var game = cRow.find("td:eq(2)").html();
+        var mname = cRow.find("td:eq(3)").html();
+      //  var guests = cRow.find("td:eq(4)").html();
+        var price = cRow.find("#AmountPaid").val();
+        var gst = cRow.find("td:eq(7)").html();
+        var total = cRow.find("td:eq(10)").html();
+        var gst1 = (parseFloat(price)) * (parseFloat(gst) / 100);
+
+        $(".workarea-outer").hide();
+        $("#Print").show();
+
+        var markup = "<tr height='35px' style='font-weight:bold;border:1px solid black'><td>" + "Date" + "</td><td id='tdDate'></td>" +
+            "<td colspan='2'></td><td>" + "Bill No" + "</td><td align='center' id='tdReceiptNo'></td></tr><tr style='font-weight:bold;border:1px solid black'><td>" +
+            "Received from Smt/Sri." + "</td><td colspan='5' align='left' id='tdMembershipNo'></td></tr>" +
+            "<tr height='40px' style='font-weight:bold;border:1px solid black'><td align='center'>" +
+            "No" + "</td><td align='left'>" + "Table No" +
+            "</td><td align='left'>" + "Game" +
+            "</td><td align='right'>" + "Price" + "</td><td align='right'>" + "GST" + "</td><td align='right'>" + "Amt" +
+            "</td></tr>" + "<tr height='100px' style='border-bottom:1px solid black;border-top:1px solid black;'><td  align='center'>" + 1 + "</td><td>" + tableno +
+            "</td><td align='center'>" + game + "</td><td align='right'>" + price + "</td><td align='right'>" +Math.round (parseFloat(price)*(18/100)) +
+            "</td><td align='right'>" +Math.round (parseFloat(price) + parseFloat(price) * (18 / 100)) + "</td></tr>" +
+            "<tr height='25px'><td align='right' colspan='4'><b>" + "CGST 9%: </b></td><td align='right'>" + Math.round((parseFloat(price) * (18 / 100))/2) + "</td><td align='right'>" +
+            "</td></tr>" +
+            "<tr height='25px'  style='border-bottom:1px solid black;'><td align='right' colspan='4'><b>" + "SGST 9%: </b></td><td align='right'>" +
+           Math.round((parseFloat(price) * (18 / 100)) / 2) + "</td><td align='right'>" + "</td></tr>" +
+            "<tr style='border-bottom:1px solid black;'><td align='right'colspan='5'>" + "<b>Total Rs.</b>" +
+            "</td><td style='width:100px' align='right'> <b>" + Math.round(parseFloat(price) + parseFloat(price) * (18 / 100)) + "</b></td></tr>" +
+            "<tr><td colspan='6' align='center'><b>Authorised Signatory" + "</b</td></tr>";
+        $("#PrintTable tbody").append(markup);
+
+        $("#Print #PrintTable tbody tr #tdDate").html(strDate + " " + str);
+        $("#Print #PrintTable tbody tr #tdMembershipNo").html(mname);
+        $("#Print #PrintTable tbody tr #tdReceiptNo").html(billno);
+
+        var divText = document.getElementById("Print").outerHTML;
+        var printWin = window.open();
+        printWin.document.write(divText);
+        printWin.document.close();
+        printWin.focus();
+        printWin.print();
+        printWin.close();
+
+        $("#PrintTable tbody").empty();
+        $("#Print").hide();
+        $(".workarea-outer").show();
+
+    })
+
+</script>
+

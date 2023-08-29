@@ -1,0 +1,155 @@
+﻿@{
+    ViewBag.Title = "AddRoles";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div id="mySidenav" class="col-xs-4 col-sm-4 col-md-2 col-lg-2 sidenav">
+
+    @Html.Partial("_left_admin_submenu")
+</div>
+
+<script>
+    $(document).ready(function () {
+       // $("#Status").val("@ViewData["Status"]");
+        $('[data-toggle="tooltip"]').tooltip();
+        $(document).tooltip({
+            track: true
+        });
+    })
+
+  
+</script>
+
+<div class="col-xs-8 col-sm-8 col-md-10 col-lg-10 main">
+
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 page-title-outer">
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 page-title">Role Master</div>
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 page-title-btn">
+
+            <a href="@Url.Action("ViewBiometricDetails", "RoleMaster")" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="View">
+                <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
+            </a>
+        </div>
+    </div>
+
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 workarea-outer">
+  
+
+
+        @using (Html.BeginForm("AddRoles", "RoleMaster", new { @class = "beginform-outer" }, FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 scrolling-area">
+
+
+                   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 table-title"></div>
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 table-responsive">
+                    <table class="table blk-thm-table table-condensed">
+                        <thead>
+                            <tr>
+                                <th>Role Name</th>
+                                <th>User Name</th>
+                                <th>Screen Name</th>
+                              
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Admin</td>
+                                <td>Admin</td>
+                                <td>
+                                    <form>
+                                        <label class="checkbox-inline"><input type="checkbox" value="" />Admin</label>
+                                        <label class="checkbox-inline"><input type="checkbox" value="" />Kitchen</label>
+                                        <label class="checkbox-inline"><input type="checkbox" value="" />Front Office</label>
+                                        <label class="checkbox-inline"><input type="checkbox" value="" />Kitty Collection</label>
+                                        <label class="checkbox-inline"><input type="checkbox" value="" />Dining Area</label>
+                                    </form>
+                                </td>
+                                <td>
+                                <td><input class="btn btn-primary btn-xs" type="button" value="Select"></td>
+                            </tr>
+                            <tr>
+                                <td>Front office</td>
+                                <td>abc</td>
+                                <td>
+                                    <form>
+                                        <label class="checkbox-inline"><input type="checkbox" value="" />Admin</label>
+                                        <label class="checkbox-inline"><input type="checkbox" value="" />Kitchen</label>
+                                        <label class="checkbox-inline"><input type="checkbox" value="" />Front Office</label>
+                                        <label class="checkbox-inline"><input type="checkbox" value="" />Kitty Collection</label>
+                                        <label class="checkbox-inline"><input type="checkbox" value="" />Dining Area</label>
+                                    </form>
+                                </td>
+
+                            </tr>
+                            <tr>
+                                <td>Accounts</td>
+                                <td>xyz</td>
+                                <td>
+                                    <form>
+                                        <label class="checkbox-inline"><input type="checkbox" value="" />Admin</label>
+                                        <label class="checkbox-inline"><input type="checkbox" value="" />Kitchen</label>
+                                        <label class="checkbox-inline"><input type="checkbox" value="" />Front Office</label>
+                                        <label class="checkbox-inline"><input type="checkbox" value="" />Kitty Collection</label>
+                                        <label class="checkbox-inline"><input type="checkbox" value="" />Dining Area</label>
+                                    </form>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 table-title"></div>
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 table-responsive">
+                    <table class="table blk-thm-table table-condensed">
+                        <thead>
+                            <tr>
+                                <th>List Of Screens</th>
+                                <th>Submit</th>
+                                <th>View All</th>
+                                <th>Delete</th>
+                                <th>Reset</th>
+                                <th>Print</th>
+                                <th>Add</th>
+                                <th>Remove</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Club Master</td>
+                                <td><form><label class="checkbox-inline"><input type="checkbox" value="" /></label></form></td>
+                                <td><form><label class="checkbox-inline"><input type="checkbox"value="" /></label></form></td>
+                                <td><form><label class="checkbox-inline"><input type="checkbox" value="" /></label></form></td>
+                                <td><form><label class="checkbox-inline"><input type="checkbox" value="" /></label></form></td>
+                                <td><form><label class="checkbox-inline"><input type="checkbox" value="" /></label></form></td>
+                                <td><form><label class="checkbox-inline"><input type="checkbox" value="" /></label></form></td>
+                                <td><form><label class="checkbox-inline"><input type="checkbox" value="" /></label></form></td>
+                            </tr>
+                            <tr>
+                                <td>Member Master</td>
+                                <td><form><label class="checkbox-inline"><input type="checkbox" value="" /></label></form></td>
+                                <td><form><label class="checkbox-inline"><input type="checkbox" value="" /></label></form></td>
+                                <td><form><label class="checkbox-inline"><input type="checkbox" value="" /></label></form></td>
+                                <td><form><label class="checkbox-inline"><input type="checkbox" value="" /></label></form></td>
+                                <td><form><label class="checkbox-inline"><input type="checkbox" value="" /></label></form></td>
+                                <td><form><label class="checkbox-inline"><input type="checkbox" value="" /></label></form></td>
+                                <td><form><label class="checkbox-inline"><input type="checkbox" value="" /></label></form></td>
+                                <td><input class="btn btn-primary btn-xs" type="button" value="Select"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                @Html.Hidden("Clubid", ViewData["clubid"], new { @id = "Clubid" })
+            </div>
+             
+                   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 action-outer">
+                @*@Html.ActionLink("Submit", "Club_master", "Admin", null, new { @class = "btn btn-primary  " })*@
+                @*<input type="submit" value="@ViewBag.submit" class="btn btn-primary" id="Btn_Submit" />*@
+                       <button type="submit" value="@ViewBag.submit" class="btn btn-primary" id="Btn_Submit" data-toggle="tooltip" title="Save">
+                        
+                           <span class="glyphicon glyphicon-floppy-save"> </span>
+                       </button>
+            </div>
+        }
+    </div>
+</div>

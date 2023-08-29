@@ -1,0 +1,3 @@
+<add name="DefaultConnection" connectionString="SERVER=DESKTOP-KOLJVRQ\SQLEXPRESS;Initial Catalog=NTCYSTAGING;Trusted_Connection=true" providerName="System.Data.SqlClient" />
+
+<add name="DefaultConnection" connectionString="SERVER=192.168.0.20;Initial Catalog=NTCYSTAGING;uid=sa;pwd=Ntcy2018*;Trusted_Connection=false" providerName="System.Data.SqlClient" />

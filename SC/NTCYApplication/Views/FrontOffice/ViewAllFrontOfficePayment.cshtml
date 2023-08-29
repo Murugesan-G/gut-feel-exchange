@@ -1,0 +1,592 @@
+﻿@using NTCYApplication.Models.FrontOffice
+
+@{
+    ViewBag.Title="ViewAllFrontOfficePayment";
+}
+<style>
+    .tab {
+        overflow: hidden;
+        border: 1px solid #ccc;
+         background-color: #444040;
+        border-radius: 10px 10px 0px 0px;
+    }
+
+        /* Style the buttons inside the tab */
+        .tab button {
+            background-color: inherit;
+            float: left;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            padding: 14px 16px;
+            transition: 0.3s;
+            font-size: 17px;
+        }
+
+            /* Change background color of buttons on hover */
+            .tab button:hover {
+                background-color: #ddd;
+            }
+
+            /* Create an active/current tablink class */
+            .tab button.active {
+                background-color: #ffc107;
+            }
+
+    /* Style the tab content */
+    .tabcontent {
+        display: none;
+        padding: 6px 12px;
+        border: 1px solid #ccc;
+        border-top: none;
+        border-radius: 0px 0px 10px 10px;
+        height: auto;
+    }
+</style>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#Table1').DataTable({
+            initComplete: function () {
+                this.api().columns().every(function () {
+                    var column = this;
+                    var select = $('<select><option value=""></option></select>')
+                        .appendTo($(column.footer()).empty())
+                        .on('change', function () {
+                            var val = $.fn.dataTable.util.escapeRegex(
+                                $(this).val()
+                            );
+                            //to select and search from grid
+                            column
+                                .search(val ? '^' + val + '$' : '', true, false)
+                                .draw();
+                        });
+
+                    column.data().unique().sort().each(function (d, j) {
+                        select.append('<option value="' + d + '">' + d + '</option>')
+                    });
+                });
+            }
+        });
+    });
+</script>
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 main"><div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 page-title-outer">
+    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 page-title">Bills</div>
+    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 page-title-btn">
+        <a href="@Url.Action("ViewAllPendingSubscriptions", "FrontOffice")" title="Subscriptions Dues" class="btn btn-primary">
+            <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>
+            @*Subscriptions Dues*@
+        </a>
+        <a href="@Url.Action("ServiceCollection", "FrontOffice")" title="Guest Service Collection" class="btn btn-warning">
+            <span class="glyphicon glyphicon-glass" aria-hidden="true"></span>
+        </a>
+        <a style="display:none" href="@Url.Action("BillHistory", "FrontOffice")" title="Bill History" class="btn btn-primary">
+            <span class="glyphicon glyphicon-hourglass" aria-hidden="true"></span>
+        </a>
+     
+    </div>
+</div>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 workarea-outer">
+
+
+
+
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 scrolling-area">
+            @*<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 search-area">
+                <div class="col-xs-12 col-sm-6 col-md-2 col-lg-2 label-right">
+                    Search by MemberName
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-2 col-lg-2 textbox-area">
+                    <input type="text" maxlength="20" placeholder="Enter MemberName" name="MemberName" id="MemberName" class="blckthm-form-control" style="font-size:13px  ">
+                </div>
+
+                @*<div class="col-xs-12 col-sm-6 col-md-2 col-lg-2 textbox-area">
+                        <button type="button" value="Search" class="btn btn-primary" id="Search"><span class="glyphicon glyphicon-search"></span></button>
+                    </div>*@
+            @*</div>*@
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 table-title">List of Members</div>
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 table-responsive" id="disptable">
+                <table id="Table1" class="table blk-thm-table table-condensed">
+                    <thead>
+                        <tr>
+                            @*<th>Bill Number</th>*@
+                            <th>Membership No</th>
+                            <th>Member Name</th>
+                            <th>Date</th>
+                            <th>Total Amount</th>
+                            <th>Status</th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="Searching">
+                        @{
+                            if (ViewData["FrontOfficePaymentList"]!=null)
+                            {
+                                if (ViewData.Values!=null&&ViewData.Values.Count()>0)
+                                {
+                                    foreach (var Model in ViewBag.FrontOfficePaymentList as List<FrontOfficePayment>)
+                                    { 
+                                        <tr>
+                                            <td>@Model.MembershipNo</td>
+                                            <td>@Model.MemberName</td>
+                                            <td>@Model.BillDate</td>
+                                            <td>@Model.TotalAmount</td>
+                                            <td>@Model.Status</td>
+                                            <td width="45px"><Button Value="Paid" title="Pay" class="btn btn-primary" id="Paid" data-toggle="modal" data-target="#myModal" data-backdrop="static" data-keyboard="false" onclick="myfunction(this)"><img src="~/Images/pay.png" height="20px" />  </Button></td>
+                                            <td width="45px">@Html.ActionLink(" ", "ViewBillPay", "FrontOffice", new { MembershipNo = Model.MembershipNo,
+                                                            //Membername = Model.MemberName,
+                                                            BillDate = Model.BillDate,
+                                                            //Status = Model.Status,
+                                                            //TotalAmount = Model.TotalAmount
+                                                        }, new {@id="ViewDetailBill", @class = "glyphicon glyphicon-list-alt btn btn-primary", @title = "view Detail Bill", data_toggle = "tooltip", data_placement = "bottom", onclick = "myfunction();" })</td>
+
+                                        </tr>
+                                    }
+                                }
+                            }
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+           
+        </div>
+
+    </div>
+</div>
+
+
+
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-md">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Choose Payment Type</h4>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 textbox-area modal-body">
+                <div class="tab">
+                    <button class="tablinks" id="defaultOpen" onclick="openCity(event, 'Cash')">Cash</button>
+                    <button class="tablinks" onclick="openCity(event, 'Credit')">Credit Card</button>
+                    <button class="tablinks" onclick="openCity(event, 'Debit')">Debit Card</button>
+                    <button class="tablinks" onclick="openCity(event, 'Cheque')">Cheque</button>
+                </div>
+
+                <div id="Cash" class="tabcontent">
+
+                    @Html.Hidden("MembershipNo", new { @id = "MembershipNo" })
+                    @Html.Hidden("Date", new { @id = "Date" })
+
+                    <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 label-right">
+                        Rupees:
+                    </div>
+                    <div class="col-xs-6 col-sm-6 col-md-5 col-lg-5 textbox-area" style="padding-left:0px;">
+                        <input readonly="readonly" type="text" maxlength="10" id="cash" class="grythm-form-control" />
+                        <input type="text" maxlength="10" id="modeofPayment" value="Cash" style="display:none" />
+
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="margin-bottom:10px;"></div>
+                    <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 label-right"></div>
+                    <button type="submit" class="btn btn-primary" data-dismiss="modal" id="btnsubmit1" @*onclick="submitCash()"*@>Submit</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+
+                </div>
+
+                <div id="Credit" class="tabcontent">
+
+                    @Html.Hidden("MembershipNo", new { @id = "MembershipNo" })
+                    @Html.Hidden("Date", new { @id = "Date" })
+
+                    <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 label-right">
+                        Credit Card:
+                    </div>
+                    <div class="col-xs-6 col-sm-6 col-md-5 col-lg-5 textbox-area" style="padding-left:0px;">
+                        <input type="text" maxlength="16" id="Creditcardno" class="grythm-form-control" />
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 label-right">
+                        Expiry Date:
+                    </div>
+                    <div class="col-xs-6 col-sm-6 col-md-5 col-lg-5 textbox-area" style="padding-left:0px;">
+                        <input type="text" maxlength="10" id="CreditExpirydate" class="grythm-form-control" />
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 label-right">
+                        Card Type:
+                    </div>
+                    <div class="col-xs-6 col-sm-6 col-md-5 col-lg-5 textbox-area" style="padding-left:0px;">
+                        <input type="text" maxlength="15" id="CreditCardType" class="grythm-form-control" />
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 label-right">
+                        Amount:
+                    </div>
+                    <div class="col-xs-6 col-sm-6 col-md-5 col-lg-5 textbox-area" style="padding-left:0px;">
+                        <input readonly="readonly" type="text" maxlength="10" id="Creditcash" class="grythm-form-control" />
+                        <input type="text" maxlength="10" id="modeofPayment" value="CreditCard" style="display:none" />
+
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="margin-bottom:10px;"></div>
+
+                    <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 label-right"></div>
+                    <button type="submit" class="btn btn-primary" data-dismiss="modal" id="btnsubmit2" @*onclick="submitCredit()"*@>Submit</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                </div>
+
+                <div id="Debit" class="tabcontent">
+
+                    @Html.Hidden("MembershipNo", new { @id = "MembershipNo" })
+                    @Html.Hidden("Date", new { @id = "Date" })
+
+                    <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 label-right">
+                        Debit Card:
+                    </div>
+                    <div class="col-xs-6 col-sm-6 col-md-5 col-lg-5 textbox-area" style="padding-left:0px;">
+                        <input type="text" maxlength="16" id="Debitcardno" class="grythm-form-control" />
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 label-right">
+                        Expiry Date:
+                    </div>
+                    <div class="col-xs-6 col-sm-6 col-md-5 col-lg-5 textbox-area" style="padding-left:0px;">
+                        <input type="text" maxlength="10" id="Debitexpirydate" class="grythm-form-control" />
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 label-right">
+                        Card Type:
+                    </div>
+                    <div class="col-xs-6 col-sm-6 col-md-5 col-lg-5 textbox-area" style="padding-left:0px;">
+                        <input type="text" maxlength="15" id="Debitcardtype" class="grythm-form-control" />
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 label-right">
+                        Amount:
+                    </div>
+                    <div class="col-xs-6 col-sm-6 col-md-5 col-lg-5 textbox-area" style="padding-left:0px;">
+                        <input readonly="readonly" type="text" maxlength="10" id="Debitcash" class="grythm-form-control" />
+                        <input type="text" maxlength="10" id="modeofPayment" value="DebitCard" style="display:none" />
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="margin-bottom:10px;"></div>
+
+                    <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 label-right"></div>
+                    <button type="submit" class="btn btn-primary" data-dismiss="modal" id="btnsubmit3" @*onclick="submitDebit()"*@>Submit</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+
+                </div>
+
+                <div id="Cheque" class="tabcontent">
+
+                    @Html.Hidden("MembershipNo", new { @id = "MembershipNo" })
+                    @Html.Hidden("Date", new { @id = "Date" })
+
+                    <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 label-right">
+                        Cheque No:
+                    </div>
+                    <div class="col-xs-6 col-sm-6 col-md-5 col-lg-5 textbox-area" style="padding-left:0px;">
+                        <input type="text" maxlength="6" id="Chequeno" class="grythm-form-control" />
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 label-right">
+                        Cheque Date:
+                    </div>
+                    <div class="col-xs-6 col-sm-6 col-md-5 col-lg-5 textbox-area" style="padding-left:0px;">
+                        <input type="text" maxlength="10" id="chequedate" class="grythm-form-control" />
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 label-right">
+                        Bank Name:
+                    </div>
+                    <div class="col-xs-6 col-sm-6 col-md-5 col-lg-5 textbox-area" style="padding-left:0px;">
+                        <input type="text" maxlength="30" id="bankName" class="grythm-form-control" />
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 label-right">
+                        Amount:
+                    </div>
+                    <div class="col-xs-6 col-sm-6 col-md-5 col-lg-5 textbox-area" style="padding-left:0px;">
+                        <input readonly="readonly" type="text"maxlength="10" id="Chequecash" class="grythm-form-control" />
+                        <input type="text"maxlength="10" id="modeofPayment" value="Cheque" style="display:none" />
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="margin-bottom:10px;"></div>
+
+                    <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 label-right"></div>
+                    <button type="submit" class="btn btn-primary" data-dismiss="modal" id="btnsubmit4" @*onclick="submitCheque()"*@>Submit</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+
+                </div>
+
+            </div>
+            <div class="modal-footer" style="text-align:center;">
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+
+<script>
+    function openCity(evt, cityName) {
+        var i, tabcontent, tablinks;
+        tabcontent = document.getElementsByClassName("tabcontent");
+        for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+        }
+        tablinks = document.getElementsByClassName("tablinks");
+        for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" active", "");
+        }
+        document.getElementById(cityName).style.display = "block";
+        evt.currentTarget.className += " active";
+    }
+
+    // Get the element with id="defaultOpen" and click on it
+    document.getElementById("defaultOpen").click();
+</script>
+
+<script>
+
+    function myfunction(RowId) {
+
+        var Id = RowId;
+        var TableIndex = RowId.parentElement.parentElement;
+        var RowIndex = TableIndex.rowIndex - 1;
+
+        var currentRow = $(TableIndex).closest("tr");
+        membershipNo = currentRow.find("td:eq(0)").html(); // get current row 1st table cell TD value
+        date = currentRow.find("td:eq(2)").html();
+        totalamount = currentRow.find("td:eq(3)").html();
+
+
+        $("#MembershipNo").val(membershipNo);
+        $('#cash').val(totalamount);
+        $('#Creditcash').val(totalamount);
+        $('#Debitcash').val(totalamount);
+        $('#Chequecash').val(totalamount);
+        $('#Date').val(date);
+
+
+
+    }
+
+    function bindbill(RowId) {
+        var Id = RowId;
+        var TableIndex = RowId.parentElement.parentElement;
+        var RowIndex = TableIndex.rowIndex - 1;
+
+        var currentRow = $(TableIndex).closest("tr");
+        membershipNo = currentRow.find("td:eq(0)").html();
+        memberName = currentRow.find("td:eq(1)").html();// get current row 1st table cell TD value
+        date = currentRow.find("td:eq(2)").html();
+        totalamount = currentRow.find("td:eq(3)").html();
+        status = currentRow.find("td:eq(4)").html();
+
+        $("#MembershipNo").val(membershipNo);
+        $('#MemberName1').val(memberName);
+        $('#Date').val(date);
+        $('#TotalAmount').val(totalamount);
+        $('#Status').val(status);
+   
+    }
+
+    // Filter the membername
+    $(document).ready(function () {
+        $("#MemberName").on("keyup", function () {
+            var value = $(this).val().toLowerCase();
+            $("#Searching tr").filter(function () {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+ 
+
+
+    $("#chequedate").datetimepicker({
+        format:'DD/MM/YYYY',
+    });
+
+    });
+
+    //Cash
+    $("#btnsubmit1").click(function (e) {
+        //debugger;
+        var Payment = {};
+        Payment.MembershipNo = $('#MembershipNo').val();
+        Payment.ModeOfPayment = "Cash";
+        Payment.BillDate = $('#Date').val();
+        Payment.CardType = "Empty";
+        Payment.CardNo_ChequeNo = "Empty";
+        Payment.ExpDate = "Empty";
+        Payment.BankName = "Empty";
+        Payment.Amount = $('#cash').val();
+        $.ajax({
+
+            url: '../FrontOffice/InsertAllPayment',
+            type: 'POST',
+            cache: false,
+            data: JSON.stringify({ 'PaymentData': Payment }),
+            contentType: 'application/json; charset=utf-8',
+            datatype: 'json',
+            success: function (data) {
+                location.reload();
+            },
+
+        });
+
+    })
+
+    //Credit Card
+    $("#btnsubmit2").click(function (e) {
+        //debugger;
+        var Payment = {};
+        Payment.MembershipNo = $('#MembershipNo').val();
+        Payment.ModeOfPayment = "CreditCard";
+        Payment.BillDate = $('#Date').val();
+        Payment.CardType = $('#CreditCardType').val();
+        Payment.CardNo_ChequeNo = $('#Creditcardno').val();
+        Payment.ExpDate = $('#CreditExpirydate').val();
+        Payment.BankName = "Empty";
+        Payment.Amount = $('#Creditcash').val();
+        $.ajax({
+
+            url: '../FrontOffice/InsertAllPayment',
+            type: 'POST',
+            cache: false,
+            data: JSON.stringify({ 'PaymentData': Payment }),
+            contentType: 'application/json; charset=utf-8',
+            datatype: 'json',
+            success: function (data) {
+                location.reload();
+            },
+
+        });
+
+    })
+
+
+    //Debit Card Details
+    $("#btnsubmit3").click(function (e) {
+        //debugger;
+        var Payment = {};
+        Payment.MembershipNo = $('#MembershipNo').val();
+        Payment.ModeOfPayment = "DebitCard";
+        Payment.BillDate = $('#Date').val();
+        Payment.CardType = $('#Debitcardtype').val();
+        Payment.CardNo_ChequeNo = $('#Debitcardno').val();
+        Payment.ExpDate = $('#Debitexpirydate').val();
+        Payment.BankName = "Empty";
+        Payment.Amount = $('#Debitcash').val();
+        $.ajax({
+
+            url: '../FrontOffice/InsertAllPayment',
+            type: 'POST',
+            cache: false,
+            data: JSON.stringify({ 'PaymentData': Payment }),
+            contentType: 'application/json; charset=utf-8',
+            datatype: 'json',
+            success: function (data) {
+                location.reload();
+            },
+
+        });
+
+    })
+
+    //Cheque Details
+    $("#btnsubmit4").click(function (e) {
+        //debugger;
+        var Payment = {};
+        Payment.MembershipNo = $('#MembershipNo').val();
+        Payment.ModeOfPayment = "Cheque";
+        Payment.BillDate = $('#Date').val();
+        Payment.CardType = "Empty";
+        Payment.BankName = $('#bankName').val();
+        Payment.CardNo_ChequeNo = $('#Chequeno').val();
+        Payment.ExpDate = $('#chequedate').val();
+        Payment.Amount = $('#Chequecash').val();
+        $.ajax({
+
+            url: '../FrontOffice/InsertAllPayment',
+            type: 'POST',
+            cache: false,
+            data: JSON.stringify({ 'PaymentData': Payment }),
+            contentType: 'application/json; charset=utf-8',
+            datatype: 'json',
+            success: function (data) {
+                location.reload();
+            },
+
+        });
+
+    })
+
+    $("#Creditcardno").keypress(function (e) {
+        if (e.which <= 47 || e.which >= 58) {
+            return false;
+        }
+    })
+
+    $("#CreditExpirydate").keypress(function (e) {
+        if (e.which <= 46 || e.which >= 58) {
+            return false;
+        }
+    })
+
+
+    $("#CreditCardType").keypress(function (e) {
+        if ((e.which >= 33 && e.which <= 64) || (e.which >= 91 && e.which <= 96) ||
+            e.which >= 123 && e.which <= 126) {
+            return false;
+        }
+    })
+
+
+    $("#Debitcardno").keypress(function (e) {
+        if (e.which <= 47 || e.which >= 58) {
+            return false;
+        }
+    })
+
+    $("#Debitexpirydate").keypress(function (e) {
+        if (e.which <= 46 || e.which >= 58) {
+            return false;
+        }
+    })
+
+
+    $("#Debitcardtype").keypress(function (e) {
+        if ((e.which >= 33 && e.which <= 64) || (e.which >= 91 && e.which <= 96) ||
+            e.which >= 123 && e.which <= 126) {
+            return false;
+        }
+    })
+
+    $("#Chequeno").keypress(function (e) {
+        if (e.which <= 47 || e.which >= 58) {
+            return false;
+        }
+    })
+
+    $("#chequedate").keypress(function (e) {
+        if (e.which <= 46 || e.which >= 58) {
+            return false;
+        }
+    })
+
+
+    $("#bankName").keypress(function (e) {
+        if ((e.which >= 33 && e.which <= 64) || (e.which >= 91 && e.which <= 96) ||
+            e.which >= 123 && e.which <= 126) {
+            return false;
+        }
+    })
+</script>
+

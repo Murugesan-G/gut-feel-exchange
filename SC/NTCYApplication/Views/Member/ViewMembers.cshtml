@@ -1,0 +1,306 @@
+﻿@using NTCYApplication.Models.Club;
+@{
+    ViewBag.Title="ViewMembers";
+    Layout="~/Views/Shared/_Layout.cshtml";
+}
+
+<div id="mySidenav" class="col-xs-4 col-sm-4 col-md-2 col-lg-2 sidenav">
+
+    @Html.Partial("_left_admin_submenu")
+</div>
+
+<script>
+$(document).ready(function(){
+    $("#MemberName").on("keyup", function () {
+    var value = $(this).val().toLowerCase();
+    $("#Search tr").filter(function () {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+});
+</script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#TableView').DataTable({
+            initComplete: function () {
+                this.api().columns().every(function () {
+                    var column = this;
+                    var select = $('<select><option value=""></option></select>')
+                        .appendTo($(column.footer()).empty())
+                        .on('change', function () {
+                            var val = $.fn.dataTable.util.escapeRegex(
+                                $(this).val()
+                            );
+                            //to select and search from grid
+                            column
+                                .search(val ? '^' + val + '$' : '', true, false)
+                                .draw();
+                        });
+
+                    column.data().unique().sort().each(function (d, j) {
+                        select.append('<option value="' + d + '">' + d + '</option>')
+                    });
+                });
+            }
+        });
+    });
+</script>
+
+
+
+<div class="col-xs-8 col-sm-8 col-md-10 col-lg-10 main">
+   
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 workarea-outer">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 page-title-outer">
+            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 page-title">Member Master</div>
+            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 page-title-btn">
+
+                <a href="@Url.Action("CreateMember", "Member")" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Back">
+                    <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
+                </a>
+            </div>
+        </div>
+
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 scrolling-area" style="height: 560px;">
+            @*<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 table-title">Members</div>*@
+            @*<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 search-area">
+                <div class="col-xs-12 col-sm-6 col-md-2 col-lg-2 label-right">
+                    Search Member
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-2 col-lg-2 textbox-area">
+                    <input type="text" maxlength="20" placeholder="Enter MemberName" name="MemberName" id="MemberName" class="blckthm-form-control" style="font-size:13px  ">
+
+                </div>
+                              
+                <div class="col-xs-12 col-sm-6 col-md-2 col-lg-2 textbox-area">
+                    <a href="@Url.Action("ViewMembers", "Member")" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Refresh">
+                        <span class="glyphicon glyphicon-refresh"></span>
+                    </a>
+                </div>
+            </div>*@
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 table-title"> Member's Details </div>
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 table-responsive" style="height: 500px;overflow: auto;">
+
+                 <table id="TableView"   class="table blk-thm-table table-condensed">
+                    <thead>
+                        <tr>
+                            
+                          
+                            <th> Member_Id </th>
+                            <th> MemberShip_No </th>
+                            <th> Member_Name </th>
+                            <th style="display:none"> Date_Of_Birth </th>
+                            <th> Gender </th>
+                            <th> Address </th>
+                            <th> MobileNo. </th>
+                            <th style="display:none"> Alt_Mobile No. </th>
+                            <th style="display:none"> Email Id </th>
+                            <th style="display:none"> Proximity_Card_No </th>
+                            <th style="display:none"> Guests </th>
+                            <th style="display:none"> GuestCards </th>
+                            <th style="display:none"> Amenities Interested </th>
+                            <th> Membership Type </th>
+                            <th style="display:none"> Member Since </th>
+                            <th style="display:none"> MemberShip Start Date </th>
+                            <th style="display:none"> MemberShip Status </th>
+                            <th> Payment Status </th>
+                            <th style="display:none"> Initial Membership Amount </th>
+                            <th style="display:none"> Membership Validity </th>
+                            <th style="display:none"> Last Subscription Paid </th>
+                            <th style="display:none"> Subscription Amount Paid </th>
+                            <th style="display:none"> Spouse Name </th>
+                            <th style="display:none"> DOB Of Spouse </th>
+                            <th style="display:none"> Father's Name </th>
+                            <th style="display:none"> DOB Of Father </th>
+                            <th style="display:none"> Child1's Name</th>
+                            <th style="display:none"> DOB Of Child1 </th>
+                            <th style="display:none"> Child2's Name </th>
+                            <th style="display:none"> DOB Of Child2</th>
+                            <th> Alive</th>
+                            <th style="display:none"> Qualification</th>
+                            <th> Marital Status </th>
+                            <th style="display:none"> Profession</th>        
+                            <th style="display:none"> Hobbies </th>
+                            <th style="display:none"> Balance </th>
+                            <th style="display:none"> MemId </th>
+                            <th> Edit </th>
+                            <th> Delete </th>
+                            <th>Member Details</th>
+                          
+                        </tr>
+                    </thead>
+                    <tbody id="Search">
+                       
+                            @{
+                                if (ViewData["SubList"]!=null)
+                                {
+                                    if (ViewData.Values!=null&&ViewData.Values.Count()>0)
+                                    {
+                                        foreach (var Model in ViewBag.SubList as List<Member>)
+                                        {
+                                                    <tr>
+
+                                                        <td>@Model.MemberId</td>
+                                                        <td>@Model.MembershipNo</td>
+                                                        <td>@Model.MemberName</td>
+                                                        <td style="display:none">@Model.DOB.ToString("dd/MM/yyyy")</td>
+                                                        <td>@Model.Gender</td>
+                                                        <td>@Model.Address</td>
+                                                        <td>@Model.MobileNo</td>
+                                                        <td style="display:none">@Model.AltMobileNo</td>
+                                                        <td style="display:none">@Model.EmailId</td>
+                                                        <td style="display:none">@Model.ProximityCardNo</td>
+                                                        <td style="display:none">@Model.Guests</td>
+                                                        <td style="display:none">@Model.GuestCards</td>
+                                                        <td style="display:none">@Model.AmenitiesInterested</td>
+                                                        <td>@Model.MembershipType</td>
+                                                        <td style="display:none">@Model.MemberSince.ToString("dd/MM/yyyy")</td>
+                                                        <td style="display:none">@Model.MemberShipStartDate.ToString("dd/MM/yyyy")</td>
+                                                        <td style="display:none">@Model.MemberShipStatus</td>
+                                                        <td>@Model.PaymentStatus</td>
+                                                        <td style="display:none">@Model.InitialMembershipAmount</td>
+                                                        <td style="display:none">@Model.MembershipValidity.ToString("dd/MM/yyyy")</td>
+                                                        <td style="display:none">@Model.LastSubscriptionPaid</td>
+                                                        <td style="display:none">@Model.SubscriptionAmountPaid</td>
+                                                        <td style="display:none">@Model.SpouseName</td>
+                                                        <td style="display:none">@Model.DOBOfSpouse.ToString("dd/MM/yyyy")</td>
+                                                        <td style="display:none">@Model.FathersName</td>
+                                                        <td style="display:none">@Model.DOBOfFather.ToString("dd/MM/yyyy")</td>
+                                                        <td style="display:none">@Model.Child1sName</td>
+                                                        <td style="display:none">@Model.DOBOfChild1.ToString("dd/MM/yyyy")</td>
+                                                        <td style="display:none">@Model.Child2sName</td>
+                                                        <td style="display:none">@Model.DOBOfChild2.ToString("dd/MM/yyyy")</td>
+                                                        <td>@Model.Alive</td>
+                                                        <td style="display:none">@Model.Qualification</td>
+                                                        <td>@Model.MaritalStatus</td>
+                                                        <td style="display:none">@Model.Profession</td>
+                                                        <td style="display:none">@Model.Hobbies</td>
+                                                        <td style="display:none">@Model.Balance</td>
+                                                        <td style="display:none">@Model.MemId</td>
+                                                        <td>@Html.ActionLink(" ", "ViewMemberDetails", "Member", new { MemId = Model.MemId }, new { @class = "btn-sm btn-primary glyphicon glyphicon-pencil", @title = "Edit", data_toggle = "tooltip", data_placement = "bottom" })</td>
+                                                        @*<td>@Html.ActionLink(" ", "DeleteMember", "Member", new { MemId = Model.MemId }, new { @class = "btn-sm btn-primary glyphicon glyphicon-trash", @title = "Delete", data_toggle = "tooltip", data_placement = "bottom" })</td>*@
+                                                        <td>
+                                                            <i class="btn-sm btn-primary glyphicon glyphicon-trash" type="button" value=" "
+                                                               onclick="if (confirm('Are you sure you want to delete member?')) location.href='@Url.Action("DeleteMember", "Member", new { MemId = Model.MemId })'"></i>
+                                                        </td>
+                                                        <td><button class="btn-sm btn-primary" title="View Detail" type="button" id="btn_ViewDetail" data-toggle="modal" data-target="#ModalMember"><span class="glyphicon glyphicon-list-alt"></span></button></td>
+                                                        @*<td>@Html.ActionLink(" ", "ViewMemberDetails", "Member", new { MemberId = Model.MemberId }, new { @class = "btn-sm btn-primary glyphicon glyphicon-pencil", @title = "Edit", data_toggle = "tooltip", data_placement = "bottom" })</td>
+        <td>@Html.ActionLink(" ", "DeleteMember", "Member", new { MemberId = Model.MemberId }, new { @class = "btn-sm btn-primary glyphicon glyphicon-trash", @title = "Delete", data_toggle = "tooltip", data_placement = "bottom" })</td>*@
+
+                                                    </tr>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <tr>
+                                            <td>
+                                                @ViewBag.message
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+
+                            }
+
+                            
+
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+
+        <div class="modal fade" id="ModalMember" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" style="color:black;font-family:'Bookman Old Style'" id="myModalLabel"><b>Member Details</b></h4>
+                    </div>
+                    <div style="color:darkslateblue" class="modal-body">
+                        @*<table class="table" id="ClubDetailTable">
+                         <tbody>
+                           </tbody>
+                        </table>*@
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 label-area">
+            @ViewBag.message
+            @ViewBag.innerEx
+        </div>
+        </div>
+    </div>
+<script>
+
+    $("#TableView tbody").on('click', '#btn_ViewDetail', function () {
+        //debugger;
+        $(".modal-body").empty();
+        var currentRow = $(this).closest("tr");
+        var MemberId = currentRow.find("td:eq(0)").html();
+        var MembershipNo = currentRow.find("td:eq(1)").html();
+        var MemberName = currentRow.find("td:eq(2)").html();
+        var DOB = currentRow.find("td:eq(3)").html();
+        var Gender = currentRow.find("td:eq(4)").html();
+        var Address = currentRow.find("td:eq(5)").html();
+        var MobileNo = currentRow.find("td:eq(6)").html();
+        var AltMobileNo = currentRow.find("td:eq(7)").html();
+        var EmailId = currentRow.find("td:eq(8)").html();
+        var ProximityCardNo = currentRow.find("td:eq(9)").html();
+        var Guests = currentRow.find("td:eq(10)").html();
+        var GuestCards = currentRow.find("td:eq(11)").html();
+        var AmenitiesInterested = currentRow.find("td:eq(12)").html();
+        var MembershipType = currentRow.find("td:eq(13)").html();
+        var MemberSince = currentRow.find("td:eq(14)").html();
+        var MemberShipStartDate = currentRow.find("td:eq(15)").html();
+        var MemberShipStatus = currentRow.find("td:eq(16)").html();
+        var PaymentStatus = currentRow.find("td:eq(17)").html();
+        var InitialMembershipAmount = currentRow.find("td:eq(18)").html();
+        var MembershipValidity = currentRow.find("td:eq(19)").html();
+        var LastSubscriptionPaid = currentRow.find("td:eq(20)").html();
+        var SubscriptionAmountPaid = currentRow.find("td:eq(21)").html();
+        var SpouseName = currentRow.find("td:eq(22)").html();
+        var DOBOfSpouse = currentRow.find("td:eq(23)").html();
+        var FathersName = currentRow.find("td:eq(24)").html();
+        var DOBOfFather = currentRow.find("td:eq(25)").html();
+        var Child1sName = currentRow.find("td:eq(26)").html();
+        var DOBOfChild1 = currentRow.find("td:eq(27)").html();
+        var Child2sName = currentRow.find("td:eq(28)").html();
+        var DOBOfChild2 = currentRow.find("td:eq(29)").html();
+        var Alive = currentRow.find("td:eq(30)").html();
+        var Qualification = currentRow.find("td:eq(31)").html();
+        var MaritalStatus = currentRow.find("td:eq(32)").html();
+        var Profession = currentRow.find("td:eq(33)").html();
+        var Hobbies = currentRow.find("td:eq(34)").html();
+        var Balance = currentRow.find("td:eq(35)").html();
+        
+
+
+
+
+        var markup = "<b><table id='ViewDetailTable'><tr><td>" + "MemberId" + "</td><td style='border-right:1px solid;border-width:thick;'>" + MemberId + "</td><td>" + "InitialMembershipAmount" + "</td><td>" + InitialMembershipAmount + "</td></tr>" + "<tr><td>" + "MembershipNo" + "</td><td  style='border-right:1px solid;border-width:thick;'>" + MembershipNo + "</td><td>" + "MembershipValidity" + "</td><td>" + MembershipValidity + "</td></tr><tr><td>" +
+          "MemberName" + "</td><td  style='border-right:1px solid;border-width:thick;'>" + MemberName + "</td><td>" + "LastSubscriptionPaid" + "</td><td>" + LastSubscriptionPaid + "</td></tr><tr><td>" + "DOB" + "</td><td  style='border-right:1px solid;border-width:thick;'>" + DOB + "</td><td>" + "SubscriptionAmountPaid" + "</td><td>" + SubscriptionAmountPaid +
+            "</td></tr><tr><td>" +
+            "Gender" + "</td><td  style='border-right:1px solid;border-width:thick;'>" + Gender + "</td><td>" + "SpouseName" + "</td><td>" + SpouseName + "</td></tr><tr><td>" + "Address" + "</td><td  style='border-right:1px solid;border-width:thick;'>" + Address + "</td><td>" + "DOBOfSpouse" + "</td><td>" + DOBOfSpouse + "</td></tr><tr><td>" + "MobileNo" + "</td><td  style='border-right:1px solid;border-width:thick;'>" + MobileNo + "</td><td>" + "FathersName" + "</td><td>" + FathersName + "</td></tr><tr><td>" + "AltMobileNo" + "</td><td  style='border-right:1px solid;border-width:thick;'>" + AltMobileNo + "</td><td>" + "DOBOfFather" +
+            "</td><td>" + DOBOfFather + "</td></tr><tr><td>" +
+            "EmailId" + "</td><td  style='border-right:1px solid;border-width:thick;'>" + EmailId + "</td><td>" + "Child1sName" + "</td><td>" + Child1sName + "</td></tr><tr><td>" + "ProximityCardNo" + "</td><td  style='border-right:1px solid;border-width:thick;'>" + ProximityCardNo + "</td><td>" + "DOBOfChild1" + "</td><td>" + DOBOfChild1 + "</td></tr><tr><td>" + "Guests" + "</td><td style='border-right:1px solid;border-width:thick;'>" + Guests + "</td><td>" + "Child2sName" + "</td><td>" + Child2sName + "</td></tr><tr><td>" +
+            "GuestCards" + "</td><td style='border-right:1px solid;border-width:thick;'>" + GuestCards + "</td><td>" +
+            "DOBOfChild2" + "</td><td>" + DOBOfChild2 + "</td></tr><tr><td>" + "AmenitiesInterested" + "</td><td style='border-right:1px solid;border-width:thick;'>" + AmenitiesInterested + "</td><td>" + "Alive" + "</td><td>" + Alive + "</td></tr><tr><td>" + "MembershipType" + "</td><td style='border-right:1px solid;border-width:thick;'>" + MembershipType + "</td><td>" + "Qualification" + "</td><td>" + Qualification + "</td></tr><tr><td>" + "MemberSince" +
+            "</td><td style='border-right:1px solid;border-width:thick;'>" + MemberSince +
+            "</td><td>" + "MaritalStatus" + "</td><td>" + MaritalStatus +
+            "</td></tr><tr><td>" + "MemberShipStartDate" + "</td><td style='border-right:1px solid;border-width:thick;'>" + MemberShipStartDate + "</td><td>" + "Profession" + "</td><td>" + Profession + "</td></tr><tr><td>" + "MemberShipStatus" + "</td><td style='border-right:1px solid;border-width:thick;'>" + MemberShipStatus + "</td><td>" + "Hobbies" + "</td><td>" + Hobbies + "</td></tr><tr><td>" + "PaymentStatus" + "</td><td style='border-right:1px solid;border-width:thick;'>" + PaymentStatus + "</td><td>" + "Balance" + "</td><td>" + Balance + "</td></tr></table></b>";
+        $(".modal-body").append(markup);
+
+    })
+
+</script>
+<style>
+    #ViewDetailTable tr td {
+        width: 180px;
+    }
+</style>

@@ -1,0 +1,254 @@
+﻿@using NTCYApplication.Models.CardGame
+@{
+    ViewBag.Title="Collection";
+    Layout="~/Views/Shared/_Layout.cshtml";
+
+}
+
+
+<style>
+    .ui-autocomplete {
+        max-height: 100px;
+        overflow-y: auto;
+        /* prevent horizontal scrollbar */
+        overflow-x: hidden;
+    }
+    /* IE 6 doesn't support max-height
+    * we use height instead, but this forces the menu to always be this tall
+    */
+    * html .ui-autocomplete {
+        height: 100px;
+    }
+</style>
+
+
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 main">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 page-title-outer">
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 page-title">Kitty Collection</div>
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 page-title-btn">
+
+            <a href="@Url.Action("KittyPaymentView", "KittyPayment")" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="View">
+                <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
+            </a>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 workarea-outer">
+
+        @using (Html.BeginForm("Collection", "Collection", new { @class = "beginform-outer" }, FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 scrolling-area">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 form-outer">
+                    @Html.Hidden("GameId", ViewData["GameId"], new { @id = "GameId" })
+                   <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 label-right">
+                        Table
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 textbox-area ">
+                        <select class="blckthm-form-control" id="TableNo" name="TableNo">
+                            <option value="">Select Table No</option>
+                            @if (ViewBag.TableNoList!=null)
+                            {
+                                foreach (var Model in ViewBag.TableNoList as List<CardTable>)
+                                {
+                                    <option value="@Model.TableName" class="blckthm-form-control">
+                                        @Model.TableName
+                                    </option>
+                                }
+                            }
+
+                        </select>
+
+                    </div>
+                    <div class="clearfix"></div>
+
+                   <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 label-right">
+                        Game
+                    </div>
+                      <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 textbox-area ">
+                        @Html.TextBox("Game", ViewData["Game"], new { @maxlength = "5", @class = "blckthm-form-control", @id = "Game" })
+                        <span id="errmsgGame"></span>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 label-right">
+                        Winner
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-3 textbox-area ">
+
+                        <input type="text" maxlength="20" placeholder="Enter MemberName" name="MemberName" id="MemberName" class="blckthm-form-control">
+                        @*<i class="glyphicon glyphicon-search form-control-feedback"></i>*@
+                          @Html.TextBox("GuestName", "", new { @class = "blckthm-form-control", @id = "GuestName", @placeholder = "Enter Guest Name" })
+                        @Html.Hidden("PegorBottleChk", ViewData["PegorBottleChk"], new { @id = "PegorBottleChk" })
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 textbox-area ">
+                        <input type="checkbox"
+                               id="isGuest"
+                               name="Guest"
+                               value="true" />
+                        IsGuest
+                        </div>
+                    <div class="clearfix"></div>
+                  
+                      
+                       <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 label-right">
+                            Kitty Amount to be Paid:
+                        </div>
+                    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 textbox-area ">
+                        @Html.TextBox("AmountPaid", ViewData["AmountPaid"], new { @maxlength = "5", @class = "numeric blckthm-form-control", @id = "AmountPaid" })
+                        @*<input type='text' class='numeric blckthm-form-control' />*@
+                        <span id="errmsgamount"></span>
+                    </div>
+                    <div class="clearfix"></div>
+                        <div style="visibility:hidden" class="col-xs-12 col-sm-12 col-md-6 col-lg-6 label-right" id="text">
+                            Status
+                        </div>
+                        <div style="visibility:hidden" class="col-xs-12 col-sm-12 col-md-6 col-lg-6 textbox-area ui-widget" id="paymentStatus">
+                            @Html.DropDownList("Status", new List<SelectListItem> {
+                        new SelectListItem { Text="Paid", Value="Paid"},
+                        new SelectListItem { Text="Not Paid", Value="Not Paid"}
+                        }, "Select Status", new { @class = "blckthm-form-control", @id = "Status" })
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 label-right">
+
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 textbox-area ">
+                        </div>
+                    </div>
+            </div>
+
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 action-outer">
+                <button type="submit" value="@ViewBag.submit" class="btn btn-primary" id="Btn_Submit" data-toggle="tooltip" title="Save">
+                    <span class="glyphicon glyphicon-floppy-save"> </span>
+                </button>
+            </div>
+        }
+    </div>
+</div>
+
+
+<script>
+
+    /* $('.numeric').keyup(function (event) {
+
+         var currentVal = $(this).val();
+
+         if (currentVal.length == 1 && (event.which == 48 || event.which == 96)) {
+             $("#text").hide();
+             $("#paymentStatus").hide();
+             currentVal = currentVal.slice(0, -1);
+
+         }
+         else {
+             $("#text").show();
+             $("#paymentStatus").show();
+         }
+         $(this).val(currentVal);
+     });*/
+    /* $("#AmountPaid").keypress(function (e) {
+         //debugger;
+         if ((e.which != 46 && $(this).val().indexOf('.') != -1) && (e.which < 48 || e.which > 57) && (e.which !=48))
+         {
+
+             //if (this.value.length == 0 && e.which == 48) {
+             $("#text").hide();
+             $("#paymentStatus").hide();
+             // return false;
+         }
+         else {
+             $("#text").show();
+             $("#paymentStatus").show();
+         }
+
+     });*/
+
+
+
+
+
+    $(document).ready(function () {
+
+        $("AmountPaid").keypress(function (e) {
+            if ((e.which != 46 || $(this).val().indexOf('.') != -1) && (e.which < 48 || e.which > 57)) {               
+                return false;
+            }
+
+        });
+        $("#Game").keypress(function (e) {
+            if ((e.which != 46 || $(this).val().indexOf('.') != -1) && (e.which < 48 || e.which > 57)) {
+                $('#errmsgGame').css('color', 'red');
+                $("#errmsgGame").html("Numbers Only").show().fadeOut("slow");
+                return false;
+            }
+        });
+        $('#GuestName').hide();
+        $("#paymentStatus").hide();
+        $("#text").hide();
+
+
+        $('#isGuest').click(function () {
+            var $this = $(this);
+            if ($this.is(':checked')) {
+                $('#GuestName').show();
+                $('#MemberName').hide();
+            } else {
+                $('#GuestName').hide();
+                $('#MemberName').show();
+
+            }
+        })
+        //required field validation
+        $('#Btn_Submit').click(function () {
+            //debugger;
+            if ($('#TableNo').val() == '' || $('#TableNo').val() == "" || $('#TableNo').val() == 'Select Table No') {
+                alert('Please Select Table No !!!');
+                $('#TableNo').focus();
+                return false;
+            } else if ($('#Game').val() == '' || $('#Game').val() == "") {
+                alert('Enter Game Number!!!')
+                $('#Game').focus();
+                return false;
+            }
+            else if ($('#MembershipNo').val() == '' || $('#MembershipNo').val() == "") {
+                alert('Please Select the Winner!!!')
+                $('#MembershipNo').focus();
+                return false;
+            }
+                // else if ($('#AmountPaid').val() !== '' || $('#AmountPaid').val() !== "" || $('#AmountPaid').val() !== 0) {
+                //if ($('#Status').val() == '' || $('#Status').val() == "" || $('#Status').val() == 'Select Status') {
+                //    alert('Please Select Status !!!');
+                //    $('#Status').focus();
+                //    return false;
+                // }
+            else {
+                return true;
+            }
+        });
+
+    });
+</script>
+
+
+<script>
+    $(document).ready(function () {
+
+        $("#MemberName").autocomplete({
+
+            source: function (request, response) {
+                //debugger;
+                $.ajax({
+
+                    url: "@Url.Content("~/Collection/AutoComplete")",
+                    type: "POST",
+                    dataType: "json",
+                    data: { prefix: request.term },
+                    success: function (data) {
+                        response($.map(data, function (item) {
+                            return { value: item.MemberName };
+                        }))
+                    }
+                })
+            },
+        });
+    });
+</script>
+
+

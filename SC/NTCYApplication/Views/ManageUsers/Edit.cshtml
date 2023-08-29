@@ -1,0 +1,84 @@
+﻿
+@{
+    ViewBag.Title="Edit";
+}
+<div id="mySidenav" class="col-xs-4 col-sm-4 col-md-2 col-lg-2 sidenav">
+
+    @Html.Partial("_left_admin_submenu")
+</div>
+
+<div class="col-xs-8 col-sm-8 col-md-10 col-lg-10 main">
+
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 page-title-outer">
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 page-title">Register User <span style="color:white">></span>  View All <span style="color:white">></span>  Edit User Role</div>
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 page-title-btn">
+            <a href="@Url.Action("UsersWithRoles", "ManageUsers")" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Back">
+                <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
+            </a>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 workarea-outer">
+        @using (Html.BeginForm("ApplyRolesToUser", "ManageUsers", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+            {
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 scrolling-area">
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 form-outer">
+
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 bold-label-right">
+                        Username:
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-8 textbox-area">
+                        <input class="blckthm-form-control" type="text" readonly="readonly" name="txt_username" value="@ViewBag.txtName" id="txt_Name">
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 bold-label-right">
+                        Email:
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-8 textbox-area">
+                        <input class="blckthm-form-control" type="text" readonly="readonly" value="@ViewBag.txtemail" id="txt_Email">
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 bold-label-right">
+                        Roles:
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-8 textbox-area form-inline">
+                        <table>
+
+
+                            @if (ViewBag.Roles!=null)
+                            {
+                                foreach (var x in ViewBag.Roles)
+                                {
+                                    <tr>
+                                        <td>
+                                            @{ bool isSet = false;
+                                                foreach (var rl in ViewBag.RolesForThisUser)
+                                                {
+                                                    if (rl==@x.Text) { isSet=true; }
+                                                }
+
+                                                if (isSet)
+                                                {
+                                                    <input class="checkbox" type="checkbox" name="chk_@x.Text" checked id="chk_Roles"> @x.Text
+                                                }
+                                                else
+                                                {
+                                                    <input class="checkbox" type="checkbox" name="chk_@x.Text" id="chk_Roles"> @x.Text
+                                                }
+                                            }
+                                        </td>
+                                    </tr>
+                                                    }
+                                                }
+
+
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 action-outer">
+                <button type="submit" id="btn_Submit" class="btn btn-primary">
+                    <span class="glyphicon glyphicon-floppy-save"></span>
+                </button>
+            </div>
+                                                }
+    </div>
+</div>

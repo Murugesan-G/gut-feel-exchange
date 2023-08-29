@@ -1,0 +1,136 @@
+﻿@using NTCYApplication.Models.Club
+@{
+    ViewBag.Title="CreateUser";
+    Layout="~/Views/Shared/_Layout.cshtml";
+}
+
+<div id="mySidenav" class="col-xs-4 col-sm-4 col-md-2 col-lg-2 sidenav">
+
+    @Html.Partial("_left_admin_submenu")
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#Status").val("@ViewData["Status"]");
+
+    });
+</script>
+
+<script>
+    $(document).ready(function () {
+        // $("#Status").val("@ViewData["Status"]");
+        $('[data-toggle="tooltip"]').tooltip();
+        $(document).tooltip({
+            track: true
+        });
+    })
+</script>
+
+<div class="col-xs-8 col-sm-8 col-md-10 col-lg-10 main">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 page-title-outer">
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 page-title">User Master</div>
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 page-title-btn">
+
+            <a href="@Url.Action("ViewAllUser", "UserMaster")" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="View All">
+
+                <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
+            </a>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 workarea-outer">
+  
+
+
+        @using (Html.BeginForm("CreateUser", "UserMaster", new { @class = "beginform-outer" }, FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 scrolling-area">
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 form-outer">
+                    @Html.Hidden("UserId", ViewData["UserId"], new { @id = "UserId" })
+
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 label-right">
+                        User Name
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 textbox-area">
+                        @Html.TextBox("UserName", ViewData["UserName"], new { @maxlength = "20", @class = "blckthm-form-control", @id = "UserName" })
+
+                    </div>
+
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 label-right">
+                        Password
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 textbox-area">
+                        @Html.TextBox("Password", ViewData["Password"], new { @maxlength = "20", @class = "blckthm-form-control", @id = "Password" })
+
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 label-right">
+                        User Roles
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 textbox-area">
+                        <select id="UserRoles" name="UserRoles" class="blckthm-form-control">
+
+                            @if (ViewBag.UserList!=null)
+                            {
+                                <option value="">Select UserRoles</option>
+                                foreach (var Model in ViewBag.UserList as List<UserRoles>)
+                                {
+
+                                    <option value="@Model.RoleId" class="blckthm-form-control">
+                                        @Model.RoleName
+                                    </option>
+                                }
+                            }
+                            else
+                            {
+                                <option>No UserRoles Availalble</option>
+                            }
+
+                        </select>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 label-right">
+                        Status
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 dropdown">
+                        <select id="Status" name="Status" class="blckthm-form-control">
+                            <option value="">Select Status</option>
+                            <option id="active" value="Active">Active</option>
+                            <option id="inActive" value="InActive">InActive</option>
+                            <option id="disabled" value="Disabled">Disabled</option>
+
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 form-outer">
+
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 action-outer">
+                @*<input type="submit" value="@ViewBag.submit" class="btn btn-primary" id="Btn_Submit" />*@
+
+                <button type="submit" value="@ViewBag.submit" class="btn btn-primary" id="Btn_Submit" data-toggle="tooltip" title="Save">
+                    <span class="glyphicon glyphicon-floppy-save"> </span>
+                </button>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 label-area">
+                <p>@ViewBag.message</p>
+                <p>@ViewBag.innerEx</p>
+
+            </div>
+
+        }
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $("#myInput").on("keyup", function () {
+            var value = $(this).val().toLowerCase();
+            $("#Status option").filter(function () {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+    });
+</script>

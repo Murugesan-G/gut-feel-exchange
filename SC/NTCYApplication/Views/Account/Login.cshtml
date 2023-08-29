@@ -1,0 +1,93 @@
+﻿@using NTCYApplication.Models.Users
+@model NTCYApplication.Models.Users.LoginViewModel
+@{
+    ViewBag.Title = "Log in";
+    Layout="~/Views/Shared/Login_Layout.cshtml";
+}
+
+ 
+<div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header" style="color: #fff;">
+            <div class="logo" style="">
+                <img src="~/Images/NTCYLogo-01.png" alt="New Town Club Yelahanka" />New Town Club Yelahanka
+            </div>
+        </div>
+        <div class="navbar-collapse collapse">
+            <div class="nav navbar-nav mainmenu navbar-right" style="padding: 15px;
+                 color: #aba99a;
+                 font-size: 13px;margin-right: 15px;">
+                @*Don't have an account ?  @Html.ActionLink("Register", "Register", new { @class = "btn btn-primary" })*@
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="container-fluid" style="background-color:#212121; height: 95%; padding: 0px;overflow: hidden;">
+
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-offset-4 col-md-8 col-lg-offset-4 col-lg-8" style="padding-top: 100px; color: #fff; padding-left: 80px;">
+            <section id="loginForm">
+                @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+            {
+                    @Html.AntiForgeryToken()
+                    <h3>
+                        Sign In
+                    </h3>
+                    <h5 style="color:#808080">Enter your details below</h5>
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="form-group" style="margin-top:30px;">
+                        @*@Html.LabelFor(m => m.UserName, new { @class = "col-md-2 control-label" })*@
+                        <div class="col-md-6 col-lg-4">
+                            @Html.TextBoxFor(m => m.UserName, new { @class = "blckthm-form-control", placeholder = "User Name" })
+                            @Html.ValidationMessageFor(m => m.UserName, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @*@Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })*@
+                        <div class="col-md-6 col-lg-4">
+                            @Html.PasswordFor(m => m.Password, new { @class = "blckthm-form-control", placeholder = "Password" })
+                            @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-xs-4 col-sm-4 col-md-4 ">
+                            <div class="checkbox" style="text-align: left;
+                                                             padding-left: 21px;">
+                                @Html.CheckBoxFor(m => m.RememberMe)
+                                @Html.LabelFor(m => m.RememberMe)
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-1">
+                            <input type="submit" value="Log in" class="btn btn-primary" />
+                        </div>
+                    </div>
+                    <p>
+                        @*@Html.ActionLink("Register as a new user", "Register")*@
+                    </p>
+                    @* Enable this once you have account confirmation enabled for password reset functionality*@
+                <p>
+                   @* @Html.ActionLink("Forgot your password?", "ForgotPassword")*@
+                </p>
+                }
+            </section>
+        </div>
+        <div class="col-md-4">
+            <section id="socialLoginForm">
+                @Html.Partial("_ExternalLoginsListPartial", new ExternalLoginListViewModel { ReturnUrl=ViewBag.ReturnUrl })
+            </section>
+        </div>
+    </div>
+
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 footer" style="bottom:0px;position: absolute;background-color:#212121 !important; ">
+        <p style="margin: 0px; padding: 0px;    text-align: right;">&copy; @DateTime.Now.Year - Powered By SPIGOT Software Pvt.Ltd</p>
+    </div>
+
+
+    @section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+    }

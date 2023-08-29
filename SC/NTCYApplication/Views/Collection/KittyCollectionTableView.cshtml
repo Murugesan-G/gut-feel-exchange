@@ -1,0 +1,133 @@
+﻿@using NTCYApplication.Models.CardGame
+@{
+    ViewBag.Title="KittyCollectionTableView";
+    Layout="~/Views/Shared/_Layout.cshtml";
+}
+
+@*<script>
+    $(document).ready(function () {
+       // $("#Status").val("@ViewData["Status"]");
+        $('[data-toggle="tooltip"]').tooltip();
+        $(document).tooltip({
+            track: true
+        });
+    })
+</script>*@
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#Table1').DataTable({
+            initComplete: function () {
+                this.api().columns().every(function () {
+                    var column = this;
+                    var select = $('<select><option value=""></option></select>')
+                        .appendTo($(column.footer()).empty())
+                        .on('change', function () {
+                            var val = $.fn.dataTable.util.escapeRegex(
+                                $(this).val()
+                            );
+                            //to select and search from grid
+                            column
+                                .search(val ? '^' + val + '$' : '', true, false)
+                                .draw();
+                        });
+
+                    column.data().unique().sort().each(function (d, j) {
+                        select.append('<option value="' + d + '">' + d + '</option>')
+                    });
+                });
+            }
+        });
+    });
+</script>
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 main"><div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 page-title-outer">
+    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 page-title">Kitty Collection</div>
+    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 page-title-btn">
+        <a href="@Url.Action("KittyPaymentView", "KittyPayment")" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Back">
+            <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
+        </a>
+    </div>
+</div>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 workarea-outer">
+
+
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 scrolling-area"  style="height: 560px;">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 table-title">Paid List</div>
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 table-responsive"  style="height: 510px;overflow: auto;">
+                @{
+                    if (ViewData["CardGameList"]!=null)
+                    {
+                        if (ViewData.Values!=null&&ViewData.Values.Count()>0)
+                        {
+                            if (ViewBag.CardGameList!=null)
+                            {
+                                <table id="Table1" class="table blk-thm-table table-condensed">
+                                    <thead>
+                                        <tr>
+
+                                            <th>Table No</th>
+                                            <th>Game</th>
+                                            <th>Winner</th>
+                                            <th>Amount</th>                                            
+                                            <th>Date</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                     
+                                            @foreach (var Model in ViewBag.CardGameList as List<CardRoomGame>)
+                                            {
+                                            <tr>
+                                                <td>@Model.TableNo</td>
+                                                <td>@Model.Game</td>
+                                                <td>@Model.Winner</td>
+                                                <td>@Model.AmountPaid</td>                                               
+                                                <td>@Model.Date</td>
+                                            </tr>
+                                            }
+                                           
+                                        </tbody>
+
+                                    </table>
+                            }
+                            else
+                            {
+                                <table class="table blk-thm-table table-condensed" id="norecord">
+                                    <thead>
+                                        <tr>
+                                            <td style="font-size:18px;font-weight:bold; text-align:center;">No Records Found</td>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            }
+                        }
+                        else
+                        {
+                            <table class="table blk-thm-table table-condensed" id="norecord">
+                                <thead>
+                                    <tr>
+                                        <td style="font-size:18px;font-weight:bold; text-align:center;">No Records Found</td>
+                                    </tr>
+                                </thead>
+                            </table>
+                        }
+                    }
+                    else
+                    {
+                        <table class="table blk-thm-table table-condensed" id="norecord">
+                            <thead>
+                                <tr>
+                                    <td style="font-size:18px;font-weight:bold; text-align:center;">No Records Found</td>
+                                </tr>
+                            </thead>
+                        </table>
+                    }
+                }
+            </div>
+
+        </div>
+
+        @*<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 action-outer">
+                <input type="submit" value="@ViewBag.submit" class="btn btn-primary" id="Btn_Submit" />
+            </div>*@
+    </div>
+</div>

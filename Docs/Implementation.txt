@@ -1,0 +1,72 @@
+Models >> Model class
+
+Entities >> xxxDTO
+
+Database >> DataContext.cs
+
+Utils >> AutoMapperProfile.cs
+
+Services >> Interface & Implementation
+Program.cs
+
+Controllers >> 
+
+View >>
+
+Spouse Id, Child 1,2,3 Id --> Needs to be add in UI and DB
+It will link with Member id. Ex: M001 >> M001.1(Spouse), M001.2(Child)....
+
+Photo Integration
+
+Login Screen
+
+UI Decoration
+Colour, Background Image, Icons
+
+Dashboard >> Club Photo
+
+Member Popop
+
+GUI --> Run in the Background
+--> Read the data from BioMetric DB - continously
+--> Once new entry - It will popop the screen with data.
+--> Validation: If the member available in biometric but not in application then addional message in the popop. -- Disable "Proceed" button
+--> Proceed button click event. It will match the member no with application and add the details like Member id, date, no of guests.
+--> Along with that the remain of the day popop should not come.
+--> It should be date wise and member id
+--> It shold show only once in a day
+--> Spouse Member Id also shold popop with member id
+
+Target Date 03-Oct
+
+Stock Inward
+ Stock Inward >> Receipt and Receipt Details
+ 
+Stock Adjustment
+
+Order
+	Food Order
+
+Kitchen
+	Pending Orders
+	
+Bar
+	Pending Orders
+	Completed Orders
+	
+Front Office
+	Payments
+	
+installutil C:\Projects\NTCY\SC\Testing\TestWindowsService\bin\Debug\TestWindowsService.exe
+
+SC START TestWindowsService
+SC STOP shortservicename
+SC DELETE shortservicename
+
+get process id of service with
+
+sc queryex <service name>
+
+kill process with
+
+taskkill /F /PID <Service PID>

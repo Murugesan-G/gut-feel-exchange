@@ -1,0 +1,103 @@
+﻿@{
+    ViewBag.Title="ViewAccountDetails";
+    Layout="~/Views/Shared/_Layout.cshtml";
+}
+<div id="mySidenav" class="col-xs-4 col-sm-4 col-md-2 col-lg-2 sidenav">
+
+    @Html.Partial("_left_admin_submenu")
+</div>
+
+@*<script>
+    $(document).ready(function () {
+       // $("#Status").val("@ViewData["Status"]");
+        $('[data-toggle="tooltip"]').tooltip();
+        $(document).tooltip({
+            track: true
+        });
+    })
+</script>*@
+
+<div class="col-xs-8 col-sm-8 col-md-10 col-lg-10 main"><div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 page-title-outer">
+    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 page-title">View Tally Integration Details</div>
+    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 page-title-btn">
+
+        <a href="@Url.Action("CreateAccountDetails", "ClubAccounts")" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Back">
+            <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
+        </a>
+    </div>
+</div>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 workarea-outer">
+ 
+
+
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 scrolling-area" style="height: 476px;">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 table-title">Tally Integration Details</div>
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 table-responsive  " style="height: 424px;overflow: auto;">
+
+
+                @{if (ViewBag.Error=="0")
+                    {
+
+                        <table class="table blk-thm-table table-condensed" id="norecord">
+                            <thead>
+                                <tr>
+                                    <td style="font-size:18px;font-weight:bold; text-align:center;">No Records Found</td>
+                                </tr>
+                            </thead>
+                        </table>
+
+                    }
+                    else
+                    {
+
+                        <table class="table blk-thm-table table-condensed" id="TblGridId">
+                            <thead>
+                                <tr>
+                                    <th>Url</th>
+                                    <th>Port</th>
+                                    <th>Username</th>
+                                    <th>Password</th>
+                                    <th>Ledger1</th>
+                                    <th>Ledger2</th>
+                                    <th>Ledger3</th>
+                                    <th>Ledger4</th>
+                                    <th>Status</th>
+                                    <th>Edit</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+
+                                    <td>@ViewData["Url"]</td>
+                                    <td>@ViewData["Port"]</td>
+                                    <td>@ViewData["Username"]</td>
+                                    <td>@ViewData["Password"]</td>
+                                    <td>@ViewData["Ledger1"]</td>
+                                    <td>@ViewData["Ledger2"]</td>
+                                    <td>@ViewData["Ledger3"]</td>
+                                    <td>@ViewData["Ledger4"]</td>
+                                    <td>@ViewData["Status"]</td>
+                                    <td>@Html.ActionLink(" ", "EditClubAccountDetails", "ClubAccounts", new { @class = "btn-sm btn-primary glyphicon glyphicon-pencil", @title = "Edit", data_toggle = "tooltip", data_placement = "bottom" })</td>
+
+                                </tr>
+
+                            </tbody>
+
+                        </table>
+
+                    }
+
+                }
+                             
+            </div>
+
+        </div>
+        <p>@ViewBag.message</p>
+        <p>@ViewBag.innerEx</p>
+    </div>
+</div>
+
+
+<script>
+    $(data).alert("No data");
+</script>

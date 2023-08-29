@@ -1,0 +1,960 @@
+﻿@using NTCYApplication.Models.Club
+@{
+    ViewBag.Title="CreateCommittee";
+    Layout="~/Views/Shared/_Layout.cshtml";
+}
+
+<div id="mySidenav" class="col-xs-4 col-sm-4 col-md-2 col-lg-2 sidenav">
+
+    @Html.Partial("_left_admin_submenu")
+</div>
+
+
+
+
+<div class="col-xs-8 col-sm-8 col-md-10 col-lg-10 main">
+
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 page-title-outer">
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 page-title">Club Committee</div>
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 page-title-btn">
+
+            <a href="@Url.Action("ViewCommitteeMembers", "ClubCommittee")" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="View All">
+
+                <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
+            </a>
+        </div>
+    </div>
+
+
+
+
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 workarea-outer">
+       
+
+
+        @using (Html.BeginForm("CreateCommittee", "ClubCommittee", new { @class = "beginform-outer" }, FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 scrolling-area">
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 form-outer">
+                    @Html.Hidden("CommitteeId", ViewData["CommitteeId"], new { @id = "CommitteeId" })
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 label-right">
+                        Chairman
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 textbox-area">
+                        @Html.Hidden("ChairmanStartDate", ViewData["ChairmanStartDate"], new { @id = "ChairmanStartDate" })
+                        @Html.Hidden("ChairmanEndDate", ViewData["ChairmanEndDate"], new { @id = "ChairmanEndDate" })
+                        @Html.Hidden("ChairmanStatus", ViewData["ChairmanStatus"], new { @id = "ChairmanStatus" })
+                        <div class="form-group has-feedback" style="margin-bottom: 0px;">
+                            <input type="text" maxlength="20" placeholder="Chairman Name" name="Chairman" id="Chairman" class="blckthm-form-control" style="font-size:14px">
+                            <i class="glyphicon glyphicon-search form-control-feedback"></i>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 label-right">
+                        President
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 textbox-area">
+                        @Html.Hidden("PresidentStartDate", ViewData["PresidentStartDate"], new { @id = "PresidentStartDate" })
+                        @Html.Hidden("PresidentEndDate", ViewData["PresidentEndDate"], new { @id = "PresidentEndDate" })
+                        @Html.Hidden("PresidentStatus", ViewData["PresidentStatus"], new { @id = "PresidentStatus" })
+
+                        <div class="form-group has-feedback" style="margin-bottom: 0px;">
+                            <input type="text" maxlength="20" placeholder="President Name" name="President" id="President" class="blckthm-form-control" style="font-size:14px">
+                            <i class="glyphicon glyphicon-search form-control-feedback"></i>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 label-right">
+                        Vice President
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 textbox-area">
+                        @Html.Hidden("VicePresidentStartDate", ViewData["VicePresidentStartDate"], new { @id = "VicePresidentStartDate" })
+                        @Html.Hidden("VicePresidentEndDate", ViewData["VicePresidentEndDate"], new { @id = "VicePresidentEndDate" })
+                        @Html.Hidden("VicePresidentStatus", ViewData["VicePresidentStatus"], new { @id = "VicePresidentStatus" })
+
+                        <div class="form-group has-feedback" style="margin-bottom: 0px;">
+                            <input type="text" maxlength="20" placeholder="Vice President Name" name="VicePresident" id="VicePresident" class="blckthm-form-control" style="font-size:14px">
+                            <i class="glyphicon glyphicon-search form-control-feedback"></i>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 label-right">
+                        Secretary
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 textbox-area">
+                        @Html.Hidden("SecretaryStartDate", ViewData["SecretaryStartDate"], new { @id = "SecretaryStartDate" })
+                        @Html.Hidden("SecretaryEndDate", ViewData["SecretaryEndDate"], new { @id = "SecretaryEndDate" })
+                        @Html.Hidden("SecretaryStatus", ViewData["SecretaryStatus"], new { @id = "SecretaryStatus" })
+
+                        <div class="form-group has-feedback" style="margin-bottom: 0px;">
+                            <input type="text" maxlength="20" placeholder="Secretary Name" name="Secretary" id="Secretary" class="blckthm-form-control" style="font-size:14px">
+                            <i class="glyphicon glyphicon-search form-control-feedback"></i>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 label-right">
+                        Treasurer
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 textbox-area">
+                        @Html.Hidden("TreasurerStartDate", ViewData["TreasurerStartDate"], new { @id = "TreasurerStartDate" })
+                        @Html.Hidden("TreasurerEndDate", ViewData["TreasurerEndDate"], new { @id = "TreasurerEndDate" })
+                        @Html.Hidden("TreasurerStatus", ViewData["TreasurerStatus"], new { @id = "TreasurerStatus" })
+
+                        <div class="form-group has-feedback" style="margin-bottom: 0px;">
+                            <input type="text" maxlength="20" placeholder="Tresurer Name" name="Treasurer" id="Treasurer" class="blckthm-form-control" style="font-size:14px">
+                            <i class="glyphicon glyphicon-search form-control-feedback"></i>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 label-right">
+                        Committee Members
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 textbox-area">
+                        @Html.Hidden("CommitteeMembersStartDate", ViewData["CommitteeMembersStartDate"], new { @id = "CommitteeMembersStartDate" })
+                        @Html.Hidden("CommitteeMembersEndDate", ViewData["CommitteeMembersEndDate"], new { @id = "CommitteeMembersEndDate" })
+                        @Html.Hidden("CommitteeMembersStatus", ViewData["CommitteeMembersStatus"], new { @id = "CommitteeMembersStatus" })
+
+                        <div class="form-group has-feedback" style="margin-bottom: 0px;">
+                            <input type="text" maxlength="20" placeholder="Committee Members" name="CommitteeMembers" id="CommitteeMembers" class="blckthm-form-control" style="font-size:14px">
+                            <i class="glyphicon glyphicon-search form-control-feedback"></i>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 label-right">
+
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 textbox-area">
+                        <div id="log" style="height:100px;overflow: auto;" class="blckthm-form-control"></div>
+                        @Html.Hidden("memberList", null, new { @id = "memberList" })
+                    </div>
+
+                 
+                </div>
+
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 form-outer">
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 label-right">
+                        Start Date
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 textbox-area">
+                        @Html.TextBox("StartDate", ViewData["StartDate"], new { @class = "blckthm-form-control", @id = "StartDate", @maxlength = "10" })
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 label-right">
+                        End Date
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 textbox-area">
+                        @Html.TextBox("EndDate", ViewData["EndDate"], new { @class = "blckthm-form-control", @id = "EndDate", @maxlength = "10" })
+                    </div>
+
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 label-right">
+                        Status
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 dropdown">
+                        @Html.DropDownList("Status", new List<SelectListItem> {
+                        new SelectListItem { Text="Active", Value="Active"},
+                        new SelectListItem { Text="InActive", Value="InActive"}
+                        }, "Select Status", new { @class = "blckthm-form-control", @id = "Status" })
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 action-outer">
+                @*<input type="submit" value="@ViewBag.submit" class="btn btn-primary" id="Btn_Submit" />*@
+                <button type="submit" value="@ViewBag.submit" class="btn btn-primary" id="Btn_Submit" data-toggle="tooltip" title="Save" onclick="test()">
+                    <span class="glyphicon glyphicon-floppy-save"> </span>
+                </button>
+                @ViewBag.message
+              
+            </div>
+            <div>
+                @ViewBag.message
+                <p>@ViewBag.innerEx</p>
+            </div>
+
+        }
+    </div>
+   
+
+</div>
+<script>
+    function test() {
+        var tet = $("#log").text();
+        $("#memberList").val(tet);
+    }
+</script>
+
+@*DatePicker*@
+<script type="text/javascript">
+
+    $(function () {
+
+        $('#StartDate').datetimepicker({
+            format: 'DD/MM/YYYY',
+            ignoreReadonly: true
+        });
+
+        $('#EndDate').datetimepicker({
+            format: 'DD/MM/YYYY',
+            ignoreReadonly: true
+        });
+    });
+</script>
+
+ 
+
+<script>
+    $(document).ready(function () {
+        //Chairman Autocomplete
+        $("#Chairman").autocomplete({
+            source: function (request, response) {
+                //debugger;
+                $.ajax({
+
+                    url: "@Url.Content("~/ClubCommittee/AutoComplete")",
+                    type: "POST",
+                    dataType: "json",
+                    data: { prefix: request.term },
+                    success: function (data) {
+                        response($.map(data, function (item) {
+                            return { value: item.MemberName };
+                        }))
+                    }
+                })
+            },
+            select: function (event, ui) {
+                $("#Chairman").val(ui.item.value);
+                jQuery.noConflict();
+                $('#myModal1').modal('show');
+                return false;
+            }
+        });
+
+        // President Autocomplete
+        $("#President").autocomplete({
+            source: function (request, response) {
+                //debugger;
+                $.ajax({
+
+                    url: "@Url.Content("~/ClubCommittee/AutoComplete")",
+                    type: "POST",
+                    dataType: "json",
+                    data: { prefix: request.term },
+                    success: function (data) {
+                        response($.map(data, function (item) {
+                            return { value: item.MemberName };
+                        }))
+                    }
+                })
+            },
+            select: function (event, ui) {
+                $("#President").val(ui.item.value);
+                jQuery.noConflict();
+                $('#myModal2').modal('show');
+                return false;
+            }
+        });
+
+        //Vice President
+        $("#VicePresident").autocomplete({
+            source: function (request, response) {
+                //debugger;
+                $.ajax({
+
+                    url: "@Url.Content("~/ClubCommittee/AutoComplete")",
+                    type: "POST",
+                    dataType: "json",
+                    data: { prefix: request.term },
+                    success: function (data) {
+                        response($.map(data, function (item) {
+                            return { value: item.MemberName };
+                        }))
+                    }
+                })
+            },
+            select: function (event, ui) {
+                $("#VicePresident").val(ui.item.value);
+                jQuery.noConflict();            
+                $('#myModal3').modal('show');
+                return false;
+            }
+        });
+
+        //Secretary
+        $("#Secretary").autocomplete({
+            source: function (request, response) {
+                //debugger;
+                $.ajax({
+
+                    url: "@Url.Content("~/ClubCommittee/AutoComplete")",
+                    type: "POST",
+                    dataType: "json",
+                    data: { prefix: request.term },
+                    success: function (data) {
+                        response($.map(data, function (item) {
+                            return { value: item.MemberName };
+                        }))
+                    }
+                })
+            },
+            select: function (event, ui) {
+                $("#Secretary").val(ui.item.value);
+                jQuery.noConflict();
+                $('#myModal4').modal('show');
+                return false;
+            }
+        });
+
+        //Treasurer
+        $("#Treasurer").autocomplete({
+            source: function (request, response) {
+                //debugger;
+                $.ajax({
+
+                    url: "@Url.Content("~/ClubCommittee/AutoComplete")",
+                    type: "POST",
+                    dataType: "json",
+                    data: { prefix: request.term },
+                    success: function (data) {
+                        response($.map(data, function (item) {
+                            return { value: item.MemberName };
+                        }))
+                    }
+                })
+            },
+            select: function (event, ui) {
+                $("#Treasurer").val(ui.item.value);
+                jQuery.noConflict();
+                $('#myModal5').modal('show');
+                return false;
+            }
+        });
+
+        //Committee Members
+
+        function log(message) {
+            $("<div>").text(message).prependTo("#log").append(" <Button type='button' Value='' Id='CloseId' class='roundbttn' onclick='$(this).parent().remove();'><span class = 'glyphicon glyphicon-remove-sign'></span></button>,");
+
+        }
+
+
+
+        $("#CommitteeMembers").autocomplete({
+            source: function (request, response) {
+                //debugger;
+                $.ajax({
+
+                    url: "@Url.Content("~/ClubCommittee/AutoComplete")",
+                    type: "POST",
+                    dataType: "json",
+                    data: { prefix: request.term },
+                    success: function (data) {
+                        response($.map(data, function (item) {
+                            return { value: item.MemberName };
+                        }))
+                    }
+                })
+            },
+            select: function (event, ui) {
+                //  log("" + ui.item.value + ",");
+
+                log("" + ui.item.value)
+
+            }
+        });
+    });
+</script>
+<script>
+    $(document).ready(function () {
+
+        //var text = $("#log").text();
+        //$("#memberList").val(text);
+
+
+        $("#Chairman").val("@ViewData["Chairman"]");
+        $("#cstartDate").val("@ViewData["ChairmanStartDate"]");
+        $("#cendDate").val("@ViewData["ChairmanEndDate"]");
+        $("#cstatus").val("@ViewData["ChairmanStatus"]");
+
+        $("#President").val("@ViewData["President"]");
+        $("#pstartDate").val("@ViewData["PresidentStartDate"]");
+        $("#pendDate").val("@ViewData["PresidentEndDate"]");
+        $("#pstatus").val("@ViewData["PresidentStatus"]");
+
+        $("#VicePresident").val("@ViewData["VicePresident"]");
+        $("#vpstartDate").val("@ViewData["VicePresidentStartDate"]");
+        $("#vpendDate").val("@ViewData["VicePresidentEndDate"]");
+        $("#vpstatus").val("@ViewData["VicePresidentStatus"]");
+
+        $("#Secretary").val("@ViewData["Secretary"]");
+        $("#scstartDate").val("@ViewData["SecretaryStartDate"]");
+        $("#scendDate").val("@ViewData["SecretaryEndDate"]");
+        $("#scstatus").val("@ViewData["SecretaryStatus"]");
+
+        $("#Treasurer").val("@ViewData["Treasurer"]");
+        $("#tstartDate").val("@ViewData["TreasurerStartDate"]");
+        $("#tendDate").val("@ViewData["TreasurerEndDate"]");
+        $("#tstatus").val("@ViewData["TreasurerStatus"]");
+
+        var names = ("@ViewData["CommitteeMembers"]");
+        var n = names.split(",");
+        if (names == "" || names == null) {
+            $("#log").val('');
+
+        } else {
+
+            for (var i = 0; i < n.length; i++) {
+                // Alert each number
+                $("<div>").text(n[i]).prependTo("#log").append(" <Button type='button' Value=''  Id='CloseId' class='roundbttn' onclick='$(this).parent().remove();'><span class = 'glyphicon glyphicon-remove-sign'></span></button>,");
+                $("#log").scrollTop(1);
+
+            }
+        }
+
+        $("#StartDate").val("@ViewData["StartDate"]")
+        $("#EndDate").val("@ViewData["EndDate"]")
+
+        $("#btnsubmit1").click(function () {
+            var datevalue1 = $('#cstartDate').val();
+            $('#ChairmanStartDate').val(datevalue1);
+            var datevalue2 = $('#cendDate').val();
+            $('#ChairmanEndDate').val(datevalue2);
+            var chairmanStatus = $('#cstatus').val();
+            $('#ChairmanStatus').val(chairmanStatus);
+
+            if ($('#ChairmanStartDate').val() == "" || $('#ChairmanStartDate').val() == '' || $('#ChairmanStartDate').val() == null) {
+                alert("Please Select start date");
+                return false;
+            } else if ($('#ChairmanEndDate').val() == "" || $('#ChairmanEndDate').val() == '' || $('#ChairmanEndDate').val() == null) {
+                alert("Please Select End date");
+                return false;
+            } else if ($('#ChairmanStatus').val() == "" || $('#ChairmanStatus').val() == '' || $('#ChairmanStatus').val() == null) {
+                alert("Please Select Status");
+                return false;
+            } else {
+                return true;
+            }
+        })
+
+        $("#btnsubmit2").click(function () {
+            var datevalue1 = $('#pstartDate').val();
+            $('#PresidentStartDate').val(datevalue1);
+            var datevalue2 = $('#pendDate').val();
+            $('#PresidentEndDate').val(datevalue2);
+            var chairmanStatus = $('#pstatus').val();
+            $('#PresidentStatus').val(chairmanStatus);
+
+            if ($('#PresidentStartDate').val() == "" || $('#PresidentStartDate').val() == '' || $('#PresidentStartDate').val() == null) {
+                alert("Please Select start date");
+                return false;
+            } else if ($('#PresidentEndDate').val() == "" || $('#PresidentEndDate').val() == '' || $('#PresidentEndDate').val() == null) {
+                alert("Please Select End date");
+                return false;
+            } else if ($('#PresidentStatus').val() == "" || $('#PresidentStatus').val() == '' || $('#PresidentStatus').val() == null) {
+                alert("Please Select Status");
+                return false;
+            } else {
+                return true;
+            }
+        })
+
+        $("#btnsubmit3").click(function () {
+            var datevalue1 = $('#vpstartDate').val();
+            $('#VicePresidentStartDate').val(datevalue1);
+            var datevalue2 = $('#vpendDate').val();
+            $('#VicePresidentEndDate').val(datevalue2);
+            var chairmanStatus = $('#vpstatus').val();
+            $('#VicePresidentStatus').val(chairmanStatus);
+
+            if ($('#VicePresidentStartDate').val() == "" || $('#VicePresidentStartDate').val() == '' || $('#VicePresidentStartDate').val() == null) {
+                alert("Please Select start date");
+                return false;
+            } else if ($('#VicePresidentEndDate').val() == "" || $('#VicePresidentEndDate').val() == '' || $('#VicePresidentEndDate').val() == null) {
+                alert("Please Select End date");
+                return false;
+            } else if ($('#VicePresidentStatus').val() == "" || $('#VicePresidentStatus').val() == '' || $('#VicePresidentStatus').val() == null) {
+                alert("Please Select Status");
+                return false;
+            } else {
+                return true;
+            }
+        })
+
+        $("#btnsubmit4").click(function () {
+            var datevalue1 = $('#scstartDate').val();
+            $('#SecretaryStartDate').val(datevalue1);
+            var datevalue2 = $('#scendDate').val();
+            $('#SecretaryEndDate').val(datevalue2);
+            var chairmanStatus = $('#scstatus').val();
+            $('#SecretaryStatus').val(chairmanStatus);
+
+            if ($('#SecretaryStartDate').val() == "" || $('#SecretaryStartDate').val() == '' || $('#SecretaryStartDate').val() == null) {
+                alert("Please Select start date");
+                return false;
+            } else if ($('#SecretaryStartDate').val() == "" || $('#SecretaryStartDate').val() == '' || $('#SecretaryStartDate').val() == null) {
+                alert("Please Select End date");
+                return false;
+            } else if ($('#SecretaryStatus').val() == "" || $('#SecretaryStatus').val() == '' || $('#SecretaryStatus').val() == null) {
+                alert("Please Select Status");
+                return false;
+            } else {
+                return true;
+            }
+        })
+
+        $("#btnsubmit5").click(function () {
+            var datevalue1 = $('#tstartDate').val();
+            $('#TreasurerStartDate').val(datevalue1);
+            var datevalue2 = $('#tendDate').val();
+            $('#TreasurerEndDate').val(datevalue2);
+            var chairmanStatus = $('#tstatus').val();
+            $('#TreasurerStatus').val(chairmanStatus);
+
+            if ($('#TreasurerStartDate').val() == "" || $('#TreasurerStartDate').val() == '' || $('#TreasurerStartDate').val() == null) {
+                alert("Please Select start date");
+                return false;
+            } else if ($('#TreasurerEndDate').val() == "" || $('#TreasurerEndDate').val() == '' || $('#TreasurerEndDate').val() == null) {
+                alert("Please Select End date");
+                return false;
+            } else if ($('#TreasurerStatus').val() == "" || $('#TreasurerStatus').val() == '' || $('#TreasurerStatus').val() == null) {
+                alert("Please Select Status");
+                return false;
+            } else {
+                return true;
+            }
+        })
+
+        $("#btnsubmit6").click(function () {
+            var datevalue1 = $('#ccstartDate').val();
+            $('#CommitteeMembersStartDate').val(datevalue1);
+            var datevalue2 = $('#ccendDate').val();
+            $('#CommitteeMembersEndDate').val(datevalue2);
+            var chairmanStatus = $('#ccstatus').val();
+            $('#CommitteeMembersStatus').val(chairmanStatus);
+
+            if ($('#CommitteeMembersStartDate').val() == "" || $('#CommitteeMembersStartDate').val() == '' || $('#CommitteeMembersStartDate').val() == null) {
+                alert("Please Select start date");
+                return false;
+            } else if ($('#CommitteeMembersEndDate').val() == "" || $('#CommitteeMembersEndDate').val() == '' || $('#CommitteeMembersEndDate').val() == null) {
+                alert("Please Select End date");
+                return false;
+            } else if ($('#CommitteeMembersStatus').val() == "" || $('#CommitteeMembersStatus').val() == '' || $('#CommitteeMembersStatus').val() == null) {
+                alert("Please Select Status");
+                return false;
+            } else {
+                return true;
+            }
+
+        })
+    });
+</script>
+
+@*DatePicker*@
+<script>
+
+    $(function () {
+
+        //Chairman Form DatePicker
+        $('#cstartDate').datetimepicker({
+            format: 'DD/MM/YYYY',
+            ignoreReadonly: true
+        });
+
+        $('#cendDate').datetimepicker({
+            format: 'DD/MM/YYYY',
+            ignoreReadonly: true
+        });
+
+       
+        //President Form DatePicker
+        $("#pstartDate").datetimepicker({
+            format: 'DD/MM/YYYY',
+            ignoreReadonly: true
+        });
+
+        $("#pendDate").datetimepicker({
+            format: 'DD/MM/YYYY',
+            ignoreReadonly: true
+        });
+
+        //VicePresident form DatePicker
+        $("#vpstartDate").datetimepicker({
+            format: 'DD/MM/YYYY',
+            ignoreReadonly: true
+        });
+
+        $("#vpendDate").datetimepicker({
+            format: 'DD/MM/YYYY',
+            ignoreReadonly: true
+        });
+
+
+        //Secretary Form DatePicker
+        $("#scstartDate").datetimepicker({
+            format: 'DD/MM/YYYY',
+            ignoreReadonly: true
+        });
+
+        $("#scendDate").datetimepicker({
+            format: 'DD/MM/YYYY',
+            ignoreReadonly: true
+        });
+
+
+        //Treasurer Form DatePicker
+        $("#tstartDate").datetimepicker({
+            format: 'DD/MM/YYYY',
+            ignoreReadonly: true
+        });
+
+        $("#tendDate").datetimepicker({
+            format: 'DD/MM/YYYY',
+            ignoreReadonly: true
+        });
+
+
+        //Committee Members DatePicker
+        $("#ccstartDate").datetimepicker({
+            format: 'DD/MM/YYYY',
+            ignoreReadonly: true
+        });
+
+        $("#ccendDate").datetimepicker({
+            format: 'DD/MM/YYYY',
+            ignoreReadonly: true
+        });
+
+
+    });
+
+</script>
+
+<div id="myModal1" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Enter Date</h4>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 textbox-area modal-body">
+                <form id="date1">
+                    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 label-right">
+                        Start Date:
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-5 co4l-lg-5 textbox-area">
+                        <input type="text" id="cstartDate" class="grythm-form-control" />
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 label-right">
+                        End Date:
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-5 co4l-lg-5 textbox-area">
+                        <input type="text" id="cendDate" class="grythm-form-control" />
+                    </div><div class="clearfix"></div>
+                    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 label-right">
+                        Status :
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-5 co4l-lg-5 textbox-area">
+                        <select id="cstatus" name="Status" class="grythm-form-control">
+                            <option value="">Select Status</option>
+                            <option value="Active">Active</option>
+                            <option value="InActive">InActive</option>
+                        </select>
+                    </div><div class="clearfix"></div>
+                </form>
+            </div>
+            <div class="modal-footer" style="text-align:center;">
+                <button type="submit" class="btn btn-primary" data-dismiss="modal" id="btnsubmit1">Submit</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div id="myModal2" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Enter Date</h4>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 textbox-area modal-body">
+                <form id="date2">
+
+                    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 label-right">
+                        Start Date:
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-5 co4l-lg-5 textbox-area">
+                        <input type="text" id="pstartDate" class="grythm-form-control" />
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 label-right">
+                        End Date:
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5 textbox-area">
+                        <input type="text" id="pendDate" class="grythm-form-control" />
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 label-right">
+                       Status:
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5 textbox-area">
+                        <select id="pstatus" name="Status" class="grythm-form-control">
+                            <option value="">Select Status</option>
+                            <option value="Active">Active</option>
+                            <option value="InActive">InActive</option>
+                        </select>
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer" style="text-align:center;">
+                <button type="submit" class="btn btn-primary" data-dismiss="modal" id="btnsubmit2">Submit</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div id="myModal3" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Enter Date</h4>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 textbox-area modal-body">
+                <form id="date1">
+                    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 label-right">
+                        Start Date:
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-5 co4l-lg-5 textbox-area">
+                        <input type="text" id="vpstartDate" class="grythm-form-control" />
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 label-right">
+                        End Date:
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-5 co4l-lg-5 textbox-area">
+                        <input type="text" id="vpendDate" class="grythm-form-control" />
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 label-right">
+                        Status:
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-5 co4l-lg-5 textbox-area">
+                        <select id="vpstatus" name="Status" class="grythm-form-control">
+                            <option value="">Select Status</option>
+                            <option value="Active">Active</option>
+                            <option value="InActive">InActive</option>
+                        </select>
+                    </div>
+                    <div class="clearfix"></div>
+                </form>
+            </div>
+            <div class="modal-footer" style="text-align:center;">
+                <button type="submit" class="btn btn-primary" data-dismiss="modal" id="btnsubmit3">Submit</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="myModal4" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Enter Date</h4>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 textbox-area modal-body">
+                <form id="date1">
+
+                    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 label-right">
+                        Start Date:
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-5 co4l-lg-5 textbox-area">
+                        <input type="text" id="scstartDate" class="grythm-form-control" />
+                    </div>
+                    <div class="clearfix"></div>
+
+                    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 label-right">
+                        End Date:
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-5 co4l-lg-5 textbox-area">
+                        <input type="text" id="scendDate" class="grythm-form-control" />
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 label-right">
+                        Status:
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-5 co4l-lg-5 textbox-area">
+                        <select id="scstatus" name="Status" class="grythm-form-control">
+                            <option value="">Select Status</option>
+                            <option value="Active">Active</option>
+                            <option value="InActive">InActive</option>
+                        </select>
+                    </div>
+                    <div class="clearfix"></div>
+
+                </form>
+            </div>
+            <div class="modal-footer" style="text-align:center;">
+                <button type="submit" class="btn btn-primary" data-dismiss="modal" id="btnsubmit4">Submit</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div id="myModal5" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Enter Date</h4>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 textbox-area modal-body">
+                <form id="date1">
+
+                    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 label-right">
+                        Start Date:
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-5 co4l-lg-5 textbox-area">
+                        <input type="text" id="tstartDate" class="grythm-form-control" />
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 label-right">
+                        End Date:
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-5 co4l-lg-5 textbox-area">
+                        <input type="text" id="tendDate" class="grythm-form-control" />
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 label-right">
+                        Status:
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-5 co4l-lg-5 textbox-area">
+                        <select id="tstatus" name="Status" class="grythm-form-control">
+                            <option value="">Select Status</option>
+                            <option value="Active">Active</option>
+                            <option value="InActive">InActive</option>
+                        </select>
+                    </div>
+                    <div class="clearfix"></div>
+
+
+                </form>
+            </div>
+            <div class="modal-footer" style="text-align:center;">
+                <button type="submit" class="btn btn-primary" data-dismiss="modal" id="btnsubmit5">Submit</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div id="myModal6" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Enter Date</h4>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 textbox-area" fr>
+                <form id="date1">
+                    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 label-right">
+                        Start Date:
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-5 co4l-lg-5 textbox-area">
+                        <input type="text" id="ccstartDate" class="grythm-form-control" />
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 label-right">
+                        End Date:
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-5 co4l-lg-5 textbox-area">
+                        <input type="text" id="ccendDate" class="grythm-form-control" />
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 label-right">
+                        Status:
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-5 co4l-lg-5 textbox-area">
+                        <select id="ccstatus" name="Status" class="grythm-form-control">
+                            <option value="">Select Status</option>
+                            <option value="Active">Active</option>
+                            <option value="InActive">InActive</option>
+                        </select>
+                    </div>
+                    <div class="clearfix"></div>
+
+                </form>
+            </div>
+            <div class="modal-footer" style="text-align:center;">
+                <button type="submit" class="btn btn-primary" data-dismiss="modal" id="btnsubmit6">Submit</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#Btn_Submit").click(function () {
+
+            if ($("#Chairman").val() == "" || $('#Chairman').val() == "") {
+                alert("Please select Chairman Name!!!");
+                $('#Chairman').focus();
+                return false;
+            }
+            else if ($("#President").val() == "" || $('#President').val() == "") {
+                alert("Please Select President Name!!!");
+                $('#President').focus();
+                return false;
+            }
+            else if ($("#VicePresident").val() == "" || $('#VicePresident').val() == "") {
+                alert("Please Select Vice President Name!!!");
+                $('#VicePresident').focus();
+                return false;
+            }
+            else if ($("#Secretary").val() == "" || $('#Secretary').val() == "") {
+                alert("Please Select Secretary!!!");
+                $('#Secretary').focus();
+                return false;
+            }
+            else if ($("#Treasurer").val() == "" || $('#Treasurer').val() == "") {
+                alert("Please Select Treasurer!!!");
+                $('#Treasurer').focus();
+                return false;
+            }
+            else if ($('#Status').val() == '' || $('#Status').val() == "") {
+                alert('Please Select Status!!!')
+                $('#Status').focus();
+                return false;
+            } else if ($('#StartDate').val() == '' || $('#StartDate').val() == "") {
+                alert('Please Select Start Date!!!')
+                $('#StartDate').focus();
+                return false;
+            }
+            else if ($('#EndDate').val() == '' || $('#EndDate').val() == "") {
+                alert('Please Select End Date!!!')
+                $('#Status').focus();
+                return false;
+            }
+            else { return true; }
+        });
+    });
+</script>

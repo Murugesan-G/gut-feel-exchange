@@ -1,0 +1,21 @@
+﻿
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create Role</h2>
+@Html.ActionLink("Back", "Index","ManageRoles") 
+<hr />
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <div>
+        Role Name
+    </div>
+   
+       <input type="text" name="txt_RoleName" id="txt_RoleName" class="blckthm-form-control">
+  <br/><br/>
+    <input class="btn" type="submit" value="Save" />
+}

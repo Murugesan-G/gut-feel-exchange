@@ -1,0 +1,446 @@
+﻿@using NTCYApplication.Models.Room
+@{
+    ViewBag.Title="Room_Bookings";
+    Layout="~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<script>
+
+    //$(function () {
+    //    $('#FromDate').datetimepicker({
+    //        format: 'DD/MM/YYYY',
+    //        ignoreReadonly: true
+    //    });
+    //    $('#ToDate').datetimepicker({
+    //        format: 'DD/MM/YYYY',
+    //        ignoreReadonly: true
+    //    });
+
+    //});
+
+    $(function () {
+        $('#FromDate').datetimepicker({
+            format: 'DD/MM/YYYY',
+            ignoreReadonly: true
+        });
+        $('#ToDate').datetimepicker({
+            format: 'DD/MM/YYYY',           
+           ignoreReadonly: true,
+            useCurrent: false //Important! See issue #1075
+        });
+        $("#FromDate").on("dp.change", function (e) {
+            $('#ToDate').data("DateTimePicker").minDate(e.date);
+        });
+        $("#ToDate").on("dp.change", function (e) {
+            $('#FromDate').data("DateTimePicker").maxDate(e.date);
+           // CalcDiff();
+        })
+    });
+
+    function CalcDiff() {
+        //debugger;
+        var a = $('#FromDate').data("DateTimePicker").date();
+        var b = $('#ToDate').data("DateTimePicker").date();     
+        var cc = (b-a) / (1000 * 60 * 60 * 24);     
+        var t = Math.round(cc);
+        var x = parseInt($("#temp").val());
+        if (t == "0") {
+            var y = parseInt(t + 1) * (x);
+        }
+        else { var y = parseInt((t)) * (x); }
+            $("#Charges").val(y);        
+    }
+</script>
+
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 main">
+
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 page-title-outer">
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 page-title">Room Bookings</div>
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 page-title-btn">
+            <a href="@Url.Action("View_Room_Bookings", "RoomBooking")" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="View All">
+
+                <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
+            </a>
+
+        </div>
+    </div>
+
+
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 workarea-outer">
+
+
+        @using (Html.BeginForm("Room_Booking", "RoomBooking", new { @class = "beginform-outer" }, FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 scrolling-area">
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 form-outer">
+                    @Html.Hidden("BookingId", ViewData["BookingId"], new { @id = "BookingId" })
+
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 label-right">
+                        Membership No :
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 textbox-area">
+                        @*<select class="blckthm-form-control" id="MembershipNo" name="MembershipNo">
+                                <option value="">--Select Member--</option>
+                                @if (ViewBag.MemberList != null)
+                                {
+                                    foreach (var Model in ViewBag.MemberList as List<Member>)
+                                    {
+                                        <option value="@Model.MemberId" class="blckthm-form-control">
+                                            @Model.MemberName
+                                        </option>
+                                    }
+                                }
+                            </select>*@
+                        <div class="form-group has-feedback" style="margin-bottom: 0px;">
+                            <input type="text" maxlength="20" autocomplete="off" placeholder="Enter MembershipNo.." name="MembershipNo" id="MembershipNo" class="blckthm-form-control">
+                            @*<i class="glyphicon glyphicon-search form-control-feedback"></i>*@
+                        </div>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 label-right">
+                        Room No :
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6  textbox-area">
+                        <select class="blckthm-form-control" id="RoomNo" name="RoomNo">
+                            <option value="">Select Room No</option>
+                            @if (ViewBag.RoomList!=null)
+                            {
+                                foreach (var Model in ViewBag.RoomList as List<Room>)
+                                {
+                                    <option value="@Model.RoomName" class="blckthm-form-control">
+                                        @Model.RoomName:<text id="xyz">@Model.Charges</text>
+                                    </option>
+
+                                }
+                            }
+
+                        </select>
+                        
+                    </div>
+                   
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 label-right">
+                        Charges :
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 textbox-area">
+                        @Html.TextBox("Charges", ViewData["Charges"], new { @maxlength = "5", @class = "blckthm-form-control", @id = "Charges" })
+                        <span id="errmsgCharges"></span>    
+                                          
+                    </div><input type="hidden" id="temp">              
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 label-right">
+                        From Date :
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 textbox-area">
+                        @Html.TextBox("FromDate", ViewData["FromDate"], new {@autocomplete="off",  @class = "blckthm-form-control", @id = "FromDate" })
+                        <span id="errmsgFromDate"></span>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 label-right">
+                        To Date :
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 textbox-area">
+                        @Html.TextBox("ToDate", ViewData["ToDate"], new { @autocomplete = "off", @class = "blckthm-form-control", @id = "ToDate" })
+                        <span id="errmsgGame"></span>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 label-right">
+                        From Time :
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 textbox-area">
+                      @Html.TextBox("FromTime", ViewData["FromTime"], new { @class = "blckthm-form-control"@*, @type = "Time",@title = "hh:mm AM/PM",*@, @id = "FromTime",@placeholder="hh:mm" })
+                      
+                            <span id="errmsgGame"></span>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 label-right">
+                        To Time :
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 textbox-area">
+                        @Html.TextBox("ToTime", ViewData["ToTime"], new { @class = "blckthm-form-control",@id = "ToTime", @placeholder = "hh:mm" })
+                        <span id="errmsgGame"></span>
+                    </div>
+                    @*<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 label-right">
+                        Status :
+                    </div>
+                    <div id="ddlstatus" class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                        @Html.DropDownList("AvailabilityStatus", new List<SelectListItem> {
+                        new SelectListItem { Text="Allocated", Value="Allocated"},
+                        new SelectListItem { Text="Not Allocated", Value="Not Allocated"}
+                        }, "Select Status", new { @class = "blckthm-form-control", @id = "AvailabilityStatus" })
+
+                    </div><div class="clearfix"></div>*@
+
+                </div>   
+   @*&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&*@                       
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 form-outer">
+                    <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 label-left">
+                        <button class="btn-sm btn-primary" title="Check Availability" type="button" id="btn_ViewDetail" data-toggle="modal" data-target="#ModalRoomBooking">
+                            <span class="glyphicon glyphicon-calendar"></span>
+                        </button>
+                    </div>
+                   <div class="clearfix"></div>
+                    <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 label-left"> 
+                        <input id="chkextrabed" type="checkbox">  Extra Bed
+                        @*<input type="text" id="hdnextrabed">*@
+                        @Html.Hidden("hdnextrabed", ViewData["hdnextrabed"], new { @class = "blckthm-form-control", @id = "hdnextrabed", @placeholder = "hh:mm" })
+                    </div>
+                    </div>
+
+    @*&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&*@
+                
+             </div>
+
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 action-outer">
+                @*<input type="submit" value="@ViewBag.submit" class="btn btn-primary" id="Btn_Submit" />*@
+                <button type="submit" value="@ViewBag.submit" class="btn btn-primary" id="Btn_Submit" data-toggle="tooltip" data-placement="bottom" title="Book">
+
+                    <span class="glyphicon glyphicon-floppy-save"> </span>
+                </button>
+            </div>
+            ////////////////////////////////////////////////////////////////////////////////////////
+            <div class="modal fade" id="ModalRoomBooking" tabindex="-1" role="dialog">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" style="color:yellow;font-family:'Bookman Old Style'" id="myModalLabel"><b>Room Details</b></h4>
+                        </div>
+                        <div style="color:black" class="modal-body">
+                            <table id="roomTable" class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                    <th>MembershipNo</th>
+                                        <th>Room No.</th>
+                                        <th>From Date</th>
+                                        <th>To Date</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                </tbody>
+                                </table>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            ////////////////////////////////////////////////////////////////////////////////////////
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 label-area">
+                @ViewBag.message
+
+            </div>
+        }
+    </div>
+</div>
+
+<script>
+
+    //$("#RoomNo").change(function () {
+    //   // debugger;
+    //    var cost = $("#RoomNo option:selected").text();
+    //    var len = jQuery.trim(cost);
+    //    var array = [];
+    //    array = len.split(':');
+    //    $('#Charges').val(array[1]);
+    //    $('#temp').val(array[1]);
+    //});
+
+
+</script>
+<script type="text/javascript">
+
+        $('#FromTime').datetimepicker({
+            format: 'LT'
+        });
+        $('#ToTime').datetimepicker({
+            format: 'LT'
+        })
+
+
+
+            //$("#ToTime").on('change', function (ev) {
+            //    var start = $("#FromDate").val();
+            //    var startD = new Date(start);
+            //    var end = $("#ToDate").val();
+            //    var endD = new Date(end);
+            //    var diff = parseInt((endD.getTime() - startD.getTime()) / (24 * 3600 * 1000));
+            //    alert(diff);
+            //});
+
+        $(document).ready(function () {
+            $("#FromDate").val("@ViewData["FromDate"]")
+            $("#ToDate").val("@ViewData["ToDate"]")
+
+
+            $("#Charges").keypress(function (e) {
+                if ((e.which != 46 || $(this).val().indexOf('.') != -1) && (e.which < 48 || e.which > 57)) {
+
+                    return false;
+                }
+            });
+
+
+
+                $("#MembershipNo").val("@ViewData["MembershipNo"]");
+                $("#RoomNo").val("@ViewData["RoomNo"]");
+
+            $('#Btn_Submit').click(function () {
+               
+                    //debugger;
+                    var startDate = new Date($('#FromDate').val());
+                    var endDate = new Date($('#ToDate').val());
+                   
+
+                    if ($('#MembershipNo').val() == '' || $('#MembershipNo').val() == "") {
+                        alert('Please Select MemberShipId !!!');
+                        $('#MembershipNo').focus();
+                        return false;
+                    }
+                    else if ($('#RoomNo').val() == '' || $('#RoomNo').val() == "") {
+                        alert('Please Select RoomNo !!!');
+                        $('#RoomNo').focus();
+                        return false;
+                    }
+                    else if ($('#Charges').val() == '' || $('#Charges').val() == "") {
+                        alert('Please Enter valid Charges !!!');
+                        $('#Charges').focus();
+                        return false;
+                    }
+                    else if ($('#FromDate').val() == '' || $('#FromDate').val() == "") {
+                        alert('Please Enter FromDate !!!');
+                        $('#FromDate').focus();
+                        return false;
+                    }
+                    else if ($('#ToDate').val() == '' || $('#ToDate').val() == "") {
+                        alert('Please Enter ToDate !!!');
+                        $('#ToDate').focus();
+                        return false;
+                    }
+                    else if ($('#FromTime').val() == '' || $('#FromTime').val() == "") {
+                        alert('Please Enter FromTime !!!');
+                        $('#FromTime').focus();
+                        return false;
+                    }
+                    else if ($('#ToTime').val() == '' || $('#ToTime').val() == "") {
+                        alert('Please Enter ToTime !!!');
+                        $('#ToTime').focus();
+                        return false;
+                    }
+                    else if ($('#AvailabilityStatus').val() == '' || $('#AvailabilityStatus').val() == "") {
+                        alert('Please Select Status !!!');
+                        $('#AvailabilityStatus').focus();
+                        return false;
+                    }
+
+                    else if (endDate < startDate) {
+
+                        alert("From Date Must be less than To Date");
+                        return false;
+
+                    }                   
+
+                    else {
+                        if ($("#chkextrabed").prop("checked") == true) {
+                            $("#hdnextrabed").val("Yes");
+                        }
+                        else { $("#hdnextrabed").val("No"); }
+
+                        return true;
+                    }
+                   
+                })
+
+            });
+
+</script>
+
+<style type="text/css">
+    .ui-tooltip {
+        font-size: large;
+        font-family: Arial;
+    }
+</style>
+@*<script>
+        $(document).ready(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+            $(document).tooltip({
+                track: true
+            });
+        })
+    </script>*@
+
+
+<script>
+    $("#MembershipNo").autocomplete({
+
+        source: function (request, response) {
+            //debugger;
+            $.ajax({
+                url: "@Url.Content("~/Member/GetMembers")",
+               // url: "/Member/GetMembers",
+                type: "POST",
+                dataType: "json",
+                data: { prefix: request.term },
+                success: function (data) {
+                    if (!data.length) {
+                        var result = [
+                         {
+                             label: 'No matches found',
+                             value: response.term
+                         }
+                        ];
+                        response(result);
+                    }
+                    else {
+                        response($.map(data, function (item) {
+
+                            return { value: item.MembershipNo, label: item.MembershipNo + "-" + item.MemberName };
+                        }))
+                    }
+                }
+            })
+        },
+    });
+
+
+    function ToJavaScriptDate(value) {
+        var pattern = /Date\(([^)]+)\)/;
+        var results = pattern.exec(value);
+        var dt = new Date(parseFloat(results[1]));
+        return dt.getDate() + "/" + (dt.getMonth() + 1) + "/" + dt.getFullYear();
+    }
+
+
+
+    $(".scrolling-area").on('click', '#btn_ViewDetail', function () {
+     
+       // View_Room_Bookings
+        $.ajax({
+   
+            url: "@Url.Content("~/RoomBooking/View_Room_Bookings1")",
+            type: 'POST',
+        cache: false,
+        contentType: 'application/json; charset=utf-8',
+        datatype: 'json',
+        success: function (data) {
+            //debugger;
+            var x = "";
+            for (i = 0; i < data.length; i++) {
+                //debugger;
+                x = x + "<tr><td>" + data[i].MemberId + "</td><td>" + data[i].RoomNo + "</td><td>" + ToJavaScriptDate(data[i].FromDate) + "</td><td>" + ToJavaScriptDate(data[i].ToDate) + "</td><td>" + data[i].AvailabilityStatus + "</td></tr>"
+ 
+               
+            }
+            $(".modal-body #roomTable tbody").empty();
+            $(".modal-body #roomTable tbody").append(x);
+                   
+        },
+                
+        });
+    })
+</script>

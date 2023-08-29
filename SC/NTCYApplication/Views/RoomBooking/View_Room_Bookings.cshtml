@@ -1,0 +1,201 @@
+﻿@using NTCYApplication.Models.Room
+@model List<RoomBooking>
+@{
+    ViewBag.Title="View_Room_Bookings";
+    Layout="~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 main">
+    <script>
+    $(document).ready(function () {
+        $('#Table1').DataTable({
+            initComplete: function () {
+                this.api().columns().every(function () {
+                    var column = this;
+                    var select = $('<select><option value=""></option></select>')
+                        .appendTo($(column.footer()).empty())
+                        .on('change', function () {
+                            var val = $.fn.dataTable.util.escapeRegex(
+                                $(this).val()
+                            );
+                            //to select and search from grid
+                            column
+                                .search(val ? '^' + val + '$' : '', true, false)
+                                .draw();
+                        });
+
+                    column.data().unique().sort().each(function (d, j) {
+                        select.append('<option value="' + d + '">' + d + '</option>')
+                    });
+                });
+            }
+        });
+    });
+    </script>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 page-title-outer">
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 page-title">Room Booking Details</div>
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 page-title-btn">
+            <a href="@Url.Action("Room_Bookings", "RoomBooking")" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Back">
+
+                <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
+            </a>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 workarea-outer">
+
+
+
+
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 scrolling-area">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 search-area">
+                <div class="col-xs-12 col-sm-6 col-md-1 col-lg-1 label-right">
+                    Search by
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-2 col-lg-2 textbox-area">
+                    @*<select class="blckthm-form-control" id="MembershipName" name="MembershipName">
+                            <option value="">Select Room</option>
+                        </select>*@
+                    <div class="form-group has-feedback">
+                        <input type="text" id="EnterRoomNo" class="blckthm-form-control" placeholder="Room No.." onkeyup="myFunction()">
+                        <i class="glyphicon glyphicon-search form-control-feedback"></i>
+                    </div>
+                    @*<input type="text" id="EnterRoomNo" class="blckthm-form-control" placeholder="Room No.." onkeyup="myFunction()">*@
+                </div>
+
+
+                @*<div class="col-xs-12 col-sm-6 col-md-2 col-lg-2 textbox-area">
+                        <button type="button" value="Search" class="btn btn-primary" id="Btn_Search" btn-lg" data-toggle="tooltip" data-placement="bottom" title="Search">
+                        <span class="glyphicon glyphicon-search"></span>
+                        </button>
+                    </div>*@
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 table-title"><h5>List of Rooms</h5></div>
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 table-responsive" id="disptable">
+
+                @{
+                    //if (ViewData["RoomBookings"]!=null)
+                    //{
+                    //    if (ViewData.Values!=null&&ViewData.Values.Count()>0)
+                    //    {
+                    if (Model!=null)
+                    {
+                            <table id="Table1" class="table blk-thm-table table-condensed">
+                                <thead>
+                                    <tr>
+                                        <th style="display:none"></th>
+                                        <th><h5><b>Membership No</b></h5></th>
+                                        <th><h5><b>Room No</b></h5></th>
+                                        <th><h5><b>Extra Bed</b></h5></th>
+                                        <th><h5><b>Charges/Night</b></h5></th>
+                                        <th><h5><b>From Date</b></h5></th>
+                                        <th><h5><b>To Date</b></h5></th>
+                                        <th><h5><b>From Time</b></h5></th>
+                                        <th><h5><b>To Time</b></h5></th>
+                                        <th><h5><b>Status</b></h5></th>
+                                        <th><h5><b>Edit</b></h5></th>
+                                        <th width="50px;"><h5><b>Cancel Bookings</b></h5></th>
+                                    </tr>
+                                </thead>
+
+                                <tbody id="Searching">
+
+                                    
+                                        @foreach (var item in Model)
+                                        {
+                                        <tr>
+                                            <td style="display:none">@item.BookingId</td>
+                                            <td>@item.MemberId</td>
+                                            <td>@item.RoomNo</td>
+                                            <td>@item.ExtraBed</td>
+                                            <td>@item.Charges</td>
+                                            <td>@item.FromDate.ToString("dd/MM/yyyy")</td>
+                                            <td>@item.ToDate.ToString("dd/MM/yyyy")</td>
+                                            <td>@item.FromTime.ToString()</td>
+                                            <td>@item.ToTime.ToString()</td>
+                                            <td>@item.AvailabilityStatus</td>
+                                            <td>@Html.ActionLink(" ", "ViewRoomBooking", "RoomBooking", new { BookingId = item.BookingId }, new { @class = "btn-sm btn-primary glyphicon glyphicon-pencil" })</td>
+                                            <td>@Html.ActionLink(" ", "DeleteRoomBooking", "RoomBooking", new { BookingId = item.BookingId, RoomNo = item.RoomNo }, new { @title = "Cancel Bookings", @class = "btn-sm btn-primary glyphicon glyphicon-remove" })</td>
+
+
+                                        </tr>
+                                        }
+                                       
+
+
+                                        @*<tr>
+                                            @foreach (var Model in ViewBag.RoomBookings as List<RoomBooking>)
+                                            {
+                                            <tr>
+                                                <td style="visibility:hidden">@Model.BookingId</td>
+                                                <td>@Model.MemberId</td>
+                                                <td>@Model.RoomNo</td>
+                                                <td>@Model.Charges</td>
+                                                <td>@Model.FromDate.ToString("dd/MM/yyyy")</td>
+                                                <td>@Model.ToDate.ToString("dd/MM/yyyy")</td>
+                                                <td>@Model.FromTime.ToString()</td>
+                                                <td>@Model.ToTime.ToString()</td>
+                                                <td>@Model.AvailabilityStatus</td>
+                                                <td>@Html.ActionLink(" ", "ViewRoomBooking", "RoomBooking", new { BookingId = Model.BookingId }, new { @class = "btn-sm btn-primary glyphicon glyphicon-pencil" })</td>
+                                                <td>@Html.ActionLink(" ", "DeleteRoomBooking", "RoomBooking", new { BookingId = Model.BookingId, RoomNo = Model.RoomNo }, new { @title = "Cancel Bookings", @class = "btn-sm btn-primary glyphicon glyphicon-remove" })</td>
+                                            </tr>
+                                            }
+
+                                            </tr>*@
+                                    </tbody>
+                                </table>
+                    }
+                    else
+                    {
+                            <table class="table blk-thm-table table-condensed" id="norecord">
+                                <thead>
+                                    <tr>
+                                        <td style="font-size:18px;font-weight:bold; text-align:center;">No Records Found</td>
+                                    </tr>
+                                </thead>
+                            </table>
+                        }
+                    
+                }
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<style type="text/css">
+    .ui-tooltip {
+        font-size: large;
+        font-family: Arial;
+    }
+</style>
+@*<script>
+        $(document).ready(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+            $(document).tooltip({
+                track: true
+            });
+        })
+    </script>*@
+
+
+<script>
+    function myFunction() {
+       // debugger;
+        var input, filter, table, tr, td, i;
+        input = document.getElementById("EnterRoomNo");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("Table1");
+        tr = table.getElementsByTagName("tr");
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[2];
+            if (td) {
+                if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    }
+</script>

@@ -1,0 +1,171 @@
+﻿@{
+    ViewBag.Title="CreateRoom";
+    Layout="~/Views/Shared/_Layout.cshtml";
+}
+<div id="mySidenav" class="col-xs-4 col-sm-4 col-md-2 col-lg-2 sidenav">
+
+    @Html.Partial("_left_admin_submenu")
+</div>
+
+
+
+<div class="col-xs-8 col-sm-8 col-md-10 col-lg-10 main">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 page-title-outer">
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 page-title">Room Master</div>
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 page-title-btn">
+
+            <a href="@Url.Action("ViewAllRoom", "Room")" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="View All">
+
+                <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
+            </a>
+        </div>
+    </div>
+
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 workarea-outer">
+
+
+
+        @using (Html.BeginForm("CreateRoom", "Room", new { @class = "beginform-outer" }, FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 scrolling-area">
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 form-outer">
+                    @Html.Hidden("RoomId", ViewData["RoomId"], new { @id = "RoomId" })
+                    @Html.Hidden("RoomAllocated", ViewData["RoomAllocated"], new { @id = "RoomAllocated" })
+
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 label-right">
+                        Room No
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 textbox-area">
+                        @Html.TextBox("RoomNo", ViewData["RoomNo"], new { @maxlength = "5", @class = "blckthm-form-control", @id = "RoomNo" })
+                        <span id="errmsgRoomNo"></span>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 label-right">
+                        Room Name
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 textbox-area">
+                        @Html.TextBox("RoomName", ViewData["RoomName"], new { @maxlength = "20", @class = "blckthm-form-control", @id = "RoomName" })
+
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 label-right">
+                        Charges / Night
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 textbox-area">
+                        @Html.TextBox("Charges", ViewData["Charges"], new { @maxlength = "10", @class = "blckthm-form-control", @id = "Charges" })
+                        <span id="errmsgCharges"></span>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 label-right">
+                        GST %
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 textbox-area">
+                        @Html.TextBox("GST", ViewData["GST"], new { @maxlength = "5", @class = "blckthm-form-control", @id = "GST" })
+                        <span id="errmsgGST"></span>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 label-right">
+                        Status
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 dropdown">
+                        @Html.DropDownList("Status", new List<SelectListItem> {
+                        new SelectListItem { Text="Available", Value="Available"},
+                        new SelectListItem { Text="Not Available", Value="Not Available"}
+                        }, "Select Status", new { @class = "blckthm-form-control", @id = "Status" })
+
+
+                    </div>
+
+                    <div class="clearfix"></div>
+
+
+                </div>
+
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 form-outer">
+
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 action-outer">
+                @*<input type="submit" value="@ViewBag.submit" class="btn btn-primary" id="Btn_Submit" />*@
+                <button type="submit" value="@ViewBag.submit" class="btn btn-primary" id="Btn_Submit" data-toggle="tooltip" title="Save">
+
+                    <span class="glyphicon glyphicon-floppy-save"> </span>
+                </button>
+            </div>
+            if (ViewBag.message!=null)
+            {
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 form-outer">
+                    <div class="alert alert-success" role="alert">
+                        <strong>Success!</strong> @ViewBag.message
+                    </div>
+                   
+                    <p>@ViewBag.innerEx</p>
+                </div>
+            }
+
+
+
+        }
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $("#Charges").keypress(function (e) {
+            if ((e.which != 46 || $(this).val().indexOf('.') != -1) && (e.which < 48 || e.which > 57)) {
+                $('#errmsgCharges').css('color', 'red');
+                $("#errmsgCharges").html("Invalid Data").show().fadeOut("slow");
+                return false;
+            }
+        })
+
+        $("#RoomNo").keypress(function (e) {
+            if ((e.which != 46 || $(this).val().indexOf('.') != -1) && (e.which < 48 || e.which > 57)) {
+                $('#errmsgRoomNo').css('color', 'red');
+                $("#errmsgRoomNo").html("Digits Only").show().fadeOut(1300);
+                return false;
+            }
+        })
+        $("#GST").keypress(function (e) {
+            if ((e.which != 46 || $(this).val().indexOf('.') != -1) && (e.which < 48 || e.which > 57)) {
+                $('#errmsgGST').css('color', 'red');
+                $("#errmsgGST").html("Digits Only").show().fadeOut(1300);
+                return false;
+            }
+        })
+
+
+        //Required Field Validation
+        $('#Btn_Submit').click(function () {
+            if ($('#RoomNo').val() == '' || $('#EmployeeName').val() == "") {
+                alert('RoomNo field is required !!!');
+                $('#RoomNo').focus();
+                return false;
+            }
+
+            else if ($('#RoomName').val() == '' || $('#RoomName').val() == "") {
+                alert('RoomName is Required!!!')
+                $('#RoomName').focus();
+                return false;
+            }
+            else if ($('#GST').val() == '' || $('#GST').val() == "") {
+                alert('GST is Required!!!')
+                $('#GST').focus();
+                return false;
+            }
+            else if ($('#Charges').val() == '' || $('#Charges').val() == "") {
+                alert('Charges/Night is Required!!!')
+                $('#Charges').focus();
+                return false;
+            }
+            else if ($('#Status').val() == "1" || $('#Status').val() == "") {
+                alert('Please Select Status!!!')
+                $('#Status').focus();
+                return false;
+            }
+
+            else { return true; }
+        })
+
+    });
+</script>

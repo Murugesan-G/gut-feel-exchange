@@ -1,0 +1,145 @@
+﻿@using NTCYApplication.Models.Food
+@{
+    ViewBag.Title="ViewAllFoodItems";
+    Layout="~/Views/Shared/_Layout.cshtml";
+}
+@*<script src="~/Scripts/jquery-1.12.3.js"></script>*@
+
+<link href="~/Content/jquery.dataTables.min.css" rel="stylesheet" />
+
+<div id="mySidenav" class="col-xs-4 col-sm-4 col-md-2 col-lg-2 sidenav">
+
+    @Html.Partial("_left_admin_submenu")
+</div>
+
+
+<script>
+    $(document).ready(function () {
+        $('#Table2').DataTable({
+            initComplete: function () {
+                this.api().columns().every(function () {
+                    var column = this;
+                    var select = $('<select><option value=""></option></select>')
+                        .appendTo($(column.footer()).empty())
+                        .on('change', function () {
+                            var val = $.fn.dataTable.util.escapeRegex(
+                                $(this).val()
+                            );
+                            //to select and search from grid  
+                            column
+                                .search(val ? '^' + val + '$' : '', true, false)
+                                .draw();
+                        });
+
+                    column.data().unique().sort().each(function (d, j) {
+                        select.append('<option value="' + d + '">' + d + '</option>')
+                    });
+                });
+            }
+        });
+    });
+</script>
+<script>
+    $(document).ready(function () {
+    $("#FoodName").on("keyup", function () {
+    var value = $(this).val().toLowerCase();
+    $("#Search tr").filter(function () {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+});
+</script>
+<div class="col-xs-8 col-sm-8 col-md-10 col-lg-10 main">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 page-title-outer">
+    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 page-title">View All Food Items</div>
+    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 page-title-btn">
+
+        <a href="@Url.Action("CreateFoodItems", "Kitchen")" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Back">
+            <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
+        </a>
+    </div>
+</div>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 workarea-outer">
+
+
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 scrolling-area" style="height: 565px;">
+            @*<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 table-title">Food Item Details</div>*@
+            @*<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 search-area">*@
+           
+                @*<div class="col-xs-12 col-sm-6 col-md-2 col-lg-2 label-right">
+                    Search Food
+                </div>*@
+                @*<div class="col-xs-12 col-sm-6 col-md-2 col-lg-2 textbox-area">
+                    <input type="text" maxlength="20" autocomplete="off" placeholder="Enter FoodName" name="FoodName" id="FoodName" class="blckthm-form-control" style="font-size:13px  ">
+
+                </div>*@
+
+                @*<div class="col-xs-12 col-sm-6 col-md-2 col-lg-2 textbox-area">
+                    <a href="@Url.Action("ViewAllFoodItems", "Kitchen")" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Refresh">
+                        <span class="glyphicon glyphicon-refresh"></span>
+                    </a>
+                </div>*@
+            @*</div>*@
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 table-title"> Food Item List </div>
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 table-responsive  " style="height: 510px;overflow: auto;">
+                <table id="Table2" class="table blk-thm-table table-condensed">
+                    <thead>
+                        <tr>
+                            <th style="display:none">Food Id</th>
+                            <th>Item Code</th>
+                            <th>Item Name</th>
+                            <th>Item Category</th>
+                            <th>Description </th>
+                            <th>Quantity</th>
+                            <th>Rate/Unit</th>
+                            <th>GST%</th>
+                            <th>Status</th>
+                            <th>Edit</th>
+                            <th>Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody id="Search">
+                      
+                            @{
+                                if (ViewData["SubList"]!=null)
+                                {
+                                    if (ViewData.Values!=null&&ViewData.Values.Count()>0)
+                                    {
+                                        foreach (var Model in ViewBag.SubList as List<Food>)
+                                        {
+                                        <tr>
+                                            <td style="display:none">@Model.FoodId</td>
+                                            <td>@Model.FoodCode</td>
+                                            <td>@Model.FoodName</td>
+                                            <td>@Model.Category</td>
+                                            <td>@Model.FoodDescription</td>
+                                            <td>@Model.Quantity</td>
+                                            <td>@Model.Price</td>
+                                            <td>@Model.GST</td>
+                                            <td>@Model.Status</td>
+                                            <td>@Html.ActionLink(" ", "ViewFood", "Kitchen", new { FoodId = Model.FoodId }, new { @class = "btn-sm btn-primary glyphicon glyphicon-pencil", @title = "Edit", data_toggle = "tooltip", data_placement = "bottom" })</td>
+                                            <td>@Html.ActionLink(" ", "DeleteFoodDetails", "Kitchen", new { FoodId = Model.FoodId }, new { @class = "btn-sm btn-primary glyphicon glyphicon-trash", @title = "Delete", data_toggle = "tooltip", data_placement = "bottom" })</td>
+                                        </tr>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <tr>
+                                            <td>
+                                                @ViewBag.message
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+
+                            }
+
+                           
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        <p>@ViewBag.message</p>
+        <p>@ViewBag.innerEx</p>
+        </div>
+    </div>

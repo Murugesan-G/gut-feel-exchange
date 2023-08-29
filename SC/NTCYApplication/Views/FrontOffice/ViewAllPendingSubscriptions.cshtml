@@ -1,0 +1,105 @@
+﻿@using NTCYApplication.Models.Club
+@model List<Member>
+@{
+    ViewBag.Title = "ViewAllPendingSubscriptions";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<script>
+    $(document).ready(function () {
+        $("#MemberName").on("keyup", function () {
+            var value = $(this).val().toLowerCase();
+            $("#Searching tr").filter(function () {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+    });
+</script>
+
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 main">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 workarea-outer">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 page-title-outer">
+            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 page-title">Payment</div>
+            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 page-title-btn">
+            </div>
+            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 page-title-btn">
+                <a href="@Url.Action("ViewAllFrontOfficePayment", "FrontOffice")" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Back">
+                    <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
+                </a>
+            </div>
+        </div>
+
+
+
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 scrolling-area ui-widget">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 search-area">
+                <div class="col-xs-12 col-sm-6 col-md-2 col-lg-2 label-right">
+                    Search Member
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-2 col-lg-2 textbox-area">
+                    <input type="text" maxlength="20" placeholder="Enter MemberName" name="MemberName" id="MemberName" class="blckthm-form-control" style="font-size:13px  ">
+
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 table-title">List of Members</div>
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 table-responsive" id="disptable">
+                @*<div id="disptable"></div>*@
+                @{
+                    if (Model!=null)
+                    {
+
+                        <table id="Table1" class="table blk-thm-table table-condensed">
+                            <thead>
+                                <tr>
+
+                                    <th>MemberId</th>
+                                    <th>MemberName</th>
+                                    <th>MembershipType</th>
+                                    <th>MemberShipStartDate</th>
+                                    <th>MembershipValidity</th>
+                                    <th>MemberShipStatus</th>
+                                    <th>SubscriptionAmountPaid</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+
+                            <tbody id="Searching">
+                                <tr class="sel">
+                                    @foreach (var item in Model)
+                                    {
+                                    <tr>
+                                        <td>@item.MemberId</td>
+                                        <td>@item.MemberName</td>
+                                        @*<td>@item.MembershipNo</td>*@
+                                        <td>@item.MembershipType</td>
+                                        <td>@item.MemberShipStartDate.ToString("dd/MM/yyyy")</td>
+                                        <td>@item.MembershipValidity.ToString("dd/MM/yyyy")</td>
+                                        <td>@item.MemberShipStatus</td>
+                                        <td>@item.SubscriptionAmountPaid</td>
+                                        <td>@item.PaymentStatus</td>
+                                    </tr>
+                                    }
+                                    </tr>
+                                </tbody>
+
+                            </table>
+                    }
+                    else
+                    {
+                        <table class="table blk-thm-table table-condensed" id="norecord">
+                            <thead>
+                                <tr>
+                                    <td style="font-size:18px;font-weight:bold; text-align:center;">No Records Found</td>
+                                </tr>
+                            </thead>
+                        </table>
+                    }
+                }
+
+
+            </div>
+
+        </div>
+    </div>
+</div>

@@ -1,0 +1,108 @@
+﻿@model NTCYApplication.Models.Club.Services
+@using System.Data
+@using NTCYApplication.Models.Club
+@{
+    ViewBag.Title="ViewAllServices";
+    Layout="~/Views/Shared/_Layout.cshtml";
+}
+
+<div id="mySidenav" class="col-xs-4 col-sm-4 col-md-2 col-lg-2 sidenav">
+
+    @Html.Partial("_left_admin_submenu")
+</div>
+
+@*<script>
+    $(document).ready(function () {
+        // $("#Status").val("@ViewData["Status"]");
+        $('[data-toggle="tooltip"]').tooltip();
+        $(document).tooltip({
+            track: true
+        });
+    })
+</script>*@
+
+<div class="col-xs-8 col-sm-8 col-md-10 col-lg-10 main">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 page-title-outer">
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 page-title">Service Master</div>
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 page-title-btn">
+
+            <a href="@Url.Action("CreateService", "Service")" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Back">
+                <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
+            </a>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 workarea-outer">
+
+
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 scrolling-area" style="height: 570px;">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 table-title">Services List</div>
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 table-responsive  " style="height: 520px;overflow: auto;">
+                <table class="table blk-thm-table table-condensed">
+                    <thead>
+                        <tr>
+                            <th style="display:none">Service Id</th>
+                            <th>Service Code</th>
+                            <th>Service Name</th>
+                            <th>Description</th>
+                            <th>Availability Status</th>
+                            <th>Per Hour</th>
+                            <th>Per Half Day</th>
+                            <th>Full Day</th>
+                            <th>Full Month</th>
+                            <th>Rate</th>
+                            <th>GST</th>
+                            <th>Validity</th>
+                            <th>Edit</th>
+                            <th>Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            @{
+                                if (ViewData["SubList"]!=null)
+                                {
+                                    if (ViewData.Values!=null&&ViewData.Values.Count()>0)
+                                    {
+                                        foreach (var Model in ViewBag.SubList as List<Services>)
+                                        {
+                                        <tr>
+                                            <td style="display:none">@Model.ServiceId</td>
+                                            <td>@Model.ServiceCode</td>
+                                            <td>@Model.ServiceName</td>
+                                            <td>@Model.Description</td>
+                                            <td>@Model.AvailabilityStatus</td>
+                                            <td>@Model.PerHour</td>
+                                            <td>@Model.PerHalfDay</td>
+                                            <td>@Model.FullDay</td>
+                                            <td>@Model.FullMonth</td>
+                                            <td>@Model.Rate</td>
+                                            <td>@Model.GST</td>
+                                            <td>@Model.Validity.ToString("dd/MM/yyyy")</td>
+                                            <td>@Html.ActionLink(" ", "ViewService", "Service", new { ServiceId = Model.ServiceId }, new { @class = "btn-sm btn-primary glyphicon glyphicon-pencil", @title = "Edit", data_toggle = "tooltip", data_placement = "bottom" })</td>
+                                            <td>@Html.ActionLink(" ", "DeleteService", "Service", new { ServiceId = Model.ServiceId }, new { @class = "btn-sm btn-primary glyphicon glyphicon-trash", @title = "Delete", data_toggle = "tooltip", data_placement = "bottom" })</td>
+
+                                        </tr>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <tr>
+                                            <td>
+                                                @ViewBag.message
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+
+                            }
+
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        <p>@ViewBag.message</p>
+        <p>@ViewBag.innerEx</p>
+        </div>
+    </div>
