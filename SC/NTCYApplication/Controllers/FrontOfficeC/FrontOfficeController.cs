@@ -323,7 +323,7 @@ namespace NTCYApplication.Controllers.FrontOfficeC
                         {
                             string APIKey = "SgTUwSrw2v0-Ab5OE4IzL9ZmzWWDLzJT7hWdseFcPB";
                             //message = "Dear Member, Thanks for Paying " + PaymentData.Amount.ToString().Trim() + " amount towards bill number " + BillNo.Trim() + " on " + PaymentData.BillDate.ToShortDateString() + ".";
-                            message = "Dear Member, Thanks for Paying " + PaymentData.Amount.ToString().Trim() + " amount towards bill number " + billnumber + ". - THE NEW TOWM CLUB YELAHANKA";
+                            message = "Dear Member, Thanks for Paying " + PaymentData.Amount.ToString().Trim() + " amount towards bill number " + billnumber + ". - THE NEW TOWN CLUB YELAHANKA";
                             String encodedMessage = HttpUtility.UrlEncode(message);
                             using (var webClient = new WebClient())
                             {

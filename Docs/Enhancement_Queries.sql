@@ -3,42 +3,21 @@ select * from FoodOrder
 sp_depends LiquorOrder
 
 select * from LiquorOrder
+Select * From Member
+
+Update Member Set MobileNo = '8494947490', AltMobileNo = '8494947490',EmailId='murugesh1506@gmail.com'
 
 --$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-Alter Table LiquorOrder Drop Column Waiter_Name
-Alter Table FoodOrder Add WaiterName VarChar(100)
-Update FoodOrder Set WaiterName = ''
 
 Alter Table LiquorOrder Add WaiterName VarChar(100)
 Update LiquorOrder Set WaiterName = ''
 
---$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-Alter proc [dbo].[sp_InsertAllFoodOrder]    
-(    
-@UserName varchar(32),    
-@MembershipNo varchar(32),    
-@TotalAmount float,    
-@TotalGST float,    
-@TableNo int,    
-@Status varchar(10),    
-@OrderId int output,    
-@GrossAmount float,
-@WaiterName VarChar(100)
-)    
-As    
-Begin    
-    
-Begin Transaction    
-declare @Date1 Date    
-set @Date1=(select Getdate())    
-insert into [dbo].[FoodOrder] (GrossAmount,Date,UserName,MembershipNo,TotalAmount,TotalGST,TableNo,Status,WaiterName) values(@GrossAmount,@Date1,@UserName,@MembershipNo,@TotalAmount,@TotalGST,@TableNo,@Status,@WaiterName)    
-Select @@Identity    
-set @OrderId = @@Identity    
-declare @FoodOrderId int = @@Identity    
-declare @ServiceType int = '1'    
-insert into dbo.TempPayment (OrderAmount,MembershipNo,OrderId,TotalOrderAmount,Tax,ServiceType,BillDate,Status) values (@GrossAmount,@MembershipNo,@FoodOrderId,@TotalAmount,@TotalGST,@ServiceType,@Date1,@Status)    
-commit transaction    
-end  
+Alter Table Member Add MemberType VarChar(50)
+Update Member Set MemberType = ''
+
+Alter Table Member Add Salutation VarChar(50)
+Update Member Set Salutation = ''
+
 
 --$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
@@ -232,4 +211,170 @@ Begin
   
 End  
 
+--$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+Alter PROCEDURE [dbo].[spInsertMemberDetails] (  
+     @MemberId varchar(10),  
+     @MembershipNo varchar(32),  
+           @ClubId int,  
+           @MemberName varchar(32),  
+           @DOB datetime,  
+           @Gender varchar(12),  
+           @Address varchar(256),  
+           @MobileNo varchar(18),  
+           @AltMobileNo varchar(18),  
+           @EmailId varchar(32),  
+           @ProximityCardNo varchar(32),  
+           @Guests varchar(100),  
+           @GuestCards varchar(50),  
+           @AmenitiesInterested varchar(128),  
+           @MembershipType varchar(18),  
+           @MemberSince datetime,  
+           @MemberShipStartDate datetime,  
+           @MemberShipStatus varchar(12),  
+           @InitialMembershipAmount float,  
+           @MembershipValidity datetime,  
+           @LastSubscriptionPaid float,  
+           @SubscriptionAmountPaid float,  
+     @SpouseName varchar (32),  
+     @FathersName varchar (32),  
+     @Child1sName varchar (32),  
+     @Child2sName varchar (32),  
+     @Alive varchar (32),  
+     @Qualification varchar (32),  
+     @MaritalStatus varchar (32),  
+     @Profession varchar (32),  
+     @DOBOfChild1 datetime,  
+     @DOBOfChild2 datetime,  
+     @DOBOfSpouse datetime,  
+     @DOBOfFather datetime,  
+     @Hobbies varchar(32),  
+     @Balance float,  
+     @PaymentStatus varchar(12) ,
+	 @MemberType VarChar(50),
+	 @Salutation VarChar(50)
+     )  
+AS  
+BEGIN  
+ -- SET NOCOUNT ON added to prevent extra result sets from  
+ -- interfering with SELECT statements.  
+ SET NOCOUNT ON;  
+  
+insert into Member Values(@MemberId,@MembershipNo, @ClubId,@MemberName,@DOB,@Gender,@Address,@MobileNo,  
+@AltMobileNo,@EmailId,@ProximityCardNo,@Guests,@GuestCards,@AmenitiesInterested,@MembershipType,  
+@MemberSince,@MemberShipStartDate,@MemberShipStatus,@InitialMembershipAmount,@MembershipValidity,  
+@LastSubscriptionPaid,@SubscriptionAmountPaid,@SpouseName,@FathersName,@Child1sName,@Child2sName,@Alive,@Qualification,@MaritalStatus,  
+@Profession,@DOBOfChild1,@DOBOfChild2,@DOBOfSpouse,@DOBOfFather,@Hobbies,@Balance,@PaymentStatus,@MemberType,@Salutation
+)  
+end  
+  
+--$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+Alter PROCEDURE [dbo].[spUpdateMemberDetails] (    
+ @MemId int,    
+    @MemberId varchar(10),    
+    @MembershipNo varchar(10),    
+    @ClubId int,    
+    @MemberName varchar(32),    
+    @DOB datetime,    
+    @Gender varchar(12),    
+    @Address varchar(256),    
+    @MobileNo varchar(18),    
+    @AltMobileNo varchar(18),    
+    @EmailId varchar(32),    
+    @ProximityCardNo varchar(32),    
+    @Guests varchar(100),    
+    @GuestCards varchar(50),    
+    @AmenitiesInterested varchar(128),    
+    @MembershipType varchar(18),    
+    @MemberSince datetime,    
+    @MemberShipStartDate datetime,    
+    @MemberShipStatus varchar(12),    
+    @InitialMembershipAmount float,    
+    @MembershipValidity datetime,    
+    @LastSubscriptionPaid float,    
+    @SubscriptionAmountPaid float,    
+    @SpouseName varchar (32),    
+    @FathersName varchar (32),    
+    @Child1sName varchar (32),    
+    @Child2sName varchar (32),    
+    @Alive varchar (32),    
+    @Qualification varchar (32),    
+    @MaritalStatus varchar (32),    
+    @Profession varchar (32),    
+    @DOBOfChild1 datetime,    
+    @DOBOfChild2 datetime,    
+    @DOBOfSpouse datetime,    
+    @DOBOfFather datetime,    
+    @Hobbies varchar(32),    
+    @Balance float,    
+    @PaymentStatus varchar(12),
+	@MemberType VarChar(50),
+	@Salutation VarChar(50)
+)    
+AS    
+BEGIN    
+ -- SET NOCOUNT ON added to prevent extra result sets from    
+ -- interfering with SELECT statements.    
+  
+ --SET NOCOUNT ON;    
+    
+  UPDATE Member SET MemberId=@MemberId,MembershipNo=@MembershipNo,ClubId=@ClubId,MemberName=@MemberName,DOB=@DOB,Gender=@Gender,[Address]=@Address,MobileNo=@MobileNo    
+  ,AltMobileNo=@AltMobileNo,EmailId=@EmailId,ProximityCardNo=@ProximityCardNo,Guests=@Guests,GuestCards=@GuestCards,    
+  AmenitiesInterested=@AmenitiesInterested,MembershipType=@MembershipType,MemberSince=@MemberSince,MemberShipStartDate=@MemberShipStartDate,    
+  MemberShipStatus=@MemberShipStatus,InitialMembershipAmount=@InitialMembershipAmount,MembershipValidity=@MembershipValidity,    
+  LastSubscriptionPaid=@LastSubscriptionPaid,SubscriptionAmountPaid=@SubscriptionAmountPaid,    
+ SpouseName=@SpouseName,FathersName=@FathersName,Child1sName=@Child1sName,Child2sName=@Child2sName,Alive=@Alive,    
+Qualification= @Qualification,MaritalStatus=@MaritalStatus,    
+Profession=@Profession,DOBOfChild1=@DOBOfChild1,DOBOfChild2=@DOBOfChild2,DOBOfSpouse=@DOBOfSpouse,    
+DOBOfFather=@DOBOfFather,Hobbies=@Hobbies,Balance=@Balance,PaymentStatus=@PaymentStatus, MemberType = @MemberType, Salutation = @Salutation  WHERE MemId=@MemId    
+    
+--DECLARE @PaidDate as date    
+--SET @PaidDate = GetDate()    
+    
+--Insert into dbo.SubscriptionsCollected values(@MembershipNo,@SubscriptionAmountPaid,@MembershipType,@PaidDate,@PaymentStatus);    
+    
+END    
+  
+--$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+-- =============================================  
+-- Author:  <Author,,Name>  
+-- Create date: <Create Date,,>  
+-- Description: <Description,,>  
+-- =============================================  
+Alter PROCEDURE [dbo].[spViewMember](  
+@MemId int  
+)  
+  
+AS  
+SELECT   MemId,  
+   MemberId,  
+     MembershipNo,  
+           ClubId ,  
+           MemberName,  
+           Convert(varchar(12),DOB,103) as 'DOB',  
+           Gender,  
+           Address,  
+           MobileNo,  
+           AltMobileNo,  
+           EmailId,  
+           ProximityCardNo,  
+           Guests,  
+           GuestCards,  
+           AmenitiesInterested,  
+           MembershipType,  
+           Convert(varchar(12),MemberSince,103)   as 'MemberSince',  
+           Convert(varchar(12),MemberShipStartDate,103)  as 'MemberShipStartDate' ,  
+           MemberShipStatus,  
+           InitialMembershipAmount ,  
+           Convert(varchar(12),MembershipValidity,103)  as 'MembershipValidity',  
+           LastSubscriptionPaid ,  
+           SubscriptionAmountPaid,SpouseName,FathersName,Child1sName,Child2sName,Alive,Qualification,MaritalStatus,Profession,    
+    Convert(varchar(12),DOBOfChild1,103)  as 'DOBOfChild1' ,   
+    Convert(varchar(12),DOBOfChild2,103)  as 'DOBOfChild2' ,   
+    Convert(varchar(12),DOBOfSpouse,103)  as 'DOBOfSpouse' ,   
+    Convert(varchar(12),DOBOfFather,103)  as 'DOBOfFather' ,   
+    Hobbies,Balance,PaymentStatus,MemberType,Salutation FROM Member WHERE MemId=@MemId;    
+      
 --$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$

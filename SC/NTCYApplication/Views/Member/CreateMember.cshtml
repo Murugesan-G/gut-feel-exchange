@@ -132,7 +132,7 @@
                             Membership No
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 textbox-area">
-                            @if (ViewData["MembershipNo"]!=null)
+                            @if (ViewData["MembershipNo"] != null)
                             {
                                 @Html.TextBox("MembershipNo", ViewData["membershipNo"], new { @readonly = "readonly", @class = "blckthm-form-control", @id = "membershipNo" })
                             }
@@ -145,7 +145,15 @@
                         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 bold-label-right">
                             Member Name
                         </div>
-                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 textbox-area">
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-2 textbox-area">
+                            @Html.DropDownList("Salutation", new List<SelectListItem> {
+                                new SelectListItem { Text="Mr.", Value="Mr."},
+                                new SelectListItem { Text="Ms.", Value="Ms."},
+                                new SelectListItem { Text="Mrs.", Value="Mrs."},
+                                new SelectListItem { Text="Dr.", Value="Dr."}
+                                }, "Select", new { @class = "blckthm-form-control", @id = "Salutation" })
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 textbox-area">
                             @Html.TextBox("MemberName", ViewData["memberName"], new { @maxlength = "100", @class = "blckthm-form-control", @id = "memberName" })
                             <span id="errmsgMName"></span>
                         </div>
@@ -165,10 +173,10 @@
                         </div>
                         <div class='col-xs-12 col-sm-12 col-md-6 col-lg-6 textbox-area'>
                             @Html.TextBox("DOB", ViewData["DOB"], new
-                       { @*@readonly = "readonly",*@ @maxlength = "10",
-                           @class = "blckthm-form-control",
-                           @id = "DOB"
-                       })
+                       {@*@readonly = "readonly",*@@maxlength = "10",
+@class = "blckthm-form-control",
+@id = "DOB"
+})
 
                         </div>
 
@@ -177,9 +185,9 @@
                             Marital Status
                         </div>
                         @*<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 textbox-area">
-                                @Html.TextBox("MaritalStatus", ViewData["MaritalStatus"], new { @maxlength = "30", @class = "blckthm-form-control", @id = "MaritalStatus" })
+            @Html.TextBox("MaritalStatus", ViewData["MaritalStatus"], new { @maxlength = "30", @class = "blckthm-form-control", @id = "MaritalStatus" })
 
-                            </div>*@
+        </div>*@
                         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 textbox-area">
                             @*@Html.DropDownList("MembershipStatus", ViewData["MemberStatus"] as IEnumerable<SelectListItem>, "--Membership Status--", new { @class = "blckthm-form-control" })*@
                             @Html.DropDownList("MaritalStatus", new List<SelectListItem> {
@@ -233,6 +241,20 @@
                         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 textbox-area">
                             @Html.TextBox("Profession", ViewData["Profession"], new { @maxlength = "200", @class = "blckthm-form-control", @id = "Profession" })
 
+                        </div>
+
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 bold-label-right">
+                            Member Type
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 textbox-area">
+                            @Html.DropDownList("MemberType", new List<SelectListItem> {
+                        new SelectListItem { Text="Permanent", Value="Permanent"},
+                        new SelectListItem { Text="Temporary", Value="Temporary"},
+                        new SelectListItem { Text="Sponsored", Value="Sponsored"},
+                        new SelectListItem { Text="Transferred", Value="Transferred"},
+                        new SelectListItem { Text="Life Member", Value="LifeMember"},
+                        new SelectListItem { Text="Honourly L.M", Value="Honourly.L.M"}
+                        }, "MemberType", new { @class = "blckthm-form-control", @id = "MemberType" })
                         </div>
 
                     </div>

@@ -156,6 +156,8 @@ namespace NTCYApplication.Controllers.Clubs
             member.Hobbies= Form["Hobbies"].ToString();
             member.Balance=float.Parse(Form["Balance"].ToString());
             member.PaymentStatus= Form["PaymentStatus"].ToString();
+            member.MemberType = Form["MemberType"].ToString();
+            member.Salutation = Form["Salutation"].ToString();
 
             int response =member.Save();         
             //iMember.CreateMember(MemberDictionary);
@@ -479,6 +481,8 @@ namespace NTCYApplication.Controllers.Clubs
                 ViewData["Hobbies"] = MemberDict["Hobbies"].ToString();
                 ViewData["Balance"] = MemberDict["Balance"].ToString();
                 ViewData["PaymentStatus"] = MemberDict["PaymentStatus"].ToString();
+                ViewData["MemberType"] = MemberDict["MemberType"].ToString();
+                ViewData["Salutation"] = MemberDict["Salutation"].ToString();
                 List =iMember.ShowMemberShipTypes();
 
                 if (List!=null)

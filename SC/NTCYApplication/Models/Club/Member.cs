@@ -51,6 +51,8 @@ namespace NTCYApplication.Models.Club
         private double _Balance;
         private string _PaymentStatus;
         private string _Status;
+        private string _MemberType;
+        private string _Salutation;
 
         public int MemId
         {
@@ -247,6 +249,16 @@ namespace NTCYApplication.Models.Club
             get { return _Status; }
             set { _Status = value; }
         }
+        public string MemberType
+        {
+            get { return _MemberType; }
+            set { _MemberType = value; }
+        }
+        public string Salutation
+        {
+            get { return _Salutation; }
+            set { _Salutation = value; }
+        }
 
         Dictionary<string, object> MemberDictionary = new Dictionary<string, object>();
         public string BindDictionary()
@@ -288,6 +300,8 @@ namespace NTCYApplication.Models.Club
             MemberDictionary.Add("Hobbies", _Hobbies);
             MemberDictionary.Add("Balance", _Balance);
             MemberDictionary.Add("PaymentStatus", _PaymentStatus);
+            MemberDictionary.Add("MemberType", _MemberType);
+            MemberDictionary.Add("Salutation", _Salutation);
             return "Success";
         }
 
@@ -356,6 +370,8 @@ namespace NTCYApplication.Models.Club
             cmd.Parameters.AddWithValue("@Hobbies", this.Hobbies);
             cmd.Parameters.AddWithValue("@Balance", this.Balance);
             cmd.Parameters.AddWithValue("@PaymentStatus", this.PaymentStatus);
+            cmd.Parameters.AddWithValue("@MemberType", this.MemberType);
+            cmd.Parameters.AddWithValue("@Salutation", this.Salutation);
 
             using (SqlConnection MyCon = db.OpenConnection())
             {
@@ -432,6 +448,8 @@ namespace NTCYApplication.Models.Club
             cmd.Parameters.AddWithValue("@Hobbies", MemberDictionary["Hobbies"]);
             cmd.Parameters.AddWithValue("@Balance", Convert.ToDouble(MemberDictionary["Balance"]));
             cmd.Parameters.AddWithValue("@PaymentStatus", MemberDictionary["PaymentStatus"]);
+            cmd.Parameters.AddWithValue("@MemberType", MemberDictionary["MemberType"]);
+            cmd.Parameters.AddWithValue("@Salutation", MemberDictionary["Salutation"]);
 
             using (SqlConnection MyCon = db.OpenConnection())
             {
@@ -505,6 +523,8 @@ namespace NTCYApplication.Models.Club
             cmd.Parameters.AddWithValue("@Hobbies", MemberDictionary["Hobbies"]);
             cmd.Parameters.AddWithValue("@Balance", Convert.ToDouble(MemberDictionary["Balance"]));
             cmd.Parameters.AddWithValue("@PaymentStatus", MemberDictionary["PaymentStatus"]);
+            cmd.Parameters.AddWithValue("@MemberType", MemberDictionary["MemberType"]);
+            cmd.Parameters.AddWithValue("@Salutation", MemberDictionary["Salutation"]);
             using (SqlConnection MyCon = db.OpenConnection())
             {
                 cmd.Connection=MyCon;
@@ -588,7 +608,8 @@ namespace NTCYApplication.Models.Club
                             MemberDictionary.Add("Hobbies", ds.Tables[0].Rows[0]["Hobbies"].ToString());
                             MemberDictionary.Add("Balance", ds.Tables[0].Rows[0]["Balance"].ToString());
                             MemberDictionary.Add("PaymentStatus", ds.Tables[0].Rows[0]["PaymentStatus"].ToString());
-
+                            MemberDictionary.Add("MemberType", ds.Tables[0].Rows[0]["MemberType"].ToString());
+                            MemberDictionary.Add("Salutation", ds.Tables[0].Rows[0]["Salutation"].ToString());
                         }
 
                     }
@@ -703,6 +724,8 @@ namespace NTCYApplication.Models.Club
                         // sub._Balance=Convert.ToDouble(ds.Tables[0].Rows[i]["Balance"].ToString());
                         sub._PaymentStatus=reader["PaymentStatus"].ToString();
                         // sub._PaymentStatus=ds.Tables[0].Rows[i]["PaymentStatus"].ToString();
+                        sub._MemberType = reader["MemberType"].ToString();
+                        sub._Salutation = reader["Salutation"].ToString();
                         list.Add(sub);
                         EOF=!reader.Read();
                     }

@@ -230,7 +230,7 @@ namespace NTCYApplication.Models.FrontOffice
                 return list;
             }
         }
-
+        
         public List<FrontOfficePayment> ViewBillHistory()
         {
             string response = string.Empty;
