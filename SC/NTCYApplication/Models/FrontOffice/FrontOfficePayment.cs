@@ -41,7 +41,7 @@ namespace NTCYApplication.Models.FrontOffice
         public string UserName
         {
             get { return _UserName; }
-            set { _UserName=value; }
+            set { _UserName = value; }
         }
         public string WaiterName
         {
@@ -52,132 +52,132 @@ namespace NTCYApplication.Models.FrontOffice
         public double Payable
         {
             get { return _Payable; }
-            set { _Payable=value; }
+            set { _Payable = value; }
         }
         public double AmtPaid
         {
             get { return _AmtPaid; }
-            set { _AmtPaid=value; }
+            set { _AmtPaid = value; }
         }
 
         public double ToBePaid
         {
             get { return _ToBePaid; }
-            set { _ToBePaid=value; }
+            set { _ToBePaid = value; }
         }
         public string Items
         {
             get { return _Items; }
-            set { _Items=value; }
+            set { _Items = value; }
         }
 
         public double GST
         {
             get { return _GST; }
-            set { _GST=value; }
+            set { _GST = value; }
         }
         public float Qty
         {
             get { return _Qty; }
-            set { _Qty=value; }
+            set { _Qty = value; }
         }
         public string LiquorName
         {
             get { return _LiquorName; }
-            set { _LiquorName=value; }
+            set { _LiquorName = value; }
         }
         public string MembershipType
         {
             get { return _MembershipType; }
-            set { _MembershipType=value; }
+            set { _MembershipType = value; }
         }
         public double SubscriptionAmountPaid
         {
             get { return _SubscriptionAmountPaid; }
-            set { _SubscriptionAmountPaid=value; }
+            set { _SubscriptionAmountPaid = value; }
         }
         public int OrderId
         {
             get { return _OrderId; }
-            set { _OrderId=value; }
+            set { _OrderId = value; }
         }
         public int ServiceType
         {
             get { return _ServiceType; }
-            set { _ServiceType=value; }
+            set { _ServiceType = value; }
         }
         public double OrderAmount
         {
             get { return _OrderAmount; }
-            set { _OrderAmount=value; }
+            set { _OrderAmount = value; }
         }
         public double Tax
         {
             get { return _Tax; }
-            set { _Tax=value; }
+            set { _Tax = value; }
         }
 
         public string MembershipNo
         {
             get { return _MembershipNo; }
-            set { _MembershipNo=value; }
+            set { _MembershipNo = value; }
         }
         public string MemberName
         {
             get { return _MemberName; }
-            set { _MemberName=value; }
+            set { _MemberName = value; }
         }
         public double TotalAmount
         {
             get { return _TotalAmount; }
-            set { _TotalAmount=value; }
+            set { _TotalAmount = value; }
         }
         public DateTime BillDate
         {
             get { return _BillDate; }
-            set { _BillDate=value; }
+            set { _BillDate = value; }
         }
 
         public string Status
         {
             get { return _Status; }
-            set { _Status=value; }
+            set { _Status = value; }
         }
 
 
         public string CardNo_ChequeNo
         {
             get { return _CardNo_ChequeNo; }
-            set { _CardNo_ChequeNo=value; }
+            set { _CardNo_ChequeNo = value; }
         }
 
         public string CardType
         {
             get { return _CardType; }
-            set { _CardType=value; }
+            set { _CardType = value; }
         }
         public double ExpDate
         {
             get { return _ExpDate; }
-            set { _ExpDate=value; }
+            set { _ExpDate = value; }
         }
         public DateTime FromDate
         {
             get { return _FromDate; }
-            set { _FromDate=value; }
+            set { _FromDate = value; }
         }
 
         public DateTime ToDate
         {
             get { return _ToDate; }
-            set { _ToDate=value; }
+            set { _ToDate = value; }
         }
 
         DBConnection db = new DBConnection();
         Dictionary<string, object> FrontOfficePaymentDictionary = new Dictionary<string, object>();
         string BindDictionary()
         {
-            FrontOfficePaymentDictionary=new Dictionary<string, object>();
+            FrontOfficePaymentDictionary = new Dictionary<string, object>();
             FrontOfficePaymentDictionary.Add("MembershipNo", _MembershipNo);
             FrontOfficePaymentDictionary.Add("MemberName", _MemberName);
             FrontOfficePaymentDictionary.Add("TotalAmount", _TotalAmount);
@@ -196,11 +196,11 @@ namespace NTCYApplication.Models.FrontOffice
             List<FrontOfficePayment> list = new List<FrontOfficePayment>();
             SqlCommand cmd = new SqlCommand();
             cmd.Parameters.Clear();
-            cmd.CommandType=CommandType.StoredProcedure;
-            cmd.CommandText="sp_GetAllFrontOfficePayments";
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.CommandText = "sp_GetAllFrontOfficePayments";
             using (SqlConnection MyCon = db.OpenConnection())
             {
-                cmd.Connection=MyCon;
+                cmd.Connection = MyCon;
                 try
                 {
                     SqlDataReader reader = cmd.ExecuteReader();
@@ -210,18 +210,18 @@ namespace NTCYApplication.Models.FrontOffice
                     while (!EOF)
                     {
                         FrontOfficePayment Det = new FrontOfficePayment();
-                        Det._MembershipNo=reader["MembershipNo"].ToString();
-                        Det._MemberName=reader["MemberName"].ToString();
-                        Det._TotalAmount= double.Parse(reader["TotalOrderAmount"].ToString());
-                        Det._Status=reader["Status"].ToString();
-                        Det._BillDate=(DateTime)reader["BillDate"];
+                        Det._MembershipNo = reader["MembershipNo"].ToString();
+                        Det._MemberName = reader["MemberName"].ToString();
+                        Det._TotalAmount = double.Parse(reader["TotalOrderAmount"].ToString());
+                        Det._Status = reader["Status"].ToString();
+                        Det._BillDate = (DateTime)reader["BillDate"];
                         list.Add(Det);
-                        EOF=!reader.Read();
+                        EOF = !reader.Read();
                     }
                 }
                 catch (SqlException e)
                 {
-                    response=e.ToString();
+                    response = e.ToString();
                 }
                 finally
                 {
@@ -230,7 +230,7 @@ namespace NTCYApplication.Models.FrontOffice
                 return list;
             }
         }
-        
+
         public List<FrontOfficePayment> ViewBillHistory()
         {
             string response = string.Empty;
@@ -238,33 +238,33 @@ namespace NTCYApplication.Models.FrontOffice
             List<FrontOfficePayment> list = new List<FrontOfficePayment>();
             SqlCommand cmd = new SqlCommand();
             cmd.Parameters.Clear();
-            cmd.CommandType=CommandType.StoredProcedure;
-            cmd.CommandText="sp_GetAllBillHistory";
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.CommandText = "sp_GetAllBillHistory";
             using (SqlConnection MyCon = db.OpenConnection())
             {
-                cmd.Connection=MyCon;
+                cmd.Connection = MyCon;
                 try
                 {
 
                     SqlDataAdapter da = new SqlDataAdapter(cmd);
                     da.Fill(ds);
-                    for (int i = 0; i<ds.Tables[0].Rows.Count; i++)
+                    for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
                     {
-                        if (ds.Tables[0].Rows.Count>0)
+                        if (ds.Tables[0].Rows.Count > 0)
                         {
                             FrontOfficePayment Det = new FrontOfficePayment();
-                            Det._MembershipNo=Convert.ToString(ds.Tables[0].Rows[i]["MembershipNo"]);
-                            Det._MemberName=Convert.ToString(ds.Tables[0].Rows[i]["MemberName"]);
-                            Det._TotalAmount=Convert.ToDouble(ds.Tables[0].Rows[i]["TotalOrderAmount"]);
-                            Det._Status=Convert.ToString(ds.Tables[0].Rows[i]["Status"]);
-                            Det._BillDate=Convert.ToDateTime(ds.Tables[0].Rows[i]["BillDate"]);
+                            Det._MembershipNo = Convert.ToString(ds.Tables[0].Rows[i]["MembershipNo"]);
+                            Det._MemberName = Convert.ToString(ds.Tables[0].Rows[i]["MemberName"]);
+                            Det._TotalAmount = Convert.ToDouble(ds.Tables[0].Rows[i]["TotalOrderAmount"]);
+                            Det._Status = Convert.ToString(ds.Tables[0].Rows[i]["Status"]);
+                            Det._BillDate = Convert.ToDateTime(ds.Tables[0].Rows[i]["BillDate"]);
                             list.Add(Det);
                         }
                     }
                 }
                 catch (SqlException e)
                 {
-                    response=e.ToString();
+                    response = e.ToString();
 
                 }
                 finally
@@ -282,34 +282,34 @@ namespace NTCYApplication.Models.FrontOffice
             List<FrontOfficePayment> list = new List<FrontOfficePayment>();
             SqlCommand cmd = new SqlCommand();
             cmd.Parameters.Clear();
-            cmd.CommandType=CommandType.StoredProcedure;
-            cmd.CommandText="spGetAllTempPayment";
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.CommandText = "spGetAllTempPayment";
             using (SqlConnection MyCon = db.OpenConnection())
             {
-                cmd.Connection=MyCon;
+                cmd.Connection = MyCon;
                 try
                 {
 
                     SqlDataAdapter da = new SqlDataAdapter(cmd);
                     da.Fill(ds);
-                    for (int i = 0; i<ds.Tables[0].Rows.Count; i++)
+                    for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
                     {
-                        if (ds.Tables[0].Rows.Count>0)
+                        if (ds.Tables[0].Rows.Count > 0)
                         {
                             FrontOfficePayment Det = new FrontOfficePayment();
-                            Det._MembershipNo=Convert.ToString(ds.Tables[0].Rows[i]["MembershipNo"]);
-                            Det._Tax=Convert.ToDouble(ds.Tables[0].Rows[i]["Tax"]);
-                            Det._ServiceType=Convert.ToInt32(ds.Tables[0].Rows[i]["ServiceType"]);
-                            Det._OrderId=Convert.ToInt32(ds.Tables[0].Rows[i]["_OrderId"]);
-                            Det._BillDate=Convert.ToDateTime(ds.Tables[0].Rows[i]["Date"]);
-                            Det._Status=Convert.ToString(ds.Tables[0].Rows[i]["Status"]);
+                            Det._MembershipNo = Convert.ToString(ds.Tables[0].Rows[i]["MembershipNo"]);
+                            Det._Tax = Convert.ToDouble(ds.Tables[0].Rows[i]["Tax"]);
+                            Det._ServiceType = Convert.ToInt32(ds.Tables[0].Rows[i]["ServiceType"]);
+                            Det._OrderId = Convert.ToInt32(ds.Tables[0].Rows[i]["_OrderId"]);
+                            Det._BillDate = Convert.ToDateTime(ds.Tables[0].Rows[i]["Date"]);
+                            Det._Status = Convert.ToString(ds.Tables[0].Rows[i]["Status"]);
                             list.Add(Det);
                         }
                     }
                 }
                 catch (SqlException e)
                 {
-                    response=e.ToString();
+                    response = e.ToString();
 
                 }
                 finally
@@ -323,41 +323,41 @@ namespace NTCYApplication.Models.FrontOffice
         public List<FrontOfficePayment> SearchBillHistory(Dictionary<string, object> FrontOfficePaymentIDictionary)
         {
             string response = string.Empty;
-            FrontOfficePaymentDictionary=FrontOfficePaymentIDictionary;
+            FrontOfficePaymentDictionary = FrontOfficePaymentIDictionary;
             DataSet ds = new DataSet();
             List<FrontOfficePayment> list = new List<FrontOfficePayment>();
             SqlCommand cmd = new SqlCommand();
             cmd.Parameters.Clear();
-            cmd.CommandType=CommandType.StoredProcedure;
-            cmd.CommandText="spSearchBillHistory";
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.CommandText = "spSearchBillHistory";
             cmd.Parameters.AddWithValue("@MemberName", FrontOfficePaymentDictionary["MemberName"]);
             cmd.Parameters.AddWithValue("@FromBillDate", FrontOfficePaymentDictionary["FromDate"]);
             cmd.Parameters.AddWithValue("@ToBillDate", FrontOfficePaymentDictionary["ToDate"]);
             using (SqlConnection MyCon = db.OpenConnection())
             {
-                cmd.Connection=MyCon;
+                cmd.Connection = MyCon;
                 try
                 {
 
                     SqlDataAdapter da = new SqlDataAdapter(cmd);
                     da.Fill(ds);
-                    for (int i = 0; i<ds.Tables[0].Rows.Count; i++)
+                    for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
                     {
-                        if (ds.Tables[0].Rows.Count>0)
+                        if (ds.Tables[0].Rows.Count > 0)
                         {
                             FrontOfficePayment Det = new FrontOfficePayment();
-                            Det._MembershipNo=Convert.ToString(ds.Tables[0].Rows[i]["MembershipNo"]);
-                            Det._MemberName=Convert.ToString(ds.Tables[0].Rows[i]["MemberName"]);
-                            Det._TotalAmount=Convert.ToDouble(ds.Tables[0].Rows[i]["TotalOrderAmount"]);
-                            Det._Status=Convert.ToString(ds.Tables[0].Rows[i]["Status"]);
-                            Det._BillDate=Convert.ToDateTime(ds.Tables[0].Rows[i]["BillDate"]);
+                            Det._MembershipNo = Convert.ToString(ds.Tables[0].Rows[i]["MembershipNo"]);
+                            Det._MemberName = Convert.ToString(ds.Tables[0].Rows[i]["MemberName"]);
+                            Det._TotalAmount = Convert.ToDouble(ds.Tables[0].Rows[i]["TotalOrderAmount"]);
+                            Det._Status = Convert.ToString(ds.Tables[0].Rows[i]["Status"]);
+                            Det._BillDate = Convert.ToDateTime(ds.Tables[0].Rows[i]["BillDate"]);
                             list.Add(Det);
                         }
                     }
                 }
                 catch (SqlException e)
                 {
-                    response=e.ToString();
+                    response = e.ToString();
 
                 }
                 finally
@@ -382,252 +382,252 @@ namespace NTCYApplication.Models.FrontOffice
             List<FrontOfficePayment> ListOtherServices = new List<FrontOfficePayment>();
             List<FrontOfficePayment> ListRoomBooking = new List<FrontOfficePayment>();
             cmd.Parameters.Clear();
-            cmd.CommandType=CommandType.StoredProcedure;
-            cmd.CommandText="spViewDetailedBill";
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.CommandText = "spViewDetailedBill";
             cmd.Parameters.AddWithValue("@MembershipNo", MembershipNo);
             cmd.Parameters.AddWithValue("@BillDate", BillDate);
             cmd.Parameters.AddWithValue("@Flag", 0);
             using (SqlConnection MyCon = db.OpenConnection())
             {
-                cmd.Connection=MyCon;
+                cmd.Connection = MyCon;
                 try
                 {
 
                     SqlDataAdapter da = new SqlDataAdapter(cmd);
                     da.Fill(ds);
-                    for (int i = 0; i<ds.Tables[0].Rows.Count; i++)
+                    for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
                     {
-                        if (ds.Tables[0].Rows.Count>0)
+                        if (ds.Tables[0].Rows.Count > 0)
                         {
                             FrontOfficePayment Det = new FrontOfficePayment();
-                            if (Convert.ToString(ds.Tables[0].Rows[i]["MembershipNo"])==null||Convert.ToString(ds.Tables[0].Rows[i]["MembershipNo"])=="")
+                            if (Convert.ToString(ds.Tables[0].Rows[i]["MembershipNo"]) == null || Convert.ToString(ds.Tables[0].Rows[i]["MembershipNo"]) == "")
                             {
-                                Det._MembershipNo="---";
+                                Det._MembershipNo = "---";
                             }
                             else
                             {
-                                Det._MembershipNo=Convert.ToString(ds.Tables[0].Rows[i]["MembershipNo"]);
+                                Det._MembershipNo = Convert.ToString(ds.Tables[0].Rows[i]["MembershipNo"]);
                             }
-                            if (Convert.ToString(ds.Tables[0].Rows[i]["Price"])==null||Convert.ToString(ds.Tables[0].Rows[i]["Price"])=="")
+                            if (Convert.ToString(ds.Tables[0].Rows[i]["Price"]) == null || Convert.ToString(ds.Tables[0].Rows[i]["Price"]) == "")
                             {
-                                Det._TotalAmount=0;
-                            }
-                            else
-                            {
-                                Det._TotalAmount=Convert.ToDouble(ds.Tables[0].Rows[i]["Price"]);
-                            }
-                            if (Convert.ToString(ds.Tables[0].Rows[i]["Date"])==null||Convert.ToString(ds.Tables[0].Rows[i]["Date"])=="")
-                            {
-                                Det._BillDate=Convert.ToDateTime(01/01/2000);
+                                Det._TotalAmount = 0;
                             }
                             else
                             {
-                                Det._BillDate=Convert.ToDateTime(ds.Tables[0].Rows[i]["Date"]);
+                                Det._TotalAmount = Convert.ToDouble(ds.Tables[0].Rows[i]["Price"]);
                             }
-                            if (Convert.ToString(ds.Tables[0].Rows[i]["GST"])==null||Convert.ToString(ds.Tables[0].Rows[i]["GST"])=="")
+                            if (Convert.ToString(ds.Tables[0].Rows[i]["Date"]) == null || Convert.ToString(ds.Tables[0].Rows[i]["Date"]) == "")
                             {
-                                Det._GST=0;
+                                Det._BillDate = Convert.ToDateTime(01 / 01 / 2000);
                             }
                             else
                             {
-                                Det._GST=Convert.ToDouble(ds.Tables[0].Rows[i]["GST"]);
+                                Det._BillDate = Convert.ToDateTime(ds.Tables[0].Rows[i]["Date"]);
+                            }
+                            if (Convert.ToString(ds.Tables[0].Rows[i]["GST"]) == null || Convert.ToString(ds.Tables[0].Rows[i]["GST"]) == "")
+                            {
+                                Det._GST = 0;
+                            }
+                            else
+                            {
+                                Det._GST = Convert.ToDouble(ds.Tables[0].Rows[i]["GST"]);
                             }
 
 
 
-                            Det._OrderId=Convert.ToInt32(ds.Tables[0].Rows[i]["OrderId"]);
-                            Det._Qty=Convert.ToInt32(ds.Tables[0].Rows[i]["Quantity"]);
-                            Det._Items=ds.Tables[0].Rows[i]["FoodName"].ToString();
-                            Det._UserName=ds.Tables[0].Rows[i]["UserName"].ToString();
+                            Det._OrderId = Convert.ToInt32(ds.Tables[0].Rows[i]["OrderId"]);
+                            Det._Qty = Convert.ToInt32(ds.Tables[0].Rows[i]["Quantity"]);
+                            Det._Items = ds.Tables[0].Rows[i]["FoodName"].ToString();
+                            Det._UserName = ds.Tables[0].Rows[i]["UserName"].ToString();
                             ListFood.Add(Det);
                         }
                     }
-                    for (int i = 0; i<ds.Tables[1].Rows.Count; i++)
+                    for (int i = 0; i < ds.Tables[1].Rows.Count; i++)
                     {
-                        if (ds.Tables[1].Rows.Count>0)
+                        if (ds.Tables[1].Rows.Count > 0)
                         {
                             FrontOfficePayment Det = new FrontOfficePayment();
-                            Det._MembershipNo=Convert.ToString(ds.Tables[1].Rows[i]["MembershipNo"]);
-                            Det._TotalAmount=Convert.ToDouble(ds.Tables[1].Rows[i]["Price"]);
-                            Det._BillDate=Convert.ToDateTime(ds.Tables[1].Rows[i]["Date"]);
-                            Det._GST=Convert.ToDouble(ds.Tables[1].Rows[i]["GST"]);
-                            Det._OrderId=Convert.ToInt32(ds.Tables[1].Rows[i]["OrderId"]);
-                            Det._Qty=float.Parse(ds.Tables[1].Rows[i]["Quantity"].ToString());
-                            Det._LiquorName=Convert.ToString(ds.Tables[1].Rows[i]["LiquorName"]);
-                            Det._UserName=ds.Tables[1].Rows[i]["UserName"].ToString();
+                            Det._MembershipNo = Convert.ToString(ds.Tables[1].Rows[i]["MembershipNo"]);
+                            Det._TotalAmount = Convert.ToDouble(ds.Tables[1].Rows[i]["Price"]);
+                            Det._BillDate = Convert.ToDateTime(ds.Tables[1].Rows[i]["Date"]);
+                            Det._GST = Convert.ToDouble(ds.Tables[1].Rows[i]["GST"]);
+                            Det._OrderId = Convert.ToInt32(ds.Tables[1].Rows[i]["OrderId"]);
+                            Det._Qty = float.Parse(ds.Tables[1].Rows[i]["Quantity"].ToString());
+                            Det._LiquorName = Convert.ToString(ds.Tables[1].Rows[i]["LiquorName"]);
+                            Det._UserName = ds.Tables[1].Rows[i]["UserName"].ToString();
                             Det._WaiterName = ds.Tables[1].Rows[i]["WaiterName"].ToString();
                             ListLiquor.Add(Det);
                         }
                     }
-                    for (int i = 0; i<ds.Tables[2].Rows.Count; i++)
+                    for (int i = 0; i < ds.Tables[2].Rows.Count; i++)
                     {
-                        if (ds.Tables[2].Rows.Count>0)
+                        if (ds.Tables[2].Rows.Count > 0)
                         {
                             FrontOfficePayment Det = new FrontOfficePayment();
-                            if (Convert.ToString(ds.Tables[2].Rows[i]["MembershipType"].ToString())==null||Convert.ToString(ds.Tables[2].Rows[i]["MembershipType"].ToString())=="")
+                            if (Convert.ToString(ds.Tables[2].Rows[i]["MembershipType"].ToString()) == null || Convert.ToString(ds.Tables[2].Rows[i]["MembershipType"].ToString()) == "")
                             {
-                                Det._MembershipType="0";
+                                Det._MembershipType = "0";
                             }
                             else
                             {
-                                Det._MembershipType=Convert.ToString(ds.Tables[2].Rows[i]["MembershipType"]);
+                                Det._MembershipType = Convert.ToString(ds.Tables[2].Rows[i]["MembershipType"]);
                             }
-                            if (Convert.ToString(ds.Tables[2].Rows[i]["Payable"].ToString())==null||Convert.ToString(ds.Tables[2].Rows[i]["Payable"].ToString())=="")
+                            if (Convert.ToString(ds.Tables[2].Rows[i]["Payable"].ToString()) == null || Convert.ToString(ds.Tables[2].Rows[i]["Payable"].ToString()) == "")
                             {
-                                Det._Payable=0;
-                            }
-                            else
-                            {
-                                Det._Payable=Convert.ToDouble(ds.Tables[2].Rows[i]["Payable"]);
-                            }
-                            if (Convert.ToString(ds.Tables[2].Rows[i]["AmtPaid"].ToString())==null||Convert.ToString(ds.Tables[2].Rows[i]["AmtPaid"].ToString())=="")
-                            {
-                                Det._AmtPaid=0;
+                                Det._Payable = 0;
                             }
                             else
                             {
-                                Det._AmtPaid=Convert.ToDouble(ds.Tables[2].Rows[i]["AmtPaid"]);
+                                Det._Payable = Convert.ToDouble(ds.Tables[2].Rows[i]["Payable"]);
                             }
-                            if (Convert.ToString(ds.Tables[2].Rows[i]["ToBePaid"].ToString())==null||Convert.ToString(ds.Tables[2].Rows[i]["ToBePaid"].ToString())=="")
+                            if (Convert.ToString(ds.Tables[2].Rows[i]["AmtPaid"].ToString()) == null || Convert.ToString(ds.Tables[2].Rows[i]["AmtPaid"].ToString()) == "")
                             {
-                                Det._ToBePaid=0;
-                            }
-                            else
-                            {
-                                Det._ToBePaid=Convert.ToDouble(ds.Tables[2].Rows[i]["ToBePaid"]);
-                            }
-                            if (Convert.ToString(ds.Tables[2].Rows[i]["Status"].ToString())==null||Convert.ToString(ds.Tables[2].Rows[i]["Status"].ToString())=="")
-                            {
-                                Det._Status="0";
+                                Det._AmtPaid = 0;
                             }
                             else
                             {
-                                Det._Status=ds.Tables[2].Rows[i]["Status"].ToString();
+                                Det._AmtPaid = Convert.ToDouble(ds.Tables[2].Rows[i]["AmtPaid"]);
+                            }
+                            if (Convert.ToString(ds.Tables[2].Rows[i]["ToBePaid"].ToString()) == null || Convert.ToString(ds.Tables[2].Rows[i]["ToBePaid"].ToString()) == "")
+                            {
+                                Det._ToBePaid = 0;
+                            }
+                            else
+                            {
+                                Det._ToBePaid = Convert.ToDouble(ds.Tables[2].Rows[i]["ToBePaid"]);
+                            }
+                            if (Convert.ToString(ds.Tables[2].Rows[i]["Status"].ToString()) == null || Convert.ToString(ds.Tables[2].Rows[i]["Status"].ToString()) == "")
+                            {
+                                Det._Status = "0";
+                            }
+                            else
+                            {
+                                Det._Status = ds.Tables[2].Rows[i]["Status"].ToString();
                             }
                             ListSubscriptionType.Add(Det);
                         }
 
                     }
-                    for (int i = 0; i<ds.Tables[3].Rows.Count; i++)
+                    for (int i = 0; i < ds.Tables[3].Rows.Count; i++)
                     {
-                        if (ds.Tables[3].Rows.Count>0)
+                        if (ds.Tables[3].Rows.Count > 0)
                         {
                             FrontOfficePayment Det = new FrontOfficePayment();
-                            if (Convert.ToString(ds.Tables[3].Rows[i]["MembershipNo"].ToString())==null||Convert.ToString(ds.Tables[3].Rows[i]["MembershipNo"].ToString())=="")
+                            if (Convert.ToString(ds.Tables[3].Rows[i]["MembershipNo"].ToString()) == null || Convert.ToString(ds.Tables[3].Rows[i]["MembershipNo"].ToString()) == "")
                             {
-                                Det._MembershipNo="0";
+                                Det._MembershipNo = "0";
                             }
                             else
                             {
-                                Det._MembershipNo=Convert.ToString(ds.Tables[3].Rows[i]["MembershipNo"]);
+                                Det._MembershipNo = Convert.ToString(ds.Tables[3].Rows[i]["MembershipNo"]);
                             }
-                            Det._Items=Convert.ToString(ds.Tables[3].Rows[i]["ServiceName"]);
+                            Det._Items = Convert.ToString(ds.Tables[3].Rows[i]["ServiceName"]);
 
-                            if (Convert.ToString(ds.Tables[3].Rows[i]["PaidStatus"].ToString())==null||Convert.ToString(ds.Tables[3].Rows[i]["PaidStatus"].ToString())=="")
+                            if (Convert.ToString(ds.Tables[3].Rows[i]["PaidStatus"].ToString()) == null || Convert.ToString(ds.Tables[3].Rows[i]["PaidStatus"].ToString()) == "")
                             {
-                                Det._Status="0";
+                                Det._Status = "0";
                             }
                             else
                             {
-                                Det._Status=Convert.ToString(ds.Tables[3].Rows[i]["PaidStatus"]);
+                                Det._Status = Convert.ToString(ds.Tables[3].Rows[i]["PaidStatus"]);
                             }
-                            if (Convert.ToString(ds.Tables[3].Rows[i]["Charges"].ToString())==null||Convert.ToString(ds.Tables[3].Rows[i]["Charges"].ToString())=="")
+                            if (Convert.ToString(ds.Tables[3].Rows[i]["Charges"].ToString()) == null || Convert.ToString(ds.Tables[3].Rows[i]["Charges"].ToString()) == "")
                             {
-                                Det._TotalAmount=0;
+                                Det._TotalAmount = 0;
                             }
                             else
                             {
 
-                                Det._TotalAmount=Convert.ToDouble(ds.Tables[3].Rows[i]["Charges"].ToString());
+                                Det._TotalAmount = Convert.ToDouble(ds.Tables[3].Rows[i]["Charges"].ToString());
                             }
-                            if (Convert.ToString(ds.Tables[3].Rows[i]["OrderId"].ToString())==null||Convert.ToString(ds.Tables[3].Rows[i]["OrderId"].ToString())=="")
+                            if (Convert.ToString(ds.Tables[3].Rows[i]["OrderId"].ToString()) == null || Convert.ToString(ds.Tables[3].Rows[i]["OrderId"].ToString()) == "")
                             {
-                                Det._OrderId=0;
+                                Det._OrderId = 0;
                             }
                             else
                             {
-                                Det._OrderId=Convert.ToInt32(ds.Tables[3].Rows[i]["OrderId"]);
+                                Det._OrderId = Convert.ToInt32(ds.Tables[3].Rows[i]["OrderId"]);
                             }
-                                ListOtherServices.Add(Det);
+                            ListOtherServices.Add(Det);
                         }
                     }
 
-                    for (int i = 0; i<ds.Tables[4].Rows.Count; i++)
+                    for (int i = 0; i < ds.Tables[4].Rows.Count; i++)
                     {
-                        if (ds.Tables[4].Rows.Count>0)
+                        if (ds.Tables[4].Rows.Count > 0)
                         {
                             FrontOfficePayment Det = new FrontOfficePayment();
-                            if (Convert.ToString(ds.Tables[4].Rows[i]["MembershipNo"].ToString())==null||Convert.ToString(ds.Tables[4].Rows[i]["MembershipNo"].ToString())=="")
+                            if (Convert.ToString(ds.Tables[4].Rows[i]["MembershipNo"].ToString()) == null || Convert.ToString(ds.Tables[4].Rows[i]["MembershipNo"].ToString()) == "")
                             {
-                                Det._MembershipNo="0";
+                                Det._MembershipNo = "0";
                             }
                             else
                             {
-                                Det._MembershipNo=Convert.ToString(ds.Tables[4].Rows[i]["MembershipNo"]);
+                                Det._MembershipNo = Convert.ToString(ds.Tables[4].Rows[i]["MembershipNo"]);
                             }
-                            if (Convert.ToString(ds.Tables[4].Rows[i]["FromDate"].ToString())==null||Convert.ToString(ds.Tables[4].Rows[i]["FromDate"].ToString())=="")
+                            if (Convert.ToString(ds.Tables[4].Rows[i]["FromDate"].ToString()) == null || Convert.ToString(ds.Tables[4].Rows[i]["FromDate"].ToString()) == "")
                             {
-                                Det._FromDate=DateTime.Now;
-                            }
-                            else
-                            {
-                                Det._FromDate=Convert.ToDateTime(ds.Tables[4].Rows[i]["FromDate"]);
-                            }
-                            if (Convert.ToString(ds.Tables[4].Rows[i]["ToDate"].ToString())==null||Convert.ToString(ds.Tables[4].Rows[i]["ToDate"].ToString())=="")
-                            {
-                                Det._ToDate=DateTime.Now;
+                                Det._FromDate = DateTime.Now;
                             }
                             else
                             {
-                                Det._ToDate=Convert.ToDateTime(ds.Tables[4].Rows[i]["ToDate"]);
+                                Det._FromDate = Convert.ToDateTime(ds.Tables[4].Rows[i]["FromDate"]);
                             }
-                            if (Convert.ToString(ds.Tables[4].Rows[i]["OrderId"].ToString())==null||Convert.ToString(ds.Tables[4].Rows[i]["OrderId"].ToString())=="")
+                            if (Convert.ToString(ds.Tables[4].Rows[i]["ToDate"].ToString()) == null || Convert.ToString(ds.Tables[4].Rows[i]["ToDate"].ToString()) == "")
                             {
-                                Det._OrderId=0;
-                            }
-                            else
-                            {
-                                Det._OrderId=Convert.ToInt32(ds.Tables[4].Rows[i]["OrderId"]);
-                            }
-                            if (Convert.ToString(ds.Tables[4].Rows[i]["PaidStatus"].ToString())==null||Convert.ToString(ds.Tables[4].Rows[i]["PaidStatus"].ToString())=="")
-                            {
-                                Det._Status="";
+                                Det._ToDate = DateTime.Now;
                             }
                             else
                             {
-                                Det._Status=Convert.ToString(ds.Tables[4].Rows[i]["PaidStatus"]);
+                                Det._ToDate = Convert.ToDateTime(ds.Tables[4].Rows[i]["ToDate"]);
                             }
-                            if (Convert.ToString(ds.Tables[4].Rows[i]["Charges"].ToString())==null||Convert.ToString(ds.Tables[4].Rows[i]["Charges"].ToString())=="")
+                            if (Convert.ToString(ds.Tables[4].Rows[i]["OrderId"].ToString()) == null || Convert.ToString(ds.Tables[4].Rows[i]["OrderId"].ToString()) == "")
                             {
-                                Det._OrderAmount=0;
-                            }
-                            else
-                            {
-                                Det._OrderAmount=Convert.ToDouble(ds.Tables[4].Rows[i]["Charges"]);
-                            }
-                            if (Convert.ToString(ds.Tables[4].Rows[i]["FromTime"].ToString())==null||Convert.ToString(ds.Tables[4].Rows[i]["FromTime"].ToString())=="")
-                            {
-                                Det._MemberName="0";
+                                Det._OrderId = 0;
                             }
                             else
                             {
-                                Det._MemberName=Convert.ToString(ds.Tables[4].Rows[i]["FromTime"]);
+                                Det._OrderId = Convert.ToInt32(ds.Tables[4].Rows[i]["OrderId"]);
                             }
-                            if (Convert.ToString(ds.Tables[4].Rows[i]["ToTime"].ToString())==null||Convert.ToString(ds.Tables[4].Rows[i]["ToTime"].ToString())=="")
+                            if (Convert.ToString(ds.Tables[4].Rows[i]["PaidStatus"].ToString()) == null || Convert.ToString(ds.Tables[4].Rows[i]["PaidStatus"].ToString()) == "")
                             {
-                                Det._LiquorName="0";
-                            }
-                            else
-                            {
-                                Det._LiquorName=Convert.ToString(ds.Tables[4].Rows[i]["ToTime"]);
-                            }
-                            if(Convert.ToString(ds.Tables[4].Rows[i]["GST"].ToString())==null||Convert.ToString(ds.Tables[4].Rows[i]["GST"].ToString())=="")
-                            {
-                                Det._GST=0;
+                                Det._Status = "";
                             }
                             else
                             {
-                                Det._GST=int.Parse(ds.Tables[4].Rows[i]["GST"].ToString());
+                                Det._Status = Convert.ToString(ds.Tables[4].Rows[i]["PaidStatus"]);
+                            }
+                            if (Convert.ToString(ds.Tables[4].Rows[i]["Charges"].ToString()) == null || Convert.ToString(ds.Tables[4].Rows[i]["Charges"].ToString()) == "")
+                            {
+                                Det._OrderAmount = 0;
+                            }
+                            else
+                            {
+                                Det._OrderAmount = Convert.ToDouble(ds.Tables[4].Rows[i]["Charges"]);
+                            }
+                            if (Convert.ToString(ds.Tables[4].Rows[i]["FromTime"].ToString()) == null || Convert.ToString(ds.Tables[4].Rows[i]["FromTime"].ToString()) == "")
+                            {
+                                Det._MemberName = "0";
+                            }
+                            else
+                            {
+                                Det._MemberName = Convert.ToString(ds.Tables[4].Rows[i]["FromTime"]);
+                            }
+                            if (Convert.ToString(ds.Tables[4].Rows[i]["ToTime"].ToString()) == null || Convert.ToString(ds.Tables[4].Rows[i]["ToTime"].ToString()) == "")
+                            {
+                                Det._LiquorName = "0";
+                            }
+                            else
+                            {
+                                Det._LiquorName = Convert.ToString(ds.Tables[4].Rows[i]["ToTime"]);
+                            }
+                            if (Convert.ToString(ds.Tables[4].Rows[i]["GST"].ToString()) == null || Convert.ToString(ds.Tables[4].Rows[i]["GST"].ToString()) == "")
+                            {
+                                Det._GST = 0;
+                            }
+                            else
+                            {
+                                Det._GST = int.Parse(ds.Tables[4].Rows[i]["GST"].ToString());
                             }
                             ListRoomBooking.Add(Det);
                         }
@@ -640,7 +640,7 @@ namespace NTCYApplication.Models.FrontOffice
                 }
                 catch (SqlException e)
                 {
-                    response=e.ToString();
+                    response = e.ToString();
 
                 }
                 finally
@@ -663,92 +663,92 @@ namespace NTCYApplication.Models.FrontOffice
             List<FrontOfficePayment> ListOtherServices = new List<FrontOfficePayment>();
 
             cmd.Parameters.Clear();
-            cmd.CommandType=CommandType.StoredProcedure;
-            cmd.CommandText="spViewDetailedBill";
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.CommandText = "spViewDetailedBill";
             cmd.Parameters.AddWithValue("@MembershipNo", MembershipNo);
             cmd.Parameters.AddWithValue("@BillDate", BillDate);
             cmd.Parameters.AddWithValue("@Flag", Flag);
             using (SqlConnection MyCon = db.OpenConnection())
             {
-                cmd.Connection=MyCon;
+                cmd.Connection = MyCon;
                 try
                 {
 
                     SqlDataAdapter da = new SqlDataAdapter(cmd);
                     da.Fill(ds);
-                    for (int i = 0; i<ds.Tables[0].Rows.Count; i++)
+                    for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
                     {
-                        if (ds.Tables[0].Rows.Count>0)
+                        if (ds.Tables[0].Rows.Count > 0)
                         {
                             FrontOfficePayment Det = new FrontOfficePayment();
-                            Det._MembershipNo=Convert.ToString(ds.Tables[0].Rows[i]["MembershipNo"]);
-                            Det._TotalAmount=Convert.ToDouble(ds.Tables[0].Rows[i]["Price"]);
-                            Det._BillDate=Convert.ToDateTime(ds.Tables[0].Rows[i]["Date"]);
-                            Det._GST=Convert.ToDouble(ds.Tables[0].Rows[i]["GST"]);
-                            Det._OrderId=Convert.ToInt32(ds.Tables[0].Rows[i]["OrderId"]);
-                            Det._Qty=Convert.ToInt32(ds.Tables[0].Rows[i]["Quantity"]);
-                            Det._Items=ds.Tables[0].Rows[i]["FoodName"].ToString();
+                            Det._MembershipNo = Convert.ToString(ds.Tables[0].Rows[i]["MembershipNo"]);
+                            Det._TotalAmount = Convert.ToDouble(ds.Tables[0].Rows[i]["Price"]);
+                            Det._BillDate = Convert.ToDateTime(ds.Tables[0].Rows[i]["Date"]);
+                            Det._GST = Convert.ToDouble(ds.Tables[0].Rows[i]["GST"]);
+                            Det._OrderId = Convert.ToInt32(ds.Tables[0].Rows[i]["OrderId"]);
+                            Det._Qty = Convert.ToInt32(ds.Tables[0].Rows[i]["Quantity"]);
+                            Det._Items = ds.Tables[0].Rows[i]["FoodName"].ToString();
                             ListFood.Add(Det);
                         }
                     }
-                    for (int i = 0; i<ds.Tables[1].Rows.Count; i++)
+                    for (int i = 0; i < ds.Tables[1].Rows.Count; i++)
                     {
-                        if (ds.Tables[1].Rows.Count>0)
+                        if (ds.Tables[1].Rows.Count > 0)
                         {
                             FrontOfficePayment Det = new FrontOfficePayment();
-                            Det._MembershipNo=Convert.ToString(ds.Tables[1].Rows[i]["MembershipNo"]);
-                            Det._TotalAmount=Convert.ToDouble(ds.Tables[1].Rows[i]["Price"]);
-                            Det._BillDate=Convert.ToDateTime(ds.Tables[1].Rows[i]["Date"]);
-                            Det._GST=Convert.ToDouble(ds.Tables[1].Rows[i]["GST"]);
-                            Det._OrderId=Convert.ToInt32(ds.Tables[1].Rows[i]["OrderId"]);
-                            Det._Qty=Convert.ToInt32(ds.Tables[1].Rows[i]["Quantity"]);
-                            Det._LiquorName=Convert.ToString(ds.Tables[1].Rows[i]["LiquorName"]);
+                            Det._MembershipNo = Convert.ToString(ds.Tables[1].Rows[i]["MembershipNo"]);
+                            Det._TotalAmount = Convert.ToDouble(ds.Tables[1].Rows[i]["Price"]);
+                            Det._BillDate = Convert.ToDateTime(ds.Tables[1].Rows[i]["Date"]);
+                            Det._GST = Convert.ToDouble(ds.Tables[1].Rows[i]["GST"]);
+                            Det._OrderId = Convert.ToInt32(ds.Tables[1].Rows[i]["OrderId"]);
+                            Det._Qty = Convert.ToInt32(ds.Tables[1].Rows[i]["Quantity"]);
+                            Det._LiquorName = Convert.ToString(ds.Tables[1].Rows[i]["LiquorName"]);
                             ListLiquor.Add(Det);
                         }
                     }
-                    for (int i = 0; i<ds.Tables[2].Rows.Count; i++)
+                    for (int i = 0; i < ds.Tables[2].Rows.Count; i++)
                     {
-                        if (ds.Tables[2].Rows.Count>0)
+                        if (ds.Tables[2].Rows.Count > 0)
                         {
                             FrontOfficePayment Det = new FrontOfficePayment();
-                            Det._MembershipType=Convert.ToString(ds.Tables[2].Rows[i]["MembershipType"]);
-                            Det._SubscriptionAmountPaid=Convert.ToDouble(ds.Tables[2].Rows[i]["SubscriptionAmountPaid"]);
-                            Det._Status=ds.Tables[2].Rows[i]["PaymentStatus"].ToString();
+                            Det._MembershipType = Convert.ToString(ds.Tables[2].Rows[i]["MembershipType"]);
+                            Det._SubscriptionAmountPaid = Convert.ToDouble(ds.Tables[2].Rows[i]["SubscriptionAmountPaid"]);
+                            Det._Status = ds.Tables[2].Rows[i]["PaymentStatus"].ToString();
 
                             ListSubscriptionType.Add(Det);
                         }
 
                     }
-                    for (int i = 0; i<ds.Tables[3].Rows.Count; i++)
+                    for (int i = 0; i < ds.Tables[3].Rows.Count; i++)
                     {
-                        if (ds.Tables[3].Rows.Count>0)
+                        if (ds.Tables[3].Rows.Count > 0)
                         {
                             FrontOfficePayment Det = new FrontOfficePayment();
-                            if (Convert.ToString(ds.Tables[3].Rows[i]["MembershipNo"].ToString())==null||Convert.ToString(ds.Tables[3].Rows[i]["MembershipNo"].ToString())=="")
+                            if (Convert.ToString(ds.Tables[3].Rows[i]["MembershipNo"].ToString()) == null || Convert.ToString(ds.Tables[3].Rows[i]["MembershipNo"].ToString()) == "")
                             {
-                                Det._MembershipNo="0";
+                                Det._MembershipNo = "0";
                             }
                             else
                             {
-                                Det._MembershipNo=Convert.ToString(ds.Tables[3].Rows[i]["MembershipNo"]);
+                                Det._MembershipNo = Convert.ToString(ds.Tables[3].Rows[i]["MembershipNo"]);
                             }
-                            Det._Items=Convert.ToString(ds.Tables[3].Rows[i]["ServiceName"]);
-                            if (Convert.ToString(ds.Tables[3].Rows[i]["PaidStatus"].ToString())==null||Convert.ToString(ds.Tables[3].Rows[i]["PaidStatus"].ToString())=="")
+                            Det._Items = Convert.ToString(ds.Tables[3].Rows[i]["ServiceName"]);
+                            if (Convert.ToString(ds.Tables[3].Rows[i]["PaidStatus"].ToString()) == null || Convert.ToString(ds.Tables[3].Rows[i]["PaidStatus"].ToString()) == "")
                             {
-                                Det._Status="0";
+                                Det._Status = "0";
                             }
                             else
                             {
-                                Det._Status=Convert.ToString(ds.Tables[3].Rows[i]["PaidStatus"]);
+                                Det._Status = Convert.ToString(ds.Tables[3].Rows[i]["PaidStatus"]);
                             }
-                            if (Convert.ToString(ds.Tables[3].Rows[i]["Charges"].ToString())==null||Convert.ToString(ds.Tables[3].Rows[i]["Charges"].ToString())=="")
+                            if (Convert.ToString(ds.Tables[3].Rows[i]["Charges"].ToString()) == null || Convert.ToString(ds.Tables[3].Rows[i]["Charges"].ToString()) == "")
                             {
-                                Det._TotalAmount=0;
+                                Det._TotalAmount = 0;
                             }
                             else
                             {
 
-                                Det._TotalAmount=Convert.ToDouble(ds.Tables[3].Rows[i]["Charges"].ToString());
+                                Det._TotalAmount = Convert.ToDouble(ds.Tables[3].Rows[i]["Charges"].ToString());
                             }
                             ListOtherServices.Add(Det);
                         }
@@ -760,7 +760,7 @@ namespace NTCYApplication.Models.FrontOffice
                 }
                 catch (SqlException e)
                 {
-                    response=e.ToString();
+                    response = e.ToString();
 
                 }
                 finally
@@ -778,25 +778,25 @@ namespace NTCYApplication.Models.FrontOffice
             List<FrontOfficePayment> list = new List<FrontOfficePayment>();
             SqlCommand cmd = new SqlCommand();
             cmd.Parameters.Clear();
-            cmd.CommandType=CommandType.StoredProcedure;
-            cmd.CommandText="spGetAttendanceDetails";
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.CommandText = "spGetAttendanceDetails";
             using (SqlConnection MyCon = db.OpenConnection())
             {
-                cmd.Connection=MyCon;
+                cmd.Connection = MyCon;
                 try
                 {
 
                     SqlDataAdapter da = new SqlDataAdapter(cmd);
                     da.Fill(ds);
-                    for (int i = 0; i<ds.Tables[0].Rows.Count; i++)
+                    for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
                     {
-                        if (ds.Tables[0].Rows.Count>0)
+                        if (ds.Tables[0].Rows.Count > 0)
                         {
                             FrontOfficePayment Det = new FrontOfficePayment();
-                            Det._MembershipNo=Convert.ToString(ds.Tables[0].Rows[i]["MembershipNo"]);
-                            Det._MemberName=Convert.ToString(ds.Tables[0].Rows[i]["MemberName"]);
-                            Det._Qty=Convert.ToInt32(ds.Tables[0].Rows[i]["ServiceCode"]);
-                            Det._Status=Convert.ToString(ds.Tables[0].Rows[i]["TimeSpent"]);
+                            Det._MembershipNo = Convert.ToString(ds.Tables[0].Rows[i]["MembershipNo"]);
+                            Det._MemberName = Convert.ToString(ds.Tables[0].Rows[i]["MemberName"]);
+                            Det._Qty = Convert.ToInt32(ds.Tables[0].Rows[i]["ServiceCode"]);
+                            Det._Status = Convert.ToString(ds.Tables[0].Rows[i]["TimeSpent"]);
                             //  Det._BillDate = Convert.ToDateTime(ds.Tables[0].Rows[i]["BillDate"]);
                             list.Add(Det);
                         }
@@ -804,7 +804,7 @@ namespace NTCYApplication.Models.FrontOffice
                 }
                 catch (SqlException e)
                 {
-                    response=e.ToString();
+                    response = e.ToString();
 
                 }
                 finally

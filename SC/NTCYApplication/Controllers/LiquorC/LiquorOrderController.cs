@@ -40,44 +40,44 @@ namespace NTCYApplication.Controllers.LiquorC
                 //return View();
 
                 LiquorDetails = li.ViewLiquorDetails();
-            List<Liquor> ListLiquor = new List<Liquor>();
-            List<Liquor> ListLiquorM = new List<Liquor>();
+                List<Liquor> ListLiquor = new List<Liquor>();
+                List<Liquor> ListLiquorM = new List<Liquor>();
 
                 ListLiquor = LiquorDetails["ListLiquor"];
                 ListLiquorM = LiquorDetails["ListLiquorM"];
-          
 
-            if (ListLiquor == null || ListLiquor.Count == 0)
-            {
-                ViewBag.message = "Liquor Details Not Available";
+
+                if (ListLiquor == null || ListLiquor.Count == 0)
+                {
+                    ViewBag.message = "Liquor Details Not Available";
+
+                }
+                else
+                {
+                    ViewBag.ListLiquor = ListLiquor;
+                    // ViewBag.OrderId = FoodList[0].OrderId;
+                }
+                if (ListLiquorM == null || ListLiquorM.Count == 0)
+                {
+                    ViewBag.message1 = "Details Not Available";
+                }
+                else
+                {
+                    ViewBag.ListLiquorM = ListLiquorM;
+                    // ViewBag.OrderId1 = ListLiquorM[0].OrderId;
+                }
 
             }
-            else
-            {
-                ViewBag.ListLiquor = ListLiquor;
-               // ViewBag.OrderId = FoodList[0].OrderId;
-            }
-            if (ListLiquorM == null || ListLiquorM.Count == 0)
-            {
-                ViewBag.message1 = "Details Not Available";
-            }
-            else
-            {
-                ViewBag.ListLiquorM = ListLiquorM;
-               // ViewBag.OrderId1 = ListLiquorM[0].OrderId;
-            }
-           
-        }
             catch (Exception e)
             {
-               
-                ViewBag.message=e.Message;
+
+                ViewBag.message = e.Message;
                 //ViewBag.innerEx=e.InnerException.Message;
             }
-          
+
 
             return View();
-}
+        }
 
         [HttpPost]
         public ActionResult TakeLiquorOrder(LiquorOrder LiquorOrderData, LiquorOrderList[] ExList)
@@ -85,10 +85,10 @@ namespace NTCYApplication.Controllers.LiquorC
             try
             {
                 lockobj.AcquireWriterLock(-1);
-                if (ExList!=null)
+                if (ExList != null)
                 {
                     string uname = User.Identity.Name;
-                    Session["ExList"]=ExList;
+                    Session["ExList"] = ExList;
                     Dictionary<string, object> LiquorOrderDictionary = new Dictionary<string, object>();
                     Dictionary<string, object> LiquorOrderListDictionary = new Dictionary<string, object>();
                     LiquorOrderDictionary.Add("UserName", uname);
@@ -109,23 +109,23 @@ namespace NTCYApplication.Controllers.LiquorC
                     LiquorOrderListDictionary.ContainsKey("GST");
                     LiquorOrderListDictionary.ContainsKey("Type");
                     LiquorOrderListDictionary.ContainsKey("LiquorId");
-                    if (OrderId>0)
+                    if (OrderId > 0)
                     {
                         LiquorOrderList[] List;
-                        List=(LiquorOrderList[])Session["ExList"];
-                        if (List!=null)
+                        List = (LiquorOrderList[])Session["ExList"];
+                        if (List != null)
                         {
-                            if (List.Length>0&&List!=null)
+                            if (List.Length > 0 && List != null)
                             {
-                                for (int i = 0; i<List.Length; i++)
+                                for (int i = 0; i < List.Length; i++)
                                 {
-                                    LiquorOrderListDictionary["LiquorName"]=List[i].LiquorName;
-                                    LiquorOrderListDictionary["Quantity"]=List[i].Quantity;
-                                    LiquorOrderListDictionary["Price"]=List[i].Price;
-                                    LiquorOrderListDictionary["GST"]=List[i].GST;
-                                    LiquorOrderListDictionary["OrderId"]=OrderId;
-                                    LiquorOrderListDictionary["Type"]=List[i].Type;
-                                    LiquorOrderListDictionary["LiquorId"]=List[i].LiquorId;
+                                    LiquorOrderListDictionary["LiquorName"] = List[i].LiquorName;
+                                    LiquorOrderListDictionary["Quantity"] = List[i].Quantity;
+                                    LiquorOrderListDictionary["Price"] = List[i].Price;
+                                    LiquorOrderListDictionary["GST"] = List[i].GST;
+                                    LiquorOrderListDictionary["OrderId"] = OrderId;
+                                    LiquorOrderListDictionary["Type"] = List[i].Type;
+                                    LiquorOrderListDictionary["LiquorId"] = List[i].LiquorId;
                                     int SubOrderId = li1.CreateLiquorOrderList(LiquorOrderListDictionary);
                                 }
                             }
@@ -135,12 +135,12 @@ namespace NTCYApplication.Controllers.LiquorC
 
                 }
 
-               
+
             }
             catch (Exception e)
             {
-                ViewBag.message=e.Message;
-                ViewBag.innerEx=e.InnerException.Message;
+                ViewBag.message = e.Message;
+                ViewBag.innerEx = e.InnerException.Message;
             }
 
             lockobj.ReleaseWriterLock();
@@ -172,9 +172,9 @@ namespace NTCYApplication.Controllers.LiquorC
                 // ViewBag.OrderId1 = ListLiquorM[0].OrderId;
             }
 
-        
-            
-             return View();
+
+
+            return View();
 
         }
         public JsonResult DisplayCompletedOrders()
@@ -190,7 +190,7 @@ namespace NTCYApplication.Controllers.LiquorC
             //string membershipno = MembershipNo;
             Dictionary<string, object> LiquorServedDictionary = new Dictionary<string, object>();
             LiquorServedDictionary.Add("SubOrderId", suborderId);
-           // LiquorServedDictionary.Add("MembershipNo", membershipno);
+            // LiquorServedDictionary.Add("MembershipNo", membershipno);
 
             int response = li.ServedStatus(LiquorServedDictionary);
             return Json("", JsonRequestBehavior.AllowGet);

@@ -10,8 +10,8 @@ namespace NTCYApplication.Models.Liquor
     {
         private int _OrderId;
         private int _UserId;
-        private string _MembershipNo; 
-        private string _Status; 
+        private string _MembershipNo;
+        private string _Status;
         private double _TotalGST;
         private int _TableNo;
         private string _WaiterName;
@@ -22,11 +22,11 @@ namespace NTCYApplication.Models.Liquor
         private string _Price;
         private float _GST;
         private DateTime _Date;
-        string _Served; 
+        string _Served;
         int _SubOrderId;
         string _PaymentMode;
 
-        
+
         public int OrderId
         {
             get { return _OrderId; }
@@ -99,24 +99,24 @@ namespace NTCYApplication.Models.Liquor
         public string Served
         {
             get { return _Served; }
-            set { _Served=value; }
+            set { _Served = value; }
         }
 
         public DateTime Date
         {
             get { return _Date; }
-            set { _Date=value; }
+            set { _Date = value; }
         }
 
-        public int SubOrderId 
+        public int SubOrderId
         {
             get { return _SubOrderId; }
-            set { _SubOrderId=value; }
+            set { _SubOrderId = value; }
         }
         public string PaymentMode
         {
             get { return _PaymentMode; }
-            set { _PaymentMode=value; }
+            set { _PaymentMode = value; }
         }
 
         DBConnection db = new DBConnection();
@@ -139,7 +139,7 @@ namespace NTCYApplication.Models.Liquor
             return "Success";
         }
 
-       
+
         public List<LiquorOrder> TakeLiquorOrder()
         {
             throw new NotImplementedException();
@@ -159,21 +159,21 @@ namespace NTCYApplication.Models.Liquor
             cmd.Parameters.AddWithValue("@TotalGST", LiquorOrderDictionary["TotalGST"]);
             cmd.Parameters.AddWithValue("@TableNo", LiquorOrderDictionary["TableNo"]);
             cmd.Parameters.AddWithValue("@WaiterName", LiquorOrderDictionary["WaiterName"]);
-            cmd.Parameters.AddWithValue("@Status","UnPaid");
+            cmd.Parameters.AddWithValue("@Status", "UnPaid");
             cmd.Parameters.AddWithValue("@GrossAmount", LiquorOrderDictionary["GrossAmount"]);
 
 
             using (SqlConnection MyCon = db.OpenConnection())
             {
-                cmd.Connection=MyCon;
+                cmd.Connection = MyCon;
                 try
                 {
                     SqlParameter Param = new SqlParameter("@OrderId", 0);
-                    Param.Direction=ParameterDirection.Output;
+                    Param.Direction = ParameterDirection.Output;
                     cmd.Parameters.Add(Param);
-                    response=cmd.ExecuteNonQuery();
+                    response = cmd.ExecuteNonQuery();
                     int OrderId = Convert.ToInt32(Param.Value);
-                    response=OrderId;
+                    response = OrderId;
                 }
                 catch (SqlException e)
                 {
@@ -217,66 +217,66 @@ namespace NTCYApplication.Models.Liquor
             SqlCommand cmd = new SqlCommand();
             List<Liquor> ListLiquor = new List<Liquor>();
             List<Liquor> ListLiquorM = new List<Liquor>();
-        
+
 
             cmd.Parameters.Clear();
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.CommandText = "spGetAllLiquorDetails";
             using (SqlConnection MyCon = db.OpenConnection())
             {
-                cmd.Connection=MyCon;
+                cmd.Connection = MyCon;
                 try
                 {
 
                     SqlDataAdapter da = new SqlDataAdapter(cmd);
                     da.Fill(ds);
-                    for (int i = 0; i<ds.Tables[0].Rows.Count; i++)
+                    for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
                     {
-                        if (ds.Tables[0].Rows.Count>0)
+                        if (ds.Tables[0].Rows.Count > 0)
                         {
                             Liquor Det = new Liquor();
-                            if (Convert.ToString(ds.Tables[0].Rows[i]["CurrentStockBottles"])==null||Convert.ToString(ds.Tables[0].Rows[i]["CurrentStockBottles"])=="")
-                            { Det.CurrentStockBottles=0; }
+                            if (Convert.ToString(ds.Tables[0].Rows[i]["CurrentStockBottles"]) == null || Convert.ToString(ds.Tables[0].Rows[i]["CurrentStockBottles"]) == "")
+                            { Det.CurrentStockBottles = 0; }
                             else
                             {
-                                Det.CurrentStockBottles=Convert.ToDouble(ds.Tables[0].Rows[i]["CurrentStockBottles"]);
+                                Det.CurrentStockBottles = Convert.ToDouble(ds.Tables[0].Rows[i]["CurrentStockBottles"]);
                             }
-                            if (Convert.ToString(ds.Tables[0].Rows[i]["CurrentStockPegs"])==null||Convert.ToString(ds.Tables[0].Rows[i]["CurrentStockPegs"])=="")
+                            if (Convert.ToString(ds.Tables[0].Rows[i]["CurrentStockPegs"]) == null || Convert.ToString(ds.Tables[0].Rows[i]["CurrentStockPegs"]) == "")
                             {
-                                Det.CurrentStockPegs=0;
-                            }
-                            else
-                            {
-                                Det.CurrentStockPegs=Convert.ToDouble(ds.Tables[0].Rows[i]["CurrentStockPegs"]);
-                            }
-                            if (Convert.ToString(ds.Tables[0].Rows[i]["LiquorId"])==null||Convert.ToString(ds.Tables[0].Rows[i]["LiquorId"])=="")
-                            {
-                                Det.LiquorId=0;
+                                Det.CurrentStockPegs = 0;
                             }
                             else
                             {
-                                Det.LiquorId=Convert.ToInt32(ds.Tables[0].Rows[i]["LiquorId"]);
+                                Det.CurrentStockPegs = Convert.ToDouble(ds.Tables[0].Rows[i]["CurrentStockPegs"]);
                             }
-                            Det.LiquorName=ds.Tables[0].Rows[i]["LiquorName"].ToString();
-                            Det.LiquorCategoryId=Convert.ToInt32(ds.Tables[0].Rows[i]["Liquor_Cat_Id"]);
-                            Det.PegorBottle=ds.Tables[0].Rows[i]["PegOrBottle"].ToString();
-                            Det.SellingPricePeg=Convert.ToInt32(ds.Tables[0].Rows[i]["SellingPricePerPeg"]);
-                            Det.SellingPriceBottle=Convert.ToDouble(ds.Tables[0].Rows[i]["SellingPricePerBottle"].ToString());
-                            Det.GST=Convert.ToInt32(ds.Tables[0].Rows[i]["GST_Rate"]);
+                            if (Convert.ToString(ds.Tables[0].Rows[i]["LiquorId"]) == null || Convert.ToString(ds.Tables[0].Rows[i]["LiquorId"]) == "")
+                            {
+                                Det.LiquorId = 0;
+                            }
+                            else
+                            {
+                                Det.LiquorId = Convert.ToInt32(ds.Tables[0].Rows[i]["LiquorId"]);
+                            }
+                            Det.LiquorName = ds.Tables[0].Rows[i]["LiquorName"].ToString();
+                            Det.LiquorCategoryId = Convert.ToInt32(ds.Tables[0].Rows[i]["Liquor_Cat_Id"]);
+                            Det.PegorBottle = ds.Tables[0].Rows[i]["PegOrBottle"].ToString();
+                            Det.SellingPricePeg = Convert.ToInt32(ds.Tables[0].Rows[i]["SellingPricePerPeg"]);
+                            Det.SellingPriceBottle = Convert.ToDouble(ds.Tables[0].Rows[i]["SellingPricePerBottle"].ToString());
+                            Det.GST = Convert.ToInt32(ds.Tables[0].Rows[i]["GST_Rate"]);
                             ListLiquor.Add(Det);
                         }
                     }
-                    for (int i = 0; i<ds.Tables[1].Rows.Count; i++)
+                    for (int i = 0; i < ds.Tables[1].Rows.Count; i++)
                     {
-                        if (ds.Tables[1].Rows.Count>0)
+                        if (ds.Tables[1].Rows.Count > 0)
                         {
                             Liquor Det = new Liquor();
-                            Det.LiquorName=Convert.ToString(ds.Tables[1].Rows[i]["LiquorName"]);
-                            Det.LiquorCategoryId=Convert.ToInt32(ds.Tables[1].Rows[i]["Liquor_Cat_Id"].ToString());
-                            Det.SellingPriceBottle=Convert.ToDouble(ds.Tables[1].Rows[i]["SellingPricePerBottle"].ToString());
-                            Det.LiquorId=Convert.ToInt32(ds.Tables[1].Rows[i]["LiquorId"].ToString());
-                            Det.GST=Convert.ToDouble(ds.Tables[1].Rows[i]["GST_Rate"]);
-                            Det.CurrentStockBottles=Convert.ToDouble(ds.Tables[1].Rows[i]["CurrentStockBottles"]);
+                            Det.LiquorName = Convert.ToString(ds.Tables[1].Rows[i]["LiquorName"]);
+                            Det.LiquorCategoryId = Convert.ToInt32(ds.Tables[1].Rows[i]["Liquor_Cat_Id"].ToString());
+                            Det.SellingPriceBottle = Convert.ToDouble(ds.Tables[1].Rows[i]["SellingPricePerBottle"].ToString());
+                            Det.LiquorId = Convert.ToInt32(ds.Tables[1].Rows[i]["LiquorId"].ToString());
+                            Det.GST = Convert.ToDouble(ds.Tables[1].Rows[i]["GST_Rate"]);
+                            Det.CurrentStockBottles = Convert.ToDouble(ds.Tables[1].Rows[i]["CurrentStockBottles"]);
                             ListLiquorM.Add(Det);
                         }
                     }
@@ -287,7 +287,7 @@ namespace NTCYApplication.Models.Liquor
                 }
                 catch (SqlException e)
                 {
-                    response=e.ToString();
+                    response = e.ToString();
 
                 }
                 finally
@@ -309,32 +309,32 @@ namespace NTCYApplication.Models.Liquor
             cmd.CommandText = "spDisplayCompletedLiquorOrders";
             using (SqlConnection MyCon = db.OpenConnection())
             {
-                cmd.Connection=MyCon;
+                cmd.Connection = MyCon;
                 try
                 {
 
                     SqlDataAdapter da = new SqlDataAdapter(cmd);
                     da.Fill(ds);
-                    for (int i = 0; i<ds.Tables[0].Rows.Count; i++)
+                    for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
                     {
-                        if (ds.Tables[0].Rows.Count>0)
+                        if (ds.Tables[0].Rows.Count > 0)
                         {
                             LiquorOrder Lo = new LiquorOrder();
-                            Lo._OrderId=Convert.ToInt32(ds.Tables[0].Rows[i]["OrderNumber"]);
-                            Lo._MembershipNo=Convert.ToString(ds.Tables[0].Rows[i]["MembershipNo"]);
-                            Lo._TableNo=Convert.ToInt32(ds.Tables[0].Rows[i]["TableNo"].ToString());
+                            Lo._OrderId = Convert.ToInt32(ds.Tables[0].Rows[i]["OrderNumber"]);
+                            Lo._MembershipNo = Convert.ToString(ds.Tables[0].Rows[i]["MembershipNo"]);
+                            Lo._TableNo = Convert.ToInt32(ds.Tables[0].Rows[i]["TableNo"].ToString());
                             Lo._WaiterName = Convert.ToString(ds.Tables[0].Rows[i]["WaiterName"].ToString());
-                            Lo._LiquorName=Convert.ToString(ds.Tables[0].Rows[i]["LiquorName"].ToString());
-                            Lo._Quantity=float.Parse(ds.Tables[0].Rows[i]["Quantity"].ToString());
-                            Lo._Served=ds.Tables[0].Rows[i]["ServedStatus"].ToString();
-                            Lo._SubOrderId=Convert.ToInt32(ds.Tables[0].Rows[i]["SubOrderId"]);
+                            Lo._LiquorName = Convert.ToString(ds.Tables[0].Rows[i]["LiquorName"].ToString());
+                            Lo._Quantity = float.Parse(ds.Tables[0].Rows[i]["Quantity"].ToString());
+                            Lo._Served = ds.Tables[0].Rows[i]["ServedStatus"].ToString();
+                            Lo._SubOrderId = Convert.ToInt32(ds.Tables[0].Rows[i]["SubOrderId"]);
                             list.Add(Lo);
                         }
                     }
                 }
                 catch (SqlException e)
                 {
-                    response=e.ToString();
+                    response = e.ToString();
 
                 }
                 finally
@@ -349,24 +349,24 @@ namespace NTCYApplication.Models.Liquor
         {
             int response = 0;
             SqlCommand cmd = new SqlCommand();
-            LiquorOrderDictionary=LiquorServedDictionary;
+            LiquorOrderDictionary = LiquorServedDictionary;
             cmd.Parameters.Clear();
-            cmd.CommandType=CommandType.StoredProcedure;
-            cmd.CommandText="spUpdateServedStatus";
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.CommandText = "spUpdateServedStatus";
             cmd.Parameters.AddWithValue("@SubOrderId", LiquorOrderDictionary["SubOrderId"]);
             //cmd.Parameters.AddWithValue("@MembershipNo", LiquorOrderDictionary["MembershipNo"]);
 
             using (SqlConnection MyCon = db.OpenConnection())
             {
-                cmd.Connection=MyCon;
+                cmd.Connection = MyCon;
                 try
                 {
-                    response=cmd.ExecuteNonQuery();
+                    response = cmd.ExecuteNonQuery();
 
                 }
                 catch (SqlException e)
                 {
-                    response=Convert.ToInt32(e);
+                    response = Convert.ToInt32(e);
                 }
                 finally
                 {

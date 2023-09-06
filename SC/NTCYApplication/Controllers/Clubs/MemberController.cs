@@ -15,7 +15,7 @@ namespace NTCYApplication.Controllers.Clubs
     {
         IMember iMember = new Member();
 
-        private static ReaderWriterLock lockobj=new ReaderWriterLock();
+        private static ReaderWriterLock lockobj = new ReaderWriterLock();
 
         //
         // GET: /Member/
@@ -26,21 +26,21 @@ namespace NTCYApplication.Controllers.Clubs
         {
             try
             {
-                List=iMember.ShowMemberShipTypes();
+                List = iMember.ShowMemberShipTypes();
 
-                if (List!=null)
+                if (List != null)
                 {
-                    ViewBag.SubList=List;
+                    ViewBag.SubList = List;
                 }
                 else
                 {
-                    ViewBag.message="Subscriptions Not Available";
+                    ViewBag.message = "Subscriptions Not Available";
                 }
-            }     
-           catch(Exception e)
+            }
+            catch (Exception e)
             {
-                ViewBag.message=e.Message;
-                ViewBag.innerEx=e.InnerException.Message;
+                ViewBag.message = e.Message;
+                ViewBag.innerEx = e.InnerException.Message;
             }
             return View();
         }
@@ -53,132 +53,132 @@ namespace NTCYApplication.Controllers.Clubs
 
             lockobj.AcquireWriterLock(-1);
             Member member = new Member();
-            member.MemId =(Form["MemId"]=="0"||Form["MemId"]==""||Form["MemId"]==null) ? 0 :
+            member.MemId = (Form["MemId"] == "0" || Form["MemId"] == "" || Form["MemId"] == null) ? 0 :
                                                 int.Parse(Form["MemId"].ToString());
 
             member.MemberId = (Form["MemberId"].ToString());
             member.ClubId = int.Parse(Form["ClubId"].ToString());
             member.MembershipNo = Form["MembershipNo"].ToString();
-            member.MemberName=Form["MemberName"].ToString();
-            member.Address=Form["Address"].ToString();
-            member.DOB=DateTime.ParseExact(Form["DOB"].ToString(),"dd/MM/yyyy", CultureInfo.InvariantCulture);
+            member.MemberName = Form["MemberName"].ToString();
+            member.Address = Form["Address"].ToString();
+            member.DOB = DateTime.ParseExact(Form["DOB"].ToString(), "dd/MM/yyyy", CultureInfo.InvariantCulture);
             member.Gender = Form["Gender"].ToString();
             member.MobileNo = Form["MobileNo"].ToString();
 
-            if (Convert.ToString(Form["AltMobileNo"])==null||Convert.ToString(Form["AltMobileNo"])=="")
+            if (Convert.ToString(Form["AltMobileNo"]) == null || Convert.ToString(Form["AltMobileNo"]) == "")
             {
-                member.AltMobileNo= Convert.ToString("0");
+                member.AltMobileNo = Convert.ToString("0");
             }
             else
             {
-                member.AltMobileNo= Form["AltMobileNo"].ToString();
+                member.AltMobileNo = Form["AltMobileNo"].ToString();
             }
-            member.EmailId= Form["EmailId"].ToString();
-            member.ProximityCardNo= Form["ProximityCardNo"].ToString();
-            member.Guests= Form["Guests"].ToString();
-            member.GuestCards= Form["GuestCards"].ToString();
-            member.AmenitiesInterested= Form["AmenitiesInterested"].ToString();
-            member.MembershipType= Form["MembershipType"].ToString();
-            member.MemberSince=DateTime.ParseExact(Form["MemberSince"].ToString(),"dd/MM/yyyy", CultureInfo.InvariantCulture);         
-            member.MemberShipStartDate=DateTime.ParseExact(Form["MemberShipStartDate"].ToString(),"dd/MM/yyyy", CultureInfo.InvariantCulture);            
-            member.MemberShipStatus= Form["MemberShipStatus"].ToString();
-            member.InitialMembershipAmount=float.Parse(Form["InitialMembershipAmount"].ToString());
-            member.MembershipValidity=DateTime.ParseExact(Form["MembershipValidity"].ToString().ToString(),"dd/MM/yyyy", CultureInfo.InvariantCulture);
-            member.LastSubscriptionPaid=Convert.ToDouble( Form["LastSubscriptionPaid"].ToString());
-            member.SubscriptionAmountPaid= Convert.ToDouble(Form["SubscriptionAmountPaid"].ToString());
+            member.EmailId = Form["EmailId"].ToString();
+            member.ProximityCardNo = Form["ProximityCardNo"].ToString();
+            member.Guests = Form["Guests"].ToString();
+            member.GuestCards = Form["GuestCards"].ToString();
+            member.AmenitiesInterested = Form["AmenitiesInterested"].ToString();
+            member.MembershipType = Form["MembershipType"].ToString();
+            member.MemberSince = DateTime.ParseExact(Form["MemberSince"].ToString(), "dd/MM/yyyy", CultureInfo.InvariantCulture);
+            member.MemberShipStartDate = DateTime.ParseExact(Form["MemberShipStartDate"].ToString(), "dd/MM/yyyy", CultureInfo.InvariantCulture);
+            member.MemberShipStatus = Form["MemberShipStatus"].ToString();
+            member.InitialMembershipAmount = float.Parse(Form["InitialMembershipAmount"].ToString());
+            member.MembershipValidity = DateTime.ParseExact(Form["MembershipValidity"].ToString().ToString(), "dd/MM/yyyy", CultureInfo.InvariantCulture);
+            member.LastSubscriptionPaid = Convert.ToDouble(Form["LastSubscriptionPaid"].ToString());
+            member.SubscriptionAmountPaid = Convert.ToDouble(Form["SubscriptionAmountPaid"].ToString());
             //member.SpouseName= Form["SpouseName"].ToString();
-            if (Convert.ToString(Form["SpouseName"])==null||Convert.ToString(Form["SpouseName"])=="")
+            if (Convert.ToString(Form["SpouseName"]) == null || Convert.ToString(Form["SpouseName"]) == "")
             {
-                member.SpouseName= Convert.ToString("NA").ToString();
+                member.SpouseName = Convert.ToString("NA").ToString();
             }
             else
             {
-                member.SpouseName= Form["SpouseName"].ToString();
+                member.SpouseName = Form["SpouseName"].ToString();
             }
-            member.FathersName= Form["FatherName"].ToString();
+            member.FathersName = Form["FatherName"].ToString();
             //member.Child1sName= Form[" Child1sName"].ToString();
-            if (Convert.ToString(Form["Child1sName"])==null||Convert.ToString(Form["Child1sName"])=="")
+            if (Convert.ToString(Form["Child1sName"]) == null || Convert.ToString(Form["Child1sName"]) == "")
             {
-                member.Child1sName= Convert.ToString("NA").ToString();
+                member.Child1sName = Convert.ToString("NA").ToString();
             }
             else
             {
-                member.Child1sName= Form["Child1sName"].ToString();
+                member.Child1sName = Form["Child1sName"].ToString();
             }
             //member.Child2sName= Form["Child2sName"].ToString();
-            if (Convert.ToString(Form["Child2sName"])==null||Convert.ToString(Form["Child2sName"])=="")
+            if (Convert.ToString(Form["Child2sName"]) == null || Convert.ToString(Form["Child2sName"]) == "")
             {
-                member.Child2sName= Convert.ToString("NA").ToString();
+                member.Child2sName = Convert.ToString("NA").ToString();
             }
             else
             {
-                member.Child2sName= Form["Child2sName"].ToString();
+                member.Child2sName = Form["Child2sName"].ToString();
             }
-            member.Alive= Form["RadioHidden"].ToString();
-            member.Qualification= Form["Qualification"].ToString();
-            member.MaritalStatus= Form["MaritalStatus"].ToString();
-            member.Profession= Form["Profession"].ToString();
+            member.Alive = Form["RadioHidden"].ToString();
+            member.Qualification = Form["Qualification"].ToString();
+            member.MaritalStatus = Form["MaritalStatus"].ToString();
+            member.Profession = Form["Profession"].ToString();
 
 
-            if (Convert.ToString(Form["DOBOfChild1"])==null||Convert.ToString(Form["DOBOfChild1"])=="")
+            if (Convert.ToString(Form["DOBOfChild1"]) == null || Convert.ToString(Form["DOBOfChild1"]) == "")
             {
-                member.DOBOfChild1=DateTime.ParseExact("01/01/2000","dd/MM/yyyy", CultureInfo.InvariantCulture);
+                member.DOBOfChild1 = DateTime.ParseExact("01/01/2000", "dd/MM/yyyy", CultureInfo.InvariantCulture);
             }
             else
             {
-                member.DOBOfChild1=DateTime.ParseExact(Form["DOBOfChild1"].ToString(),"dd/MM/yyyy", CultureInfo.InvariantCulture);
+                member.DOBOfChild1 = DateTime.ParseExact(Form["DOBOfChild1"].ToString(), "dd/MM/yyyy", CultureInfo.InvariantCulture);
             }
-            if (Convert.ToString(Form["DOBOfChild2"])==null||Convert.ToString(Form["DOBOfChild2"])=="")
+            if (Convert.ToString(Form["DOBOfChild2"]) == null || Convert.ToString(Form["DOBOfChild2"]) == "")
             {
-                member.DOBOfChild2= DateTime.ParseExact("01/01/2000","dd/MM/yyyy", CultureInfo.InvariantCulture);
-            }
-            else
-            {
-                member.DOBOfChild2=DateTime.ParseExact(Form["DOBOfChild2"].ToString(),"dd/MM/yyyy", CultureInfo.InvariantCulture);
-            }
-            if (Convert.ToString(Form["DOBOfSpouse"])==null||Convert.ToString(Form["DOBOfSpouse"])=="")
-            {
-                member.DOBOfSpouse= DateTime.ParseExact("01/01/2000","dd/MM/yyyy", CultureInfo.InvariantCulture);
+                member.DOBOfChild2 = DateTime.ParseExact("01/01/2000", "dd/MM/yyyy", CultureInfo.InvariantCulture);
             }
             else
             {
-                member.DOBOfSpouse=DateTime.ParseExact(Form["DOBOfSpouse"].ToString(),"dd/MM/yyyy", CultureInfo.InvariantCulture);
+                member.DOBOfChild2 = DateTime.ParseExact(Form["DOBOfChild2"].ToString(), "dd/MM/yyyy", CultureInfo.InvariantCulture);
             }
-            if (Convert.ToString(Form["DOBOfFather"])==null||Convert.ToString(Form["DOBOfFather"])=="")
+            if (Convert.ToString(Form["DOBOfSpouse"]) == null || Convert.ToString(Form["DOBOfSpouse"]) == "")
             {
-                member.DOBOfFather= DateTime.ParseExact("01/01/2000","dd/MM/yyyy", CultureInfo.InvariantCulture);
+                member.DOBOfSpouse = DateTime.ParseExact("01/01/2000", "dd/MM/yyyy", CultureInfo.InvariantCulture);
             }
             else
             {
-                member.DOBOfFather=DateTime.ParseExact(Form["DOBOfFather"].ToString(),"dd/MM/yyyy", CultureInfo.InvariantCulture);
+                member.DOBOfSpouse = DateTime.ParseExact(Form["DOBOfSpouse"].ToString(), "dd/MM/yyyy", CultureInfo.InvariantCulture);
+            }
+            if (Convert.ToString(Form["DOBOfFather"]) == null || Convert.ToString(Form["DOBOfFather"]) == "")
+            {
+                member.DOBOfFather = DateTime.ParseExact("01/01/2000", "dd/MM/yyyy", CultureInfo.InvariantCulture);
+            }
+            else
+            {
+                member.DOBOfFather = DateTime.ParseExact(Form["DOBOfFather"].ToString(), "dd/MM/yyyy", CultureInfo.InvariantCulture);
             }
 
-            member.Hobbies= Form["Hobbies"].ToString();
-            member.Balance=float.Parse(Form["Balance"].ToString());
-            member.PaymentStatus= Form["PaymentStatus"].ToString();
+            member.Hobbies = Form["Hobbies"].ToString();
+            member.Balance = float.Parse(Form["Balance"].ToString());
+            member.PaymentStatus = Form["PaymentStatus"].ToString();
             member.MemberType = Form["MemberType"].ToString();
             member.Salutation = Form["Salutation"].ToString();
 
-            int response =member.Save();         
+            int response = member.Save();
             //iMember.CreateMember(MemberDictionary);
-            if(response ==1)
+            if (response == 1)
             {
-                ViewBag.message="Successfully Inserted";
+                ViewBag.message = "Successfully Inserted";
             }
             else
             {
-                ViewBag.message="Insertion was not successful";
+                ViewBag.message = "Insertion was not successful";
             }
 
-            List=iMember.ShowMemberShipTypes();
+            List = iMember.ShowMemberShipTypes();
 
-            if (List!=null)
+            if (List != null)
             {
-                ViewBag.SubList=List;
+                ViewBag.SubList = List;
             }
             else
             {
-                ViewBag.message="Subscriptions Not Available";
+                ViewBag.message = "Subscriptions Not Available";
             }
             lockobj.ReleaseWriterLock();
             return View();
@@ -207,7 +207,7 @@ namespace NTCYApplication.Controllers.Clubs
         //            MemberDictionary.Add("DOB", Form["DOB"]);
         //            MemberDictionary.Add("Gender", Form["Gender"]);
         //            MemberDictionary.Add("MobileNo", Form["MobileNo"]);
-                   
+
         //            if (Convert.ToString(Form["AltMobileNo"]) == null || Convert.ToString(Form["AltMobileNo"]) == "")
         //            {
         //                MemberDictionary.Add("AltMobileNo", Convert.ToString("0"));
@@ -261,7 +261,7 @@ namespace NTCYApplication.Controllers.Clubs
         //            MemberDictionary.Add("Qualification", Form["Qualification"]);
         //            MemberDictionary.Add("MaritalStatus", Form["MaritalStatus"]);
         //            MemberDictionary.Add("Profession", Form["Profession"]);
-                    
+
 
         //            if (Convert.ToString(Form["DOBOfChild1"]) == null || Convert.ToString(Form["DOBOfChild1"]) == "")
         //            {
@@ -295,7 +295,7 @@ namespace NTCYApplication.Controllers.Clubs
         //            {
         //                MemberDictionary.Add("DOBOfFather", Form["DOBOfFather"]);
         //            }
-                  
+
         //            MemberDictionary.Add("Hobbies", Form["Hobbies"]);
         //            MemberDictionary.Add("Balance", Form["Balance"]);
         //            MemberDictionary.Add("PaymentStatus", Form["PaymentStatus"]);
@@ -441,31 +441,31 @@ namespace NTCYApplication.Controllers.Clubs
             try
             {
                 Dictionary<string, object> MemberDict;
-                MemberDict=iMember.ViewMemberDetails(MemId);
-                ViewBag.submit="Update";
-                ViewData["MemId"]=MemberDict["MemId"].ToString();
-                ViewData["MemberId"]=MemberDict["MemberId"].ToString();
-                ViewData["MembershipNo"]=MemberDict["MembershipNo"].ToString();
-                ViewData["clubid"]=MemberDict["ClubId"].ToString();
-                ViewData["MemberName"]=MemberDict["MemberName"].ToString();
-                ViewData["Address"]=MemberDict["Address"].ToString();
-                ViewData["DOB"]=MemberDict["DOB"].ToString();
-                ViewData["Gender"]=MemberDict["Gender"].ToString();
-                ViewData["MobileNo"]=MemberDict["MobileNo"].ToString();
-                ViewData["AltMobileNo"]=MemberDict["AltMobileNo"].ToString();
-                ViewData["EmailId"]=MemberDict["EmailId"].ToString();
-                ViewData["ProximityCardNo"]=MemberDict["ProximityCardNo"].ToString();
-                ViewData["Guests"]=MemberDict["Guests"].ToString();
-                ViewData["GuestCards"]=MemberDict["GuestCards"].ToString();
-                ViewData["AmenitiesInterested"]=MemberDict["AmenitiesInterested"].ToString();
-                ViewData["MembershipType"]=MemberDict["MembershipType"].ToString();
-                ViewData["MemberSince"]=MemberDict["MemberSince"].ToString();
-                ViewData["MemberShipStartDate"]=MemberDict["MemberShipStartDate"].ToString();
-                ViewData["MemberShipStatus"]=MemberDict["MemberShipStatus"].ToString();
-                ViewData["InitialMembershipAmount"]=MemberDict["InitialMembershipAmount"].ToString();
-                ViewData["MembershipValidity"]=MemberDict["MembershipValidity"].ToString();
-                ViewData["LastSubscriptionPaid"]=MemberDict["LastSubscriptionPaid"].ToString();
-                ViewData["SubscriptionAmountPaid"]=MemberDict["SubscriptionAmountPaid"].ToString();
+                MemberDict = iMember.ViewMemberDetails(MemId);
+                ViewBag.submit = "Update";
+                ViewData["MemId"] = MemberDict["MemId"].ToString();
+                ViewData["MemberId"] = MemberDict["MemberId"].ToString();
+                ViewData["MembershipNo"] = MemberDict["MembershipNo"].ToString();
+                ViewData["clubid"] = MemberDict["ClubId"].ToString();
+                ViewData["MemberName"] = MemberDict["MemberName"].ToString();
+                ViewData["Address"] = MemberDict["Address"].ToString();
+                ViewData["DOB"] = MemberDict["DOB"].ToString();
+                ViewData["Gender"] = MemberDict["Gender"].ToString();
+                ViewData["MobileNo"] = MemberDict["MobileNo"].ToString();
+                ViewData["AltMobileNo"] = MemberDict["AltMobileNo"].ToString();
+                ViewData["EmailId"] = MemberDict["EmailId"].ToString();
+                ViewData["ProximityCardNo"] = MemberDict["ProximityCardNo"].ToString();
+                ViewData["Guests"] = MemberDict["Guests"].ToString();
+                ViewData["GuestCards"] = MemberDict["GuestCards"].ToString();
+                ViewData["AmenitiesInterested"] = MemberDict["AmenitiesInterested"].ToString();
+                ViewData["MembershipType"] = MemberDict["MembershipType"].ToString();
+                ViewData["MemberSince"] = MemberDict["MemberSince"].ToString();
+                ViewData["MemberShipStartDate"] = MemberDict["MemberShipStartDate"].ToString();
+                ViewData["MemberShipStatus"] = MemberDict["MemberShipStatus"].ToString();
+                ViewData["InitialMembershipAmount"] = MemberDict["InitialMembershipAmount"].ToString();
+                ViewData["MembershipValidity"] = MemberDict["MembershipValidity"].ToString();
+                ViewData["LastSubscriptionPaid"] = MemberDict["LastSubscriptionPaid"].ToString();
+                ViewData["SubscriptionAmountPaid"] = MemberDict["SubscriptionAmountPaid"].ToString();
                 ViewData["SpouseName"] = MemberDict["SpouseName"].ToString();
                 ViewData["FatherName"] = MemberDict["FathersName"].ToString();
                 ViewData["Child1sName"] = MemberDict["Child1sName"].ToString();
@@ -483,46 +483,47 @@ namespace NTCYApplication.Controllers.Clubs
                 ViewData["PaymentStatus"] = MemberDict["PaymentStatus"].ToString();
                 ViewData["MemberType"] = MemberDict["MemberType"].ToString();
                 ViewData["Salutation"] = MemberDict["Salutation"].ToString();
-                List =iMember.ShowMemberShipTypes();
+                List = iMember.ShowMemberShipTypes();
 
-                if (List!=null)
+                if (List != null)
                 {
-                    ViewBag.SubList=List;
+                    ViewBag.SubList = List;
                 }
                 else
                 {
-                    ViewBag.message="Members details Not Available";
+                    ViewBag.message = "Members details Not Available";
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
-                ViewBag.message=e.Message;
-                ViewBag.innerEx=e.InnerException.Message;
+                ViewBag.message = e.Message;
+                ViewBag.innerEx = e.InnerException.Message;
             }
-            
+
             return View("CreateMember");
         }
 
         [Authorize(Roles = "Admin,Management")]
         [HttpGet]
-        public ActionResult ViewMembers() 
+        public ActionResult ViewMembers()
         {
             try
             {
                 List<Member> sublist;
-                sublist=iMember.ViewAllMembers();
-                if (sublist!=null)
+                sublist = iMember.ViewAllMembers();
+                if (sublist != null)
                 {
-                    ViewBag.SubList=sublist;
+                    ViewBag.SubList = sublist;
                 }
                 else
                 {
-                    ViewBag.message="Member details Not Available";
+                    ViewBag.message = "Member details Not Available";
                 }
-            }catch(Exception ex)
+            }
+            catch (Exception ex)
             {
-                ViewBag.message=ex.Message;
-                ViewBag.innerEx=ex.InnerException.Message;
+                ViewBag.message = ex.Message;
+                ViewBag.innerEx = ex.InnerException.Message;
             }
             return View();
         }
@@ -534,20 +535,20 @@ namespace NTCYApplication.Controllers.Clubs
             try
             {
                 string sub;
-                sub=iMember.DeleteMember(MemId);
-                if (sub==null)
+                sub = iMember.DeleteMember(MemId);
+                if (sub == null)
                 {
-                    ViewBag.message="Unable to Delete Subscription";
+                    ViewBag.message = "Unable to Delete Subscription";
                 }
                 else
                 {
-                    ViewBag.message="Subsccription Deleted ";
+                    ViewBag.message = "Subsccription Deleted ";
                 }
             }
-            catch(Exception ex)
-            { 
-                ViewBag.message=ex.Message;
-                ViewBag.innerEx=ex.InnerException.Message;
+            catch (Exception ex)
+            {
+                ViewBag.message = ex.Message;
+                ViewBag.innerEx = ex.InnerException.Message;
             }
             return RedirectToAction("ViewMembers");
         }
@@ -603,7 +604,7 @@ namespace NTCYApplication.Controllers.Clubs
         {
             string mobileNo = "";
             IMember iMember = new Member();
-            mobileNo=iMember.GetMemberMobileNo(mNo);
+            mobileNo = iMember.GetMemberMobileNo(mNo);
             return mobileNo;
         }
     }

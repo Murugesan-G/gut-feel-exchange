@@ -1,7 +1,7 @@
-﻿@using NTCYApplication.Models.Club
+﻿﻿@using NTCYApplication.Models.Club
 @{
-    ViewBag.Title="CreateMember";
-    Layout="~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "CreateMember";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <div id="mySidenav" class="col-xs-4 col-sm-4 col-md-2 col-lg-2 sidenav">
@@ -10,9 +10,9 @@
 </div>
 
 <div>
-    @if (ViewBag.errList!=null)
+    @if (ViewBag.errList != null)
     {
-        for (int i = 0; i<ViewBag.errList.count; i++)
+        for (int i = 0; i < ViewBag.errList.count; i++)
         {
             <p>ViewBag.errList[i]</p>
         }
@@ -185,9 +185,9 @@
                             Marital Status
                         </div>
                         @*<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 textbox-area">
-            @Html.TextBox("MaritalStatus", ViewData["MaritalStatus"], new { @maxlength = "30", @class = "blckthm-form-control", @id = "MaritalStatus" })
+                                @Html.TextBox("MaritalStatus", ViewData["MaritalStatus"], new { @maxlength = "30", @class = "blckthm-form-control", @id = "MaritalStatus" })
 
-        </div>*@
+                            </div>*@
                         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 textbox-area">
                             @*@Html.DropDownList("MembershipStatus", ViewData["MemberStatus"] as IEnumerable<SelectListItem>, "--Membership Status--", new { @class = "blckthm-form-control" })*@
                             @Html.DropDownList("MaritalStatus", new List<SelectListItem> {
@@ -352,10 +352,10 @@
                         </div>
                         <div class='col-xs-12 col-sm-12 col-md-6 col-lg-6 textbox-area'>
                             @Html.TextBox("DOBOfSpouse", ViewData["DOBOfSpouse"], new
-                       { @*@readonly = "readonly",*@ @maxlength = "10",
-                           @class = "blckthm-form-control",
-                           @id = "DOBOfSpouse"
-                       })
+                       {@*@readonly = "readonly",*@@maxlength = "10",
+@class = "blckthm-form-control",
+@id = "DOBOfSpouse"
+})
 
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 bold-label-right">
@@ -363,10 +363,10 @@
                         </div>
                         <div class='col-xs-12 col-sm-12 col-md-6 col-lg-6 textbox-area'>
                             @Html.TextBox("DOBOfFather", ViewData["DOBOfFather"], new
-                       { @*@readonly = "readonly",*@  @maxlength = "10",
-                           @class = "blckthm-form-control",
-                           @id = "DOBOfFather"
-                       })
+                       {@*@readonly = "readonly",*@@maxlength = "10",
+@class = "blckthm-form-control",
+@id = "DOBOfFather"
+})
 
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 bold-label-right">
@@ -374,10 +374,10 @@
                         </div>
                         <div class='col-xs-12 col-sm-12 col-md-6 col-lg-6 textbox-area'>
                             @Html.TextBox("DOBOfChild1", ViewData["DOBOfChild1"], new
-                       { @*@readonly = "readonly",*@  @maxlength = "10",
-                           @class = "blckthm-form-control",
-                           @id = "DOBOfChild1"
-                       })
+                       {@*@readonly = "readonly",*@@maxlength = "10",
+@class = "blckthm-form-control",
+@id = "DOBOfChild1"
+})
 
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 bold-label-right">
@@ -385,10 +385,10 @@
                         </div>
                         <div class='col-xs-12 col-sm-12 col-md-6 col-lg-6 textbox-area'>
                             @Html.TextBox("DOBOfChild2", ViewData["DOBOfChild2"], new
-                       { @*@readonly = "readonly",*@  @maxlength = "10",
-                           @class = "blckthm-form-control",
-                           @id = "DOBOfChild2"
-                       })
+                       {@*@readonly = "readonly",*@@maxlength = "10",
+@class = "blckthm-form-control",
+@id = "DOBOfChild2"
+})
 
                         </div>
 
@@ -480,10 +480,10 @@
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 textbox-area">
                             @Html.TextBox("MemberSince", ViewData["MemberSince"], new
-                       { @*@readonly = "readonly",*@  @maxlength = "10",
-                           @class = "blckthm-form-control",
-                           @id = "MemberSince"
-                       })
+                       {@*@readonly = "readonly",*@@maxlength = "10",
+@class = "blckthm-form-control",
+@id = "MemberSince"
+})
 
                         </div>
                         <div class="clearfix"></div>
@@ -506,10 +506,10 @@
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 textbox-area">
                             @Html.TextBox("MembershipStartDate", ViewData["MembershipStartDate"], new
-                       { @*@readonly = "readonly",*@  @maxlength = "10",
-                           @class = "blckthm-form-control",
-                           @id = "MembershipStartDate"
-                       })
+                       {@*@readonly = "readonly",*@@maxlength = "10",
+@class = "blckthm-form-control",
+@id = "MembershipStartDate"
+})
 
                         </div>
 
@@ -518,10 +518,10 @@
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 textbox-area">
                             @Html.TextBox("MembershipValidity", ViewData["MembershipValidity"], new
-                       { @*@readonly = "readonly",*@  @maxlength = "10",
-                           @class = "blckthm-form-control",
-                           @id = "MembershipValidity"
-                       })
+                       {@*@readonly = "readonly",*@@maxlength = "10",
+@class = "blckthm-form-control",
+@id = "MembershipValidity"
+})
 
                         </div>
                         <div class="clearfix"></div>
