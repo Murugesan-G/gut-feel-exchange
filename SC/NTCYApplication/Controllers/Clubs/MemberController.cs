@@ -6,6 +6,9 @@ using System.Data;
 using System.Globalization;
 using System.Web.Mvc;
 using System.Threading;
+using System.Web;
+using System.IO;
+using NTCYApplication.Models.Room;
 
 namespace NTCYApplication.Controllers.Clubs
 {
@@ -48,8 +51,24 @@ namespace NTCYApplication.Controllers.Clubs
 
         [Authorize(Roles = "Admin,Management")]
         [HttpPost]
-        public ActionResult CreateMember(FormCollection Form)
+        public ActionResult CreateMember(FormCollection Form, HttpPostedFileBase imgfile)
         {
+            //string memberFolder = Server.MapPath("~/Member_Images/") + Form["MembershipNo"].ToString();
+            string memberFolder = "/Member_Images/" + Form["MembershipNo"].ToString() + "/";
+            string imgname, imgpath;
+            imgname = "";
+            imgpath = "";
+            if (Directory.Exists(Server.MapPath("~/Member_Images/") + Form["MembershipNo"].ToString()) == false)
+            {
+                Directory.CreateDirectory(Server.MapPath("~/Member_Images/") + Form["MembershipNo"].ToString());
+            }
+            if (imgfile !=null && imgfile.ContentLength > 0)
+            {
+                imgname = Path.GetFileName(imgfile.FileName);
+                //string imgext = Path.GetExtension(imgname);
+                imgpath = @"\Member_Images\" + Form["MembershipNo"].ToString() + @"\" + imgname;
+                imgfile.SaveAs(Path.Combine(Server.MapPath("~/Member_Images/") + Form["MembershipNo"].ToString(), imgname));
+            }
 
             lockobj.AcquireWriterLock(-1);
             Member member = new Member();
@@ -158,6 +177,7 @@ namespace NTCYApplication.Controllers.Clubs
             member.PaymentStatus = Form["PaymentStatus"].ToString();
             member.MemberType = Form["MemberType"].ToString();
             member.Salutation = Form["Salutation"].ToString();
+            member.MemberPhoto = imgpath;
 
             int response = member.Save();
             //iMember.CreateMember(MemberDictionary);
@@ -184,256 +204,6 @@ namespace NTCYApplication.Controllers.Clubs
             return View();
         }
 
-
-
-        //[Authorize(Roles = "Admin,Management")]
-        //[HttpPost]
-        //public ActionResult CreateMembers(FormCollection Form) 
-        //{
-        //    try
-        //    {
-        //        List<string> errList = new List<string>();
-        //        errList.Add("Entered Controller");
-        //        Dictionary<string, string> MemberDictionary = new Dictionary<string, string>();
-        //        var MembershipNo = Form["MemberId"];
-        //        if (Form["MemberId"] == "0" || Form["MemberId"] == "" || Form["MemberId"] == null)
-        //        {
-        //            errList.Add("Entered If");
-        //            ViewBag.submit = "Submit";
-        //            MemberDictionary.Add("ClubId", Form["ClubId"]);
-        //            MemberDictionary.Add("MembershipNo", Form["MembershipNo"]);
-        //            MemberDictionary.Add("MemberName", Form["MemberName"]);
-        //            MemberDictionary.Add("Address", Form["Address"]);
-        //            MemberDictionary.Add("DOB", Form["DOB"]);
-        //            MemberDictionary.Add("Gender", Form["Gender"]);
-        //            MemberDictionary.Add("MobileNo", Form["MobileNo"]);
-
-        //            if (Convert.ToString(Form["AltMobileNo"]) == null || Convert.ToString(Form["AltMobileNo"]) == "")
-        //            {
-        //                MemberDictionary.Add("AltMobileNo", Convert.ToString("0"));
-        //            }
-        //            else
-        //            {
-        //                MemberDictionary.Add("AltMobileNo", Form["AltMobileNo"]);
-        //            }
-        //            MemberDictionary.Add("EmailId", Form["EmailId"]);
-        //            MemberDictionary.Add("ProximityCardNo", Form["ProximityCardNo"]);
-        //            MemberDictionary.Add("Guests", Form["Guests"]);
-        //            MemberDictionary.Add("GuestCards", Form["GuestCards"]);
-        //            MemberDictionary.Add("AmenitiesInterested", Form["AmenitiesInterested"]);
-        //            MemberDictionary.Add("MembershipType", Form["MembershipType"]);
-        //            MemberDictionary.Add("MemberSince", Form["MemberSince"]);
-        //            MemberDictionary.Add("MemberShipStartDate", Form["MemberShipStartDate"]);
-        //            MemberDictionary.Add("MemberShipStatus", Form["MemberShipStatus"].ToString());
-        //            MemberDictionary.Add("InitialMembershipAmount", Form["InitialMembershipAmount"]);
-        //            MemberDictionary.Add("MembershipValidity", Form["MembershipValidity"]);
-        //            MemberDictionary.Add("LastSubscriptionPaid", Form["LastSubscriptionPaid"]);
-        //            MemberDictionary.Add("SubscriptionAmountPaid", Form["SubscriptionAmountPaid"]);
-        //            //MemberDictionary.Add("SpouseName", Form["SpouseName"]);
-        //            if(Convert.ToString(Form["SpouseName"]) == null || Convert.ToString(Form["SpouseName"])=="")
-        //            {
-        //                MemberDictionary.Add("SpouseName", Convert.ToString("NA"));
-        //            }
-        //            else
-        //            {
-        //                MemberDictionary.Add("SpouseName", Form["SpouseName"]);
-        //            }
-        //            MemberDictionary.Add("FathersName", Form["FatherName"]);
-        //            //MemberDictionary.Add("Child1sName", Form[" Child1sName"]);
-        //            if (Convert.ToString(Form["Child1sName"]) == null || Convert.ToString(Form["Child1sName"]) == "")
-        //            {
-        //                MemberDictionary.Add("Child1sName", Convert.ToString("NA"));
-        //            }
-        //            else
-        //            {
-        //                MemberDictionary.Add("Child1sName", Form["Child1sName"]);
-        //            }
-        //            //MemberDictionary.Add("Child2sName", Form["Child2sName"]);
-        //            if (Convert.ToString(Form["Child2sName"]) == null || Convert.ToString(Form["Child2sName"]) == "")
-        //            {
-        //                MemberDictionary.Add("Child2sName", Convert.ToString("NA"));
-        //            }
-        //            else
-        //            {
-        //                MemberDictionary.Add("Child2sName", Form["Child2sName"]);
-        //            }
-        //            MemberDictionary.Add("Alive", Form["RadioHidden"]);
-        //            MemberDictionary.Add("Qualification", Form["Qualification"]);
-        //            MemberDictionary.Add("MaritalStatus", Form["MaritalStatus"]);
-        //            MemberDictionary.Add("Profession", Form["Profession"]);
-
-
-        //            if (Convert.ToString(Form["DOBOfChild1"]) == null || Convert.ToString(Form["DOBOfChild1"]) == "")
-        //            {
-        //                MemberDictionary.Add("DOBOfChild1", Convert.ToDateTime("01/01/2000").ToString());
-        //            }
-        //            else
-        //            {
-        //                MemberDictionary.Add("DOBOfChild1", Form["DOBOfChild1"]);
-        //            }
-        //            if (Convert.ToString(Form["DOBOfChild2"])== null||Convert.ToString(Form["DOBOfChild2"])=="")
-        //            {
-        //                MemberDictionary.Add("DOBOfChild2", Convert.ToDateTime("01/01/2000").ToString());
-        //            }
-        //            else
-        //            {
-        //                MemberDictionary.Add("DOBOfChild2",Form["DOBOfChild2"]);
-        //            }
-        //            if (Convert.ToString(Form["DOBOfSpouse"])== null || Convert.ToString(Form["DOBOfSpouse"]) == "")
-        //            {
-        //                MemberDictionary.Add("DOBOfSpouse", Convert.ToDateTime("01/01/2000").ToString());
-        //            }
-        //            else
-        //            {
-        //                MemberDictionary.Add("DOBOfSpouse", Form["DOBOfSpouse"]);
-        //            }
-        //            if (Convert.ToString(Form["DOBOfFather"]) == null || Convert.ToString(Form["DOBOfFather"]) == "")
-        //            {
-        //                MemberDictionary.Add("DOBOfFather", Convert.ToDateTime("01/01/2000").ToString());
-        //            }
-        //            else
-        //            {
-        //                MemberDictionary.Add("DOBOfFather", Form["DOBOfFather"]);
-        //            }
-
-        //            MemberDictionary.Add("Hobbies", Form["Hobbies"]);
-        //            MemberDictionary.Add("Balance", Form["Balance"]);
-        //            MemberDictionary.Add("PaymentStatus", Form["PaymentStatus"]);
-
-        //            errList.Add("Dictionary Populated");
-        //            ViewBag.errList=errList;
-
-        //            iMember.CreateMember(MemberDictionary);
-        //            ViewBag.message = "Successfully Inserted";
-
-        //        }
-
-        //        else
-        //        {
-        //            MemberDictionary.Add("MemberId", Form["MemberId"]);
-        //            MemberDictionary.Add("ClubId", Form["ClubId"]);
-        //            MemberDictionary.Add("MembershipNo", Form["MembershipNo"]);
-        //            MemberDictionary.Add("MemberName", Form["MemberName"]);
-        //            MemberDictionary.Add("Address", Form["Address"]);
-        //            MemberDictionary.Add("DOB", Form["DOB"]);
-        //            MemberDictionary.Add("Gender", Form["Gender"]);
-        //            MemberDictionary.Add("MobileNo", Form["MobileNo"]);
-
-        //            if (Convert.ToString(Form["AltMobileNo"]) == null || Convert.ToString(Form["AltMobileNo"]) == "")
-        //            {
-        //                MemberDictionary.Add("AltMobileNo", Convert.ToString("0"));
-        //            }
-        //            else
-        //            {
-        //                MemberDictionary.Add("AltMobileNo", Form["AltMobileNo"]);
-        //            }
-        //            MemberDictionary.Add("EmailId", Form["EmailId"]);
-        //            MemberDictionary.Add("ProximityCardNo", Form["ProximityCardNo"]);
-        //            MemberDictionary.Add("Guests", Form["Guests"]);
-        //            MemberDictionary.Add("GuestCards", Form["GuestCards"]);
-        //            MemberDictionary.Add("AmenitiesInterested", Form["AmenitiesInterested"]);
-        //            MemberDictionary.Add("MembershipType", Form["MembershipType"]);
-        //            MemberDictionary.Add("MemberSince", Form["MemberSince"]);
-        //            MemberDictionary.Add("MemberShipStartDate", Form["MemberShipStartDate"]);
-        //            MemberDictionary.Add("MemberShipStatus", Form["MemberShipStatus"].ToString());
-        //            MemberDictionary.Add("InitialMembershipAmount", Form["InitialMembershipAmount"]);
-        //            MemberDictionary.Add("MembershipValidity", Form["MembershipValidity"]);
-        //            MemberDictionary.Add("LastSubscriptionPaid", Form["LastSubscriptionPaid"]);
-        //            MemberDictionary.Add("SubscriptionAmountPaid", Form["SubscriptionAmountPaid"]);
-        //            //MemberDictionary.Add("SpouseName", Form["SpouseName"]);
-        //            if (Convert.ToString(Form["SpouseName"]) == null || Convert.ToString(Form["SpouseName"]) == "")
-        //            {
-        //                MemberDictionary.Add("SpouseName", Convert.ToString("NA"));
-        //            }
-        //            else
-        //            {
-        //                MemberDictionary.Add("SpouseName", Form["SpouseName"]);
-        //            }
-        //            MemberDictionary.Add("FathersName", Form["FatherName"]);
-        //            //MemberDictionary.Add("Child1sName", Form[" Child1sName"]);
-        //            if (Convert.ToString(Form["Child1sName"]) == null || Convert.ToString(Form["Child1sName"]) == "")
-        //            {
-        //                MemberDictionary.Add("Child1sName", Convert.ToString("NA"));
-        //            }
-        //            else
-        //            {
-        //                MemberDictionary.Add("Child1sName", Form["Child1sName"]);
-        //            }
-        //            //MemberDictionary.Add("Child2sName", Form["Child2sName"]);
-        //            if (Convert.ToString(Form["Child2sName"]) == null || Convert.ToString(Form["Child2sName"]) == "")
-        //            {
-        //                MemberDictionary.Add("Child2sName", Convert.ToString("NA"));
-        //            }
-        //            else
-        //            {
-        //                MemberDictionary.Add("Child2sName", Form["Child2sName"]);
-        //            }
-        //            MemberDictionary.Add("Alive", Form["RadioHidden"]);
-        //            MemberDictionary.Add("Qualification", Form["Qualification"]);
-        //            MemberDictionary.Add("MaritalStatus", Form["MaritalStatus"]);
-        //            MemberDictionary.Add("Profession", Form["Profession"]);
-
-
-        //            if (Convert.ToString(Form["DOBOfChild1"]) == null || Convert.ToString(Form["DOBOfChild1"]) == "")
-        //            {
-        //                MemberDictionary.Add("DOBOfChild1", Convert.ToDateTime("01/01/2000").ToString());
-        //            }
-        //            else
-        //            {
-        //                MemberDictionary.Add("DOBOfChild1", Form["DOBOfChild1"]);
-        //            }
-        //            if (Convert.ToString(Form["DOBOfChild2"]) == null || Convert.ToString(Form["DOBOfChild2"]) == "")
-        //            {
-        //                MemberDictionary.Add("DOBOfChild2", Convert.ToDateTime("01/01/2000").ToString());
-        //            }
-        //            else
-        //            {
-        //                MemberDictionary.Add("DOBOfChild2", Form["DOBOfChild2"]);
-        //            }
-        //            if (Convert.ToString(Form["DOBOfSpouse"]) == null || Convert.ToString(Form["DOBOfSpouse"]) == "")
-        //            {
-        //                MemberDictionary.Add("DOBOfSpouse", Convert.ToDateTime("01/01/2000").ToString());
-        //            }
-        //            else
-        //            {
-        //                MemberDictionary.Add("DOBOfSpouse", Form["DOBOfSpouse"]);
-        //            }
-        //            if (Convert.ToString(Form["DOBOfFather"]) == null || Convert.ToString(Form["DOBOfFather"]) == "")
-        //            {
-        //                MemberDictionary.Add("DOBOfFather", Convert.ToDateTime("01/01/2000").ToString());
-        //            }
-        //            else
-        //            {
-        //                MemberDictionary.Add("DOBOfFather", Form["DOBOfFather"]);
-        //            }
-
-        //            MemberDictionary.Add("Hobbies", Form["Hobbies"]);
-        //            MemberDictionary.Add("Balance", Form["Balance"]);
-        //            MemberDictionary.Add("PaymentStatus", Form["PaymentStatus"]);
-        //            iMember.UpdateMember(MemberDictionary);
-        //            ViewBag.submit = "Submit";
-        //            ViewBag.message = "Successfully Updated";
-
-        //        }
-        //        List = iMember.ShowMemberShipTypes();
-
-        //        if (List != null)
-        //        {
-        //            ViewBag.SubList = List;
-        //        }
-        //        else
-        //        {
-        //            ViewBag.message = "Membership details Not Available";
-        //        }
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        ViewBag.message = e.Message;
-        //        ViewBag.innerEx = e.InnerException.Message;
-        //    }
-        //    return RedirectToAction("CreateMember", "Member");
-        //    //return View();
-        //}
         [Authorize(Roles = "Admin,Management")]
         [HttpGet]
         public ActionResult ViewMemberDetails(int MemId)
@@ -483,6 +253,7 @@ namespace NTCYApplication.Controllers.Clubs
                 ViewData["PaymentStatus"] = MemberDict["PaymentStatus"].ToString();
                 ViewData["MemberType"] = MemberDict["MemberType"].ToString();
                 ViewData["Salutation"] = MemberDict["Salutation"].ToString();
+                ViewData["MemberPhoto"] = MemberDict["MemberPhoto"].ToString();
                 List = iMember.ShowMemberShipTypes();
 
                 if (List != null)
@@ -606,6 +377,24 @@ namespace NTCYApplication.Controllers.Clubs
             IMember iMember = new Member();
             mobileNo = iMember.GetMemberMobileNo(mNo);
             return mobileNo;
+        }
+
+        [Authorize(Roles = "Admin,Management, BarWaiter, RestaurantWaiter")]
+        public JsonResult GetWaiterName(string Prefix)
+        {
+            IWaiter iWaiter = new Waiter();
+            // Generate Waiter List
+            List<Waiter> waiterList = new List<Waiter>();
+            DataSet ds = iWaiter.GetWaiters(Prefix);
+
+            foreach (DataRow dr in ds.Tables[0].Rows)
+            {
+                waiterList.Add(new Waiter
+                {
+                    Waiter_Name = dr["Waiter_Name"].ToString(),
+                });
+            }
+            return Json(waiterList, JsonRequestBehavior.AllowGet);
         }
     }
 }

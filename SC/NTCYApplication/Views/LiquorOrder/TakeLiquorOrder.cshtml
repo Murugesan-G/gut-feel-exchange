@@ -35,7 +35,7 @@
                     Waiter Name
                 </div>
                 <div class="col-xs-6 col-sm-6 col-md-3 col-lg-2 textbox-area" style="margin:0px !important;">
-                    @Html.TextBox("TableNo", ViewData["WaiterName"], new { @class = "blckthm-form-control", @id = "WaiterName", @autocomplete = "off" })<span id="errmsgWName"></span>
+                    @Html.TextBox("TableNo", ViewData["WaiterName"], new { @class = "blckthm-form-control", @id = "WaiterName", @autocomplete = "on" })<span id="errmsgWName"></span>
                 </div>
             </div>
             <div class="col-xs-6 col-sm-6 col-md-1 col-lg-1 page-title-btn">
@@ -378,6 +378,34 @@
                 })
             },
         });
+        $("#WaiterName").autocomplete({
+    source: function (request, response) {
+        $.ajax({
+            url: "@Url.Content("~/Member/GetWaiterName")",
+            type: "POST",
+            dataType: "json",
+            data: { prefix: request.term },
+            success: function (data) {
+                if (!data.length) {
+                    var result = [
+                     {
+                         label: 'Enter only Valid Waiter Name',
+                         value: response.term
+                     }
+                    ];
+                    response(result);
+                    $("#Btn_Order").attr("disabled", true);
+                }
+                else {
+                    response($.map(data, function (item) {
+                        return { value: item.Waiter_Name, label: item.Waiter_Name};
+                    }))
+                    $("#Btn_Order").attr("disabled", false);
+                }
+            }
+        })
+    },
+});
         ////////////////////////////////////////////////////////////////////////////////////
         $("#Table1").on('click', '#Btn_Select', function (e) {
             if ($('#MembershipNo').val() == '' || $('#MembershipNo').val() == "") {
@@ -622,6 +650,11 @@
             else if ($('#TxtPendingDues').val() == "UnPaid") {
                 alert('Dues are pending for this member. Cannot take order.');
                 $('#MembershipNo').focus();
+                return false;
+            }
+            else if ($('#WaiterName').val() == '' || $('#WaiterName').val() == "") {
+                alert('Please Enter Waiter Name..')
+                $('#WaiterName').focus();
                 return false;
             }
 

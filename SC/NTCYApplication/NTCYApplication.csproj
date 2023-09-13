@@ -265,6 +265,7 @@
     <Compile Include="Interface\ISubscription.cs" />
     <Compile Include="Interface\IUser.cs" />
     <Compile Include="Interface\IUserRoles.cs" />
+    <Compile Include="Interface\IWaiter.cs" />
     <Compile Include="Interface\KitchenOrderInterface.cs" />
     <Compile Include="Interface\LiquorInterface.cs" />
     <Compile Include="Interface\LiquorOrderInterface.cs" />
@@ -299,6 +300,7 @@
     <Compile Include="Models\Club\Subscription.cs" />
     <Compile Include="Models\Club\UserMaster.cs" />
     <Compile Include="Models\Club\UserRoles.cs" />
+    <Compile Include="Models\Club\Waiter.cs" />
     <Compile Include="Models\DBConnection.cs" />
     <Compile Include="Models\Food\Food.cs" />
     <Compile Include="Models\Food\FoodOrder.cs" />
@@ -764,6 +766,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Member_Images\" />
     <Folder Include="Views\TallyIntegration\" />
   </ItemGroup>
   <ItemGroup>

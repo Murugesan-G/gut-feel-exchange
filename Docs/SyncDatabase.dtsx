@@ -1,0 +1,1512 @@
+<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="9/9/2023 7:09:27 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="SHANTHANU"
+  DTS:CreatorName="SHANTHANU\murug"
+  DTS:Description="SSIS Package Description"
+  DTS:DTSID="{E26C5EE5-2DAD-470F-9E1F-4FBB6143529A}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="16.0.5107.6"
+  DTS:LocaleID="16393"
+  DTS:MaxErrorCount="0"
+  DTS:ObjectName="SyncDatabase"
+  DTS:VersionGUID="{E5731289-630F-430A-BADA-0795EBB46C84}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[DestinationConnectionOLEDB]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{E6B9C844-6347-4A78-9ED3-E30C88712F63}"
+      DTS:ObjectName="DestinationConnectionOLEDB">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectRetryCount="1"
+          DTS:ConnectRetryInterval="5"
+          DTS:ConnectionString="Data Source=SHANTHANU;User ID=sa;Initial Catalog=NTCYSTAGING_SEC;Provider=SQLOLEDB;Auto Translate=false;">
+          <DTS:Password
+            DTS:Name="Password"
+            Sensitive="1"
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAi5T0ImfGNUecGRGADWiIZwAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAABqB0img0tFsIJUugJEkwD11V7zLiZAX3cvPeJsFrl4zgAAAAAOgAAAAAIAACAAAADrvGJ4lovSf0dKqDVoRgWQEBwDkv6Iale/aTzuX9qWgyAAAABx6P2vClo3SGTEr3kO91RDARaCqAzbpfPHBeuO3l171kAAAAB+rjKqNVK/CHrAYtWfmRaUivDNP88/Lm94UaSSmgiv4oTlGoTlE6+yt3Gt8wBr/pK9v+31VsCWuTrFHJr/fn8U</DTS:Password>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[SourceConnectionOLEDB]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{ADE927AD-6AE9-4B84-B759-278CE20D5F1F}"
+      DTS:ObjectName="SourceConnectionOLEDB">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectRetryCount="1"
+          DTS:ConnectRetryInterval="5"
+          DTS:ConnectionString="Data Source=SHANTHANU;User ID=sa;Initial Catalog=NTCYSTAGING;Provider=SQLOLEDB;Auto Translate=false;">
+          <DTS:Password
+            DTS:Name="Password"
+            Sensitive="1"
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAi5T0ImfGNUecGRGADWiIZwAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAADACzhw36D9AZjeLnVke2EAx9EZollsNOCdN4MNkV68dQAAAAAOgAAAAAIAACAAAAAH+cO3mIxfLiReEG2cSlsV7s7h4KKGfuHJoovFdMuUciAAAAAHEs8i4HZHNTXjB+M369q4D6LSAEWubjGn8sikK3FH1EAAAAC4gDujZS2wc8i+Umeq4xfuK1b2574ScG4Gpbc61GqAxXOQDuG2js3qysbQDIdEzgszapamwIHj3DbZ1uM/d96I</DTS:Password>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Data Flow Task 1"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:DTSID="{7298BCBC-B6B1-434E-A2D6-D6E955CD5F4D}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:FailPackageOnFailure="True"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Data Flow Task 1"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          defaultBufferSize="3145728"
+          version="1">
+          <components>
+            <component
+              refId="Package\Data Flow Task 1\Destination - Club"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="Destination - Club"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[Club]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Data Flow Task 1\Destination - Club.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[DestinationConnectionOLEDB]"
+                  connectionManagerRefId="Package.ConnectionManagers[DestinationConnectionOLEDB]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Data Flow Task 1\Destination - Club.Inputs[Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Data Flow Task 1\Destination - Club.Inputs[Destination Input].Columns[ClubId]"
+                      cachedDataType="i4"
+                      cachedName="ClubId"
+                      externalMetadataColumnId="Package\Data Flow Task 1\Destination - Club.Inputs[Destination Input].ExternalColumns[ClubId]"
+                      lineageId="Package\Data Flow Task 1\Source - Club.Outputs[OLE DB Source Output].Columns[ClubId]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task 1\Destination - Club.Inputs[Destination Input].Columns[ClubName]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="32"
+                      cachedName="ClubName"
+                      externalMetadataColumnId="Package\Data Flow Task 1\Destination - Club.Inputs[Destination Input].ExternalColumns[ClubName]"
+                      lineageId="Package\Data Flow Task 1\Source - Club.Outputs[OLE DB Source Output].Columns[ClubName]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task 1\Destination - Club.Inputs[Destination Input].Columns[Address]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="150"
+                      cachedName="Address"
+                      externalMetadataColumnId="Package\Data Flow Task 1\Destination - Club.Inputs[Destination Input].ExternalColumns[Address]"
+                      lineageId="Package\Data Flow Task 1\Source - Club.Outputs[OLE DB Source Output].Columns[Address]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task 1\Destination - Club.Inputs[Destination Input].Columns[RegistrationNumber]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="32"
+                      cachedName="RegistrationNumber"
+                      externalMetadataColumnId="Package\Data Flow Task 1\Destination - Club.Inputs[Destination Input].ExternalColumns[RegistrationNumber]"
+                      lineageId="Package\Data Flow Task 1\Source - Club.Outputs[OLE DB Source Output].Columns[RegistrationNumber]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task 1\Destination - Club.Inputs[Destination Input].Columns[RestaurantLicense]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="32"
+                      cachedName="RestaurantLicense"
+                      externalMetadataColumnId="Package\Data Flow Task 1\Destination - Club.Inputs[Destination Input].ExternalColumns[RestaurantLicense]"
+                      lineageId="Package\Data Flow Task 1\Source - Club.Outputs[OLE DB Source Output].Columns[RestaurantLicense]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task 1\Destination - Club.Inputs[Destination Input].Columns[LiquorLicense]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="32"
+                      cachedName="LiquorLicense"
+                      externalMetadataColumnId="Package\Data Flow Task 1\Destination - Club.Inputs[Destination Input].ExternalColumns[LiquorLicense]"
+                      lineageId="Package\Data Flow Task 1\Source - Club.Outputs[OLE DB Source Output].Columns[LiquorLicense]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task 1\Destination - Club.Inputs[Destination Input].Columns[GSTNumber]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="18"
+                      cachedName="GSTNumber"
+                      externalMetadataColumnId="Package\Data Flow Task 1\Destination - Club.Inputs[Destination Input].ExternalColumns[GSTNumber]"
+                      lineageId="Package\Data Flow Task 1\Source - Club.Outputs[OLE DB Source Output].Columns[GSTNumber]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task 1\Destination - Club.Inputs[Destination Input].Columns[PAN]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="18"
+                      cachedName="PAN"
+                      externalMetadataColumnId="Package\Data Flow Task 1\Destination - Club.Inputs[Destination Input].ExternalColumns[PAN]"
+                      lineageId="Package\Data Flow Task 1\Source - Club.Outputs[OLE DB Source Output].Columns[PAN]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task 1\Destination - Club.Inputs[Destination Input].Columns[TAN]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="18"
+                      cachedName="TAN"
+                      externalMetadataColumnId="Package\Data Flow Task 1\Destination - Club.Inputs[Destination Input].ExternalColumns[TAN]"
+                      lineageId="Package\Data Flow Task 1\Source - Club.Outputs[OLE DB Source Output].Columns[TAN]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task 1\Destination - Club.Inputs[Destination Input].Columns[ContactPerson]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="18"
+                      cachedName="ContactPerson"
+                      externalMetadataColumnId="Package\Data Flow Task 1\Destination - Club.Inputs[Destination Input].ExternalColumns[ContactPerson]"
+                      lineageId="Package\Data Flow Task 1\Source - Club.Outputs[OLE DB Source Output].Columns[ContactPerson]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task 1\Destination - Club.Inputs[Destination Input].Columns[PhoneNumber]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="18"
+                      cachedName="PhoneNumber"
+                      externalMetadataColumnId="Package\Data Flow Task 1\Destination - Club.Inputs[Destination Input].ExternalColumns[PhoneNumber]"
+                      lineageId="Package\Data Flow Task 1\Source - Club.Outputs[OLE DB Source Output].Columns[PhoneNumber]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task 1\Destination - Club.Inputs[Destination Input].Columns[MobileNumber]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="18"
+                      cachedName="MobileNumber"
+                      externalMetadataColumnId="Package\Data Flow Task 1\Destination - Club.Inputs[Destination Input].ExternalColumns[MobileNumber]"
+                      lineageId="Package\Data Flow Task 1\Source - Club.Outputs[OLE DB Source Output].Columns[MobileNumber]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task 1\Destination - Club.Inputs[Destination Input].Columns[EmailID]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="32"
+                      cachedName="EmailID"
+                      externalMetadataColumnId="Package\Data Flow Task 1\Destination - Club.Inputs[Destination Input].ExternalColumns[EmailID]"
+                      lineageId="Package\Data Flow Task 1\Source - Club.Outputs[OLE DB Source Output].Columns[EmailID]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task 1\Destination - Club.Inputs[Destination Input].Columns[DateOfIncorporation]"
+                      cachedDataType="wstr"
+                      cachedLength="10"
+                      cachedName="DateOfIncorporation"
+                      externalMetadataColumnId="Package\Data Flow Task 1\Destination - Club.Inputs[Destination Input].ExternalColumns[DateOfIncorporation]"
+                      lineageId="Package\Data Flow Task 1\Source - Club.Outputs[OLE DB Source Output].Columns[DateOfIncorporation]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task 1\Destination - Club.Inputs[Destination Input].Columns[Logo]"
+                      cachedDataType="wstr"
+                      cachedLength="100"
+                      cachedName="Logo"
+                      externalMetadataColumnId="Package\Data Flow Task 1\Destination - Club.Inputs[Destination Input].ExternalColumns[Logo]"
+                      lineageId="Package\Data Flow Task 1\Source - Club.Outputs[OLE DB Source Output].Columns[Logo]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task 1\Destination - Club.Inputs[Destination Input].Columns[Amenities]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="256"
+                      cachedName="Amenities"
+                      externalMetadataColumnId="Package\Data Flow Task 1\Destination - Club.Inputs[Destination Input].ExternalColumns[Amenities]"
+                      lineageId="Package\Data Flow Task 1\Source - Club.Outputs[OLE DB Source Output].Columns[Amenities]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task 1\Destination - Club.Inputs[Destination Input].Columns[About]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="512"
+                      cachedName="About"
+                      externalMetadataColumnId="Package\Data Flow Task 1\Destination - Club.Inputs[Destination Input].ExternalColumns[About]"
+                      lineageId="Package\Data Flow Task 1\Source - Club.Outputs[OLE DB Source Output].Columns[About]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task 1\Destination - Club.Inputs[Destination Input].Columns[Status]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="5"
+                      cachedName="Status"
+                      externalMetadataColumnId="Package\Data Flow Task 1\Destination - Club.Inputs[Destination Input].ExternalColumns[Status]"
+                      lineageId="Package\Data Flow Task 1\Source - Club.Outputs[OLE DB Source Output].Columns[Status]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 1\Destination - Club.Inputs[Destination Input].ExternalColumns[ClubId]"
+                      dataType="i4"
+                      name="ClubId" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 1\Destination - Club.Inputs[Destination Input].ExternalColumns[ClubName]"
+                      codePage="1252"
+                      dataType="str"
+                      length="32"
+                      name="ClubName" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 1\Destination - Club.Inputs[Destination Input].ExternalColumns[Address]"
+                      codePage="1252"
+                      dataType="str"
+                      length="150"
+                      name="Address" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 1\Destination - Club.Inputs[Destination Input].ExternalColumns[RegistrationNumber]"
+                      codePage="1252"
+                      dataType="str"
+                      length="32"
+                      name="RegistrationNumber" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 1\Destination - Club.Inputs[Destination Input].ExternalColumns[RestaurantLicense]"
+                      codePage="1252"
+                      dataType="str"
+                      length="32"
+                      name="RestaurantLicense" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 1\Destination - Club.Inputs[Destination Input].ExternalColumns[LiquorLicense]"
+                      codePage="1252"
+                      dataType="str"
+                      length="32"
+                      name="LiquorLicense" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 1\Destination - Club.Inputs[Destination Input].ExternalColumns[GSTNumber]"
+                      codePage="1252"
+                      dataType="str"
+                      length="18"
+                      name="GSTNumber" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 1\Destination - Club.Inputs[Destination Input].ExternalColumns[PAN]"
+                      codePage="1252"
+                      dataType="str"
+                      length="18"
+                      name="PAN" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 1\Destination - Club.Inputs[Destination Input].ExternalColumns[TAN]"
+                      codePage="1252"
+                      dataType="str"
+                      length="18"
+                      name="TAN" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 1\Destination - Club.Inputs[Destination Input].ExternalColumns[ContactPerson]"
+                      codePage="1252"
+                      dataType="str"
+                      length="18"
+                      name="ContactPerson" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 1\Destination - Club.Inputs[Destination Input].ExternalColumns[PhoneNumber]"
+                      codePage="1252"
+                      dataType="str"
+                      length="18"
+                      name="PhoneNumber" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 1\Destination - Club.Inputs[Destination Input].ExternalColumns[MobileNumber]"
+                      codePage="1252"
+                      dataType="str"
+                      length="18"
+                      name="MobileNumber" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 1\Destination - Club.Inputs[Destination Input].ExternalColumns[EmailID]"
+                      codePage="1252"
+                      dataType="str"
+                      length="32"
+                      name="EmailID" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 1\Destination - Club.Inputs[Destination Input].ExternalColumns[DateOfIncorporation]"
+                      dataType="wstr"
+                      length="10"
+                      name="DateOfIncorporation" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 1\Destination - Club.Inputs[Destination Input].ExternalColumns[Logo]"
+                      dataType="wstr"
+                      length="100"
+                      name="Logo" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 1\Destination - Club.Inputs[Destination Input].ExternalColumns[Amenities]"
+                      codePage="1252"
+                      dataType="str"
+                      length="256"
+                      name="Amenities" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 1\Destination - Club.Inputs[Destination Input].ExternalColumns[About]"
+                      codePage="1252"
+                      dataType="str"
+                      length="512"
+                      name="About" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 1\Destination - Club.Inputs[Destination Input].ExternalColumns[Status]"
+                      codePage="1252"
+                      dataType="str"
+                      length="5"
+                      name="Status" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Data Flow Task 1\Destination - Club.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Data Flow Task 1\Destination - Club.Inputs[Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Destination - Club.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task 1\Destination - Club.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Destination - Club.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task 1\Destination - Club.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Data Flow Task 1\Destination 1 - ClubCommittee"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="Destination 1 - ClubCommittee"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[ClubCommittee]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Data Flow Task 1\Destination 1 - ClubCommittee.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[DestinationConnectionOLEDB]"
+                  connectionManagerRefId="Package.ConnectionManagers[DestinationConnectionOLEDB]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Data Flow Task 1\Destination 1 - ClubCommittee.Inputs[Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Data Flow Task 1\Destination 1 - ClubCommittee.Inputs[Destination Input].Columns[CommitteeId]"
+                      cachedDataType="i4"
+                      cachedName="CommitteeId"
+                      externalMetadataColumnId="Package\Data Flow Task 1\Destination 1 - ClubCommittee.Inputs[Destination Input].ExternalColumns[CommitteeId]"
+                      lineageId="Package\Data Flow Task 1\Source 1 - ClubCommittee.Outputs[OLE DB Source Output].Columns[CommitteeId]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task 1\Destination 1 - ClubCommittee.Inputs[Destination Input].Columns[ClubId]"
+                      cachedDataType="i4"
+                      cachedName="ClubId"
+                      externalMetadataColumnId="Package\Data Flow Task 1\Destination 1 - ClubCommittee.Inputs[Destination Input].ExternalColumns[ClubId]"
+                      lineageId="Package\Data Flow Task 1\Source 1 - ClubCommittee.Outputs[OLE DB Source Output].Columns[ClubId]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task 1\Destination 1 - ClubCommittee.Inputs[Destination Input].Columns[Chairman]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="54"
+                      cachedName="Chairman"
+                      externalMetadataColumnId="Package\Data Flow Task 1\Destination 1 - ClubCommittee.Inputs[Destination Input].ExternalColumns[Chairman]"
+                      lineageId="Package\Data Flow Task 1\Source 1 - ClubCommittee.Outputs[OLE DB Source Output].Columns[Chairman]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task 1\Destination 1 - ClubCommittee.Inputs[Destination Input].Columns[President]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="54"
+                      cachedName="President"
+                      externalMetadataColumnId="Package\Data Flow Task 1\Destination 1 - ClubCommittee.Inputs[Destination Input].ExternalColumns[President]"
+                      lineageId="Package\Data Flow Task 1\Source 1 - ClubCommittee.Outputs[OLE DB Source Output].Columns[President]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task 1\Destination 1 - ClubCommittee.Inputs[Destination Input].Columns[VicePresident]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="54"
+                      cachedName="VicePresident"
+                      externalMetadataColumnId="Package\Data Flow Task 1\Destination 1 - ClubCommittee.Inputs[Destination Input].ExternalColumns[VicePresident]"
+                      lineageId="Package\Data Flow Task 1\Source 1 - ClubCommittee.Outputs[OLE DB Source Output].Columns[VicePresident]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task 1\Destination 1 - ClubCommittee.Inputs[Destination Input].Columns[Secretary]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="54"
+                      cachedName="Secretary"
+                      externalMetadataColumnId="Package\Data Flow Task 1\Destination 1 - ClubCommittee.Inputs[Destination Input].ExternalColumns[Secretary]"
+                      lineageId="Package\Data Flow Task 1\Source 1 - ClubCommittee.Outputs[OLE DB Source Output].Columns[Secretary]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task 1\Destination 1 - ClubCommittee.Inputs[Destination Input].Columns[Treasurer]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="54"
+                      cachedName="Treasurer"
+                      externalMetadataColumnId="Package\Data Flow Task 1\Destination 1 - ClubCommittee.Inputs[Destination Input].ExternalColumns[Treasurer]"
+                      lineageId="Package\Data Flow Task 1\Source 1 - ClubCommittee.Outputs[OLE DB Source Output].Columns[Treasurer]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task 1\Destination 1 - ClubCommittee.Inputs[Destination Input].Columns[CommitteeMembers]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="512"
+                      cachedName="CommitteeMembers"
+                      externalMetadataColumnId="Package\Data Flow Task 1\Destination 1 - ClubCommittee.Inputs[Destination Input].ExternalColumns[CommitteeMembers]"
+                      lineageId="Package\Data Flow Task 1\Source 1 - ClubCommittee.Outputs[OLE DB Source Output].Columns[CommitteeMembers]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task 1\Destination 1 - ClubCommittee.Inputs[Destination Input].Columns[Status]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="12"
+                      cachedName="Status"
+                      externalMetadataColumnId="Package\Data Flow Task 1\Destination 1 - ClubCommittee.Inputs[Destination Input].ExternalColumns[Status]"
+                      lineageId="Package\Data Flow Task 1\Source 1 - ClubCommittee.Outputs[OLE DB Source Output].Columns[Status]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task 1\Destination 1 - ClubCommittee.Inputs[Destination Input].Columns[StartDate]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="StartDate"
+                      externalMetadataColumnId="Package\Data Flow Task 1\Destination 1 - ClubCommittee.Inputs[Destination Input].ExternalColumns[StartDate]"
+                      lineageId="Package\Data Flow Task 1\Source 1 - ClubCommittee.Outputs[OLE DB Source Output].Columns[StartDate]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task 1\Destination 1 - ClubCommittee.Inputs[Destination Input].Columns[EndDate]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="EndDate"
+                      externalMetadataColumnId="Package\Data Flow Task 1\Destination 1 - ClubCommittee.Inputs[Destination Input].ExternalColumns[EndDate]"
+                      lineageId="Package\Data Flow Task 1\Source 1 - ClubCommittee.Outputs[OLE DB Source Output].Columns[EndDate]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 1\Destination 1 - ClubCommittee.Inputs[Destination Input].ExternalColumns[CommitteeId]"
+                      dataType="i4"
+                      name="CommitteeId" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 1\Destination 1 - ClubCommittee.Inputs[Destination Input].ExternalColumns[ClubId]"
+                      dataType="i4"
+                      name="ClubId" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 1\Destination 1 - ClubCommittee.Inputs[Destination Input].ExternalColumns[Chairman]"
+                      codePage="1252"
+                      dataType="str"
+                      length="54"
+                      name="Chairman" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 1\Destination 1 - ClubCommittee.Inputs[Destination Input].ExternalColumns[President]"
+                      codePage="1252"
+                      dataType="str"
+                      length="54"
+                      name="President" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 1\Destination 1 - ClubCommittee.Inputs[Destination Input].ExternalColumns[VicePresident]"
+                      codePage="1252"
+                      dataType="str"
+                      length="54"
+                      name="VicePresident" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 1\Destination 1 - ClubCommittee.Inputs[Destination Input].ExternalColumns[Secretary]"
+                      codePage="1252"
+                      dataType="str"
+                      length="54"
+                      name="Secretary" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 1\Destination 1 - ClubCommittee.Inputs[Destination Input].ExternalColumns[Treasurer]"
+                      codePage="1252"
+                      dataType="str"
+                      length="54"
+                      name="Treasurer" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 1\Destination 1 - ClubCommittee.Inputs[Destination Input].ExternalColumns[CommitteeMembers]"
+                      codePage="1252"
+                      dataType="str"
+                      length="512"
+                      name="CommitteeMembers" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 1\Destination 1 - ClubCommittee.Inputs[Destination Input].ExternalColumns[Status]"
+                      codePage="1252"
+                      dataType="str"
+                      length="12"
+                      name="Status" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 1\Destination 1 - ClubCommittee.Inputs[Destination Input].ExternalColumns[StartDate]"
+                      dataType="dbTimeStamp"
+                      name="StartDate" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 1\Destination 1 - ClubCommittee.Inputs[Destination Input].ExternalColumns[EndDate]"
+                      dataType="dbTimeStamp"
+                      name="EndDate" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Data Flow Task 1\Destination 1 - ClubCommittee.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Data Flow Task 1\Destination 1 - ClubCommittee.Inputs[Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Destination 1 - ClubCommittee.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task 1\Destination 1 - ClubCommittee.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Destination 1 - ClubCommittee.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task 1\Destination 1 - ClubCommittee.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Data Flow Task 1\Source - Club"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="Source - Club"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[Club]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Data Flow Task 1\Source - Club.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[SourceConnectionOLEDB]"
+                  connectionManagerRefId="Package.ConnectionManagers[SourceConnectionOLEDB]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Data Flow Task 1\Source - Club.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Source - Club.Outputs[OLE DB Source Output].Columns[ClubId]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task 1\Source - Club.Outputs[OLE DB Source Output].ExternalColumns[ClubId]"
+                      lineageId="Package\Data Flow Task 1\Source - Club.Outputs[OLE DB Source Output].Columns[ClubId]"
+                      name="ClubId"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Source - Club.Outputs[OLE DB Source Output].Columns[ClubName]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task 1\Source - Club.Outputs[OLE DB Source Output].ExternalColumns[ClubName]"
+                      length="32"
+                      lineageId="Package\Data Flow Task 1\Source - Club.Outputs[OLE DB Source Output].Columns[ClubName]"
+                      name="ClubName"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Source - Club.Outputs[OLE DB Source Output].Columns[Address]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task 1\Source - Club.Outputs[OLE DB Source Output].ExternalColumns[Address]"
+                      length="150"
+                      lineageId="Package\Data Flow Task 1\Source - Club.Outputs[OLE DB Source Output].Columns[Address]"
+                      name="Address"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Source - Club.Outputs[OLE DB Source Output].Columns[RegistrationNumber]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task 1\Source - Club.Outputs[OLE DB Source Output].ExternalColumns[RegistrationNumber]"
+                      length="32"
+                      lineageId="Package\Data Flow Task 1\Source - Club.Outputs[OLE DB Source Output].Columns[RegistrationNumber]"
+                      name="RegistrationNumber"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Source - Club.Outputs[OLE DB Source Output].Columns[RestaurantLicense]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task 1\Source - Club.Outputs[OLE DB Source Output].ExternalColumns[RestaurantLicense]"
+                      length="32"
+                      lineageId="Package\Data Flow Task 1\Source - Club.Outputs[OLE DB Source Output].Columns[RestaurantLicense]"
+                      name="RestaurantLicense"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Source - Club.Outputs[OLE DB Source Output].Columns[LiquorLicense]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task 1\Source - Club.Outputs[OLE DB Source Output].ExternalColumns[LiquorLicense]"
+                      length="32"
+                      lineageId="Package\Data Flow Task 1\Source - Club.Outputs[OLE DB Source Output].Columns[LiquorLicense]"
+                      name="LiquorLicense"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Source - Club.Outputs[OLE DB Source Output].Columns[GSTNumber]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task 1\Source - Club.Outputs[OLE DB Source Output].ExternalColumns[GSTNumber]"
+                      length="18"
+                      lineageId="Package\Data Flow Task 1\Source - Club.Outputs[OLE DB Source Output].Columns[GSTNumber]"
+                      name="GSTNumber"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Source - Club.Outputs[OLE DB Source Output].Columns[PAN]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task 1\Source - Club.Outputs[OLE DB Source Output].ExternalColumns[PAN]"
+                      length="18"
+                      lineageId="Package\Data Flow Task 1\Source - Club.Outputs[OLE DB Source Output].Columns[PAN]"
+                      name="PAN"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Source - Club.Outputs[OLE DB Source Output].Columns[TAN]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task 1\Source - Club.Outputs[OLE DB Source Output].ExternalColumns[TAN]"
+                      length="18"
+                      lineageId="Package\Data Flow Task 1\Source - Club.Outputs[OLE DB Source Output].Columns[TAN]"
+                      name="TAN"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Source - Club.Outputs[OLE DB Source Output].Columns[ContactPerson]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task 1\Source - Club.Outputs[OLE DB Source Output].ExternalColumns[ContactPerson]"
+                      length="18"
+                      lineageId="Package\Data Flow Task 1\Source - Club.Outputs[OLE DB Source Output].Columns[ContactPerson]"
+                      name="ContactPerson"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Source - Club.Outputs[OLE DB Source Output].Columns[PhoneNumber]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task 1\Source - Club.Outputs[OLE DB Source Output].ExternalColumns[PhoneNumber]"
+                      length="18"
+                      lineageId="Package\Data Flow Task 1\Source - Club.Outputs[OLE DB Source Output].Columns[PhoneNumber]"
+                      name="PhoneNumber"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Source - Club.Outputs[OLE DB Source Output].Columns[MobileNumber]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task 1\Source - Club.Outputs[OLE DB Source Output].ExternalColumns[MobileNumber]"
+                      length="18"
+                      lineageId="Package\Data Flow Task 1\Source - Club.Outputs[OLE DB Source Output].Columns[MobileNumber]"
+                      name="MobileNumber"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Source - Club.Outputs[OLE DB Source Output].Columns[EmailID]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task 1\Source - Club.Outputs[OLE DB Source Output].ExternalColumns[EmailID]"
+                      length="32"
+                      lineageId="Package\Data Flow Task 1\Source - Club.Outputs[OLE DB Source Output].Columns[EmailID]"
+                      name="EmailID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Source - Club.Outputs[OLE DB Source Output].Columns[DateOfIncorporation]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task 1\Source - Club.Outputs[OLE DB Source Output].ExternalColumns[DateOfIncorporation]"
+                      length="10"
+                      lineageId="Package\Data Flow Task 1\Source - Club.Outputs[OLE DB Source Output].Columns[DateOfIncorporation]"
+                      name="DateOfIncorporation"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Source - Club.Outputs[OLE DB Source Output].Columns[Logo]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task 1\Source - Club.Outputs[OLE DB Source Output].ExternalColumns[Logo]"
+                      length="100"
+                      lineageId="Package\Data Flow Task 1\Source - Club.Outputs[OLE DB Source Output].Columns[Logo]"
+                      name="Logo"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Source - Club.Outputs[OLE DB Source Output].Columns[Amenities]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task 1\Source - Club.Outputs[OLE DB Source Output].ExternalColumns[Amenities]"
+                      length="256"
+                      lineageId="Package\Data Flow Task 1\Source - Club.Outputs[OLE DB Source Output].Columns[Amenities]"
+                      name="Amenities"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Source - Club.Outputs[OLE DB Source Output].Columns[About]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task 1\Source - Club.Outputs[OLE DB Source Output].ExternalColumns[About]"
+                      length="512"
+                      lineageId="Package\Data Flow Task 1\Source - Club.Outputs[OLE DB Source Output].Columns[About]"
+                      name="About"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Source - Club.Outputs[OLE DB Source Output].Columns[Status]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task 1\Source - Club.Outputs[OLE DB Source Output].ExternalColumns[Status]"
+                      length="5"
+                      lineageId="Package\Data Flow Task 1\Source - Club.Outputs[OLE DB Source Output].Columns[Status]"
+                      name="Status"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 1\Source - Club.Outputs[OLE DB Source Output].ExternalColumns[ClubId]"
+                      dataType="i4"
+                      name="ClubId" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 1\Source - Club.Outputs[OLE DB Source Output].ExternalColumns[ClubName]"
+                      codePage="1252"
+                      dataType="str"
+                      length="32"
+                      name="ClubName" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 1\Source - Club.Outputs[OLE DB Source Output].ExternalColumns[Address]"
+                      codePage="1252"
+                      dataType="str"
+                      length="150"
+                      name="Address" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 1\Source - Club.Outputs[OLE DB Source Output].ExternalColumns[RegistrationNumber]"
+                      codePage="1252"
+                      dataType="str"
+                      length="32"
+                      name="RegistrationNumber" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 1\Source - Club.Outputs[OLE DB Source Output].ExternalColumns[RestaurantLicense]"
+                      codePage="1252"
+                      dataType="str"
+                      length="32"
+                      name="RestaurantLicense" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 1\Source - Club.Outputs[OLE DB Source Output].ExternalColumns[LiquorLicense]"
+                      codePage="1252"
+                      dataType="str"
+                      length="32"
+                      name="LiquorLicense" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 1\Source - Club.Outputs[OLE DB Source Output].ExternalColumns[GSTNumber]"
+                      codePage="1252"
+                      dataType="str"
+                      length="18"
+                      name="GSTNumber" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 1\Source - Club.Outputs[OLE DB Source Output].ExternalColumns[PAN]"
+                      codePage="1252"
+                      dataType="str"
+                      length="18"
+                      name="PAN" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 1\Source - Club.Outputs[OLE DB Source Output].ExternalColumns[TAN]"
+                      codePage="1252"
+                      dataType="str"
+                      length="18"
+                      name="TAN" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 1\Source - Club.Outputs[OLE DB Source Output].ExternalColumns[ContactPerson]"
+                      codePage="1252"
+                      dataType="str"
+                      length="18"
+                      name="ContactPerson" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 1\Source - Club.Outputs[OLE DB Source Output].ExternalColumns[PhoneNumber]"
+                      codePage="1252"
+                      dataType="str"
+                      length="18"
+                      name="PhoneNumber" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 1\Source - Club.Outputs[OLE DB Source Output].ExternalColumns[MobileNumber]"
+                      codePage="1252"
+                      dataType="str"
+                      length="18"
+                      name="MobileNumber" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 1\Source - Club.Outputs[OLE DB Source Output].ExternalColumns[EmailID]"
+                      codePage="1252"
+                      dataType="str"
+                      length="32"
+                      name="EmailID" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 1\Source - Club.Outputs[OLE DB Source Output].ExternalColumns[DateOfIncorporation]"
+                      dataType="wstr"
+                      length="10"
+                      name="DateOfIncorporation" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 1\Source - Club.Outputs[OLE DB Source Output].ExternalColumns[Logo]"
+                      dataType="wstr"
+                      length="100"
+                      name="Logo" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 1\Source - Club.Outputs[OLE DB Source Output].ExternalColumns[Amenities]"
+                      codePage="1252"
+                      dataType="str"
+                      length="256"
+                      name="Amenities" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 1\Source - Club.Outputs[OLE DB Source Output].ExternalColumns[About]"
+                      codePage="1252"
+                      dataType="str"
+                      length="512"
+                      name="About" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 1\Source - Club.Outputs[OLE DB Source Output].ExternalColumns[Status]"
+                      codePage="1252"
+                      dataType="str"
+                      length="5"
+                      name="Status" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Data Flow Task 1\Source - Club.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Source - Club.Outputs[OLE DB Source Error Output].Columns[ClubId]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task 1\Source - Club.Outputs[OLE DB Source Error Output].Columns[ClubId]"
+                      name="ClubId" />
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Source - Club.Outputs[OLE DB Source Error Output].Columns[ClubName]"
+                      codePage="1252"
+                      dataType="str"
+                      length="32"
+                      lineageId="Package\Data Flow Task 1\Source - Club.Outputs[OLE DB Source Error Output].Columns[ClubName]"
+                      name="ClubName" />
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Source - Club.Outputs[OLE DB Source Error Output].Columns[Address]"
+                      codePage="1252"
+                      dataType="str"
+                      length="150"
+                      lineageId="Package\Data Flow Task 1\Source - Club.Outputs[OLE DB Source Error Output].Columns[Address]"
+                      name="Address" />
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Source - Club.Outputs[OLE DB Source Error Output].Columns[RegistrationNumber]"
+                      codePage="1252"
+                      dataType="str"
+                      length="32"
+                      lineageId="Package\Data Flow Task 1\Source - Club.Outputs[OLE DB Source Error Output].Columns[RegistrationNumber]"
+                      name="RegistrationNumber" />
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Source - Club.Outputs[OLE DB Source Error Output].Columns[RestaurantLicense]"
+                      codePage="1252"
+                      dataType="str"
+                      length="32"
+                      lineageId="Package\Data Flow Task 1\Source - Club.Outputs[OLE DB Source Error Output].Columns[RestaurantLicense]"
+                      name="RestaurantLicense" />
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Source - Club.Outputs[OLE DB Source Error Output].Columns[LiquorLicense]"
+                      codePage="1252"
+                      dataType="str"
+                      length="32"
+                      lineageId="Package\Data Flow Task 1\Source - Club.Outputs[OLE DB Source Error Output].Columns[LiquorLicense]"
+                      name="LiquorLicense" />
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Source - Club.Outputs[OLE DB Source Error Output].Columns[GSTNumber]"
+                      codePage="1252"
+                      dataType="str"
+                      length="18"
+                      lineageId="Package\Data Flow Task 1\Source - Club.Outputs[OLE DB Source Error Output].Columns[GSTNumber]"
+                      name="GSTNumber" />
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Source - Club.Outputs[OLE DB Source Error Output].Columns[PAN]"
+                      codePage="1252"
+                      dataType="str"
+                      length="18"
+                      lineageId="Package\Data Flow Task 1\Source - Club.Outputs[OLE DB Source Error Output].Columns[PAN]"
+                      name="PAN" />
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Source - Club.Outputs[OLE DB Source Error Output].Columns[TAN]"
+                      codePage="1252"
+                      dataType="str"
+                      length="18"
+                      lineageId="Package\Data Flow Task 1\Source - Club.Outputs[OLE DB Source Error Output].Columns[TAN]"
+                      name="TAN" />
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Source - Club.Outputs[OLE DB Source Error Output].Columns[ContactPerson]"
+                      codePage="1252"
+                      dataType="str"
+                      length="18"
+                      lineageId="Package\Data Flow Task 1\Source - Club.Outputs[OLE DB Source Error Output].Columns[ContactPerson]"
+                      name="ContactPerson" />
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Source - Club.Outputs[OLE DB Source Error Output].Columns[PhoneNumber]"
+                      codePage="1252"
+                      dataType="str"
+                      length="18"
+                      lineageId="Package\Data Flow Task 1\Source - Club.Outputs[OLE DB Source Error Output].Columns[PhoneNumber]"
+                      name="PhoneNumber" />
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Source - Club.Outputs[OLE DB Source Error Output].Columns[MobileNumber]"
+                      codePage="1252"
+                      dataType="str"
+                      length="18"
+                      lineageId="Package\Data Flow Task 1\Source - Club.Outputs[OLE DB Source Error Output].Columns[MobileNumber]"
+                      name="MobileNumber" />
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Source - Club.Outputs[OLE DB Source Error Output].Columns[EmailID]"
+                      codePage="1252"
+                      dataType="str"
+                      length="32"
+                      lineageId="Package\Data Flow Task 1\Source - Club.Outputs[OLE DB Source Error Output].Columns[EmailID]"
+                      name="EmailID" />
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Source - Club.Outputs[OLE DB Source Error Output].Columns[DateOfIncorporation]"
+                      dataType="wstr"
+                      length="10"
+                      lineageId="Package\Data Flow Task 1\Source - Club.Outputs[OLE DB Source Error Output].Columns[DateOfIncorporation]"
+                      name="DateOfIncorporation" />
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Source - Club.Outputs[OLE DB Source Error Output].Columns[Logo]"
+                      dataType="wstr"
+                      length="100"
+                      lineageId="Package\Data Flow Task 1\Source - Club.Outputs[OLE DB Source Error Output].Columns[Logo]"
+                      name="Logo" />
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Source - Club.Outputs[OLE DB Source Error Output].Columns[Amenities]"
+                      codePage="1252"
+                      dataType="str"
+                      length="256"
+                      lineageId="Package\Data Flow Task 1\Source - Club.Outputs[OLE DB Source Error Output].Columns[Amenities]"
+                      name="Amenities" />
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Source - Club.Outputs[OLE DB Source Error Output].Columns[About]"
+                      codePage="1252"
+                      dataType="str"
+                      length="512"
+                      lineageId="Package\Data Flow Task 1\Source - Club.Outputs[OLE DB Source Error Output].Columns[About]"
+                      name="About" />
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Source - Club.Outputs[OLE DB Source Error Output].Columns[Status]"
+                      codePage="1252"
+                      dataType="str"
+                      length="5"
+                      lineageId="Package\Data Flow Task 1\Source - Club.Outputs[OLE DB Source Error Output].Columns[Status]"
+                      name="Status" />
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Source - Club.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task 1\Source - Club.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Source - Club.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task 1\Source - Club.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Data Flow Task 1\Source 1 - ClubCommittee"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="Source 1 - ClubCommittee"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[ClubCommittee]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Data Flow Task 1\Source 1 - ClubCommittee.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[SourceConnectionOLEDB]"
+                  connectionManagerRefId="Package.ConnectionManagers[SourceConnectionOLEDB]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Data Flow Task 1\Source 1 - ClubCommittee.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Source 1 - ClubCommittee.Outputs[OLE DB Source Output].Columns[CommitteeId]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task 1\Source 1 - ClubCommittee.Outputs[OLE DB Source Output].ExternalColumns[CommitteeId]"
+                      lineageId="Package\Data Flow Task 1\Source 1 - ClubCommittee.Outputs[OLE DB Source Output].Columns[CommitteeId]"
+                      name="CommitteeId"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Source 1 - ClubCommittee.Outputs[OLE DB Source Output].Columns[ClubId]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task 1\Source 1 - ClubCommittee.Outputs[OLE DB Source Output].ExternalColumns[ClubId]"
+                      lineageId="Package\Data Flow Task 1\Source 1 - ClubCommittee.Outputs[OLE DB Source Output].Columns[ClubId]"
+                      name="ClubId"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Source 1 - ClubCommittee.Outputs[OLE DB Source Output].Columns[Chairman]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task 1\Source 1 - ClubCommittee.Outputs[OLE DB Source Output].ExternalColumns[Chairman]"
+                      length="54"
+                      lineageId="Package\Data Flow Task 1\Source 1 - ClubCommittee.Outputs[OLE DB Source Output].Columns[Chairman]"
+                      name="Chairman"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Source 1 - ClubCommittee.Outputs[OLE DB Source Output].Columns[President]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task 1\Source 1 - ClubCommittee.Outputs[OLE DB Source Output].ExternalColumns[President]"
+                      length="54"
+                      lineageId="Package\Data Flow Task 1\Source 1 - ClubCommittee.Outputs[OLE DB Source Output].Columns[President]"
+                      name="President"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Source 1 - ClubCommittee.Outputs[OLE DB Source Output].Columns[VicePresident]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task 1\Source 1 - ClubCommittee.Outputs[OLE DB Source Output].ExternalColumns[VicePresident]"
+                      length="54"
+                      lineageId="Package\Data Flow Task 1\Source 1 - ClubCommittee.Outputs[OLE DB Source Output].Columns[VicePresident]"
+                      name="VicePresident"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Source 1 - ClubCommittee.Outputs[OLE DB Source Output].Columns[Secretary]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task 1\Source 1 - ClubCommittee.Outputs[OLE DB Source Output].ExternalColumns[Secretary]"
+                      length="54"
+                      lineageId="Package\Data Flow Task 1\Source 1 - ClubCommittee.Outputs[OLE DB Source Output].Columns[Secretary]"
+                      name="Secretary"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Source 1 - ClubCommittee.Outputs[OLE DB Source Output].Columns[Treasurer]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task 1\Source 1 - ClubCommittee.Outputs[OLE DB Source Output].ExternalColumns[Treasurer]"
+                      length="54"
+                      lineageId="Package\Data Flow Task 1\Source 1 - ClubCommittee.Outputs[OLE DB Source Output].Columns[Treasurer]"
+                      name="Treasurer"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Source 1 - ClubCommittee.Outputs[OLE DB Source Output].Columns[CommitteeMembers]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task 1\Source 1 - ClubCommittee.Outputs[OLE DB Source Output].ExternalColumns[CommitteeMembers]"
+                      length="512"
+                      lineageId="Package\Data Flow Task 1\Source 1 - ClubCommittee.Outputs[OLE DB Source Output].Columns[CommitteeMembers]"
+                      name="CommitteeMembers"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Source 1 - ClubCommittee.Outputs[OLE DB Source Output].Columns[Status]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task 1\Source 1 - ClubCommittee.Outputs[OLE DB Source Output].ExternalColumns[Status]"
+                      length="12"
+                      lineageId="Package\Data Flow Task 1\Source 1 - ClubCommittee.Outputs[OLE DB Source Output].Columns[Status]"
+                      name="Status"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Source 1 - ClubCommittee.Outputs[OLE DB Source Output].Columns[StartDate]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task 1\Source 1 - ClubCommittee.Outputs[OLE DB Source Output].ExternalColumns[StartDate]"
+                      lineageId="Package\Data Flow Task 1\Source 1 - ClubCommittee.Outputs[OLE DB Source Output].Columns[StartDate]"
+                      name="StartDate"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Source 1 - ClubCommittee.Outputs[OLE DB Source Output].Columns[EndDate]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task 1\Source 1 - ClubCommittee.Outputs[OLE DB Source Output].ExternalColumns[EndDate]"
+                      lineageId="Package\Data Flow Task 1\Source 1 - ClubCommittee.Outputs[OLE DB Source Output].Columns[EndDate]"
+                      name="EndDate"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 1\Source 1 - ClubCommittee.Outputs[OLE DB Source Output].ExternalColumns[CommitteeId]"
+                      dataType="i4"
+                      name="CommitteeId" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 1\Source 1 - ClubCommittee.Outputs[OLE DB Source Output].ExternalColumns[ClubId]"
+                      dataType="i4"
+                      name="ClubId" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 1\Source 1 - ClubCommittee.Outputs[OLE DB Source Output].ExternalColumns[Chairman]"
+                      codePage="1252"
+                      dataType="str"
+                      length="54"
+                      name="Chairman" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 1\Source 1 - ClubCommittee.Outputs[OLE DB Source Output].ExternalColumns[President]"
+                      codePage="1252"
+                      dataType="str"
+                      length="54"
+                      name="President" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 1\Source 1 - ClubCommittee.Outputs[OLE DB Source Output].ExternalColumns[VicePresident]"
+                      codePage="1252"
+                      dataType="str"
+                      length="54"
+                      name="VicePresident" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 1\Source 1 - ClubCommittee.Outputs[OLE DB Source Output].ExternalColumns[Secretary]"
+                      codePage="1252"
+                      dataType="str"
+                      length="54"
+                      name="Secretary" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 1\Source 1 - ClubCommittee.Outputs[OLE DB Source Output].ExternalColumns[Treasurer]"
+                      codePage="1252"
+                      dataType="str"
+                      length="54"
+                      name="Treasurer" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 1\Source 1 - ClubCommittee.Outputs[OLE DB Source Output].ExternalColumns[CommitteeMembers]"
+                      codePage="1252"
+                      dataType="str"
+                      length="512"
+                      name="CommitteeMembers" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 1\Source 1 - ClubCommittee.Outputs[OLE DB Source Output].ExternalColumns[Status]"
+                      codePage="1252"
+                      dataType="str"
+                      length="12"
+                      name="Status" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 1\Source 1 - ClubCommittee.Outputs[OLE DB Source Output].ExternalColumns[StartDate]"
+                      dataType="dbTimeStamp"
+                      name="StartDate" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 1\Source 1 - ClubCommittee.Outputs[OLE DB Source Output].ExternalColumns[EndDate]"
+                      dataType="dbTimeStamp"
+                      name="EndDate" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Data Flow Task 1\Source 1 - ClubCommittee.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Source 1 - ClubCommittee.Outputs[OLE DB Source Error Output].Columns[CommitteeId]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task 1\Source 1 - ClubCommittee.Outputs[OLE DB Source Error Output].Columns[CommitteeId]"
+                      name="CommitteeId" />
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Source 1 - ClubCommittee.Outputs[OLE DB Source Error Output].Columns[ClubId]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task 1\Source 1 - ClubCommittee.Outputs[OLE DB Source Error Output].Columns[ClubId]"
+                      name="ClubId" />
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Source 1 - ClubCommittee.Outputs[OLE DB Source Error Output].Columns[Chairman]"
+                      codePage="1252"
+                      dataType="str"
+                      length="54"
+                      lineageId="Package\Data Flow Task 1\Source 1 - ClubCommittee.Outputs[OLE DB Source Error Output].Columns[Chairman]"
+                      name="Chairman" />
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Source 1 - ClubCommittee.Outputs[OLE DB Source Error Output].Columns[President]"
+                      codePage="1252"
+                      dataType="str"
+                      length="54"
+                      lineageId="Package\Data Flow Task 1\Source 1 - ClubCommittee.Outputs[OLE DB Source Error Output].Columns[President]"
+                      name="President" />
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Source 1 - ClubCommittee.Outputs[OLE DB Source Error Output].Columns[VicePresident]"
+                      codePage="1252"
+                      dataType="str"
+                      length="54"
+                      lineageId="Package\Data Flow Task 1\Source 1 - ClubCommittee.Outputs[OLE DB Source Error Output].Columns[VicePresident]"
+                      name="VicePresident" />
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Source 1 - ClubCommittee.Outputs[OLE DB Source Error Output].Columns[Secretary]"
+                      codePage="1252"
+                      dataType="str"
+                      length="54"
+                      lineageId="Package\Data Flow Task 1\Source 1 - ClubCommittee.Outputs[OLE DB Source Error Output].Columns[Secretary]"
+                      name="Secretary" />
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Source 1 - ClubCommittee.Outputs[OLE DB Source Error Output].Columns[Treasurer]"
+                      codePage="1252"
+                      dataType="str"
+                      length="54"
+                      lineageId="Package\Data Flow Task 1\Source 1 - ClubCommittee.Outputs[OLE DB Source Error Output].Columns[Treasurer]"
+                      name="Treasurer" />
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Source 1 - ClubCommittee.Outputs[OLE DB Source Error Output].Columns[CommitteeMembers]"
+                      codePage="1252"
+                      dataType="str"
+                      length="512"
+                      lineageId="Package\Data Flow Task 1\Source 1 - ClubCommittee.Outputs[OLE DB Source Error Output].Columns[CommitteeMembers]"
+                      name="CommitteeMembers" />
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Source 1 - ClubCommittee.Outputs[OLE DB Source Error Output].Columns[Status]"
+                      codePage="1252"
+                      dataType="str"
+                      length="12"
+                      lineageId="Package\Data Flow Task 1\Source 1 - ClubCommittee.Outputs[OLE DB Source Error Output].Columns[Status]"
+                      name="Status" />
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Source 1 - ClubCommittee.Outputs[OLE DB Source Error Output].Columns[StartDate]"
+                      dataType="dbTimeStamp"
+                      lineageId="Package\Data Flow Task 1\Source 1 - ClubCommittee.Outputs[OLE DB Source Error Output].Columns[StartDate]"
+                      name="StartDate" />
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Source 1 - ClubCommittee.Outputs[OLE DB Source Error Output].Columns[EndDate]"
+                      dataType="dbTimeStamp"
+                      lineageId="Package\Data Flow Task 1\Source 1 - ClubCommittee.Outputs[OLE DB Source Error Output].Columns[EndDate]"
+                      name="EndDate" />
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Source 1 - ClubCommittee.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task 1\Source 1 - ClubCommittee.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Source 1 - ClubCommittee.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task 1\Source 1 - ClubCommittee.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Data Flow Task 1.Paths[OLE DB Source Output]"
+              endId="Package\Data Flow Task 1\Destination - Club.Inputs[Destination Input]"
+              name="OLE DB Source Output"
+              startId="Package\Data Flow Task 1\Source - Club.Outputs[OLE DB Source Output]" />
+            <path
+              refId="Package\Data Flow Task 1.Paths[OLE DB Source Output1]"
+              endId="Package\Data Flow Task 1\Destination 1 - ClubCommittee.Inputs[Destination Input]"
+              name="OLE DB Source Output"
+              startId="Package\Data Flow Task 1\Source 1 - ClubCommittee.Outputs[OLE DB Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+</DTS:Executable>

@@ -53,6 +53,7 @@ namespace NTCYApplication.Models.Club
         private string _Status;
         private string _MemberType;
         private string _Salutation;
+        private string _MemberPhoto;
 
         public int MemId
         {
@@ -259,6 +260,11 @@ namespace NTCYApplication.Models.Club
             get { return _Salutation; }
             set { _Salutation = value; }
         }
+        public string MemberPhoto
+        {
+            get { return _MemberPhoto; }
+            set { _MemberPhoto = value; }
+        }
 
         Dictionary<string, object> MemberDictionary = new Dictionary<string, object>();
         public string BindDictionary()
@@ -302,6 +308,7 @@ namespace NTCYApplication.Models.Club
             MemberDictionary.Add("PaymentStatus", _PaymentStatus);
             MemberDictionary.Add("MemberType", _MemberType);
             MemberDictionary.Add("Salutation", _Salutation);
+            MemberDictionary.Add("Salutation", _MemberPhoto);
             return "Success";
         }
 
@@ -372,6 +379,7 @@ namespace NTCYApplication.Models.Club
             cmd.Parameters.AddWithValue("@PaymentStatus", this.PaymentStatus);
             cmd.Parameters.AddWithValue("@MemberType", this.MemberType);
             cmd.Parameters.AddWithValue("@Salutation", this.Salutation);
+            cmd.Parameters.AddWithValue("@MemberPhoto", this.MemberPhoto);
 
             using (SqlConnection MyCon = db.OpenConnection())
             {
@@ -450,6 +458,7 @@ namespace NTCYApplication.Models.Club
             cmd.Parameters.AddWithValue("@PaymentStatus", MemberDictionary["PaymentStatus"]);
             cmd.Parameters.AddWithValue("@MemberType", MemberDictionary["MemberType"]);
             cmd.Parameters.AddWithValue("@Salutation", MemberDictionary["Salutation"]);
+            cmd.Parameters.AddWithValue("@MemberPhoto", MemberDictionary["MemberPhoto"]);
 
             using (SqlConnection MyCon = db.OpenConnection())
             {
@@ -525,6 +534,7 @@ namespace NTCYApplication.Models.Club
             cmd.Parameters.AddWithValue("@PaymentStatus", MemberDictionary["PaymentStatus"]);
             cmd.Parameters.AddWithValue("@MemberType", MemberDictionary["MemberType"]);
             cmd.Parameters.AddWithValue("@Salutation", MemberDictionary["Salutation"]);
+            cmd.Parameters.AddWithValue("@MemberPhoto", MemberDictionary["MemberPhoto"]);
             using (SqlConnection MyCon = db.OpenConnection())
             {
                 cmd.Connection = MyCon;
@@ -610,6 +620,7 @@ namespace NTCYApplication.Models.Club
                             MemberDictionary.Add("PaymentStatus", ds.Tables[0].Rows[0]["PaymentStatus"].ToString());
                             MemberDictionary.Add("MemberType", ds.Tables[0].Rows[0]["MemberType"].ToString());
                             MemberDictionary.Add("Salutation", ds.Tables[0].Rows[0]["Salutation"].ToString());
+                            MemberDictionary.Add("MemberPhoto", ds.Tables[0].Rows[0]["MemberPhoto"].ToString());
                         }
 
                     }
@@ -726,6 +737,7 @@ namespace NTCYApplication.Models.Club
                         // sub._PaymentStatus=ds.Tables[0].Rows[i]["PaymentStatus"].ToString();
                         sub._MemberType = reader["MemberType"].ToString();
                         sub._Salutation = reader["Salutation"].ToString();
+                        sub._MemberPhoto = reader["MemberPhoto"].ToString();
                         list.Add(sub);
                         EOF = !reader.Read();
                     }
