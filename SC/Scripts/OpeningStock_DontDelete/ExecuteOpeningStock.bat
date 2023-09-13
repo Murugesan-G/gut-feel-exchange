@@ -1,0 +1,1 @@
+sqlcmd -S (local) -U sa -P Ntcy2018* -i D:\OpeningStock_DontDelete\AddOpeningStock.sql
