@@ -1,28 +1,9 @@
-export type Prediction = {
-  id: string;
-  question: string;
-  icon: string;
-  category: string;
-  yes: number;
-  no: number;
-  createdAt: number;
-};
-
-export type NewPredictionInput = {
-  question: string;
-  icon: string;
-  category: string;
-};
-
-export type VoteInput = {
-  id: string;
-  side: "yes" | "no";
-  stake: number;
-};
+import type { CreatePredictionInput, Prediction } from "@/types/prediction";
 
 const MAX_QUESTION_LENGTH = 120;
 const MAX_CATEGORY_LENGTH = 32;
 const DEFAULT_NEW_VOTE = 50;
+const MAX_PREDICTIONS = 500;
 
 export const DEFAULT_CATEGORY = "Tech";
 
@@ -34,7 +15,6 @@ const SEED_SOURCE = [
     category: "Food",
     yes: 45,
     no: 55,
-    hoursAgo: 72,
   },
   {
     id: "squirrel-pizza",
@@ -43,7 +23,6 @@ const SEED_SOURCE = [
     category: "Outdoors",
     yes: 30,
     no: 70,
-    hoursAgo: 22,
   },
   {
     id: "coffee-cold",
@@ -52,7 +31,6 @@ const SEED_SOURCE = [
     category: "Office",
     yes: 64,
     no: 36,
-    hoursAgo: 10,
   },
   {
     id: "microwave-sauce",
@@ -61,7 +39,6 @@ const SEED_SOURCE = [
     category: "Office",
     yes: 58,
     no: 42,
-    hoursAgo: 40,
   },
   {
     id: "wifi-drop",
@@ -70,7 +47,6 @@ const SEED_SOURCE = [
     category: "Tech",
     yes: 51,
     no: 49,
-    hoursAgo: 5,
   },
   {
     id: "printer-jam",
@@ -79,7 +55,6 @@ const SEED_SOURCE = [
     category: "Office",
     yes: 72,
     no: 28,
-    hoursAgo: 70,
   },
   {
     id: "seagull-lunch",
@@ -88,7 +63,6 @@ const SEED_SOURCE = [
     category: "Outdoors",
     yes: 61,
     no: 39,
-    hoursAgo: 18,
   },
   {
     id: "cat-zoom",
@@ -97,29 +71,19 @@ const SEED_SOURCE = [
     category: "Home",
     yes: 67,
     no: 33,
-    hoursAgo: 12,
   },
 ] as const;
-
-export const DEFAULT_STAKE = 10;
-export const PREDICTIONS_KV_KEY = "predictions/all";
-
-export const MAX_PREDICTIONS = 500;
-
-export type PredictionStore = {
-  version: string;
-  predictions: Prediction[];
-};
 
 export function buildSeedPredictions(now: number = Date.now()): Prediction[] {
   return SEED_SOURCE.map((seed) => ({
     ...seed,
-    createdAt: now - seed.hoursAgo * 60 * 60 * 1000,
+    createdAt: now,
+    updatedAt: now,
   }));
 }
 
 export function createPrediction(
-  input: NewPredictionInput,
+  input: CreatePredictionInput,
   now: number = Date.now(),
 ): Prediction {
   const question = sanitizeQuestion(input.question);
@@ -134,23 +98,33 @@ export function createPrediction(
     yes: DEFAULT_NEW_VOTE,
     no: DEFAULT_NEW_VOTE,
     createdAt: now,
+    updatedAt: now,
   };
 }
 
-function generatePredictionId(): string {
-  if (typeof crypto !== "undefined" && typeof crypto.randomUUID === "function") {
-    return crypto.randomUUID();
+export function normalizePredictionList(items: unknown): Prediction[] {
+  if (!Array.isArray(items)) {
+    return [];
   }
-
-  // Fallback for environments where `crypto.randomUUID` is unavailable.
-  return `${Date.now().toString(36)}-${Math.random().toString(36).slice(2)}`;
+  return items
+    .map((item) => upgradeStoredPrediction(item))
+    .filter((item): item is Prediction => item !== null);
 }
 
-export function sanitizeQuestion(raw: string): string {
+export function truncatePredictions(predictions: Prediction[]): Prediction[] {
+  if (predictions.length <= MAX_PREDICTIONS) {
+    return predictions;
+  }
+  return [...predictions]
+    .sort((a, b) => getOrderTimestamp(b) - getOrderTimestamp(a))
+    .slice(0, MAX_PREDICTIONS);
+}
+
+function sanitizeQuestion(raw: string): string {
   return raw.trim().slice(0, MAX_QUESTION_LENGTH);
 }
 
-export function sanitizeIcon(raw: string): string {
+function sanitizeIcon(raw: string): string {
   const trimmed = raw.trim();
   if (trimmed.length === 0) {
     return "❓";
@@ -168,7 +142,7 @@ export function sanitizeIcon(raw: string): string {
   return graphemes[0];
 }
 
-export function sanitizeCategory(raw: string): string {
+function sanitizeCategory(raw: string): string {
   const trimmed = raw.trim();
   if (trimmed.length === 0) {
     return DEFAULT_CATEGORY;
@@ -176,34 +150,54 @@ export function sanitizeCategory(raw: string): string {
   return trimmed.slice(0, MAX_CATEGORY_LENGTH);
 }
 
-export function isPrediction(value: unknown): value is Prediction {
+function generatePredictionId(): string {
+  if (typeof crypto !== "undefined" && typeof crypto.randomUUID === "function") {
+    return crypto.randomUUID();
+  }
+  return `${Date.now().toString(36)}-${Math.random().toString(36).slice(2)}`;
+}
+
+function upgradeStoredPrediction(value: unknown): Prediction | null {
   if (typeof value !== "object" || value === null) {
-    return false;
+    return null;
   }
+
   const data = value as Record<string, unknown>;
-  return (
-    typeof data.id === "string" &&
-    typeof data.question === "string" &&
-    typeof data.icon === "string" &&
-    typeof data.category === "string" &&
-    typeof data.yes === "number" &&
-    typeof data.no === "number" &&
-    typeof data.createdAt === "number"
-  );
+  const { id, question, icon, category, yes, no, createdAt } = data;
+  if (
+    typeof id !== "string" ||
+    typeof question !== "string" ||
+    typeof icon !== "string" ||
+    typeof category !== "string" ||
+    typeof yes !== "number" ||
+    typeof no !== "number" ||
+    typeof createdAt !== "number"
+  ) {
+    return null;
+  }
+
+  const timestamp = normalizeTimestamp(createdAt);
+  const updatedAt = typeof data.updatedAt === "number" ? normalizeTimestamp(data.updatedAt) : timestamp;
+
+  return {
+    id,
+    question: sanitizeQuestion(question),
+    icon: sanitizeIcon(icon),
+    category: sanitizeCategory(category),
+    yes,
+    no,
+    createdAt: timestamp,
+    updatedAt,
+  };
 }
 
-export function normalizePredictionList(items: unknown): Prediction[] {
-  if (!Array.isArray(items)) {
-    return [];
+function normalizeTimestamp(raw: number): number {
+  if (!Number.isFinite(raw)) {
+    return Date.now();
   }
-  return items.filter(isPrediction).map((item) => ({ ...item }));
+  return Math.max(0, Math.round(raw));
 }
 
-export function truncatePredictions(predictions: Prediction[]): Prediction[] {
-  if (predictions.length <= MAX_PREDICTIONS) {
-    return predictions;
-  }
-  return [...predictions]
-    .sort((a, b) => b.createdAt - a.createdAt)
-    .slice(0, MAX_PREDICTIONS);
+function getOrderTimestamp(prediction: Prediction): number {
+  return prediction.updatedAt ?? prediction.createdAt;
 }

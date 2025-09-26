@@ -1,22 +1,14 @@
 /// <reference types="@cloudflare/workers-types" />
 
-import {
-  Prediction,
-  PredictionStore,
-  PREDICTIONS_KV_KEY,
-  buildSeedPredictions,
-  createPrediction,
-  NewPredictionInput,
-  normalizePredictionList,
-  truncatePredictions,
-} from "../../lib/predictions";
+import { buildSeedPredictions, createPrediction, normalizePredictionList, truncatePredictions } from "../../lib/model";
+import { CreatePredictionInput, PREDICTIONS_KV_KEY, Prediction, PredictionStore } from "../../types/prediction";
 
 export type Env = {
   PREDICTIONS_KV: KVNamespace;
   SEED_DATA_VERSION?: string;
 };
 
-const DEFAULT_VERSION = "v1";
+const DEFAULT_VERSION = "v2";
 
 export class PredictionNotFoundError extends Error {
   constructor(id: string) {
@@ -105,7 +97,7 @@ export async function mutateStore(
 
 export async function addPrediction(
   env: Env,
-  input: NewPredictionInput,
+  input: CreatePredictionInput,
 ): Promise<PredictionStore> {
   return mutateStore(env, (store, version) => {
     const created = createPrediction(input);
@@ -123,14 +115,15 @@ export async function recordVote(
   return mutateStore(env, (store, version) => {
     const { id, side, stake } = params;
     const increment = Math.max(0, Math.round(stake));
+    const stamp = Date.now();
     let found = false;
     const updated: Prediction[] = store.predictions.map((prediction) => {
       if (prediction.id !== id) return prediction;
       found = true;
       if (side === "yes") {
-        return { ...prediction, yes: prediction.yes + increment };
+        return { ...prediction, yes: prediction.yes + increment, updatedAt: stamp };
       }
-      return { ...prediction, no: prediction.no + increment };
+      return { ...prediction, no: prediction.no + increment, updatedAt: stamp };
     });
     if (!found) {
       throw new PredictionNotFoundError(id);
@@ -138,4 +131,3 @@ export async function recordVote(
     return { version, predictions: updated };
   });
 }
-

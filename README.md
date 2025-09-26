@@ -24,7 +24,7 @@ No client storage is used (we ate all the cookies). Your “last stake” lives 
   - `GET /api/predictions` — fetch every prediction.
   - `POST /api/predictions` — add a new prediction (emoji, category, question).
   - `POST /api/predictions/:id/vote` — record a vote with a stake.
-- Data is stored under the KV key `predictions/all` (see `lib/predictions.ts`). New predictions start 50/50 to keep the peace.
+- Data is stored under the KV key `predictions/all` (see `types/prediction.ts`). New predictions start 50/50 to keep the peace.
 
 ## Quick Start (3 Steps, Zero Drama)
 Prereqs: Node.js LTS and npm.

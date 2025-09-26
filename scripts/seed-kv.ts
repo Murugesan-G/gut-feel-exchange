@@ -1,13 +1,14 @@
+import { spawn } from "node:child_process";
 import { mkdtemp, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { spawn } from "node:child_process";
 
-import { buildSeedPredictions, PREDICTIONS_KV_KEY } from "../lib/predictions";
+import { buildSeedPredictions } from "../lib/model";
+import { PREDICTIONS_KV_KEY } from "../types/prediction";
 
 async function run() {
   const { flags, envName } = parseArgs(process.argv.slice(2));
-  const version = process.env.SEED_DATA_VERSION ?? "v1";
+  const version = process.env.SEED_DATA_VERSION ?? "v2";
 
   const storePayload = {
     version,
