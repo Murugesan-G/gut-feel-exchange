@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Manrope, Unbounded } from "next/font/google";
 import "./globals.css";
 
@@ -8,12 +8,13 @@ const manrope = Manrope({ variable: "--font-manrope", subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "Predictions",
   description: "Mobile-first prediction voting app",
-  viewport: {
-    width: "device-width",
-    initialScale: 1,
-    maximumScale: 1,
-    userScalable: false,
-  },
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
 };
 
 export default function RootLayout({
