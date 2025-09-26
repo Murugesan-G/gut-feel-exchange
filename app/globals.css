@@ -11,7 +11,8 @@
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-manrope);
-  --font-mono: var(--font-geist-mono);
+  /* System monospace fallback; no custom mono font loaded */
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
   --font-display: var(--font-unbounded);
 }
 
