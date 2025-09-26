@@ -1,0 +1,84 @@
+name: Deploy to Cloudflare Pages
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  deployments: write
+  pull-requests: write
+
+concurrency:
+  group: pages-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      NODE_ENV: production
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Deploy to Cloudflare Pages
+        id: deploy
+        if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.fork == false
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          wranglerVersion: '4'
+          gitHubToken: ${{ github.token }}
+          command: pages deploy ./out --project-name=prediction-app
+
+      - name: Deployment URLs
+        if: steps.deploy.outcome == 'success'
+        run: |
+          echo "Deployment URL: ${{ steps.deploy.outputs.deployment-url }}"
+          echo "Alias URL:      ${{ steps.deploy.outputs.pages-deployment-alias-url }}"
+
+      - name: Comment PR with preview URLs
+        if: github.event_name == 'pull_request' && steps.deploy.outcome == 'success'
+        uses: actions/github-script@v7
+        env:
+          CF_DEPLOYMENT_URL: ${{ steps.deploy.outputs['deployment-url'] }}
+          CF_ALIAS_URL: ${{ steps.deploy.outputs['pages-deployment-alias-url'] }}
+        with:
+          github-token: ${{ github.token }}
+          script: |
+            const marker = '<!-- cf-pages-preview -->';
+            const alias = process.env.CF_ALIAS_URL;
+            const url = process.env.CF_DEPLOYMENT_URL;
+            const pr = context.payload.pull_request;
+            const branch = pr?.head?.ref || context.ref;
+            const sha = (pr?.head?.sha || context.sha).slice(0, 7);
+            let body = `${marker}\n` +
+              `Cloudflare Pages preview is ready for \`${branch}\` (@ ${sha}).\n\n` +
+              (alias ? `- Branch preview: ${alias}\n` : '') +
+              (url ? `- Commit preview: ${url}\n` : '');
+
+            const { owner, repo } = context.repo;
+            const issue_number = context.issue.number;
+            const { data: comments } = await github.rest.issues.listComments({ owner, repo, issue_number, per_page: 100 });
+            const existing = comments.find(c => (c.user?.type === 'Bot' || c.user?.login === 'github-actions[bot]') && (c.body || '').includes(marker));
+            if (existing) {
+              await github.rest.issues.updateComment({ owner, repo, comment_id: existing.id, body });
+            } else {
+              await github.rest.issues.createComment({ owner, repo, issue_number, body });
+            }
