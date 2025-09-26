@@ -106,7 +106,9 @@ export function normalizePredictionList(items: unknown): Prediction[] {
   if (!Array.isArray(items)) {
     return [];
   }
-  return items.filter(isPrediction).map((item) => ({ ...item }));
+  return items
+    .map((item) => upgradeStoredPrediction(item))
+    .filter((item): item is Prediction => item !== null);
 }
 
 export function truncatePredictions(predictions: Prediction[]): Prediction[] {
@@ -114,7 +116,7 @@ export function truncatePredictions(predictions: Prediction[]): Prediction[] {
     return predictions;
   }
   return [...predictions]
-    .sort((a, b) => b.createdAt - a.createdAt)
+    .sort((a, b) => getOrderTimestamp(b) - getOrderTimestamp(a))
     .slice(0, MAX_PREDICTIONS);
 }
 
@@ -155,19 +157,47 @@ function generatePredictionId(): string {
   return `${Date.now().toString(36)}-${Math.random().toString(36).slice(2)}`;
 }
 
-function isPrediction(value: unknown): value is Prediction {
+function upgradeStoredPrediction(value: unknown): Prediction | null {
   if (typeof value !== "object" || value === null) {
-    return false;
+    return null;
   }
+
   const data = value as Record<string, unknown>;
-  return (
-    typeof data.id === "string" &&
-    typeof data.question === "string" &&
-    typeof data.icon === "string" &&
-    typeof data.category === "string" &&
-    typeof data.yes === "number" &&
-    typeof data.no === "number" &&
-    typeof data.createdAt === "number" &&
-    typeof data.updatedAt === "number"
-  );
+  const { id, question, icon, category, yes, no, createdAt } = data;
+  if (
+    typeof id !== "string" ||
+    typeof question !== "string" ||
+    typeof icon !== "string" ||
+    typeof category !== "string" ||
+    typeof yes !== "number" ||
+    typeof no !== "number" ||
+    typeof createdAt !== "number"
+  ) {
+    return null;
+  }
+
+  const timestamp = normalizeTimestamp(createdAt);
+  const updatedAt = typeof data.updatedAt === "number" ? normalizeTimestamp(data.updatedAt) : timestamp;
+
+  return {
+    id,
+    question: sanitizeQuestion(question),
+    icon: sanitizeIcon(icon),
+    category: sanitizeCategory(category),
+    yes,
+    no,
+    createdAt: timestamp,
+    updatedAt,
+  };
+}
+
+function normalizeTimestamp(raw: number): number {
+  if (!Number.isFinite(raw)) {
+    return Date.now();
+  }
+  return Math.max(0, Math.round(raw));
+}
+
+function getOrderTimestamp(prediction: Prediction): number {
+  return prediction.updatedAt ?? prediction.createdAt;
 }
