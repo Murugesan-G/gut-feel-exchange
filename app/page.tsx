@@ -119,8 +119,8 @@ export default function Home() {
             <button
               key={c}
               onClick={() => setActiveCat(c)}
-              className={`nav-pill px-2 py-1 font-bold ${
-                activeCat === c ? "active" : ""
+              className={`px-2 py-1 font-bold border-b-4 ${
+                activeCat === c ? "border-black" : "border-transparent"
               }`}
             >
               {c}
@@ -162,7 +162,7 @@ export default function Home() {
                   <h2 className="text-lg font-extrabold leading-snug">
                     {p.question}
                   </h2>
-                  <div className="mt-2 progress-track h-3 w-full bg-white">
+                  <div className="mt-2 h-3 w-full bg-white border-2 border-black">
                     <div
                       className="h-full bg-orange-400"
                       style={{ width: `${yesPct}%` }}
@@ -323,7 +323,7 @@ export default function Home() {
                 <h3 className="text-2xl font-black">Choose Stake</h3>
               </header>
               <div className="brutal-form brutal-form--plain flex flex-col gap-4">
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 brutal-field-group">
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2">
                   {[1, 10, 100].map((v) => (
                     <button
                       key={v}

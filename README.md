@@ -50,7 +50,7 @@ Local dev opens Next.js on http://localhost:3000 and proxies `/api/*` to Wrangle
 ## Project Map (Where Stuff Lives)
 - `app/page.tsx` — UI, voting logic, “new prediction” sheet.
 - `app/layout.tsx` — Shell + metadata.
-- `app/globals.css` — Tailwind v4 + brutalist helpers (`.brutal-card`, `.brutal-btn`, `.chip`).
+- `app/globals.css` — Tailwind v4 + brutalist helpers (`.brutal-card`, `.brutal-btn`).
 - `functions/` — Cloudflare Pages Functions for `/api/predictions`.
 - `lib/` — Data model and utilities.
 - `public/` — Static assets.
