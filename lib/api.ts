@@ -1,5 +1,4 @@
-import { Prediction } from "@/lib/predictions";
-import type { CreatePredictionBody, PredictionsResponse, VoteBody } from "@/lib/predictions-api-types";
+import type { CreatePredictionInput, Prediction, PredictionsResponse, VoteBody } from "@/types/prediction";
 
 export async function fetchPredictions(signal?: AbortSignal): Promise<Prediction[]> {
   const res = await fetch("/api/predictions", {
@@ -15,7 +14,7 @@ export async function fetchPredictions(signal?: AbortSignal): Promise<Prediction
   return data.predictions;
 }
 
-export async function createPrediction(body: CreatePredictionBody): Promise<Prediction[]> {
+export async function createPrediction(body: CreatePredictionInput): Promise<Prediction[]> {
   const res = await fetch("/api/predictions", {
     method: "POST",
     headers: { "Content-Type": "application/json", Accept: "application/json" },

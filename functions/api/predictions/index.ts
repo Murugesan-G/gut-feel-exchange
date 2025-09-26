@@ -1,6 +1,6 @@
 /// <reference types="@cloudflare/workers-types" />
 
-import type { CreatePredictionBody, PredictionsResponse } from "../../../lib/predictions-api-types";
+import type { CreatePredictionInput, PredictionsResponse } from "../../../types/prediction";
 import { addPrediction, Env, readStore } from "../../_lib/prediction-store";
 
 const JSON_HEADERS = {
@@ -62,7 +62,7 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
 };
 
 type ParsedPayload =
-  | { ok: true; value: CreatePredictionBody }
+  | { ok: true; value: CreatePredictionInput }
   | { ok: false; error: string };
 
 function parseCreatePayload(input: unknown): ParsedPayload {

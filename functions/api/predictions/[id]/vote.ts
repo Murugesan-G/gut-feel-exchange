@@ -1,6 +1,6 @@
 /// <reference types="@cloudflare/workers-types" />
 
-import type { PredictionsResponse, VoteBody } from "../../../../lib/predictions-api-types";
+import type { PredictionsResponse, VoteBody } from "../../../../types/prediction";
 import { Env, PredictionNotFoundError, recordVote } from "../../../_lib/prediction-store";
 
 const JSON_HEADERS = {
