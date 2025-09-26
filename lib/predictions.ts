@@ -1,5 +1,3 @@
-import { v4 as uuidv4 } from "uuid";
-
 export type Prediction = {
   id: string;
   question: string;
@@ -138,7 +136,12 @@ export function createPrediction(
 }
 
 function generatePredictionId(): string {
-  return uuidv4();
+  if (typeof crypto !== "undefined" && typeof crypto.randomUUID === "function") {
+    return crypto.randomUUID();
+  }
+
+  // Fallback for environments where `crypto.randomUUID` is unavailable.
+  return `${Date.now().toString(36)}-${Math.random().toString(36).slice(2)}`;
 }
 
 export function sanitizeQuestion(raw: string): string {
