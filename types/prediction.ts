@@ -29,7 +29,3 @@ export type PredictionStore = {
 // API shapes
 export type PredictionsResponse = { predictions: Prediction[] };
 export type VoteBody = Omit<VoteInput, "id">;
-
-// App/server constants
-export const DEFAULT_STAKE = 10;
-export const PREDICTIONS_KV_KEY = "predictions/all";

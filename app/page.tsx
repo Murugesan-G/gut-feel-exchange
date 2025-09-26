@@ -1,8 +1,9 @@
 "use client";
 
 import { createPrediction, fetchPredictions, voteOnPrediction } from "@/lib/api";
+import { DEFAULT_STAKE } from "@/lib/constants";
 import { DEFAULT_CATEGORY } from "@/lib/model";
-import { DEFAULT_STAKE, Prediction } from "@/types/prediction";
+import type { Prediction } from "@/types/prediction";
 import { useEffect, useMemo, useState } from "react";
 
 export default function Home() {

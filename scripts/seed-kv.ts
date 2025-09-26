@@ -3,8 +3,8 @@ import { mkdtemp, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 
+import { PREDICTIONS_KV_KEY } from "../lib/constants";
 import { buildSeedPredictions } from "../lib/model";
-import { PREDICTIONS_KV_KEY } from "../types/prediction";
 
 async function run() {
   const { flags, envName } = parseArgs(process.argv.slice(2));

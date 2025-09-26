@@ -1,7 +1,8 @@
 /// <reference types="@cloudflare/workers-types" />
 
+import { PREDICTIONS_KV_KEY } from "../../lib/constants";
 import { buildSeedPredictions, createPrediction, normalizePredictionList, truncatePredictions } from "../../lib/model";
-import { CreatePredictionInput, PREDICTIONS_KV_KEY, Prediction, PredictionStore } from "../../types/prediction";
+import type { CreatePredictionInput, Prediction, PredictionStore } from "../../types/prediction";
 
 export type Env = {
   PREDICTIONS_KV: KVNamespace;
