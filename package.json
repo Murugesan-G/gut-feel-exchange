@@ -3,7 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack",
+    "dev": "concurrently -k -n wrangler,next -c auto \"npm:dev:wrangler\" \"npm:dev:next\"",
+    "dev:next": "next dev --turbopack --port 3000",
+    "dev:wrangler": "wrangler pages dev . --port 8788 --local-protocol http",
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
@@ -26,6 +28,7 @@
     "eslint": "^9.36.0",
     "eslint-config-next": "^15.5.4",
     "tailwindcss": "^4.1.13",
+    "concurrently": "^9.1.0",
     "tsx": "^4.20.6",
     "typescript": "^5.9.2",
     "wrangler": "^4.40.1"

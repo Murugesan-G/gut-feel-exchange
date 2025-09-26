@@ -34,10 +34,12 @@ npm install
 npm run dev
 ```
 
-Visit http://localhost:3000 and make irresponsible prophecies responsibly.
+Local dev opens Next.js on http://localhost:3000 and proxies `/api/*` to Wrangler Pages Functions on http://127.0.0.1:8788.
 
 ## Scripts (Greatest Hits)
-- `npm run dev` — Start the dev server (Turbopack).
+- `npm run dev` — Start Next (3000) and Wrangler (8788) together; `/api/*` is proxied to Wrangler.
+  - `npm run dev:next` — Start only Next.js.
+  - `npm run dev:wrangler` — Start only Wrangler Pages dev.
 - `npm run build` — Produce static export into `out/`.
 - `npm start` — Preview the production build locally.
 - `npm run lint` — Run ESLint; fix things before opening a PR.
@@ -64,7 +66,7 @@ Visit http://localhost:3000 and make irresponsible prophecies responsibly.
 4. In the Pages project, set the build output directory to `./out` and point backend routes at `functions/`.
 
 ### Local End‑to‑End Preview
-After `npm run build`, you can run:
+If you want to preview the static export exactly as deployed (without Next dev), build then run:
 
 ```bash
 wrangler pages dev ./out --kv PREDICTIONS_KV=<namespace-id>
