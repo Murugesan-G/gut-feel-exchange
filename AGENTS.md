@@ -15,7 +15,7 @@
 ## Coding Style & Naming Conventions
 - TypeScript + React 19 with functional components; keep components client-side unless clearly static.
 - Use 2-space indentation and Tailwind utilities; prefer helpers from `app/globals.css` like `.brutal-card`, `.brutal-btn`, and `.chip`.
-- Name components/pages with `PascalCase.tsx`; name hooks/utilities with `camelCase.ts`. Constants and storage keys stay in `UPPER_SNAKE_CASE` (e.g., `LS_KEY`).
+- Use dash-case (`kebab-case`) for all file names (components, pages, hooks, and utilities), e.g., `stake-picker.tsx`, `prediction-store.ts`. Keep Next.js reserved files as-is (`page.tsx`, `layout.tsx`) and bracketed route segments (`[id]`). Constants and storage keys stay in `UPPER_SNAKE_CASE` (e.g., `LS_KEY`).
 
 ## Testing Guidelines
 - No tests exist yet; if adding them, prefer Vitest + React Testing Library for units and Playwright for E2E.

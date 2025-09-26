@@ -3,6 +3,8 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  /* Force UA widgets/scrollbars to render in light mode */
+  color-scheme: light;
 }
 
 @theme inline {
@@ -12,10 +14,11 @@
   --font-mono: var(--font-geist-mono);
 }
 
+/* Ensure dark-mode preference renders identically to light mode */
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #ffffff;
+    --foreground: #171717;
   }
 }
 
@@ -23,4 +26,188 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+/* --- Brutalist theme helpers --- */
+.brutal-container {
+  max-width: 520px;
+  margin: 0 auto;
+}
+
+.brutal-card {
+  border: 4px solid #000;
+  background: #fff;
+  box-shadow: 8px 8px 0 #000;
+}
+
+.no-shadow {
+  box-shadow: none !important;
+}
+
+.brutal-btn {
+  border: 3px solid #000;
+  box-shadow: 4px 4px 0 #000;
+}
+
+.brutal-btn:active {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 #000;
+}
+
+.progress-track {
+  border: 2px solid #000;
+}
+
+.nav-pill {
+  border-bottom: 4px solid transparent;
+}
+.nav-pill.active {
+  border-color: #000;
+}
+
+/* --- Brutalist modal + form enhancements --- */
+.brutal-modal {
+  border: 5px solid #000;
+  box-shadow: 12px 12px 0 #000 !important;
+}
+
+.brutal-modal-header {
+  background: #000;
+  color: #ffea00;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 1rem 1.35rem;
+  border-bottom: 5px solid #000;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+}
+
+.brutal-modal-header h3 {
+  font-size: 1.4rem;
+  letter-spacing: 0.18em;
+}
+
+.brutal-form {
+  padding: 1.1rem 1.35rem 1.35rem;
+  border-top: 5px solid #000;
+  background: repeating-linear-gradient(
+    0deg,
+    #ffffff,
+    #ffffff 18px,
+    #f1f5f9 18px,
+    #f1f5f9 36px
+  );
+}
+
+/* Modifier: remove stripe background when undesired (e.g., modals) */
+.brutal-form--plain {
+  background: transparent !important;
+}
+
+.brutal-label {
+  font-size: 0.75rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.24em;
+}
+
+/* Modifier: disable uppercase and tight spacing */
+.brutal-label--no-caps {
+  text-transform: none !important;
+  letter-spacing: normal !important;
+}
+
+.brutal-field {
+  border: 4px solid #000;
+  background: #ffffff;
+  padding: 0.65rem 0.9rem;
+  font-size: 0.95rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  box-shadow: 4px 4px 0 #000;
+  position: relative;
+  z-index: 1;
+  transition: transform 0.08s ease, box-shadow 0.08s ease, background 0.08s ease;
+}
+
+/* Modifier: allow mixed/lower case entry */
+.brutal-field--no-caps {
+  text-transform: none !important;
+  letter-spacing: normal !important;
+}
+
+.brutal-field--no-caps::placeholder {
+  letter-spacing: normal !important;
+}
+
+.brutal-field:focus {
+  outline: none;
+  background: #fffbcc;
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 #000;
+}
+
+.brutal-field::placeholder {
+  color: #000;
+  opacity: 0.7;
+  letter-spacing: 0.16em;
+}
+
+select.brutal-field {
+  appearance: none;
+}
+
+.brutal-select {
+  position: relative;
+  display: block;
+}
+
+.brutal-select-sep {
+  position: absolute;
+  top: 20%;
+  bottom: 20%;
+  right: 3.25rem;
+  width: 3px;
+  background: #000;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.brutal-select-caret {
+  position: absolute;
+  right: 1.5rem;
+  top: 50%;
+  transform: translateY(-40%);
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 8px solid #000;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.brutal-form-actions {
+  margin-top: 0.25rem;
+}
+
+.brutal-action {
+  letter-spacing: 0.2em;
+}
+
+.brutal-field-group {
+  padding-top: 0.5rem;
+}
+
+.brutal-choice {
+  cursor: pointer;
+  text-align: center;
+}
+
+.brutal-choice.is-active {
+  background: #000;
+  color: #ffea00;
+  box-shadow: 8px 8px 0 #ffea00;
 }
