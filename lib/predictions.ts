@@ -183,5 +183,7 @@ export function truncatePredictions(predictions: Prediction[]): Prediction[] {
   if (predictions.length <= MAX_PREDICTIONS) {
     return predictions;
   }
-  return predictions.slice(0, MAX_PREDICTIONS);
+  return [...predictions]
+    .sort((a, b) => b.createdAt - a.createdAt)
+    .slice(0, MAX_PREDICTIONS);
 }
