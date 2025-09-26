@@ -21,6 +21,23 @@ const eslintConfig = [
       "next-env.d.ts",
     ],
   },
+  {
+    files: ["app/**/page.tsx", "app/**/page.ts"],
+    rules: {
+      // Enforce alias imports in pages: use "@/…" instead of relative paths
+      "no-restricted-imports": [
+        "error",
+        {
+          patterns: [
+            {
+              group: ["./*", "../*", "../../*", "../../../*"],
+              message: "Use '@/…' alias for internal imports in page files.",
+            },
+          ],
+        },
+      ],
+    },
+  },
 ];
 
 export default eslintConfig;
