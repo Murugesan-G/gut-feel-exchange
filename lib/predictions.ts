@@ -1,3 +1,5 @@
+import { v4 as uuidv4 } from "uuid";
+
 export type Prediction = {
   id: string;
   question: string;
@@ -125,7 +127,7 @@ export function createPrediction(
   const category = sanitizeCategory(input.category);
 
   return {
-    id: `${now}-${Math.random().toString(36).slice(2, 8)}`,
+    id: generatePredictionId(),
     question,
     icon,
     category,
@@ -133,6 +135,10 @@ export function createPrediction(
     no: DEFAULT_NEW_VOTE,
     createdAt: now,
   };
+}
+
+function generatePredictionId(): string {
+  return uuidv4();
 }
 
 export function sanitizeQuestion(raw: string): string {
