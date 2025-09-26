@@ -1,6 +1,7 @@
 /// <reference types="@cloudflare/workers-types" />
 
-import { addPrediction, readStore, Env } from "../../_lib/prediction-store";
+import type { CreatePredictionBody, PredictionsResponse } from "../../../lib/predictions-api-types";
+import { addPrediction, Env, readStore } from "../../_lib/prediction-store";
 
 const JSON_HEADERS = {
   "Content-Type": "application/json; charset=utf-8",
@@ -10,7 +11,8 @@ const JSON_HEADERS = {
 export const onRequestGet: PagesFunction<Env> = async ({ env }) => {
   try {
     const store = await readStore(env);
-    return new Response(JSON.stringify({ predictions: store.predictions }), {
+    const body: PredictionsResponse = { predictions: store.predictions };
+    return new Response(JSON.stringify(body), {
       status: 200,
       headers: JSON_HEADERS,
     });
@@ -45,7 +47,8 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
 
   try {
     const store = await addPrediction(env, parsed.value);
-    return new Response(JSON.stringify({ predictions: store.predictions }), {
+    const body: PredictionsResponse = { predictions: store.predictions };
+    return new Response(JSON.stringify(body), {
       status: 201,
       headers: JSON_HEADERS,
     });
@@ -58,14 +61,8 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
   }
 };
 
-type CreatePayload = {
-  question: string;
-  icon: string;
-  category: string;
-};
-
 type ParsedPayload =
-  | { ok: true; value: CreatePayload }
+  | { ok: true; value: CreatePredictionBody }
   | { ok: false; error: string };
 
 function parseCreatePayload(input: unknown): ParsedPayload {

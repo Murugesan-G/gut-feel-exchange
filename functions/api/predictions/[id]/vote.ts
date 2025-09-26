@@ -1,19 +1,11 @@
 /// <reference types="@cloudflare/workers-types" />
 
-import {
-  PredictionNotFoundError,
-  Env,
-  recordVote,
-} from "../../../_lib/prediction-store";
+import type { PredictionsResponse, VoteBody } from "../../../../lib/predictions-api-types";
+import { Env, PredictionNotFoundError, recordVote } from "../../../_lib/prediction-store";
 
 const JSON_HEADERS = {
   "Content-Type": "application/json; charset=utf-8",
   "Cache-Control": "no-store",
-};
-
-type VoteBody = {
-  side: "yes" | "no";
-  stake: number;
 };
 
 type ParsedVoteBody =
@@ -51,7 +43,8 @@ export const onRequestPost: PagesFunction<Env> = async ({ params, request, env }
 
   try {
     const store = await recordVote(env, { id, ...parsed.value });
-    return new Response(JSON.stringify({ predictions: store.predictions }), {
+    const body: PredictionsResponse = { predictions: store.predictions };
+    return new Response(JSON.stringify(body), {
       status: 200,
       headers: JSON_HEADERS,
     });

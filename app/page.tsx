@@ -1,62 +1,8 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
 import { DEFAULT_STAKE, Prediction } from "@/lib/predictions";
-
-type PredictionsResponse = {
-  predictions: Prediction[];
-};
-
-type VotePayload = {
-  side: "yes" | "no";
-  stake: number;
-};
-
-type CreatePayload = {
-  question: string;
-  icon: string;
-  category: string;
-};
-
-async function apiGetPredictions(signal?: AbortSignal): Promise<Prediction[]> {
-  const res = await fetch("/api/predictions", {
-    method: "GET",
-    headers: { Accept: "application/json" },
-    cache: "no-store",
-    signal,
-  });
-  if (!res.ok) {
-    throw new Error(`Failed to load predictions: ${res.status}`);
-  }
-  const data = (await res.json()) as PredictionsResponse;
-  return data.predictions;
-}
-
-async function apiCreatePrediction(body: CreatePayload): Promise<Prediction[]> {
-  const res = await fetch("/api/predictions", {
-    method: "POST",
-    headers: { "Content-Type": "application/json", Accept: "application/json" },
-    body: JSON.stringify(body),
-  });
-  if (!res.ok) {
-    throw new Error(`Failed to add prediction: ${res.status}`);
-  }
-  const data = (await res.json()) as PredictionsResponse;
-  return data.predictions;
-}
-
-async function apiVotePrediction(id: string, body: VotePayload): Promise<Prediction[]> {
-  const res = await fetch(`/api/predictions/${id}/vote`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json", Accept: "application/json" },
-    body: JSON.stringify(body),
-  });
-  if (!res.ok) {
-    throw new Error(`Failed to submit vote: ${res.status}`);
-  }
-  const data = (await res.json()) as PredictionsResponse;
-  return data.predictions;
-}
+import { createPrediction, fetchPredictions, voteOnPrediction } from "@/lib/predictions-api";
+import { useEffect, useMemo, useState } from "react";
 
 export default function Home() {
   const [predictions, setPredictions] = useState<Prediction[]>([]);
@@ -77,7 +23,7 @@ export default function Home() {
     setIsLoading(true);
     setError(null);
 
-    void apiGetPredictions(controller.signal)
+    void fetchPredictions(controller.signal)
       .then((items) => {
         setPredictions(items);
       })
@@ -121,7 +67,7 @@ export default function Home() {
   async function vote(id: string, side: "yes" | "no", stake: number) {
     try {
       setIsMutating(true);
-      const next = await apiVotePrediction(id, { side, stake });
+      const next = await voteOnPrediction(id, { side, stake });
       setPredictions(next);
       setLastStake(stake);
       setError(null);
@@ -138,7 +84,7 @@ export default function Home() {
     if (!q.trim()) return;
     try {
       setIsMutating(true);
-      const next = await apiCreatePrediction({ question: q, icon, category });
+      const next = await createPrediction({ question: q, icon, category });
       setPredictions(next);
       setError(null);
       setShowNew(false);
