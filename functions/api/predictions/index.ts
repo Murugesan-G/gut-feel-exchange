@@ -1,12 +1,8 @@
 /// <reference types="@cloudflare/workers-types" />
 
+import { JSON_HEADERS } from "../../../lib/constants";
 import type { CreatePredictionInput, PredictionsResponse } from "../../../types/prediction";
 import { addPrediction, Env, readStore } from "../../_lib/prediction-store";
-
-const JSON_HEADERS = {
-  "Content-Type": "application/json; charset=utf-8",
-  "Cache-Control": "no-store",
-};
 
 export const onRequestGet: PagesFunction<Env> = async ({ env }) => {
   try {

@@ -1,15 +1,14 @@
 "use client";
 
 import { createPrediction, fetchPredictions, voteOnPrediction } from "@/lib/api";
-import { DEFAULT_STAKE } from "@/lib/constants";
-import { DEFAULT_CATEGORY } from "@/lib/model";
+import { CATEGORY_ALL_LABEL, DEFAULT_CATEGORY, DEFAULT_STAKE, STAKE_PRESET_OPTIONS } from "@/lib/constants";
 import type { Prediction } from "@/types/prediction";
 import { useEffect, useMemo, useState } from "react";
 
 export default function Home() {
   const [predictions, setPredictions] = useState<Prediction[]>([]);
   const fallbackCategory = DEFAULT_CATEGORY;
-  const defaultCategory = "All";
+  const defaultCategory = CATEGORY_ALL_LABEL;
   const [activeCat, setActiveCat] = useState<string>(defaultCategory);
   const [lastStake, setLastStake] = useState<number>(DEFAULT_STAKE);
   const [showNew, setShowNew] = useState<boolean>(false);
@@ -325,7 +324,7 @@ export default function Home() {
               </header>
               <div className="brutal-form brutal-form--plain flex flex-col gap-4">
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2">
-                  {[1, 10, 100].map((v) => (
+                  {STAKE_PRESET_OPTIONS.map((v) => (
                     <button
                       key={v}
                       type="button"
@@ -343,7 +342,11 @@ export default function Home() {
                     type="number"
                     min={1}
                     className={`brutal-field brutal-choice text-base font-black ${
-                      ![1, 10, 100].includes(pendingVote.tempStake) ? "is-active" : ""
+                      !STAKE_PRESET_OPTIONS.includes(
+                        pendingVote.tempStake as (typeof STAKE_PRESET_OPTIONS)[number],
+                      )
+                        ? "is-active"
+                        : ""
                     }`}
                     value={pendingVote.tempStake}
                     onChange={(e) =>

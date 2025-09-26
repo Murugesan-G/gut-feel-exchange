@@ -3,12 +3,12 @@ import { mkdtemp, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 
-import { PREDICTIONS_KV_KEY } from "../lib/constants";
+import { DEFAULT_SEED_DATA_VERSION, PREDICTIONS_KV_KEY } from "../lib/constants";
 import { buildSeedPredictions } from "../lib/model";
 
 async function run() {
   const { flags, envName } = parseArgs(process.argv.slice(2));
-  const version = process.env.SEED_DATA_VERSION ?? "v2";
+  const version = process.env.SEED_DATA_VERSION ?? DEFAULT_SEED_DATA_VERSION;
 
   const storePayload = {
     version,

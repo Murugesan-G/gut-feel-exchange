@@ -1,6 +1,6 @@
 /// <reference types="@cloudflare/workers-types" />
 
-import { PREDICTIONS_KV_KEY } from "../../lib/constants";
+import { DEFAULT_SEED_DATA_VERSION, PREDICTIONS_KV_KEY } from "../../lib/constants";
 import { buildSeedPredictions, createPrediction, normalizePredictionList, truncatePredictions } from "../../lib/model";
 import type { CreatePredictionInput, Prediction, PredictionStore } from "../../types/prediction";
 
@@ -9,7 +9,6 @@ export type Env = {
   SEED_DATA_VERSION?: string;
 };
 
-const DEFAULT_VERSION = "v2";
 
 export class PredictionNotFoundError extends Error {
   constructor(id: string) {
@@ -39,7 +38,7 @@ function isStoredShape(value: unknown): value is StoredShape {
 
 export async function readStore(env: Env): Promise<PredictionStore> {
   assertEnv(env);
-  const version = env.SEED_DATA_VERSION || DEFAULT_VERSION;
+  const version = env.SEED_DATA_VERSION || DEFAULT_SEED_DATA_VERSION;
   const raw = await env.PREDICTIONS_KV.get<StoredShape>(PREDICTIONS_KV_KEY, {
     type: "json",
   });
@@ -80,7 +79,7 @@ export async function mutateStore(
   mutator: (current: PredictionStore, version: string) => Promise<PredictionStore> | PredictionStore,
 ): Promise<PredictionStore> {
   const current = await readStore(env);
-  const version = env.SEED_DATA_VERSION || current.version || DEFAULT_VERSION;
+  const version = env.SEED_DATA_VERSION || current.version || DEFAULT_SEED_DATA_VERSION;
   const next = await mutator(
     {
       version,

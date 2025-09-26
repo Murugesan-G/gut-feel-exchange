@@ -1,12 +1,8 @@
 /// <reference types="@cloudflare/workers-types" />
 
+import { JSON_HEADERS } from "../../../../lib/constants";
 import type { PredictionsResponse, VoteBody } from "../../../../types/prediction";
 import { Env, PredictionNotFoundError, recordVote } from "../../../_lib/prediction-store";
-
-const JSON_HEADERS = {
-  "Content-Type": "application/json; charset=utf-8",
-  "Cache-Control": "no-store",
-};
 
 type ParsedVoteBody =
   | { ok: true; value: VoteBody }
