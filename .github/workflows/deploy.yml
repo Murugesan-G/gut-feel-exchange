@@ -45,7 +45,11 @@ jobs:
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           wranglerVersion: '4'
           gitHubToken: ${{ github.token }}
-          command: pages deploy ./out --project-name=prediction-app
+          command: >-
+            pages deploy ./out --project-name=prediction-app
+            --branch=${{ github.head_ref || github.ref_name }}
+            --commit-hash=${{ github.event.pull_request.head.sha || github.sha }}
+            --commit-dirty=true
 
       - name: Deployment URLs
         if: steps.deploy.outcome == 'success'
