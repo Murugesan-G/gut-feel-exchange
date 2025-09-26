@@ -60,7 +60,8 @@ async function apiVotePrediction(id: string, body: VotePayload): Promise<Predict
 
 export default function Home() {
   const [predictions, setPredictions] = useState<Prediction[]>([]);
-  const [activeCat, setActiveCat] = useState<string>("Trending");
+  const defaultCategory = "All";
+  const [activeCat, setActiveCat] = useState<string>(defaultCategory);
   const [lastStake, setLastStake] = useState<number>(DEFAULT_STAKE);
   const [showNew, setShowNew] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -95,13 +96,13 @@ export default function Home() {
   }, []);
 
   const cats = useMemo(() => {
-    const set = new Set<string>(["Trending"]);
+    const set = new Set<string>([defaultCategory]);
     predictions.forEach((p) => set.add(p.category));
     return Array.from(set);
   }, [predictions]);
 
   const filtered = useMemo(() => {
-    if (activeCat === "Trending") {
+    if (activeCat === defaultCategory) {
       return [...predictions].sort((a, b) => b.yes + b.no - (a.yes + a.no));
     }
     return predictions.filter((p) => p.category === activeCat);
@@ -114,7 +115,7 @@ export default function Home() {
   }, [predictions]);
 
   const categoryChoices = useMemo(() => {
-    return cats.filter((c) => c !== "Trending");
+    return cats.filter((c) => c !== defaultCategory);
   }, [cats]);
 
   async function vote(id: string, side: "yes" | "no", stake: number) {
