@@ -144,6 +144,15 @@ export function sanitizeIcon(raw: string): string {
   if (trimmed.length === 0) {
     return "❓";
   }
+  const { Segmenter } = Intl as { Segmenter?: typeof Intl.Segmenter };
+  if (typeof Segmenter === "function") {
+    const segmenter = new Segmenter(undefined, { granularity: "grapheme" });
+    const iterator = segmenter.segment(trimmed)[Symbol.iterator]();
+    const first = iterator.next();
+    if (!first.done && first.value?.segment) {
+      return first.value.segment;
+    }
+  }
   const graphemes = Array.from(trimmed);
   return graphemes[0];
 }
