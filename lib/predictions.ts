@@ -125,7 +125,7 @@ export function createPrediction(
   const category = sanitizeCategory(input.category);
 
   return {
-    id: `${now}-${Math.random().toString(36).slice(2, 8)}`,
+    id: generatePredictionId(),
     question,
     icon,
     category,
@@ -133,6 +133,15 @@ export function createPrediction(
     no: DEFAULT_NEW_VOTE,
     createdAt: now,
   };
+}
+
+function generatePredictionId(): string {
+  if (typeof crypto !== "undefined" && typeof crypto.randomUUID === "function") {
+    return crypto.randomUUID();
+  }
+
+  // Fallback for environments where `crypto.randomUUID` is unavailable.
+  return `${Date.now().toString(36)}-${Math.random().toString(36).slice(2)}`;
 }
 
 export function sanitizeQuestion(raw: string): string {
