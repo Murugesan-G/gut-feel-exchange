@@ -1,36 +1,65 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Brutalist Predictions
+Live demo: https://prediction-app.pages.dev
 
-## Getting Started
+A mobile-first prediction voting app with chunky borders, loud colors, and weighted yes/no voting. The UI ships as a static Next.js export served from Cloudflare Pages, while Pages Functions talk to Cloudflare KV for shared prediction data. There is no client-side persistence (no `localStorage`, cookies, or IndexedDB).
 
-First, run the development server:
+## Features
+- Weighted voting with stake picks ($1 / $10 / $100 / custom)
+- “Trending” view (sorted by total votes) and category filters
+- Add your own predictions with an emoji icon and category
+- Cloudflare KV-backed persistence so every visitor sees the same list
+- Brutalist UI: big buttons, thick borders, playful colors
+
+## Tech Stack
+- Next.js 15 (App Router) exported statically to `out/`
+- React 19, TypeScript 5
+- Tailwind CSS v4 (via `@tailwindcss/postcss`) in `app/globals.css`
+- Cloudflare Pages + Pages Functions (Workers runtime with KV binding)
+
+## Quick Start
+Prereqs: Node.js LTS and npm.
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Visit http://localhost:3000.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Scripts
+- `npm run dev` — Start the dev server (Turbopack)
+- `npm run build` — Production static export to `out/`
+- `npm start` — Preview the build locally with Next.js
+- `npm run lint` — Lint with ESLint
+- `npm run cf:build` — Alias for `npm run build`
+- `npm run cf:deploy` — Build then `wrangler pages deploy ./out --project-name=prediction-app`
+- `npm run cf:seed` — Seed the Cloudflare KV namespace with starter predictions
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Project Structure
+- `app/page.tsx` — Main client component: UI, voting logic, add-prediction sheet
+- `app/layout.tsx` — App shell, metadata, font setup
+- `app/globals.css` — Tailwind v4 + brutalist theme helpers
+- `functions/` — Cloudflare Pages Functions powering `/api/predictions`
+- `lib/` — Shared domain helpers and data model
+- `public/` — Static assets
+- `next.config.ts`, `wrangler.toml` — App + deployment configuration
 
-## Learn More
+## Data Flow
+- Pages Functions expose `GET /api/predictions` and `POST /api/predictions/:id/vote`, persisting to the `PREDICTIONS_KV` namespace.
+- On first run, KV is seeded with playful predictions via `npm run cf:seed` (or automatically when missing).
+- The client fetches predictions on load, applies filtering, and keeps the last chosen stake only in memory for the current session (no browser storage).
 
-To learn more about Next.js, take a look at the following resources:
+## Deployment
+### Cloudflare Pages
+1. Ensure `wrangler.toml` contains your `PREDICTIONS_KV` namespace IDs.
+2. Run `npm run cf:seed` if deploying to a fresh namespace.
+3. Deploy with `npm run cf:deploy` (builds and runs `wrangler pages deploy ./out --project-name=prediction-app`).
+4. Configure the Pages project to use the `./out` directory and the `functions/` folder for backend routes.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Local Preview
+Use `wrangler pages dev ./out --kv PREDICTIONS_KV=<namespace-id>` after `npm run build` for an end-to-end preview with Functions.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Notes & Limitations
+- Static export means no Next.js SSR, ISR, Middleware, or built-in image optimization.
+- API traffic goes through Cloudflare Pages Functions; bind KV/Durable Objects in `wrangler.toml` as needed.
+- Suitable for workshops and demos; production hardening (auth, quotas, validation) remains to be done.
