@@ -24,6 +24,8 @@ const MAX_QUESTION_LENGTH = 120;
 const MAX_CATEGORY_LENGTH = 32;
 const DEFAULT_NEW_VOTE = 50;
 
+export const DEFAULT_CATEGORY = "Tech";
+
 const SEED_SOURCE = [
   {
     id: "tater-tots",
@@ -169,7 +171,7 @@ export function sanitizeIcon(raw: string): string {
 export function sanitizeCategory(raw: string): string {
   const trimmed = raw.trim();
   if (trimmed.length === 0) {
-    return "Misc";
+    return DEFAULT_CATEGORY;
   }
   return trimmed.slice(0, MAX_CATEGORY_LENGTH);
 }

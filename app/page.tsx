@@ -1,11 +1,12 @@
 "use client";
 
-import { DEFAULT_STAKE, Prediction } from "@/lib/predictions";
+import { DEFAULT_CATEGORY, DEFAULT_STAKE, Prediction } from "@/lib/predictions";
 import { createPrediction, fetchPredictions, voteOnPrediction } from "@/lib/predictions-api";
 import { useEffect, useMemo, useState } from "react";
 
 export default function Home() {
   const [predictions, setPredictions] = useState<Prediction[]>([]);
+  const fallbackCategory = DEFAULT_CATEGORY;
   const defaultCategory = "All";
   const [activeCat, setActiveCat] = useState<string>(defaultCategory);
   const [lastStake, setLastStake] = useState<number>(DEFAULT_STAKE);
@@ -61,8 +62,9 @@ export default function Home() {
   }, [predictions]);
 
   const categoryChoices = useMemo(() => {
-    return cats.filter((c) => c !== defaultCategory);
-  }, [cats]);
+    const base = cats.filter((c) => c !== defaultCategory);
+    return [fallbackCategory, ...base.filter((c) => c !== fallbackCategory)];
+  }, [cats, defaultCategory, fallbackCategory]);
 
   async function vote(id: string, side: "yes" | "no", stake: number) {
     try {
