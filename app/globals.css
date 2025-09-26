@@ -10,8 +10,9 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
+  --font-sans: var(--font-manrope);
   --font-mono: var(--font-geist-mono);
+  --font-display: var(--font-unbounded);
 }
 
 /* Ensure dark-mode preference renders identically to light mode */
@@ -25,7 +26,17 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans), ui-sans-serif, system-ui, -apple-system,
+    Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+}
+
+h1,
+h2,
+h3,
+.display,
+.brutal-modal-header h3 {
+  font-family: var(--font-display), var(--font-sans), ui-sans-serif, system-ui,
+    -apple-system, Segoe UI, Roboto, Helvetica, Arial;
 }
 
 /* --- Brutalist theme helpers --- */
