@@ -2,12 +2,12 @@
 
 import { JSON_HEADERS } from "../../../lib/constants";
 import type { CreatePredictionInput, PredictionsResponse } from "../../../types/prediction";
-import { addPrediction, Env, readStore } from "../../_lib/prediction-store";
+import { addPrediction, Env, readPredictions } from "../../_lib/prediction-store";
 
 export const onRequestGet: PagesFunction<Env> = async ({ env }) => {
   try {
-    const store = await readStore(env);
-    const body: PredictionsResponse = { predictions: store.predictions };
+    const predictions = await readPredictions(env);
+    const body: PredictionsResponse = { predictions };
     return new Response(JSON.stringify(body), {
       status: 200,
       headers: JSON_HEADERS,
@@ -42,8 +42,8 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
   }
 
   try {
-    const store = await addPrediction(env, parsed.value);
-    const body: PredictionsResponse = { predictions: store.predictions };
+    const predictions = await addPrediction(env, parsed.value);
+    const body: PredictionsResponse = { predictions };
     return new Response(JSON.stringify(body), {
       status: 201,
       headers: JSON_HEADERS,

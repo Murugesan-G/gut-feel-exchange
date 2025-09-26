@@ -1,8 +1,8 @@
 /// <reference types="@cloudflare/workers-types" />
 
-import { JSON_HEADERS } from "../../../../lib/constants";
-import type { PredictionsResponse, VoteBody } from "../../../../types/prediction";
-import { Env, PredictionNotFoundError, recordVote } from "../../../_lib/prediction-store";
+import { JSON_HEADERS } from "../../../../../lib/constants";
+import type { PredictionsResponse, VoteBody } from "../../../../../types/prediction";
+import { Env, PredictionNotFoundError, recordVote } from "../../../../_lib/prediction-store";
 
 type ParsedVoteBody =
   | { ok: true; value: VoteBody }
@@ -38,8 +38,8 @@ export const onRequestPost: PagesFunction<Env> = async ({ params, request, env }
   }
 
   try {
-    const store = await recordVote(env, { id, ...parsed.value });
-    const body: PredictionsResponse = { predictions: store.predictions };
+    const predictions = await recordVote(env, { id, ...parsed.value });
+    const body: PredictionsResponse = { predictions };
     return new Response(JSON.stringify(body), {
       status: 200,
       headers: JSON_HEADERS,

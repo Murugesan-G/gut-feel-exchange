@@ -3,8 +3,6 @@ pages_build_output_dir = "./out"
 compatibility_date = "2025-09-01"
 compatibility_flags = ["nodejs_compat", "global_fetch_strictly_public"]
 
-[vars]
-SEED_DATA_VERSION = "v1"
 
 [[kv_namespaces]]
 # Replace these placeholder IDs after running `npx wrangler kv namespace create PREDICTIONS_KV`

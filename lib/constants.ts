@@ -3,7 +3,7 @@ export const DEFAULT_STAKE = 10;
 export const PREDICTIONS_KV_KEY = "predictions/all";
 
 // Domain limits and defaults
-export const MAX_QUESTION_LENGTH = 120;
+export const MAX_QUESTION_LENGTH = 100;
 export const MAX_CATEGORY_LENGTH = 32;
 export const DEFAULT_NEW_VOTE = 50;
 export const MAX_PREDICTIONS = 500;
@@ -13,9 +13,6 @@ export const DEFAULT_ICON = "❓";
 // UI constants
 export const CATEGORY_ALL_LABEL = "All";
 export const STAKE_PRESET_OPTIONS = [1, 10, 100] as const;
-
-// Server-only (still safe to export; bundlers tree-shake unused exports)
-export const DEFAULT_SEED_DATA_VERSION = "v2";
 
 // Common response headers for JSON APIs
 export const JSON_HEADERS = {

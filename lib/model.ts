@@ -3,7 +3,6 @@ import {
   DEFAULT_ICON,
   DEFAULT_NEW_VOTE,
   MAX_CATEGORY_LENGTH,
-  MAX_PREDICTIONS,
   MAX_QUESTION_LENGTH,
   SEED_SOURCE,
 } from "@/lib/constants";
@@ -35,24 +34,6 @@ export function createPrediction(
     createdAt: now,
     updatedAt: now,
   };
-}
-
-export function normalizePredictionList(items: unknown): Prediction[] {
-  if (!Array.isArray(items)) {
-    return [];
-  }
-  return items
-    .map((item) => upgradeStoredPrediction(item))
-    .filter((item): item is Prediction => item !== null);
-}
-
-export function truncatePredictions(predictions: Prediction[]): Prediction[] {
-  if (predictions.length <= MAX_PREDICTIONS) {
-    return predictions;
-  }
-  return [...predictions]
-    .sort((a, b) => getOrderTimestamp(b) - getOrderTimestamp(a))
-    .slice(0, MAX_PREDICTIONS);
 }
 
 function sanitizeQuestion(raw: string): string {
@@ -90,49 +71,4 @@ function generatePredictionId(): string {
     return crypto.randomUUID();
   }
   return `${Date.now().toString(36)}-${Math.random().toString(36).slice(2)}`;
-}
-
-function upgradeStoredPrediction(value: unknown): Prediction | null {
-  if (typeof value !== "object" || value === null) {
-    return null;
-  }
-
-  const data = value as Record<string, unknown>;
-  const { id, question, icon, category, yes, no, createdAt } = data;
-  if (
-    typeof id !== "string" ||
-    typeof question !== "string" ||
-    typeof icon !== "string" ||
-    typeof category !== "string" ||
-    typeof yes !== "number" ||
-    typeof no !== "number" ||
-    typeof createdAt !== "number"
-  ) {
-    return null;
-  }
-
-  const timestamp = normalizeTimestamp(createdAt);
-  const updatedAt = typeof data.updatedAt === "number" ? normalizeTimestamp(data.updatedAt) : timestamp;
-
-  return {
-    id,
-    question: sanitizeQuestion(question),
-    icon: sanitizeIcon(icon),
-    category: sanitizeCategory(category),
-    yes,
-    no,
-    createdAt: timestamp,
-    updatedAt,
-  };
-}
-
-function normalizeTimestamp(raw: number): number {
-  if (!Number.isFinite(raw)) {
-    return Date.now();
-  }
-  return Math.max(0, Math.round(raw));
-}
-
-function getOrderTimestamp(prediction: Prediction): number {
-  return prediction.updatedAt ?? prediction.createdAt;
 }

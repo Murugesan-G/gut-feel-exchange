@@ -3,22 +3,18 @@ import { mkdtemp, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 
-import { DEFAULT_SEED_DATA_VERSION, PREDICTIONS_KV_KEY } from "../lib/constants";
+import { PREDICTIONS_KV_KEY } from "../lib/constants";
 import { buildSeedPredictions } from "../lib/model";
 
 async function run() {
   const { flags, envName } = parseArgs(process.argv.slice(2));
-  const version = process.env.SEED_DATA_VERSION ?? DEFAULT_SEED_DATA_VERSION;
 
-  const storePayload = {
-    version,
-    predictions: buildSeedPredictions(),
-  };
+  const predictions = buildSeedPredictions();
 
   const bulkEntries = [
     {
       key: PREDICTIONS_KV_KEY,
-      value: JSON.stringify(storePayload),
+      value: JSON.stringify(predictions),
     },
   ];
 
@@ -52,9 +48,7 @@ async function run() {
 
   await execute("npx", wranglerArgs);
 
-  console.log(
-    `Seeded ${storePayload.predictions.length} predictions to KV key ${PREDICTIONS_KV_KEY} (version ${version}).`,
-  );
+  console.log(`Seeded ${predictions.length} predictions to KV key ${PREDICTIONS_KV_KEY}.`);
 
   await rm(tempDir, { recursive: true, force: true });
 }

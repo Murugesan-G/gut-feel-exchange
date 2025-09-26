@@ -15,17 +15,9 @@ export type CreatePredictionInput = {
   category: string;
 };
 
-export type VoteInput = {
-  id: string;
+// API shapes
+export type PredictionsResponse = { predictions: Prediction[] };
+export type VoteBody = {
   side: "yes" | "no";
   stake: number;
 };
-
-export type PredictionStore = {
-  version: string;
-  predictions: Prediction[];
-};
-
-// API shapes
-export type PredictionsResponse = { predictions: Prediction[] };
-export type VoteBody = Omit<VoteInput, "id">;
