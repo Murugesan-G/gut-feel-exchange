@@ -47,14 +47,14 @@ export default function Home() {
     const set = new Set<string>([defaultCategory]);
     predictions.forEach((p) => set.add(p.category));
     return Array.from(set);
-  }, [predictions]);
+  }, [predictions, defaultCategory]);
 
   const filtered = useMemo(() => {
     if (activeCat === defaultCategory) {
       return [...predictions].sort((a, b) => b.yes + b.no - (a.yes + a.no));
     }
     return predictions.filter((p) => p.category === activeCat);
-  }, [predictions, activeCat]);
+  }, [predictions, activeCat, defaultCategory]);
 
   const iconChoices = useMemo(() => {
     const set = new Set<string>();
