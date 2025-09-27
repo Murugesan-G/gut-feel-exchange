@@ -1,5 +1,5 @@
-# Brutalist Predictions (Now With 1000% More Vibes)
-Live demo: https://prediction-app.pages.dev
+# Gut Feel Exchange (Now With 1000% More Vibes)
+Live demo: https://gut-feel-exchange.pages.dev
 
 A mobile-first prediction toy where you bet fake dollars on extremely serious questions like “Will the printer jam while the boss is watching?” The borders are thick. The colors are loud. The confidence is imaginary. The data lives in a communal cloud brain. What could possibly go wrong?
 
@@ -44,7 +44,7 @@ Local dev opens Next.js on http://localhost:3000 and proxies `/api/*` to Wrangle
 - `npm start` — Preview the production build locally.
 - `npm run lint` — Run ESLint; fix things before opening a PR.
 - `npm run cf:build` — Same as `npm run build`.
-- `npm run cf:deploy` — Build then `wrangler pages deploy ./out --project-name=prediction-app`.
+- `npm run cf:deploy` — Build then `wrangler pages deploy ./out --project-name=gut-feel-exchange`.
 - `npm run cf:seed` — Seed KV with some delightful nonsense.
 
 ## Project Map (Where Stuff Lives)

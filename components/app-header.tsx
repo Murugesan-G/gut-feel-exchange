@@ -16,7 +16,7 @@ export function AppHeader({ onAdd, disabled, categories, value, onChange }: AppH
   return (
     <header className="sticky top-0 z-10 bg-white brutal-card px-4 py-3">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-extrabold tracking-tight">PREDICTIONS</h1>
+        <h1 className="text-2xl font-extrabold tracking-tight">GUT FEEL EXCHANGE</h1>
         <Button
           type="button"
           className="brutal-btn bg-lime-300 px-3 py-2 font-bold h-auto rounded-none border-4 border-black shadow-[4px_4px_0_#000]"

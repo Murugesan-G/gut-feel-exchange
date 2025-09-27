@@ -1,5 +1,5 @@
 {
-  "name": "prediction-app",
+  "name": "gut-feel-exchange",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -10,7 +10,7 @@
     "start": "next start",
     "lint": "eslint",
     "cf:build": "npm run build",
-    "cf:deploy": "npm run build && npx wrangler pages deploy ./out --project-name=prediction-app",
+    "cf:deploy": "npm run build && npx wrangler pages deploy ./out --project-name=gut-feel-exchange",
     "cf:seed": "npx tsx scripts/seed-kv.ts"
   },
   "dependencies": {

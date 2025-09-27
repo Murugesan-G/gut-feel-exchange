@@ -6,8 +6,8 @@ const unbounded = Unbounded({ variable: "--font-unbounded", subsets: ["latin"] }
 const manrope = Manrope({ variable: "--font-manrope", subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Predictions",
-  description: "Mobile-first prediction voting app",
+  title: "Gut Feel Exchange",
+  description: "Mobile-first fake-money prediction exchange",
 };
 
 export const viewport: Viewport = {
