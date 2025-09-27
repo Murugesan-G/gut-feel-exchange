@@ -2,7 +2,7 @@
 
 # Gut Feel Exchange
 
-<img src="screenshot.png" alt="Gut Feel Exchange screenshot" width="900" />
+<img src="screenshot.png" alt="Gut Feel Exchange screenshot" width="600" />
 
 Fake money. Real confidence. Thicc borders. Thin evidence.
 
