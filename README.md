@@ -1,98 +1,66 @@
-# Gut Feel Exchange (Now With 1000% More Vibes)
+<div align="center">
+
+# Gut Feel Exchange
+
+<img src="screenshot.png" alt="Gut Feel Exchange screenshot" width="900" />
+
+Fake money. Real confidence. Thicc borders. Thin evidence.
+
 Live demo: https://gut-feel-exchange.pages.dev
 
-A mobile-first prediction toy where you bet fake dollars on extremely serious questions like “Will the printer jam while the boss is watching?” The borders are thick. The colors are loud. The confidence is imaginary. The data lives in a communal cloud brain. What could possibly go wrong?
+</div>
+
+## What is this?
+A mobile-first, vibes-based prediction exchange. Place pretend dollars on obviously serious questions like “Will the printer jam while the boss is watching?” Everyone shares the same list via a communal cloud brain. What could go wrong.
 
 No client storage is used (we ate all the cookies).
 
-## Features (Absurdly Honest Edition)
-- Weighted voting ($1 / $10 / $100 / custom) — because nothing says “statistical rigor” like integers and vibes.
-- “Trending” tab — sorted by total votes a.k.a. “people clicked this a lot”.
+## Features
+- Weighted votes: $1 / $10 / $100 / custom.
+- Trending by total clicks (“extremely scientific”).
 - Add your own predictions — one emoji per prediction to prevent emoji monopolies.
-- Cloudflare KV persistence — a shared chalkboard in the sky so everyone sees the same list.
-- Brutalist UI — borders so chunky they have their own gravity.
+- Brutalist UI — borders so chunky they should pay rent.
+- Cloudflare KV — one shared chalkboard for all.
 
-## Tech Stack (AKA The Ingredients)
-- Next.js 15 (App Router) with `output: "export"` → static site in `out/`.
-- React 19 + TypeScript 5 — modern enough to feel slightly dangerous.
-- Tailwind CSS v4 via `@tailwindcss/postcss` — see `app/globals.css` for brutalist helpers.
-- Cloudflare Pages + Pages Functions — API lives with the static site; data in KV.
+## Stack
+- Next.js 15 (App Router) → static export in `out/`.
+- React 19 + TypeScript 5.
+- Tailwind v4 (`app/globals.css` has brutalist helpers).
+- Cloudflare Pages + Pages Functions + KV.
 
-## How It Works (Tiny Tour)
-- UI ships as static files from Cloudflare Pages.
-- Pages Functions expose:
-  - `GET /api/predictions` — fetch every prediction.
-  - `POST /api/predictions` — add a new prediction (emoji, category, question).
-  - `POST /api/predictions/:id/vote` — record a vote with a stake.
-- Data is stored under the KV key `predictions/all` (see `types/prediction.ts`). New predictions start 50/50 to keep the peace.
-
-## Quick Start (3 Steps, Zero Drama)
-Prereqs: Node.js LTS and npm.
-
+## Quick Start
 ```bash
 npm install
 npm run dev
 ```
+Dev opens http://localhost:3000 and proxies `/api/*` to Wrangler on http://127.0.0.1:8788.
 
-Local dev opens Next.js on http://localhost:3000 and proxies `/api/*` to Wrangler Pages Functions on http://127.0.0.1:8788.
-
-## Scripts (Greatest Hits)
-- `npm run dev` — Start Next (3000) and Wrangler (8788) together; `/api/*` is proxied to Wrangler.
-  - `npm run dev:next` — Start only Next.js.
-  - `npm run dev:wrangler` — Start only Wrangler Pages dev.
-- `npm run build` — Produce static export into `out/`.
-- `npm start` — Preview the production build locally.
-- `npm run lint` — Run ESLint; fix things before opening a PR.
-- `npm run cf:build` — Same as `npm run build`.
-- `npm run cf:deploy` — Build then `wrangler pages deploy ./out --project-name=gut-feel-exchange`.
-- `npm run cf:seed` — Seed KV with some delightful nonsense.
-
-## Project Map (Where Stuff Lives)
-- `app/page.tsx` — UI, voting logic, “new prediction” sheet.
-- `app/layout.tsx` — Shell + metadata.
-- `app/globals.css` — Tailwind v4 + brutalist helpers (`.brutal-card`, `.brutal-btn`).
-- `functions/` — Cloudflare Pages Functions for `/api/predictions`.
-- `lib/` — Data model and utilities.
-- `public/` — Static assets.
-- `next.config.ts`, `wrangler.toml` — Build and deployment settings.
-
-## Cloudflare Setup (Deploy Without Tears)
-1. Create a KV namespace and bind it as `PREDICTIONS_KV` in `wrangler.toml`.
-   - Tip: `npx wrangler kv namespace create PREDICTIONS_KV`
-2. Optional but recommended: seed your namespace.
-   - `npm run cf:seed`
-3. Build and deploy to Pages.
-   - `npm run cf:deploy` → runs build, then `wrangler pages deploy ./out`.
-4. In the Pages project, set the build output directory to `./out` and point backend routes at `functions/`.
-
-### Local End‑to‑End Preview
-If you want to preview the static export exactly as deployed (without Next dev), build then run:
-
+Build/preview:
 ```bash
-wrangler pages dev ./out --kv PREDICTIONS_KV=<namespace-id>
+npm run build
+npm start
 ```
 
-## Notes & Limitations (Disclaimer Zone)
-- Static export only: no SSR/ISR/Middleware/Image Optimization. All beef, no server.
-- API requests go through Pages Functions; configure bindings in `wrangler.toml`.
-- This is a workshop/demo project. Production hardening (auth, quotas, input validation that scowls at you) is still pending.
+## Deploy (Cloudflare Pages)
+1) Create or bind a KV namespace as `PREDICTIONS_KV`.
+   - `npx wrangler kv namespace create PREDICTIONS_KV`
+2) Optional: seed it with sample nonsense.
+   - `npm run cf:seed`
+3) Deploy.
+   - `npm run cf:deploy` (runs export then `wrangler pages deploy ./out --project-name=gut-feel-exchange`)
 
-## FAQ (Frequently Anticipated Quibbles)
-- Is this gambling?
-  - No. It’s a vibes-based scoreboard with play money.
-- Why no login or persistent state?
-  - The client intentionally stores nothing. Each visit is a fresh start; it’s minimalist… or forgetful.
-- Why “Brutalist”?
-  - Because these borders will survive the heat death of the universe.
-- Dark mode?
-  - Light mode only, but the borders are basically sunglasses.
+Static export only. No SSR/ISR. All beef, no server.
 
-## Contributing (Bring Your Own Jokes)
-- Use Conventional Commits: `feat(app): add stake picker`.
-- Run `npm run lint` and keep diffs focused.
-- Keep components client-side unless obviously static.
-- Don’t ship secrets to the client; configure Cloudflare bindings instead. No `.env*` files in git, pretty please.
+## API (you’ll barely need it)
+- `GET /api/predictions` — list predictions.
+- `POST /api/predictions` — add one `{ question, icon, category }`.
+- `POST /api/predictions/:id/vote` — `{ side: "yes"|"no", stake }`.
+Data lives under KV key `predictions/all`. New items start at 50/50 to keep the peace.
 
-## License & Safety
-- No real money. No financial advice. Predict responsibly.
+## Contributing
+- Conventional Commits please (e.g., `feat(app): add stake picker`).
+- `npm run lint` before PRs. Keep diffs tidy. Bring jokes.
+
+## Safety
+- Not gambling. Not money. Predict responsibly.
 - License: if absent, assume “look but don’t sue”; otherwise see `LICENSE`.
