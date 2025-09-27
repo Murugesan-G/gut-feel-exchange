@@ -3,7 +3,7 @@ Live demo: https://prediction-app.pages.dev
 
 A mobile-first prediction toy where you bet fake dollars on extremely serious questions like “Will the printer jam while the boss is watching?” The borders are thick. The colors are loud. The confidence is imaginary. The data lives in a communal cloud brain. What could possibly go wrong?
 
-No client storage is used (we ate all the cookies). Your “last stake” lives only in memory until refresh, like a goldfish with a to-do list.
+No client storage is used (we ate all the cookies).
 
 ## Features (Absurdly Honest Edition)
 - Weighted voting ($1 / $10 / $100 / custom) — because nothing says “statistical rigor” like integers and vibes.

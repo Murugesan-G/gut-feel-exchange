@@ -10,6 +10,49 @@ export const MAX_PREDICTIONS = 500;
 export const DEFAULT_CATEGORY = "Tech";
 export const DEFAULT_ICON = "❓";
 
+// Predefined selections shared across client and server
+export const ICON_CHOICES = [
+  "❓",
+  "🤖",
+  "🚀",
+  "📈",
+  "🎯",
+  "💡",
+  "🛰️",
+  "🧠",
+  "📊",
+  "🏆",
+  "🌧️",
+  "🔥",
+  "🎉",
+  "🥔",
+  "🐿️",
+  "☕",
+  "🍝",
+  "📶",
+  "🖨️",
+  "🦅",
+  "🐈",
+] as const;
+
+export const CATEGORY_CHOICES = [
+  "Tech",
+  "Office",
+  "Food",
+  "Outdoors",
+  "Home",
+  "Sports",
+  "Entertainment",
+  "Weather",
+  "Finance",
+  "Science",
+  "Travel",
+  "Culture",
+] as const;
+
+export type IconChoice = (typeof ICON_CHOICES)[number];
+export type CategoryChoice = (typeof CATEGORY_CHOICES)[number];
+
 // UI constants
 export const CATEGORY_ALL_LABEL = "All";
 export const STAKE_PRESET_OPTIONS = [1, 10, 100] as const;

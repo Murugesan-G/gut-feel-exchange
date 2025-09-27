@@ -1,10 +1,14 @@
 import {
+  CATEGORY_CHOICES,
   DEFAULT_CATEGORY,
   DEFAULT_ICON,
   DEFAULT_NEW_VOTE,
+  ICON_CHOICES,
   MAX_CATEGORY_LENGTH,
   MAX_QUESTION_LENGTH,
   SEED_SOURCE,
+  type CategoryChoice,
+  type IconChoice,
 } from "@/lib/constants";
 import type { CreatePredictionInput, Prediction } from "@/types/prediction";
 
@@ -40,22 +44,40 @@ function sanitizeQuestion(raw: string): string {
   return raw.trim().slice(0, MAX_QUESTION_LENGTH);
 }
 
+const ICON_SET = new Set<string>(ICON_CHOICES);
+const CATEGORY_SET = new Set<string>(CATEGORY_CHOICES);
+
+function isIconChoice(value: string): value is IconChoice {
+  return ICON_SET.has(value);
+}
+
+function isCategoryChoice(value: string): value is CategoryChoice {
+  return CATEGORY_SET.has(value);
+}
+
 function sanitizeIcon(raw: string): string {
   const trimmed = raw.trim();
   if (trimmed.length === 0) {
     return DEFAULT_ICON;
   }
+  let candidate: string | undefined;
   const { Segmenter } = Intl as { Segmenter?: typeof Intl.Segmenter };
   if (typeof Segmenter === "function") {
     const segmenter = new Segmenter(undefined, { granularity: "grapheme" });
     const iterator = segmenter.segment(trimmed)[Symbol.iterator]();
     const first = iterator.next();
     if (!first.done && first.value?.segment) {
-      return first.value.segment;
+      candidate = first.value.segment;
     }
   }
-  const graphemes = Array.from(trimmed);
-  return graphemes[0];
+  if (!candidate) {
+    const graphemes = Array.from(trimmed);
+    candidate = graphemes[0];
+  }
+  if (!candidate) {
+    return DEFAULT_ICON;
+  }
+  return isIconChoice(candidate) ? candidate : DEFAULT_ICON;
 }
 
 function sanitizeCategory(raw: string): string {
@@ -63,7 +85,8 @@ function sanitizeCategory(raw: string): string {
   if (trimmed.length === 0) {
     return DEFAULT_CATEGORY;
   }
-  return trimmed.slice(0, MAX_CATEGORY_LENGTH);
+  const candidate = trimmed.slice(0, MAX_CATEGORY_LENGTH);
+  return isCategoryChoice(candidate) ? candidate : DEFAULT_CATEGORY;
 }
 
 function generatePredictionId(): string {

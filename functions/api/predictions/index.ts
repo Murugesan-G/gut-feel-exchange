@@ -1,6 +1,12 @@
 /// <reference types="@cloudflare/workers-types" />
 
-import { JSON_HEADERS } from "../../../lib/constants";
+import {
+  CATEGORY_CHOICES,
+  ICON_CHOICES,
+  JSON_HEADERS,
+  type CategoryChoice,
+  type IconChoice,
+} from "../../../lib/constants";
 import type { CreatePredictionInput, PredictionsResponse } from "../../../types/prediction";
 import { addPrediction, Env, readPredictions } from "../../_lib/prediction-store";
 
@@ -61,6 +67,17 @@ type ParsedPayload =
   | { ok: true; value: CreatePredictionInput }
   | { ok: false; error: string };
 
+const ICON_SET = new Set<string>(ICON_CHOICES);
+const CATEGORY_SET = new Set<string>(CATEGORY_CHOICES);
+
+function isIconChoice(value: string): value is IconChoice {
+  return ICON_SET.has(value);
+}
+
+function isCategoryChoice(value: string): value is CategoryChoice {
+  return CATEGORY_SET.has(value);
+}
+
 function parseCreatePayload(input: unknown): ParsedPayload {
   if (typeof input !== "object" || input === null) {
     return { ok: false, error: "Body must be an object" };
@@ -69,21 +86,30 @@ function parseCreatePayload(input: unknown): ParsedPayload {
   const question = typeof data.question === "string" ? data.question : "";
   const icon = typeof data.icon === "string" ? data.icon : "";
   const category = typeof data.category === "string" ? data.category : "";
-  if (!question.trim()) {
+  const trimmedQuestion = question.trim();
+  const trimmedIcon = icon.trim();
+  const trimmedCategory = category.trim();
+  if (!trimmedQuestion) {
     return { ok: false, error: "Question is required" };
   }
-  if (!icon.trim()) {
+  if (!trimmedIcon) {
     return { ok: false, error: "Icon is required" };
   }
-  if (!category.trim()) {
+  if (!isIconChoice(trimmedIcon)) {
+    return { ok: false, error: "Icon selection is invalid" };
+  }
+  if (!trimmedCategory) {
     return { ok: false, error: "Category is required" };
+  }
+  if (!isCategoryChoice(trimmedCategory)) {
+    return { ok: false, error: "Category selection is invalid" };
   }
   return {
     ok: true,
     value: {
-      question,
-      icon,
-      category,
+      question: trimmedQuestion,
+      icon: trimmedIcon,
+      category: trimmedCategory,
     },
   };
 }
