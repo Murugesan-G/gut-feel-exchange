@@ -1,0 +1,140 @@
+﻿@model IEnumerable<NTCYApplication.Models.Users.Users_in_Role_Model>
+
+@{
+    ViewBag.Title="Users With Roles";
+    Layout="~/Views/Shared/_Layout.cshtml";
+
+}
+
+
+<div id="mySidenav" class="col-xs-4 col-sm-4 col-md-2 col-lg-2 sidenav">
+
+    @Html.Partial("_left_admin_submenu")
+</div>
+
+
+<div class="col-xs-8 col-sm-8 col-md-10 col-lg-10 main">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 page-title-outer">
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 page-title">Users with Roles</div>
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 page-title-btn">
+
+            <a href="@Url.Action("Register", "Account")" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Back">
+                <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
+            </a>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 workarea-outer">
+
+
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 scrolling-area" style="height: 565px;">
+
+
+
+            @using (Html.BeginForm("Edit", "ManageUsers", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+            {
+
+                if (ViewBag.Sucessmessage!=null&&ViewBag.Sucessmessage!="")
+                {
+                    <div class="alert-success">
+                        <p>ViewBag.Sucessmessage</p>
+                    </div>
+                }
+
+                <input type="hidden" name="hf_email" id="hf_email" />
+                <input type="hidden" name="hf_username" id="hf_username" />
+
+
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 table-title">List of Users with Roles</div>
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 table-responsive  " style="height: 515px;overflow: auto;">
+
+                    <table class="table blk-thm-table table-condensed" id="UsersWithRoles">
+                        <thead>
+                            <tr>
+                                <th><b>UserName</b></th>
+                                <th><b>Email</b></th>
+                                <th><b>Roles</b></th>
+                                <th><b>Action</b></th>
+                            </tr>
+                        </thead>
+                        @foreach (var user in Model)
+            {
+                            <tr>
+                                <td id="Name">@user.Username</td>
+                                <td>@user.Email</td>
+                                <td>@user.Role</td>
+                                <td>
+                                    <button type="submit" class="btn btn-primary btn-sm" value="Edit" onclick="setParams('@user.Email','@user.Username');"><span class="glyphicon glyphicon-pencil"></span></button>
+                                    @*@Html.ActionLink("Delete", "Delete", new { id = user.UserId }, new { onclick = "return confirm('Are you sure?');" })*@
+                                    <button type="button" class="btn btn-primary btn-sm" value="Delete" id="btn_Delete">
+                                        <span class="glyphicon glyphicon-trash"></span>
+                                    </button>
+                                </td>
+
+                            </tr>
+            }
+                    </table>
+
+                    <p class="box-title"><b>Total Users till @String.Format("{0 : dddd, MMMM d, yyyy}", DateTime.Now)  : </b><span class="label label-primary">@Model.Count()</span></p>
+                </div>
+
+
+                 
+                     
+                
+
+                    }
+
+
+        </div>
+    </div>
+</div>
+
+    @section scripts{
+        <script>
+
+        function setParams(hEmail, hUserName)
+        {
+            $('#hf_email').val(hEmail);
+            $('#hf_username').val(hUserName);
+
+            return true;
+        }
+
+        $(function () {
+            $('#UsersWithRoles').DataTable({
+                "paging": true,
+                "lengthChange": true,
+                "searching": true,
+                "ordering": true,
+                "info": true,
+                "autoWidth": true
+            });
+        });
+
+
+        $("#UsersWithRoles").on("click", "#btn_Delete",function (){
+            //debugger;
+               var currentRow = $(this).closest("tr");
+               var col1_value = currentRow.find("td:eq(0)").text();
+               $.ajax({
+
+                   url: '../ManageUsers/DeleteUser',
+                   type: 'POST',
+                   cache: false,
+                   data: JSON.stringify({'Uname': col1_value }),
+                   contentType: 'application/json; charset=utf-8',
+                   datatype: 'json',
+                   success: function (data) {
+                       location.reload();
+                   },
+
+               });
+
+
+
+            })
+
+
+
+        </script>
+    }

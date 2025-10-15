@@ -1,0 +1,147 @@
+﻿@using System.Data
+@using NTCYApplication.Models.Stocks
+@{
+    ViewBag.Title = "ViewAllStockAdjustment";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#Table1').DataTable({
+            initComplete: function () {
+                this.api().columns().every(function () {
+                    var column = this;
+                    var select = $('<select><option value=""></option></select>')
+                        .appendTo($(column.footer()).empty())
+                        .on('change', function () {
+                            var val = $.fn.dataTable.util.escapeRegex(
+                                $(this).val()
+                            );
+                            //to select and search from grid
+                            column
+                                .search(val ? '^' + val + '$' : '', true, false)
+                                .draw();
+                        });
+
+                    column.data().unique().sort().each(function (d, j) {
+                        select.append('<option value="' + d + '">' + d + '</option>')
+                    });
+                });
+            }
+        });
+    });
+</script>
+
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 main">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 page-title-outer">
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 page-title">View All Stock Adjustment</div>
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 page-title-btn">
+
+            <a href="@Url.Action("AddStockAdjustment", "StockAdjustment")" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="View">
+                <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
+            </a>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 workarea-outer">
+
+
+
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 scrolling-area">
+            @*<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 search-area">
+                <div class="col-xs-12 col-sm-6 col-md-2 col-lg-2 label-right">
+                    Search by
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-2 col-lg-2 textbox-area">
+                    <input type="text" maxlength="20" placeholder="Enter Grn No" id="GrnNo" class="blckthm-form-control" style="font-size:13px" onkeyup="myFunction()">
+                </div>
+
+                @*<div class="col-xs-12 col-sm-6 col-md-2 col-lg-2 textbox-area">
+                        <button type="button" value="Search" class="btn btn-primary" id="Search"><span class="glyphicon glyphicon-search"></span></button>
+                    </div>*@
+            @*</div>*@
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 table-title"> List of Stock Adjustment </div>
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 table-responsive" id="disptable" style="height: 510px;overflow: auto;">
+                <table id="Table1" class="table blk-thm-table table-condensed">
+                    <thead>
+                        <tr>
+                            <th style="display:none">Stock Id</th>
+                            <th>Grn No </th>
+                            <th>Liquor name</th>
+                            <th>Date</th>
+                            @*<th>Current Stock Bottles</th>
+                            <th>Current Stock Pegs</th>*@
+                            <th>Bottle Quantity</th>
+                            <th>Peg Quantity</th>
+                            <th>Add_Sub</th>
+                            <th>Bottle Amount </th>
+                            <th>Peg Amount</th>
+                            <th>Remarks</th>
+                            @*<th>Amount</th>*@
+                           
+                        </tr>
+                    </thead>
+
+                    <tbody id="Searching">
+                      
+                            @{
+                                if (ViewData["StockAdjustmentList"] != null)
+                                {
+                                    if (ViewData.Values != null && ViewData.Values.Count() > 0)
+                                    {
+                                        foreach (var Model in ViewBag.StockAdjustmentList as List<StockAdjustment>)
+                                        {
+                                        <tr>    
+                                            <td style="display:none">@Model.StockId</td>
+                                            <td>@Model.GrnNo</td>
+                                            <td>@Model.LiquorName</td>
+                                            <td>@Model.Date.ToString("dd/MM/yyyy")</td>
+                                            <td>@Model.Qty_Bottles</td>
+                                            <td>@Model.Qty_Pegs</td>
+                                            @*<td>@Model.CurrentStockBottles</td>
+                                            <td>@Model.CurrentStockPegs</td>*@
+                                            <td>@Model.Flag</td>
+                                            <td>@Model.BottleAmount</td>
+                                            <td>@Model.PegAmount</td> 
+                                            <td>@Model.Remarks</td>    
+                                            @*<td><button type="button" id="Edit_Button" class="btn-sm btn-primary" data-toggle="modal" data-target="#myModal" data-backdrop="static">Edit</button></td>*@
+                                        </tr>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <tr>
+                                            <td>
+                                                @ViewBag.message
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                            }
+                        </tbody>
+                </table>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+@*<script>
+    function myFunction() {
+        //debugger;
+        var input, filter, table, tr, td, i;
+        input = document.getElementById("GrnNo");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("Table1");
+        tr = table.getElementsByTagName("tr");
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[1];
+            if (td) {
+                if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    }
+
+</script>*@

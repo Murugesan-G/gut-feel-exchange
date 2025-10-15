@@ -1,0 +1,331 @@
+﻿
+@{
+    ViewBag.Title="CreateClub";
+    Layout="~/Views/Shared/_Layout.cshtml";
+}
+<div id="mySidenav" class="col-xs-4 col-sm-4 col-md-2 col-lg-2 sidenav">
+
+    @Html.Partial("_left_admin_submenu")
+</div>
+
+
+
+<div class="col-xs-8 col-sm-8 col-md-10 col-lg-10 main">
+
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 page-title-outer">
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 page-title">Club Master</div>
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 page-title-btn">
+
+            <a href="@Url.Action("ViewClubDetails", "Club")" class="btn btn-primary" title="View" @*data-toggle="tooltip" data-placement="bottom"*@>
+
+                <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
+            </a>
+        </div>
+    </div>
+
+
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 workarea-outer">
+      
+
+        @using (Html.BeginForm("CreateClub", "Club", new { @class = "beginform-outer" }, FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 scrolling-area">
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 form-outer">
+                    @Html.Hidden("Clubid", ViewData["clubid"], new { @id = "Clubid" })
+                  <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 bold-label-left">
+                        Club Name
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-8 textbox-area">
+                        @Html.TextBox("clubname", ViewData["clubname"], new {@maxlength="20",@class = "blckthm-form-control", @id = "clubname" })
+
+
+                    </div>
+                  <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 bold-label-left">
+                        Address
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-8 textbox-area">
+                        @Html.TextArea("Address", new {@maxlength="150", @class = "blckthm-form-control", @id = "Address" })
+
+                    </div>
+                  <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 bold-label-left">
+                        Registration
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-8 textbox-area">
+                        @Html.TextBox("registration", ViewData["registration"], new { @maxlength = "20", @class = "blckthm-form-control", @id = "registration" })
+
+                    </div>
+                  <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 bold-label-left">
+                        Liquor license
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-8 textbox-area">
+                        @Html.TextBox("liquorlicense", ViewData["liquorlicense"], new { @maxlength = "20", @class = "blckthm-form-control", @id = "liquorlicense" })
+
+                    </div>
+                  <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 bold-label-left">
+                        Restaurant License
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-8 textbox-area">
+                        @Html.TextBox("restaurantLicense", ViewData["restaurantLicense"], new { @maxlength = "20", @class = "blckthm-form-control", @id = "restaurantLicense" })
+
+                    </div>
+                  <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 bold-label-left">
+                        GST No
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-8 textbox-area">
+                        @Html.TextBox("gst", ViewData["gst"], new { @maxlength = "20", @class = "blckthm-form-control", @id = "gst" })
+
+                    </div>
+                  <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 bold-label-left">
+                        PAN No
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-8 textbox-area">
+                        @Html.TextBox("pan", ViewData["pan"], new { @maxlength = "15", @class = "blckthm-form-control", @id = "pan" })
+
+                    </div>
+                  <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 bold-label-left">
+                        TAN No
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-8 textbox-area">
+                        @Html.TextBox("tan", ViewData["tan"], new { @maxlength = "20", @class = "blckthm-form-control", @id = "tan" })
+                    </div>
+                </div>
+
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 form-outer">
+                  <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 bold-label-left">
+                        Mobile Number
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-8 textbox-area">
+                        @Html.TextBox("mobile", ViewData["mobile"], new { @maxlength = "15", @class = "blckthm-form-control", @id = "mobile" })
+                        <span id="errmsgMobNo"></span>
+                    </div>
+                  <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 bold-label-left">
+                        Contact Person
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-8 textbox-area">
+                        @Html.TextBox("contactPerson", ViewData["contactPerson"], new { @maxlength = "20", @class = "blckthm-form-control", @id = "contactPerson" })
+
+                    </div>
+                  <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 bold-label-left">
+                        Phone Number
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-8 textbox-area">
+                        @Html.TextBox("phone", ViewData["phone"], new { @maxlength = "15", @class = "blckthm-form-control", @id = "phone" })
+                        <span id="errmsgPhoneNo"></span>
+                    </div>
+                  <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 bold-label-left">
+                        Email ID
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-8 textbox-area">
+                        @Html.TextBox("email", ViewData["email"], new { @maxlength = "20", @class = "blckthm-form-control", @id = "email" })
+
+                    </div>
+                  <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 bold-label-left">
+                        Amenities
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-8 textbox-area">
+                        @Html.TextBox("amenities", ViewData["amenities"], new { @maxlength = "50", @class = "blckthm-form-control", @id = "amenities" })
+
+                    </div>
+                  <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 bold-label-left">
+                        About The Club
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-8 textbox-area">
+                        @Html.TextBox("about", ViewData["about"], new { @maxlength = "50", @class = "blckthm-form-control", @id = "about" })
+
+                    </div>
+                  <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 bold-label-left">
+                        Date Of Incorporation
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-8 textbox-area">
+                        @Html.TextBox("doi", ViewData["doi"], new
+                   { @*@readonly = "readonly",*@ @maxlength = "10",
+                       @class = "blckthm-form-control",
+                       @id = "doi"
+                   })
+
+                    </div>
+                    @*<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 textbox-area input-group date" id='datetimepicker1'>
+                            @Html.TextBox("doi", ViewData["doi"], new {@readonly="readonly", @class = "blckthm-form-control", @id = "doi" })
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-calendar"></span>
+                            </span>
+                        </div>*@
+                    @*<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 bold-label-left">
+                            Logo
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-8 textbox-area">
+                            @Html.TextBox("logo", ViewData["logo"], new { @class = "blckthm-form-control", @id = "logo" })
+
+                        </div>*@
+                    @*<div class='input-group date' id='datetimepicker1'>
+                            <input type='text' class="blckthm-form-control" />
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-calendar"></span>
+                            </span>
+                        </div>*@
+
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 action-outer">
+                @*@Html.ActionLink("Submit", "Club_master", "Admin", null, new { @class = "btn btn-primary  " })*@
+                @*<input type="submit" value="@ViewBag.submit" class="btn btn-primary" id="Btn_Submit" />*@
+                <button type="submit" value="@ViewBag.submit" class="btn btn-primary" id="Btn_Submit" data-toggle="tooltip" title="Save">
+                    <span class="glyphicon glyphicon-floppy-save"> </span>
+                </button>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 label-area">
+                @ViewBag.message
+                @ViewBag.innerEx
+            </div>
+        }
+    </div>
+
+
+
+</div>
+
+
+
+
+<script type="text/javascript">
+    $(function () {
+        $('#doi').datetimepicker({
+            format: 'DD/MM/YYYY',
+            ignoreReadonly: true
+        });
+    });
+</script>
+
+
+@*<script type="text/javascript" src="scripts/jquery.datePicker.js"></script>*@
+
+
+<script>
+    //$('#doi').datepicker({
+    //    format: 'dd/mm/yyyy'
+    //});
+    //$(document).ready(function () {
+    //    $("#doi").datepicker();
+    //});
+
+
+
+
+    $(document).ready(function () {
+        
+        $("#doi").val("@ViewData["doi"]")
+
+        $("#phone").keypress(function (e) {
+            if ((e.which >= 58 && e.which <= 126) || (e.which >= 33 && e.which <= 42) ||
+                (e.which >= 44 && e.which <= 47)) {
+                $('#errmsgPhoneNo').css('color', 'red');
+                $("#errmsgPhoneNo").html("Invalid Data").show().fadeOut("slow");
+                return false;
+            }
+        })
+        $("#mobile").keypress(function (e) {
+            if ((e.which >= 58 && e.which <= 126) || (e.which >= 33 && e.which <= 42) ||
+                (e.which >= 44 && e.which <= 47)) {
+                $('#errmsgMobNo').css('color', 'red');
+                $("#errmsgMobNo").html("Invalid Data").show().fadeOut("slow");
+                return false;
+            }
+        })
+        $("#email").keypress(function (e) {
+            if (e.which == 32) {
+
+                return false;
+            }
+        })
+
+        $('#Btn_Submit').click(function () {
+
+
+            if ($('#clubname').val() == '' || $('#clubname').val() == "") {
+                alert('Club Name field is required !!!');
+                $('#clubname').focus();
+                return false;
+            }
+            else if ($('#address').val() == '' || $('#address').val() == "") {
+                alert('Address field is required !!!');
+                $('#address').focus();
+                return false;
+            }
+            else if ($('#registration').val() == '' || $('#registration').val() == "") {
+                alert('Registration Number field is required !!!');
+                $('#registration').focus();
+                return false;
+            }
+            else if ($('#liquorlicense').val() == '' || $('#liquorlicense').val() == "") {
+                alert('Liquor License field is required !!!');
+                $('#liquorlicense').focus();
+                return false;
+            }
+            else if ($('#restaurantLicense').val() == '' || $('#restaurantLicense').val() == "") {
+                alert('Restaurant License field is required !!!');
+                $('#restaurantLicense').focus();
+                return false;
+            }
+            else if ($('#gst').val() == '' || $('#gst').val() == "") {
+                alert('GST field is required !!!');
+                $('#gst').focus();
+                return false;
+            }
+            else if ($('#pan').val() == '' || $('#pan').val() == "") {
+                alert('PAN field is required !!!');
+                $('#pan').focus();
+                return false;
+            }
+            else if ($('#tan').val() == '' || $('#tan').val() == "") {
+                alert('TAN field is required !!!');
+                $('#tan').focus();
+                return false;
+            }
+            else if ($('#mobile').val() == '' || $('#mobile').val() == "") {
+                alert('Mobile Number field is required !!!');
+                $('#mobile').focus();
+                return false;
+            }
+            else if ($('#contactPerson').val() == '' || $('#contactPerson').val() == "") {
+                alert('Contact Person field is required !!!');
+                $('#contactPerson').focus();
+                return false;
+            }
+            else if ($('#phone').val() == '' || $('#phone').val() == "") {
+                alert('Phone field is required !!!');
+                $('#phone').focus();
+                return false;
+            }
+            else if ($('#email').val() == '' || $('#email').val() == "") {
+                alert('EmailId field is required !!!');
+                $('#email').focus();
+                return false;
+            }
+            else if ($('#amenities').val() == '' || $('#amenities').val() == "") {
+                alert('Amenities field is required !!!');
+                $('#amenities').focus();
+                return false;
+            }
+            else if ($('#about').val() == '' || $('#about').val() == "") {
+                alert('About field is required !!!');
+                $('#about').focus();
+                return false;
+            }
+            else if ($('#doi').val() == '' || $('#doi').val() == "") {
+                alert('Date Of Incorporation field is required !!!');
+                $('#doi').focus();
+                return false;
+            }
+            return true;
+
+        })
+        $("#doi").keypress(function (e) {
+            if (e.which <= 47 || e.which >= 58) {
+                return false;
+            }
+        })
+
+    });
+</script>

@@ -1,0 +1,104 @@
+﻿@model NTCYApplication.Models.Users.RegisterViewModel
+@{
+    ViewBag.Title="Register User";
+    Layout="~/Views/Shared/_Layout.cshtml";
+}
+<script src="@Url.Content("~/Scripts/ex/jquery.validate.min.js")"></script>
+<script src="@Url.Content("~/Scripts/ex/jquery.validate.unobtrusive.min.js")"></script>
+
+
+<div id="mySidenav" class="col-xs-4 col-sm-4 col-md-2 col-lg-2 sidenav">
+
+    @Html.Partial("_left_admin_submenu")
+</div>
+
+
+<div class="col-xs-8 col-sm-8 col-md-10 col-lg-10 main">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 page-title-outer">
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 page-title ui-widget">Register User</div>
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 page-title-btn">
+
+            <a href="@Url.Action("UsersWithRoles", "ManageUsers")" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="View Users">
+                <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
+            </a>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 workarea-outer">
+
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 scrolling-area">
+            @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+            {
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 form-outer">
+
+                    @Html.AntiForgeryToken()
+
+                    <h5 style="color:#808080">Enter your details below</h5>
+                    @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+
+
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 label-right ui-widget">
+                        Email
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 textbox-area">
+                        @Html.TextBoxFor(m => m.Email, new { @class = "blckthm-form-control", placeholder = "Email" })
+                        @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                    </div>
+
+
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 label-right ui-widget">
+                        User Name
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 textbox-area">
+                        @Html.TextBoxFor(m => m.UserName, new { @class = "blckthm-form-control", placeholder = "User Name" })
+                        @Html.ValidationMessageFor(m => m.UserName, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 label-right ui-widget">
+                        Password
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 textbox-area">
+                        @Html.PasswordFor(m => m.Password, new { @class = "blckthm-form-control", placeholder = "Password" })
+                        @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 label-right ui-widget">
+                        Confirm Password
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 textbox-area">
+                        @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "blckthm-form-control", placeholder = "Confirm Password" })
+                        @Html.ValidationMessageFor(m => m.ConfirmPassword, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 label-right ui-widget">
+                        UserRoles
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 textbox-area">
+                        @Html.DropDownList("UserRoles", (SelectList)ViewBag.Name, new { @class = "blckthm-form-control", placeholder = "UserRoles" })
+                    </div>
+
+
+
+                    @ViewBag.messageEx
+                    @ViewBag.messageInner
+
+
+
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 action-outer">
+                    @*<input type="submit" class="btn btn-primary glyphicon glyphicon-apple"  value="Register" />*@
+                    <button type="submit" class="btn btn-primary" id="Btn_Submit" data-toggle="tooltip" title="Register">
+                        <span class="fa fa-id-card-o"> </span>
+                    </button>
+                </div>
+            }
+        </div>
+
+
+    </div>
+</div>
+
+
+
+
+@*@section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+    }*@
+

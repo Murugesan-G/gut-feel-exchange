@@ -1,0 +1,1139 @@
+﻿@using NTCYApplication.Models.FrontOffice
+@{
+    ViewBag.Title="BillPay";
+    Layout="~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .tab {
+        overflow: hidden;
+        border: 1px solid #ccc;
+        background-color: #f1f1f1;
+        border-radius: 10px 10px 0px 0px;
+    }
+
+        /* Style the buttons inside the tab */
+        .tab button {
+            background-color: inherit;
+            float: left;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            padding: 14px 16px;
+            transition: 0.3s;
+            font-size: 17px;
+        }
+
+            /* Change background color of buttons on hover */
+            .tab button:hover {
+                background-color: #ddd;
+            }
+
+            /* Create an active/current tablink class */
+            .tab button.active {
+                background-color: #ffc107;
+            }
+
+    /* Style the tab content */
+    .tabcontent {
+        display: none;
+        padding: 6px 12px;
+        border: 1px solid #ccc;
+        border-top: none;
+        border-radius: 0px 0px 10px 10px;
+        height: auto;
+    }
+
+  .panel{
+        border: 3px solid transparent !important;
+}
+    .panel-group .panel {
+        margin-bottom: 0;
+        border-radius: 4px;
+           border-color: #deebf1;
+        margin-top: 7px;
+    }
+
+    .panel-default > .panel-heading {
+        color: #333;
+        background-color: #deebf1;
+        border-color: #d9d8f0;
+    }
+
+    .panel-title {
+        margin-top: 0;
+        margin-bottom: 0;
+        font-size: 16px;
+        color: inherit;
+        font-weight: bold;
+    }
+</style>
+<head>
+
+</head>
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 main">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 page-title-outer">
+        <div id="DivTitle" class="col-xs-6 col-sm-6 col-md-6 col-lg-6 page-title">Showing Detailed Bill for Membership No - <span id="MNo">@ViewBag.MemberNo</span></div>
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 page-title-btn">
+            <a href="@Url.Action("BillHistory", "FrontOffice")" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Back">
+
+                <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
+            </a>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 workarea-outer">
+
+
+
+
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 scrolling-area">
+
+            <div id="ConsolidatedBillDiv" class="col-xs-12 col-sm-12 col-md-12 col-lg-12 table-title"><b>Consolidated Bill for Membership No - @ViewBag.MemberNo </b></div>
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 table-responsive" id="disptable">
+                <table id="ConTable" class="table blk-thm-table table-condensed">
+                    <thead>
+                        <tr>
+                            <th>Membership No</th>
+                            <th>Member Name</th>
+                            <th>Date</th>
+                            <th>Amount</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="Searching">
+                        <tr>
+                            <td>@ViewBag.MemberNo</td>
+                            <td>@ViewBag.MemberName</td>
+                            <td>@ViewBag.Date</td>
+                            <td>@ViewBag.Amount</td>
+                            <td>@ViewBag.Status</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="clearfix"></div>
+
+            @*&&&&&&Collapse&&&&&&&&&&&*@
+
+            <div class="panel-group" id="accordion">
+                @*&&&&&&& Food Bill &&&&&*@
+                <div id="food_bill">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">
+                                    Food Order Bill
+                                </a>
+                            </h4>
+                        </div>
+                        <div id="collapse1" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                <table id="FoodMainTable" class="table blk-thm-table table-condensed">
+                                    <tbody id="Searching">
+                                        <tr>
+                                            <td>Membership No : @ViewBag.MemberNo</td>
+                                            <td>BillNo: <span id="FoodBillNo">@ViewBag.OrderId</span></td>
+                                            <td>
+                                                @*<Button Value="Paid" class="btn-sm btn-primary" id="FoodPaid" data-toggle="modal" data-target="#myModal" data-backdrop="static" data-keyboard="false" onclick="myfunction(this)"><span id="Name1">PAY</span></Button>*@
+
+                                            </td>
+                                            <td>
+                                                <Button Value="Paid" title="Print this Bill" class="btn btn-primary" id="FoodPrint"><span class="fa fa-print"></span></Button>
+                                            </td>@*onclick="location.href='@Url.Action("BillPay", "FrontOffice")';return false;"*@
+                                        </tr>
+                                    </tbody>
+
+                                </table>
+                                <div class="clearfix"></div>
+
+                                <div class="clearfix"></div>
+                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 table-responsive">
+                                    <table id="FoodTable" class="table blk-thm-table table-condensed">
+                                        <thead>
+                                            <tr>
+                                                <th style="text-align:right;">Items</th>
+                                                <th style="text-align:right;">Date</th>
+                                                <th style="text-align:right;">Qty</th>
+                                                <th style="text-align:right;">Price</th>
+                                                <th style="text-align:right;">GST</th>
+                                                <th style="text-align:right;">Total</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @{
+                                                if (ViewData["FoodList"]!=null)
+                                                {
+                                                    if (ViewData.Values!=null&&ViewData.Values.Count()>0)
+                                                    {
+                                                        foreach (var Model in ViewBag.FoodList as List<FrontOfficePayment>)
+                                                        {
+                                                            <tr>
+                                                                <td style="text-align:right;">@Model.Items</td>
+                                                                <td style="text-align:right;">@Model.BillDate.ToString("dd/MM/yyyy")</td>
+                                                                <td style="text-align:right;">@Model.Qty</td>
+                                                                <td style="text-align:right;">@Model.TotalAmount</td>
+                                                                <td style="text-align:right;">@Model.GST</td>
+                                                                <td style="text-align:right;"></td>
+                                                            </tr>
+
+                                                        }
+                                                        <tr style="font-weight: bold;
+                                                          background-color: #337ab7;
+                                                             color: #fff;">
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td style="text-align:right;">
+                                                                Total Qty:
+                                                                <span id="FoodQty"> </span>
+                                                            </td>
+                                                            <td style="text-align:right;">Total Price: <p class="fa fa-inr"> </p><span id="FoodTotalPrice"></span></td>
+                                                            <td style="text-align:right;">Total GST: <p class="fa fa-inr"> </p><span id="FoodGST"></span></td>
+                                                            <td style="text-align:right;">Total Amount: <p class="fa fa-inr"> </p> <span id="TotalAmount"> </span></td>
+
+                                                        </tr>
+                                                    }
+                                                }
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                                @*<div class="clearfix"></div>*@
+                                @*<div class="col-xs-6 col-sm-6 col-md-4 col-lg-4 label-left">
+                            <b>GST: </b><p class="fa fa-inr"> </p><span id="FoodGST"></span>
+                        </div>*@
+                                <div class="clearfix"></div>
+                                @*<div class="col-xs-6 col-sm-6 col-md-4 col-lg-4 label-left">
+                                    <b>Total Amount: </b><p class="fa fa-inr"> </p> <span id="TotalAmount"> </span>
+                                </div>*@
+                                <div class="clearfix"></div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+
+                @*&&&&&&& Liquor Order Bill &&&&&*@
+                <div id="Liquor_order_bill">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a data-toggle="collapse" data-parent="#accordion" href="#collapse2">
+                                    Liquor Order Bill
+                                </a>
+                            </h4>
+                        </div>
+                        <div id="collapse2" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                <table id="LiquorMainTable" class="table blk-thm-table table-condensed">
+                                    <tbody>
+                                        <tr>
+                                            <td>Membership No : @ViewBag.MemberNo</td>
+                                            <td>BillNo : <span id="LiquorBillNo">@ViewBag.OrderId1</span></td>
+                                            <td>
+                                                @*<Button Value="Paid" class="btn-sm btn-primary" id="LiquorPaid" data-toggle="modal" data-target="#myModal" data-backdrop="static" data-keyboard="false" onclick="myfunction(this)"><span id="Name2">PAY</span></Button>*@
+                                            </td>
+                                            <td>
+                                                <Button Value="Print" title="Print this Bill" class="btn btn-primary" id="LiquorPrint" @*onclick="location.href='@Url.Action("BillPay", "FrontOffice")';return false;"*@><span class="fa fa-print"></span></Button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+
+                                </table>
+                                <div class="clearfix"></div>
+                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 table-responsive">
+
+                                    <div class="clearfix"></div>
+                                    <table id="LiquorTable" class="table blk-thm-table table-condensed" style="text-align:right;">
+                                        <thead>
+                                            <tr>
+                                                <th style="text-align:right;">Items</th>
+                                                <th style="text-align:right;">Date</th>
+                                                <th style="text-align:right;">Qty</th>
+                                                <th style="text-align:right;">Price</th>
+                                                <th style="text-align:right;">GST</th>
+                                                <th style="text-align:right;">Total</th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+                                            @{
+                                                if (ViewData["LiquorList"]!=null)
+                                                {
+                                                    if (ViewData.Values!=null&&ViewData.Values.Count()>0)
+                                                    {
+                                                        foreach (var Model in ViewBag.LiquorList as List<FrontOfficePayment>)
+                                                        {
+                                                            <tr>
+                                                                <td style="text-align:right;">@Model.LiquorName</td>
+                                                                <td style="text-align:right;">@Model.BillDate.ToString("dd/MM/yyyy")</td>
+                                                                <td style="text-align:right;">@Model.Qty</td>
+                                                                <td style="text-align:right;">@Model.TotalAmount</td>
+                                                                <td style="text-align:right;">@Model.GST</td>
+                                                                <td style="text-align:right;"><span id="LiquorRowTotal"> </span></td>
+
+                                                            </tr>
+
+                                                        }
+                                                        <tr style="font-weight: bold;
+                                                                background-color: #337ab7;
+                                                                color: #fff;">
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td style="text-align:right;">
+                                                                Total Qty:
+                                                                <span id="LiquorQty"></span>
+                                                            </td>
+                                                            <td style="text-align:right;">
+                                                                Total Price: <p class="fa fa-inr"></p>
+                                                                <span id="LiquorTotal"> </span>
+                                                            </td>
+                                                            <td style="text-align:right;">Total GST: <p class="fa fa-inr"></p> <span id="LiquorGST"> </span></td>
+                                                            <td style="text-align:right;">Total Amount: <p class="fa fa-inr"> </p> <span id="LiquorTotalAmount"> </span></td>
+
+                                                        </tr>
+                                                    }
+                                                }
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                                @*<p style="text-align:center;color:tomato">@ViewBag.message</p>*@
+                                @*<div class="clearfix"></div>
+                                    <div class="col-xs-6 col-sm-6 col-md-4 col-lg-4 label-left">
+                                        <b> GST : </b><p class="fa fa-inr"> </p><span id="LiquorGST"></span>
+                                    </div>*@
+                                <div class="clearfix"></div>
+                                @*<div class="col-xs-6 col-sm-6 col-md-4 col-lg-4 label-left">
+                                    <b> Total Amount: </b><p class="fa fa-inr"> </p><span id="LiquorTotalAmount"></span>
+                                </div>*@
+                                <div class="clearfix"></div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                @*&&&&&&& Other Services Bill &&&&&*@
+                <div id="Other_Services_bill">
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a data-toggle="collapse" data-parent="#accordion" href="#collapse3">
+                                    Other Services Bill
+                                </a>
+                            </h4>
+                        </div>
+                        <div id="collapse3" class="panel-collapse collapse">
+                            <div class="panel-body">
+
+                                <table id="ServicesTable" class="table blk-thm-table table-condensed">
+                                    <tbody id="Searching">
+                                        <tr>
+                                            <td>Membership No : @ViewBag.MemberNo</td>
+                                            <td>Bill No:@ViewBag.OrderId1 </td>                                           
+                                            <td>
+                                                <Button Value="Paid" class="btn-sm btn-primary" id="ServicesPrint"><span class="fa fa-print"></span></Button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div class="clearfix"></div>
+
+                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 table-responsive">
+                                    <table id="Table1" class="table blk-thm-table table-condensed" style="text-align:right;">
+                                        <thead>
+                                            <tr>
+                                                <th style="text-align:right;">Services</th>
+                                                <th style="text-align:right;">Status</th>
+                                                <th style="text-align:right;"></th>
+                                                <th style="text-align:right;">Amount</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="Searching">
+                                           
+                                            @{
+                                                if (ViewData["OtherServicesList"] != null)
+                                                {
+                                                    if (ViewData.Values != null && ViewData.Values.Count() > 0)
+                                                    {
+                                                        foreach (var Model in ViewBag.OtherServicesList as List<FrontOfficePayment>)
+                                                        {
+                                                            <tr>
+                                                                <td style="text-align:right;">@Model.Items</td>
+                                                                <td style="text-align:right;">@Model.Status</td>
+                                                                <td></td>
+                                                                <td style="text-align:right;">@Model.TotalAmount</td>
+
+
+                                                            </tr>
+
+                                                        }
+                                                        <tr style="font-weight: bold;
+                                                          background-color: #337ab7;
+                                                             color: #fff;">
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td></td>
+
+                                                            <td style="text-align:right;">Total Amount: <p class="fa fa-inr"> </p>    <span id="ServicesTotalAmount"> </span></td>
+
+                                                        </tr>
+                                                    }
+                                                }
+                                            }
+                                          
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="clearfix"></div>
+                                <div class="col-xs-6 col-sm-6 col-md-4 col-lg-4 label-left">
+                                    <b></b>
+                                </div>
+                                <div class="clearfix"></div>
+                                <div class="col-xs-6 col-sm-6 col-md-4 col-lg-4 label-left">
+                                    <b> </b>
+                                </div>
+
+                                <div class="clearfix"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                @*&&&&&&& Subscribtion Bill &&&&&*@
+                <div id="Subscription_bill">
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a data-toggle="collapse" data-parent="#accordion" href="#collapse4">
+                                    Subscription Bill
+                                </a>
+                            </h4>
+                        </div>
+                        <div id="collapse4" class="panel-collapse collapse">
+                            <div class="panel-body">
+
+                                <table id="SubMainTable" class="table blk-thm-table table-condensed">
+                                    <tbody id="Searching">
+                                        <tr>
+                                            <td>Membership No : @ViewBag.MemberNo</td>
+
+                                            <td>
+                                                @*<Button Value="Paid" class="btn-sm btn-primary" id="SubscriptionPaid" data-toggle="modal" data-target="#myModal" data-backdrop="static" data-keyboard="false" onclick="myfunction(this)"><span id="Name3">PAY</span></Button>*@
+                                            </td>
+                                            <td>
+                                                <Button Value="Paid" class="btn-sm btn-primary" id="SubscriptionPrint" ><span class="fa fa-print"></span></Button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                                <div class="clearfix"></div>
+                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 table-responsive">
+                                    <table id="SubscriptionTable" class="table blk-thm-table table-condensed">
+                                        <thead>
+                                            <tr>
+                                                <th>Membership Type</th>
+
+                                                <th>Amount</th>
+                                                <th>Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @{
+                                                if (ViewData["SubscriptionList"]!=null)
+                                                {
+                                                    if (ViewData.Values!=null&&ViewData.Values.Count()>0)
+                                                    {
+                                                        foreach (var Model in ViewBag.SubscriptionList as List<FrontOfficePayment>)
+                                                        {
+                                                            <tr>
+                                                                <td>@Model.MembershipType</td>
+
+                                                                <td id="Amt">@Model.SubscriptionAmountPaid</td>
+                                                                <td>@Model.Status</td>
+                                                            </tr>
+
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="clearfix"></div>
+                                <div class="col-xs-6 col-sm-6 col-md-4 col-lg-4 label-left">
+                                </div>
+                                <div class="clearfix"></div>
+                                <div class="col-xs-6 col-sm-6 col-md-4 col-lg-4 label-left">
+                                </div>
+
+                                <div class="clearfix"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>            </div>
+
+
+
+
+            @*&&&&&&&&&&&&&&&&&&&&*@@*&&&&&&&&&&&&&&&&&&&&*@@*&&&&&&&&&&&&&&&&&&&&*@@*&&&&&&&&&&&&&&&&&&&&*@
+            <div id="Print" class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                <table id="PrintTable" style="border:1px solid black;border-collapse:collapse">
+                    <thead>
+                        <tr>
+                            <th><img style="padding-left:10px" height="80px" width="80px" src="~/Images/hdlogo-01.png" alt="NTCY Logo" /></th>
+                            <th colspan="5" style="vertical-align:middle;text-align:center">
+                                NEW TOWN CLUB, Yelahanka (R)<br />
+                                CA-22/D,I Main Road,Yelahanka New Town<br />
+                                BANGALORE - 64 Ph: 28460688<br />
+                                GST: 29AADAT7494B1Z6<br />
+                                <b>CASH BILL</b>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+
+            </div>
+            @*&&&&&&&&&&&&&&&&&&&&*@@*&&&&&&&&&&&&&&&&&&&&*@@*&&&&&&&&&&&&&&&&&&&&*@@*&&&&&&&&&&&&&&&&&&&&*@
+
+
+        </div>
+    </div>
+</div>
+@*////////////////////////////////////////////////////////////////////////////////////////////////////*@
+
+
+<script>
+    $(document).ready(function () {
+        $("#Print").hide();
+        $("#Flag").hide();
+///////////////Food Table Calc/////////////////////////////////////////////////////////////////
+        var columnAmount = 4;
+        var columnTax = 5;
+        var columnQty=3;
+        var tot = 0;
+        var tot1 = 0;
+        var tot2 = 0;
+        var temptot2=0;
+        var temptot=0;
+        var temptot1 = 0;
+
+        $("#FoodTable > tbody > tr").not(':last').each(function () {
+            //debugger;
+            cRow = $(this).closest("tr");
+            pricetemp = cRow.find("td:eq(3)").html();
+            gsttemp = cRow.find("td:eq(4)").html();
+            cRow.find("td:eq(5)").html(parseFloat(pricetemp) + parseFloat(gsttemp));
+        })
+        $("#LiquorTable > tbody > tr").not(':last').each(function () {
+            //debugger;
+            cRow = $(this).closest("tr");
+            pricetemp = cRow.find("td:eq(3)").html();
+            gsttemp = cRow.find("td:eq(4)").html();
+            cRow.find("td:eq(5)").html(parseFloat(pricetemp) + parseFloat(gsttemp));
+        })
+
+
+
+
+        //Food Total GST calculation
+        $("#FoodTable").find("tr").children("td:nth-child(" + columnTax + ")")
+        .each(function () {
+            //debugger;
+            $this = $(this);
+            if (!$this.hasClass("sum") && $this.html() != "") {
+                temptot += parseFloat($this.html());
+                if(!(isNaN(temptot))){
+                    tot=temptot;
+                }
+
+            }
+        }
+
+        )
+        $("#FoodGST").html(" " + tot);
+
+
+        $("#FoodTable").find("tr").children("td:nth-child(" + columnAmount + ")")
+          .each(function () {
+              //debugger;
+              $this = $(this);
+              if (!$this.hasClass("sum1") && $this.html() != "") {
+                  temptot1 += parseFloat($this.html());
+                  if(!(isNaN(temptot1))){
+                      tot1=temptot1;
+                  }
+              }
+          });
+        $("#FoodTotalPrice").html(" " + tot1);
+        $("#TotalAmount").html(tot+tot1);
+
+        $("#FoodTable").find("tr").children("td:nth-child(" + columnQty + ")")
+          .each(function () {
+              //debugger;
+              $this = $(this);
+              if (!$this.hasClass("sum1") && $this.html() != "") {
+                  temptot2 += parseFloat($this.html());
+                  if(!(isNaN(temptot2))){
+                      tot2=temptot2;
+                  }
+              }
+          });
+
+        $("#FoodQty").html(tot2);
+
+
+//////////////Liquor Table Calc//////////////////////////////////////////////////////////////////
+        var LcolumnAmount = 4;
+        var LcolumnTax = 5;
+        var LcolumnQty=3;
+        var Ltemptot=0;
+        var Ltot=0;
+        var Ltemptot1=0;
+        var Ltot1=0;
+        var Ltemptot2 = 0;
+        var Ltot2 = 0;
+
+        $("#LiquorTable").find("tr").children("td:nth-child(" + LcolumnTax + ")")
+       .each(function () {
+           //debugger;
+           $this = $(this);
+           if (!$this.hasClass("sum") && $this.html() != "") {
+               Ltemptot += parseFloat($this.html());
+               if (!(isNaN(Ltemptot))) {
+                   Ltot = Ltemptot;
+               }
+
+           }
+       }
+
+       )
+        $("#LiquorGST").html(" " + Ltot);
+
+        $("#LiquorTable").find("tr").children("td:nth-child(" + LcolumnQty + ")")
+      .each(function () {
+      
+          $this = $(this);
+          if (!$this.hasClass("sum1") && $this.html() != "") {
+              Ltemptot2 += parseFloat($this.html());
+              if(!(isNaN(Ltemptot2))){
+                  Ltot2=Ltemptot2;
+              }
+          }
+      });
+
+        $("#LiquorQty").html(Ltot2);
+
+        $("#LiquorTable").find("tr").children("td:nth-child(" + LcolumnAmount + ")")
+       .each(function () {
+           //debugger;
+           $this = $(this);
+           if (!$this.hasClass("sum1") && $this.html() != "") {
+               Ltemptot1 += parseFloat($this.html());
+               if(!(isNaN(Ltemptot1))){
+                   Ltot1=Ltemptot1;
+               }
+           }
+       });
+        $("#LiquorTotal").html(" " + Ltot1);
+        $("#LiquorTotalAmount").html(" " + Ltot1);
+
+        if ($("#FoodTable > tbody > tr").length == 0) {
+            $('#FoodPaid').hide();
+            $('#FoodPrint').hide();
+        }
+
+        if ($("#LiquorTable > tbody > tr").length == 0) {
+            $('#LiquorPaid').hide();
+            $('#LiquorPrint').hide();
+
+        }
+
+
+//////////////Subscription Table////////////////////////////////////////////////////////////////////
+        ScolumnStatus = 3;
+
+        if ($("#SubscriptionTable > tbody > tr").length == 0) {
+            // debugger;
+            $("#SubscriptionPaid").hide();
+            $('#SubscriptionPrint').hide();
+        }
+
+       
+
+        ////////////////////Other Services////////////////////////////////////////////////////////////////
+        var xyz = 4;
+        var servAmount = 0;
+        var servtemp = 0;
+
+        $("#collapse3 #Table1 tbody").find("tr").children("td:nth-child(" + xyz + ")")
+    .each(function () {
+        //debugger;
+        $this = $(this);
+
+        servAmount += parseFloat($this.html());
+        if (!(isNaN(servAmount))) {
+            servtemp = servAmount;
+        }
+
+    });
+        $("#ServicesTotalAmount").html(servtemp);
+
+
+    
+
+        if ($("#Table1 > tbody > tr").length == 0) {
+            //debugger;
+            $("#ServicesPaid").hide();
+            $('#ServicesPrint').hide();
+        }
+
+
+    })
+
+</script>
+
+
+
+<script>
+    //debugger;
+    var d = new Date();
+    var t = new Date(Date.now());
+    var str = t.getHours() + ":" + t.getMinutes() + ":" + t.getSeconds();
+    var strDate = d.getDate() + "/" + (d.getMonth() + 1) + "/" + d.getFullYear();
+
+    $("#FoodPrint").click(function () {
+        //$("#Liquor_order_bill").hide();
+        //$("#Subscription_bill").hide();
+        //$("#Other_Services_bill").hide();
+        //$("#ConsolidatedBillDiv").hide();
+        //$("#disptable").hide();
+        //$(".page-title-btn").hide();
+        //window.print();
+        //$("#Liquor_order_bill").show();
+        //$("#Subscription_bill").show();
+        //$("#Other_Services_bill").show();
+        //$("#disptable").show();
+        //$("#ConsolidatedBillDiv").show();
+        //$(".page-title-btn").show();
+   
+            //debugger;
+            var x = 0;
+
+
+            var markup1 = "<tr style='font-weight:bold;border:1px solid black'><td>" + "Date" + "</td><td id='tdDate'></td>" +
+            "<td colspan='2'></td><td>" + "Bill No" + "</td><td align='center' id='tdBillNo'></td></tr><tr style='font-weight:bold;border:1px solid black'><td>" +
+            "Member" + "</td><td colspan='5' align='left' id='tdMembershipNo'></td></tr>" + "<tr><td>W.Name</td><td align='left' colspan='5'>" +
+            "</td></tr>" +
+            "<tr style='font-weight:bold;border:1px solid black'><td>" +
+            "No" + "</td><td align='left'>" + "Item Name" +
+            "</td><td align='left'>" + "Qty" +
+            "</td><td align='right'>" + "Price" + "</td><td align='right'>" + "GST" + "</td><td align='right'>" + "Amt" +
+            "</td></tr>";
+            $("#PrintTable tbody").append(markup1);
+
+
+
+
+            var mName = $("#ConTable tbody tr td:eq(1)").html();
+
+            $("#Print #PrintTable tbody tr #tdDate").html(strDate + " " + str);
+           // $("#Print #PrintTable tbody tr #tdDate").html(strDate);
+            $("#Print #PrintTable tbody tr #tdMembershipNo").html($("#MNo").html() + " - " + mName);
+            $("#Print #PrintTable tbody tr #tdBillNo").html(($("#FoodMainTable tbody #FoodBillNo").html()));
+
+
+            $("#collapse1 #FoodTable tbody tr").not(':last').each(function () {
+
+                var CRow = $(this);
+                var items = CRow.find("td:eq(0)").html();
+                var qty = CRow.find("td:eq(2)").html();
+                var price = CRow.find("td:eq(3)").html();
+                var gst = CRow.find("td:eq(4)").html();
+                var amount = CRow.find("td:eq(5)").html();
+                var markup2 = "<tr><td>" + (x = x + 1) + "</td><td>" + items + "</td><td>" + qty + "</td><td align='right'>" + price + "</td><td align='right'>" + gst + "</td><td align='right'>" + amount + "</td></tr>";
+                $("#PrintTable tbody").append(markup2);
+            })
+
+            var subTotal = $('#collapse1 #FoodTable tbody tr:last #FoodTotalPrice').html();
+            var subGST = $('#collapse1 #FoodTable tbody tr:last #FoodGST').html();
+            var subAmt = $('#collapse1 #FoodTable tbody tr:last #TotalAmount').html();
+            var cGST = parseFloat(subGST / 2);
+            var markup3 = "<tr style='font-weight:bold;border:1px solid black'></td><td colspan='3' align='right'>" +
+           "</td><td align='right'>" + subTotal + "</td><td align='right'>" + subGST + "</td><td align='right'>" +
+           subAmt + "</td></tr>" + "<tr><td colspan='4' align='right'>" + "CGST : </td><td align='right'> " +
+           cGST + "</td><td></td></tr><tr><td colspan='4' align='right'>" + "SGST : </td><td align='right'> " +
+           cGST + "</td><td></td></tr>" +
+           "<tr style='border-bottom:1px solid black;border-top:1px solid black;'><td colspan='5' align='right'>" +
+           "Net Amount" + "</td><td align='right'><p><b>Rs. " + subAmt + "</b></p></td></tr>" + "<tr><td>" +
+           "Member's Sign" + "</td><td colspan='4'></td><td>" + "Authorised signatory" +
+           "</td></tr><tr><td colspan='6' align='left'>" + mName + "</td></tr><tr><td colspan='6' align='center'>" + "No CREDIT - Terms Cash - Thank you Visit Again" +
+           "</td></tr>";
+
+            $("#PrintTable tbody").append(markup3);
+
+
+            $("#Print").show();
+            $("#DivTitle").hide();
+            $("#food_bill").hide();
+            $("#Liquor_order_bill").hide();
+            $("#Subscription_bill").hide();
+            $("#Other_Services_bill").hide();
+            $("#ConsolidatedBillDiv").hide();
+            $("#disptable").hide();
+            $(".page-title-btn").hide();
+            var divText = document.getElementById("Print").outerHTML;
+            var printWin = window.open();
+            printWin.document.write(divText);
+            printWin.document.close();
+            printWin.focus();
+            printWin.print();
+            printWin.close();
+            $("#Print").hide();
+            $("#PrintTable tbody").empty();
+            $("#Liquor_order_bill").show();
+            $("#Subscription_bill").show();
+            $("#Other_Services_bill").show();
+            $("#disptable").show();
+            $("#ConsolidatedBillDiv").show();
+            $(".page-title-btn").show();
+            $("#food_bill").show();
+            $("#DivTitle").show();
+        });
+////////////////////////////////////////////////////////////////////////////////////////
+
+    $("#LiquorPrint").click(function () {
+        //debugger;
+        var x = 0;
+        var wt = 0;
+        var watertax = 0;
+        var mt = 0;
+        var mixturetax = 0;
+        var st = 0;
+        var sodatax = 0;
+
+        var markup = "<tr style='font-weight:bold;border:1px solid black'><td width='50px'>" + "Date" + "</td><td id='tdDate'></td>" +
+                   "<td colspan='2'></td><td>" + "Bill No" + "</td><td align='center' id='tdBillNo'></td></tr><tr style='font-weight:bold;border:1px solid black'><td>" +
+                   "Member" + "</td><td colspan='5' align='left' id='tdMembershipNo'></td></tr>" +
+                   "<tr><td>W.Name" + "</td><td colspan='5' align='left'></tr>" +
+                   "<tr style='font-weight:bold;border:1px solid black'><td align='center'>" + "No" +
+                   "</td><td>" + "Item Name" +
+                   "</td><td align='center'>" + "Qty" + "</td><td align='right'>" + "Price" + "</td><td align='right'>" + "GST" +
+                   "</td><td align='right'>" + "Amt" + "</td></tr>";
+        $("#PrintTable tbody").append(markup);
+
+
+        var mName = $("#ConTable tbody tr td:eq(1)").html();
+
+        $("#Print #PrintTable tbody tr #tdDate").html(strDate + " " + str);
+        $("#Print #PrintTable tbody tr #tdMembershipNo").html($("#MNo").html() + " - " + mName);
+        $("#Print #PrintTable tbody tr #tdBillNo").html(($("#LiquorMainTable tbody #LiquorBillNo").html()));
+
+
+        $("#collapse2 #LiquorTable tbody tr").not(':last').each(function () {
+
+            var CRow = $(this);
+            var item1 = CRow.find("td:eq(0)").html();
+            if (item1.toUpperCase() == 'WATER') {
+                wt = CRow.find("td:eq(4)").html();
+                watertax = parseFloat(watertax) + parseFloat(wt / 2);
+            }
+            else { watertax = "0.00"; }
+
+            if (item1.toUpperCase() == 'MIXTURE') {
+                mt = CRow.find("td:eq(4)").html();
+                mixturetax = parseFloat(mixturetax) + parseFloat(mt / 2);
+            }
+            else { mixturetax = "0.00"; }
+
+            if (item1.toUpperCase() == 'SODA' || item1.toUpperCase() == 'SOFTDRINKS' || item1.toUpperCase() == 'SOFT DRINKS') {
+                st = CRow.find("td:eq(4)").html();
+                sodatax = parseFloat(sodatax) + parseFloat(st / 2);
+            }
+            else { sodatax = "0.00"; }
+
+            var items = CRow.find("td:eq(0)").html();
+            var qty = CRow.find("td:eq(2)").html();
+            var price = CRow.find("td:eq(3)").html();
+            var gst = CRow.find("td:eq(4)").html();
+            var amount = CRow.find("td:eq(5)").html();
+            var markup2 = "<tr><td>" + (x = x + 1) + "</td><td>" + items + "</td><td>" + qty + "</td><td align='right'>" + price + "</td><td align='right'>" + gst + "</td><td align='right'>" + amount + "</td></tr>";
+            $("#PrintTable tbody").append(markup2);
+        })
+
+        var subTotal = $('#collapse2 #LiquorTable tbody tr:last #LiquorTotal').html();
+        var subGST = $('#collapse2 #LiquorTable tbody tr:last #LiquorGST').html();
+        var subAmt = $('#collapse2 #LiquorTable tbody tr:last #LiquorTotalAmount').html();
+        var cGST = parseFloat(subGST / 2);
+        var markup3 = "<tr style='font-weight:bold;border:1px solid black'><td colspan='3' align='right'>Sub Total Rs. " +
+           "</td><td align='right'><p><b>" + subTotal + " </b></p></td>" + "</td><td align='right'>" +
+           " <p class='fa fa-inr'> <b>" + subGST + "</b></p></td><td align='right'>" + "<p class='fa fa-inr'> <b>" +
+           subAmt + "</b></p></td></tr>" + "<tr><td colspan='5' align='right'>" + "CGST  </td><td align='right'>" +
+            "SGST</td></tr><tr><td align='left' colspan='4'>Soda&Cola- 14% each</td><td align='right'>" + sodatax +
+            "</td><td align='right'>" + sodatax + "</td></tr><tr><td align='left' colspan='4'>Water- 9% each</td>" +
+            "<td align='right'>" + watertax + "</td><td align='right'>" + watertax +
+            "</td></tr><tr><td align='left' colspan='4'>Mixture- 6% each</td><td align='right'>" + mixturetax +
+            "</td><td align='right'>" + mixturetax + "</td></tr>" +
+            "<tr style='border-bottom:2px solid black;border-top:2px solid black;'><td colspan='5' align='right'>" +
+           "Net Amount" + "</td><td align='right' style='font-size:20px'><p><b>Rs. " + subAmt + "</b></p></td></tr>" +
+           "<tr><td colspan='2'>" +
+           "Member's Sign" + "</td><td colspan='3'></td><td>" + "Authorised signatory" +
+           "</td></tr><tr><td colspan='6' align='left'>" + mName + "</tr><tr><td colspan='6' align='center'>" + "No CREDIT - Terms Cash - Thank you Visit Again" + "</td></tr>";
+
+        $("#PrintTable tbody").append(markup3);
+
+        $("#Print").show();
+        $("#Liquor_order_bill").hide();
+        $("#food_bill").hide();
+        $("#Subscription_bill").hide();
+        $("#Other_Services_bill").hide();
+        $("#ConsolidatedBillDiv").hide();
+        $("#disptable").hide();
+        $(".page-title-btn").hide();
+        $("#DivTitle").hide();
+
+        var divText = document.getElementById("Print").outerHTML;
+        var printWin = window.open();
+        printWin.document.write(divText);
+        printWin.document.close();
+        printWin.focus();
+        printWin.print();
+        printWin.close();
+        $("#Print").hide();
+        $("#PrintTable tbody").empty();
+        $("#food_bill").show();
+        $("#Subscription_bill").show();
+        $("#Other_Services_bill").show();
+        $("#disptable").show();
+        $("#ConsolidatedBillDiv").show();
+        $(".page-title-btn").show();
+        $("#Liquor_order_bill").show();
+        $("#DivTitle").show();
+
+    });
+    ///////////////////////////////////////////////////////////////////////////////////
+    $("#ServicesPrint").click(function () {
+        //debugger;
+        var x = 0;
+
+        var markup1 = "<tr  style='font-weight:bold;border:1px solid black'><td>" + "Date" +
+                 "</td><td id='tdDate'></td>" + "<td colspan='2'></td><td>" + "Bill No" +
+                 "</td><td id='tdBillNo'></td></tr><tr  style='font-weight:bold;border:1px solid black'><td>" +
+                 "Member" + "</td><td id='tdMembershipNo' colspan='5' align='left'></td>" +
+                 "</tr><tr  style='font-weight:bold;border:1px solid black'><td colspan='3'></td>" +
+                 "<td>" + "No" + "</td><td align='center'>" + "Item Name" + "</td><td align='right'>" + "Amt" +
+                 "</td></tr>";
+        $("#PrintTable tbody").append(markup1);
+
+
+        var mName = $("#ConTable tbody tr td:eq(1)").html();
+
+        $("#Print #PrintTable tbody tr #tdDate").html(strDate + " " + str);
+        $("#Print #PrintTable tbody tr #tdMembershipNo").html($("#MNo").html() + " - " + mName);
+        $("#collapse3 #Table1 tbody tr").not(':last').each(function () {
+
+            var CRow = $(this);
+            var items = CRow.find("td:eq(0)").html();
+            var price = CRow.find("td:eq(3)").html();
+
+            var markup2 = "<tr><td colspan='3'></td><td>" + (x = x + 1) + "</td><td align='center'>" + items + "</td><td align='right'>" + price + "</td></tr>";
+            $("#PrintTable tbody").append(markup2);
+        })
+
+        var subTotal = $('#collapse3 #Table1 tbody tr:last #ServicesTotalAmount').html();
+
+
+        var markup3 = "<tr style='border-bottom:1px solid black;border-top:1px solid black;'><td colspan='5' align='right'>" +
+             "Net Amount" + "</td><td align='right'><b>Rs. " + subTotal + "</b></td></tr>" + "<tr><td>" +
+             "Member's Sign" + "</td><td colspan='4'></td><td>" + "Authorised signatory" +
+             "</td></tr><tr><td colspan='6' align='left'>" + mName + "</td></tr><tr><td colspan='6' align='center'>" + "No CREDIT - Terms Cash - Thank you Visit Again" +
+             "</td></tr>";
+
+        $("#PrintTable tbody").append(markup3);
+
+
+
+        $("#Print").show();
+        $("#Other_Services_bill").hide();
+        $("#food_bill").hide();
+        $("#Subscription_bill").hide();
+        $("#Liquor_order_bill").hide();
+        $("#ConsolidatedBillDiv").hide();
+        $("#disptable").hide();
+        $(".page-title-btn").hide();
+        $("#DivTitle").hide();
+
+        var divText = document.getElementById("Print").outerHTML;
+        var printWin = window.open();
+        printWin.document.write(divText);
+        printWin.document.close();
+        printWin.focus();
+        printWin.print();
+        printWin.close();
+        $("#Print").hide();
+        $("#PrintTable tbody").empty();
+        $("#Other_Services_bill").show();
+        $("#food_bill").show();
+        $("#Subscription_bill").show();
+        $("#Liquor_order_bill").show();
+        $("#disptable").show();
+        $("#ConsolidatedBillDiv").show();
+        $(".page-title-btn").show();
+        $("#DivTitle").show();
+    });
+    //////////////////////////////////////////////////////////////////////////////////////////
+    $("#SubscriptionPrint").click(function () {
+        //debugger;
+        var x = 0;
+
+
+        var markup1 = "<tr  style='font-weight:bold;border:1px solid black'><td>" + "Date" +
+            "</td><td id='tdDate'></td>" + "<td colspan='2'></td><td>" + "Bill No" +
+            "</td><td id='tdBillNo'></td></tr><tr  style='font-weight:bold;border:1px solid black'><td>" +
+            "Member" + "</td><td id='tdMembershipNo' colspan='5' align='left'></td>" +
+            "</tr><tr  style='font-weight:bold;border:1px solid black'><td colspan='3'></td>" +
+            "<td>" + "Membership Type" + "</td><td align='center'>" + "Status" + "</td><td align='right'>" + "Amt" +
+            "</td></tr>";
+        $("#PrintTable tbody").append(markup1);
+
+        var mName = $("#ConTable tbody tr td:eq(1)").html();
+        var amt = 0;
+        $("#Print #PrintTable tbody tr #tdDate").html(strDate + " " + str);
+        $("#Print #PrintTable tbody tr #tdMembershipNo").html($("#MNo").html() + " - " + mName);
+        $("#collapse4 #SubscriptionTable tbody tr").each(function () {
+            //debugger;
+            var CRow = $(this);
+            var type = CRow.find("td:eq(0)").html();
+            var status = CRow.find("td:eq(2)").html();
+            amt = CRow.find("td:eq(1)").html();
+
+            var markup2 = "<tr><td colspan='3'></td><td>" + type + "</td><td align='center'>" + status +
+                "</td><td align='right'>" + amt + "</td></tr>";
+            $("#PrintTable tbody").append(markup2);
+        })
+
+        // var subTotal = $('#collapse4 #SubscriptionTable tbody tr:last #ServicesTotalAmount').html();
+
+
+        var markup3 = "<tr style='border-bottom:1px solid black;border-top:1px solid black;'><td colspan='5' align='right'>" +
+            "Net Amount" + "</td><td align='right'><b>Rs. " + amt + "</b></td></tr>" + "<tr><td>" +
+            "Member's Sign" + "</td><td colspan='4'></td><td>" + "Authorised signatory" +
+            "</td></tr><tr><td colspan='6' align='left'>" + mName + "</td></tr><tr><td colspan='6' align='center'>" +
+            "No CREDIT - Terms Cash - Thank you Visit Again" +
+            "</td></tr>";
+
+        $("#PrintTable tbody").append(markup3);
+
+
+        $("#Print").show();
+        $("#Other_Services_bill").hide();
+        $("#food_bill").hide();
+        $("#Subscription_bill").hide();
+        $("#Liquor_order_bill").hide();
+        $("#ConsolidatedBillDiv").hide();
+        $("#disptable").hide();
+        $(".page-title-btn").hide();
+        $("#DivTitle").hide();
+
+        var divText = document.getElementById("Print").outerHTML;
+        var printWin = window.open();
+        printWin.document.write(divText);
+        printWin.document.close();
+        printWin.focus();
+        printWin.print();
+        printWin.close();
+        $("#Print").hide();
+        $("#PrintTable tbody").empty();
+        $("#Other_Services_bill").show();
+        $("#food_bill").show();
+        $("#Subscription_bill").show();
+        $("#Liquor_order_bill").show();
+        $("#disptable").show();
+        $("#ConsolidatedBillDiv").show();
+        $(".page-title-btn").show();
+        $("#DivTitle").show();
+    });
+
+    </script>
+
+@*<script>
+    $(document).ready(function () {
+        $("#Flag").hide();
+        var columnAmount = 4;
+        var columnTax = 5;
+        var tot = 0;
+        var tot1 = 0;
+
+        //Food Total GST calculation
+        $("#FoodTable").find("tr").children("td:nth-child(" + columnTax + ")")
+        .each(function () {
+
+            $this = $(this);
+            if (!$this.hasClass("sum") && $this.html() != "") {
+                tot += parseFloat($this.html());
+            }
+        });
+        $("#FoodGST").html(" " + tot);
+
+        //Food Total Amount+GST calculation
+        $("#FoodTable").find("tr").children("td:nth-child(" + columnAmount + ")")
+          .each(function () {
+
+              $this = $(this);
+              if (!$this.hasClass("sum1") && $this.html() != "") {
+                  tot += parseFloat($this.html());
+              }
+          });
+        $("#FoodTotal").html(" " + tot);
+
+
+        $("#LiquorTable").find("tr").children("td:nth-child(" + columnTax + ")")
+       .each(function () {
+           $this = $(this);
+           if (!$this.hasClass("sum") && $this.html() != "") {
+               tot1 += parseFloat($this.html());
+           }
+       });
+
+        var inr = '<span class="fa fa-inr">&nbsp;</span>'//Rupee Glyphicon
+        $("#LiquorGST").html(" " + tot1);
+
+        $("#LiquorTable").find("tr").children("td:nth-child(" + columnAmount + ")")
+          .each(function () {
+              $this = $(this);
+              if (!$this.hasClass("sum1") && $this.html() != "") {
+                  tot1 += parseFloat($this.html());
+              }
+          });
+        $("#LiquorTotal").html(" " + tot1);
+
+
+        if ($("#FoodTotal").html() == " 0") {
+            $('#FoodPaid').attr('disabled', 'disabled');
+            $('#FoodPaid').css('background-color', 'grey');
+            $("#Name1").text("Paid");
+        }
+
+
+        if ($("#LiquorTotal").html() == " 0") {
+            $('#LiquorPaid').attr('disabled', 'disabled');
+            $('#LiquorPaid').css('background-color', 'grey');
+            $("#Name2").text("Paid");
+        }
+
+    })
+</script>*@
+
+

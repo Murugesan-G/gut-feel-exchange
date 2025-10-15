@@ -1,0 +1,409 @@
+﻿@using NTCYApplication.Models.Club
+@{
+    ViewBag.Title="ServiceCollection";
+    Layout="~/Views/Shared/_Layout.cshtml";
+}
+
+
+<script>
+    $('#StartDate').datetimepicker({
+        format: 'DD/MM/YYYY',
+        ignoreReadonly: true
+    });
+    $('#EndDate').datetimepicker({
+        format: 'DD/MM/YYYY',
+        ignoreReadonly: true
+    });
+</script>
+
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 main">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 page-title-outer">
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 page-title">Service Collection</div>
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 page-title-btn">
+            <a href="@Url.Action("ViewAllFrontOfficePayment", "FrontOffice")" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Back">
+                <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
+            </a>
+            <a href="@Url.Action("ViewAllServiceCollections", "FrontOffice")" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="View All">
+                <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
+            </a>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 workarea-outer">
+        @using (Html.BeginForm("ServiceCollection", "FrontOffice", new { @class = "beginform-outer" }, FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 scrolling-area">
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 form-outer">
+                    @Html.Hidden("ServiceCollectionId", ViewData["ServiceCollectionId"], new { @id = "ServiceCollectionId" })
+
+
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 label-right">
+                        Service Name
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 textbox-area">
+                        @*@Html.TextBox("ServiceId", ViewData["ServiceId"], new { @maxlength = "5", @class = "blckthm-form-control", @id = "ServiceId" })*@
+                        <select name="ServiceId" id="ServiceId" class="blckthm-form-control">
+                            <option value="">
+                                Select Service Name
+                            </option>
+                            @foreach (var Model in ViewBag.ServiceList as List<Services>)
+                            {
+
+                                <option value="@Model.ServiceCode" class="blckthm-form-control">
+                                    @Model.ServiceName
+                                </option>                                
+                            }                           
+                        </select>
+
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 label-right">
+                        Membership No
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 textbox-area">
+                        @Html.TextBox("MembershipNo", ViewData["MembershipNo"], new {@autocomplete="off", @placeholder ="Enter MembershipNo..", @maxlength = "20", @class = "blckthm-form-control", @id = "MembershipNo" })
+
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 label-right">
+                        Number Of Guests
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 textbox-area">
+                        @Html.TextBox("NumberOfGuests", ViewData["NumberOfGuests"], new { @autocomplete = "off", @type ="number",@min="0",@max="100", @maxlength = "3", @class = "blckthm-form-control", @id = "NumberOfGuests" })
+
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 label-right">
+                        Pay Type
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 dropdown">
+                        @Html.DropDownList("PayType", new List<SelectListItem> {
+                         new SelectListItem { Text="Hourly", Value="Hourly"},
+                         new SelectListItem { Text="Half-Day", Value="HalfDay"},
+                        new SelectListItem { Text="Full-Day", Value="FullDay"},                      
+                        new SelectListItem { Text="Monthly", Value="Monthly"}
+                        }, "Select PayType", new { @class = "blckthm-form-control", @id = "PayType" })
+
+
+                    </div>
+                  
+
+                  
+
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 label-right">
+                        Charges
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 textbox-area">
+                        @Html.TextBox("Charges", ViewData["Charges"], new { @autocomplete = "off", @type ="text",@min="0",@maxlength = "10", @class = "blckthm-form-control", @id = "Charges" })
+                        <span id="errmsgCharges"></span>
+                    </div>
+                   
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 label-right">
+                        GST%
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 textbox-area">
+                        @Html.TextBox("GST", ViewData["GST"], new { @autocomplete = "off", @type = "text", @Step = "any", @min = "0", @class = "blckthm-form-control", @id = "GST" })
+                        <span id="errmsgCharges"></span>
+                    </div>
+                   
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 label-right">
+                        <span id="spanNoOfHours">No.Of Hours</span>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 textbox-area">
+                        @Html.TextBox("No. of Hours", ViewData["NoOfHours"], new { @autocomplete = "off", @class = "blckthm-form-control", @id = "NoOfHours"})
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 label-right">
+                       <span id="spanStartDate"> Start Date</span>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 textbox-area">
+                        @Html.TextBox("StartDate", ViewData["StartDate"], new { @autocomplete = "off", @class = "blckthm-form-control", @id = "StartDate" })
+                        <span id="errmsgGST"></span>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 label-right">
+                        <span id="spanEndDate">End Date</span>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 textbox-area">
+                        @Html.TextBox("EndDate", ViewData["EndDate"], new { @autocomplete = "off", @class = "blckthm-form-control", @id = "EndDate" })
+                        <span id="errmsgGST"></span>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 label-right">
+                       Total
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 textbox-area">
+                        @Html.TextBox("Total", ViewData["Total"], new { @autocomplete = "off", @type ="number", @Step="any",min="0",@class = "blckthm-form-control", @id = "Total" })                      
+                    </div>
+
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 label-right">
+                        Status
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 dropdown">
+                        @Html.DropDownList("Status", new List<SelectListItem> {
+                        new SelectListItem { Text="Paid", Value="Paid"},
+                        new SelectListItem { Text="UnPaid", Value="UnPaid"}
+                        }, "Select Status", new { @class = "blckthm-form-control", @id = "Status" })
+
+
+                    </div>
+
+                    <div class="clearfix"></div>
+
+
+                </div>
+
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 form-outer">
+
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 action-outer">
+                @*<input type="submit" value="@ViewBag.submit" class="btn btn-primary" id="Btn_Submit" />*@
+                <button type="submit" value="@ViewBag.submit" class="btn btn-primary" id="Btn_Submit" data-toggle="tooltip" title="Save">
+
+                    <span class="glyphicon glyphicon-floppy-save"> </span>
+                </button>
+            </div>
+        }
+    </div>
+</div>
+
+<script>
+    $('#NoOfHours').blur(function () {
+        debugger;
+        var NoH = $('#NoOfHours').val();
+        var NoG = $('#NumberOfGuests').val();
+        var gst = $('#GST').val();
+        var charges = $('#Charges').val();
+        var charg = parseFloat(NoH.trim()) * parseFloat(charges.trim()) * parseFloat(NoG.trim());
+        var charggst = (charg * (parseFloat(gst.trim()) / 100)) + charg;
+        $('#Total').val(Math.round(charggst));
+    })
+
+
+    $("#PayType").change(function () {
+        var ptype = $('#PayType :selected').val();
+        var servicetype = $('#ServiceId :selected').val();
+        if (ptype == "" || servicetype == "") {
+            alert("Please select PayType/Service Name");
+            return false;
+        }
+        else {
+            if (ptype == 'FullDay' || ptype == 'Monthly' || ptype == 'HalfDay') {
+               // $('#StartDate').val('');
+               // $('#EndDate').val('');
+                $('#spanNoOfHours').hide();
+                $('#NoOfHours').hide();
+                $('#StartDate').css('display', '');
+                $('#EndDate').css('display', '');
+                $('#spanStartDate').css('display', '');
+                $('#spanEndDate').css('display', '');
+            }            
+            if (ptype == 'Hourly') {
+                $('#spanNoOfHours').show();
+                $('#NoOfHours').show();
+                $('#StartDate').focus();
+                $('#StartDate').css('display', 'none');
+                $('#EndDate').css('display', 'none');
+                $('#spanStartDate').css('display', 'none');
+                $('#spanEndDate').css('display', 'none');
+                $('#PayType').focus();
+            }          
+            $.ajax({
+                url: "@Url.Content("~/FrontOffice/GetChargeBasedOnService")",
+                type: 'POST',
+                cache: false,
+                data: JSON.stringify({ 'paytype': ptype, 'ServiceCode': servicetype }),
+                contentType: 'application/json; charset=utf-8',
+                datatype: 'json',
+                success: function (data) {
+                    //alert(data);
+                    $("#Charges").val(data);
+                },
+            });
+        }
+    })
+    $("#ServiceId").change(function () {
+        //debugger;
+        var ServiceCode = this.value;
+        $.ajax({
+            url: "@Url.Content("~/FrontOffice/GetGSTBasedOnService")",
+            type: 'POST',
+            cache: false,
+            data: JSON.stringify({ 'ServiceCode': ServiceCode }),
+            contentType: 'application/json; charset=utf-8',
+            datatype: 'json',
+            success: function (data) {
+                //alert(data);
+                $("#GST").val(data);
+            },
+
+        });
+    });
+
+    $(function () {
+        $('#StartDate').datetimepicker({
+            format: 'DD/MM/YYYY',
+            ignoreReadonly: true
+        });
+        $('#EndDate').datetimepicker({
+            format: 'DD/MM/YYYY',
+            ignoreReadonly: true
+
+        });
+        $("#StartDate").on("dp.change", function (e) {
+            $('#EndDate').data("DateTimePicker").minDate(e.date);
+        });
+        $("#EndDate").on("dp.change", function (e) {
+            $('#StartDate').data("DateTimePicker").maxDate(e.date);
+            CalcDiff();
+        })
+
+    });
+    function CalcDiff() {
+        debugger;
+        var ptype = $('#PayType :selected').text();
+        if (ptype == 'Select PayType') {
+            alert("Please Select PayType");
+        }
+        else if (ptype == 'Monthly') {
+            if ($("#Charges").val() == '' || $("#Charges").val() == "" || $("#Charges").val() <= 0) {
+                alert("Enter Valid Charges");
+            }
+            else {
+                debugger;
+                if ($("#NumberOfGuests").val() == "" || $("#NumberOfGuests").val() <= 0) {
+                    alert("Please Enter Valid Number Of Guests");
+                }
+                $("#Total").val(((parseFloat($("#Charges").val()) * (parseFloat($("#GST").val()) / 100))
+                    + parseFloat($("#Charges").val())) * parseFloat($("#NumberOfGuests").val()));
+            }
+        }
+        else if (ptype == 'Full-Day' || ptype == 'Half-Day') {
+            if ($("#Charges").val() == '' || $("#Charges").val() == "" || $("#Charges").val() <= 0) {
+                alert("Enter Valid Charges");
+            }
+            else {
+                debugger;
+                if ($("#NumberOfGuests").val() == "" || $("#NumberOfGuests").val() <= 0) {
+                    alert("Please Enter Valid Number Of Guests"); 
+                }
+                var a = $('#StartDate').data("DateTimePicker").date();
+                var b = $('#EndDate').data("DateTimePicker").date();
+                var cc = (b - a) / (1000 * 60 * 60 * 24);
+                var t = Math.round(cc);
+                var x = parseFloat($("#Charges").val());
+                if (t == "0") {
+                    var y = parseFloat(t + 1) * (x);
+                }
+                else {
+                    var y = (parseFloat((t)) * (x));
+
+                }
+                var total = ((y * (parseFloat($("#GST").val()) / 100)) + y) * parseFloat($("#NumberOfGuests").val());
+
+                $("#Total").val(Math.round(total));
+            }
+
+        }
+
+
+    }
+    $(document).ready(function () {
+        $('#spanNoOfHours').hide();
+        $('#NoOfHours').hide();
+        $('#NoOfHours').val(0);
+        $("#ServiceId").val("@ViewData["ServiceId"]");
+        $("#Status").val("@ViewData["Status"]");
+        $("#SubscriptionValidity").val("@ViewData["SubscriptionValidity"]");
+
+        $("#MembershipNo").autocomplete({
+            source: function (request, response) {
+                //debugger;
+                $.ajax({
+                    url: "@Url.Content("~/Member/GetMembers")",
+                    type: "POST",
+                    dataType: "json",
+                    data: { prefix: request.term },
+                    success: function (data) {
+                        if (!data.length) {
+                            var result = [
+                             {
+                                 label: 'Enter only Valid MembershipNo',
+                                 value: response.term
+                             }
+                            ];
+                            response(result);
+                            $("#Btn_Submit").attr("disabled", true);
+                        }
+                        else {
+                            response($.map(data, function (item) {
+
+                                return { value: item.MembershipNo, label: item.MembershipNo + "-" + item.MemberName };
+                            }))
+                            $("#Btn_Submit").attr("disabled", false);
+                        }
+                    }
+                })
+            },
+
+        });
+    });
+
+
+    //$(document).ready(function () {
+    $("#Btn_Submit").click(function () {
+
+        if ($("#ServiceId").val() == '' || $("#ServiceId").val() == "") {
+            alert("Please Select Service Name");
+            $("#ServiceId").focus();
+            // $(":focus").css("border-color", "red");
+            return false;
+        }
+        else if ($("#MembershipNo").val() == '' || $("#MembershipNo").val() == "") {
+            alert("Please Select Membership No");
+            $("#MembershipNo").focus();
+
+            return false;
+        }
+
+        else if ($("#NumberOfGuests").val() == '' || $("#NumberOfGuests").val() == "") {
+            alert("Please Select Guests");
+            $("#NumberOfGuests").focus();
+            return false;
+        }
+
+        else if ($("#Charges").val() == '' || $("#Charges").val() == "") {
+            alert("Please Enter valid Charges");
+            $("#Charges").focus();
+            return false;
+        }
+        else if ($("#GST").val() == '' || $("#GST").val() == "") {
+            alert("Please Enter valid GST");
+            $("#GST").focus();
+            return false;
+        }
+        else if ($("#StartDate").val() == '' || $("#StartDate").val() == "") {
+            alert("Please Enter StartDate");
+            $("#StartDate").focus();
+            return false;
+        }
+        else if ($("#EndDate").val() == '' || $("#EndDate").val() == "") {
+            alert("Please Enter EndDate");
+
+            return false;
+        }
+        else if ($("#Total").val() == '' || $("#Total").val() == "") {
+            alert("Please Enter valid Total");
+            $("#Total").focus();
+            return false;
+        }
+        else if ($("#Status").val() == "" || $("#Status").val() == '') {
+            alert("Please Select Status");
+            $("#Status").focus();
+
+            return false;
+        }
+
+        else { return true; }
+    })
+    //})
+</script>

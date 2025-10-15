@@ -1,0 +1,258 @@
+﻿
+@{
+    ViewBag.Title = "CreateService";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div id="mySidenav" class="col-xs-4 col-sm-4 col-md-2 col-lg-2 sidenav">
+
+    @Html.Partial("_left_admin_submenu")
+</div>
+
+<script>
+
+    $(function () {
+
+        $('#Validity').datetimepicker({
+            format: 'DD/MM/YYYY',
+            ignoreReadonly: true
+        });
+
+    });
+    $(document).ready(function () {
+        $("#AvailabilityStatus").val("@ViewData["AvailabilityStatus"]");
+
+        //$('[data-toggle="tooltip"]').tooltip();
+        //$(document).tooltip({
+        //    track: true
+        //});
+       
+
+    });
+</script>
+
+<div class="col-xs-8 col-sm-8 col-md-10 col-lg-10 main">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 page-title-outer">
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 page-title">Service Master</div>
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 page-title-btn">
+
+            <a href="@Url.Action("ViewAllServices", "Service")" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="View All">
+                <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
+            </a>
+        </div>
+    </div>
+
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 workarea-outer">
+
+
+
+        @using (Html.BeginForm("CreateService", "Service", new { @class = "beginform-outer" }, FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 scrolling-area">
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 form-outer">
+                    @Html.Hidden("ServiceId", ViewData["ServiceId"], new { @id = "ServiceId" })
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 label-right">
+                       Service Code 
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 textbox-area">
+                        @Html.TextBox("ServiceCode", ViewData["ServiceCode"], new { @maxlength = "20", @class = "blckthm-form-control", @id = "ServiceCode" })
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 label-right">
+                       Service Name
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 textbox-area">
+                        @Html.TextBox("ServiceName", ViewData["ServiceName"], new { @maxlength = "20", @class = "blckthm-form-control", @id = "ServiceName" })
+                        <span id="errmsgServiceName"></span>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 label-right">
+                        Description
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 textbox-area">
+                        @Html.TextArea("Description", new {@maxlength="30", @class = "blckthm-form-control", @id = "Description" })
+
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 label-right">
+                       Availability Status
+                    </div>
+                    <div id="ddlstatus" class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                        @Html.DropDownList("AvailabilityStatus",new List<SelectListItem> {
+                        new SelectListItem { Text="Available", Value="Available"},
+                        new SelectListItem { Text="NotAvailable", Value="NotAvailable"}
+                        }, "Select Status", new {@class = "blckthm-form-control", @id = "AvailabilityStatus" })
+
+                    </div><div class="clearfix"></div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 label-right">
+                      <strong>Price</strong>
+                    </div>
+                    <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 textbox-area">
+                        @Html.TextBox("PerHour", ViewData["PerHour"],new { @maxlength = "6", @class = "blckthm-form-control", @id = "PerHour" })
+                    <span id="errmsgPerHour"></span>
+                    </div>
+                    <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 label-left">
+                       <strong>Per Hour</strong> 
+                    </div>                   
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 label-right">
+
+                    </div>
+                    <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 textbox-area">
+                        @Html.TextBox("PerHalfDay", ViewData["PerHalfDay"], new { @maxlength = "6", @class = "blckthm-form-control", @id = "PerHalfDay" })
+                        <span id="errmsgPerHalfDay"></span>
+                    </div>
+                    <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 label-left">
+                     <strong>Per Half Day</strong>   
+                    </div>
+
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 label-right">
+                    </div>
+                    <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 textbox-area">
+                        @Html.TextBox("FullDay", ViewData["FullDay"], new { @maxlength = "6", @class = "blckthm-form-control", @id = "FullDay" })
+                        <span id="errmsgFullDay"></span>
+                    </div>
+                    <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 label-left">
+                      <strong>Full Day</strong>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 label-right">
+                       
+                    </div>
+                    <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 textbox-area">
+                        @Html.TextBox("FullMonth", ViewData["FullMonth"], new { @maxlength = "6", @class = "blckthm-form-control", @id = "FullMonth" })
+                        <span id="errmsgFullMonth"></span>
+                       </div>
+                    <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 label-left">
+                      <strong>Full Month</strong> 
+                    </div>
+                                  
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 label-right">
+                       Other Rates(Optional)
+                    </div>
+                    <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 textbox-area">
+                        @Html.TextBox("Rate", ViewData["Rate"], new { @maxlength = "6", @class = "blckthm-form-control", @id = "Rate" })
+                        <span id="errmsgRate"></span>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 label-right">
+                        GST%
+                    </div>
+                    <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 textbox-area">
+                        @Html.TextBox("GST", ViewData["GST"], new {@autocomplete="off", @type="number", @maxlength = "10", @class = "blckthm-form-control", @id = "GST" })
+
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 label-right">
+                        Validity
+                    </div>
+                    <div class="col-xs-6 col-sm-6 col-md-3 col-lg-6 textbox-area">
+                        @Html.TextBox("Validity", ViewData["Validity"], new { @maxlength = "10", @class = "blckthm-form-control", @id = "Validity", @readonly = "readonly" })
+                        <span id="errmsgRate"></span>
+                    </div>
+                </div>
+
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 form-outer">
+                   
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 action-outer">
+                @*@Html.ActionLink("Submit", "Club_master", "Admin", null, new { @class = "btn btn-primary  " })*@
+                @*<input type="submit" value="@ViewBag.submit" class="btn btn-primary" id="Btn_Submit" />*@
+                <button type="submit" value="@ViewBag.submit" class="btn btn-primary" id="Btn_Submit" data-toggle="tooltip" title="Save">
+                    <span class="glyphicon glyphicon-floppy-save"> </span>
+                </button>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 label-area">
+                <p>@ViewBag.message</p>
+                <p>@ViewBag.innerEx</p>
+
+            </div>
+        }
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#Validity").val("@ViewData["Validity"]")
+        $("#ServiceName").keypress(function (e) {
+            if (!(e.which >= 48 && e.which <= 57) && !(e.which >= 65 && e.which <= 90) && !(e.which >= 97 && e.which <= 122)) {
+
+                $('#errmsgServiceName').css('color', 'red');
+                $("#errmsgServiceName").html("Invalid Data").show().fadeOut("slow");
+                return false;
+            }
+        })
+        $("#PerHour").keypress(function (e) {
+            if ((e.which != 46 || $(this).val().indexOf('.') != -1) && (e.which < 48 || e.which > 57)) {
+                $('#errmsgPerHour').css('color', 'red');
+                $("#errmsgPerHour").html("Invalid Data").show().fadeOut("slow");
+                return false;
+            }
+        })
+
+        $("#PerHalfDay").keypress(function (e) {
+            if ((e.which != 46 || $(this).val().indexOf('.') != -1) && (e.which < 48 || e.which > 57)) {
+                $('#errmsgPerHalfDay').css('color', 'red');
+                $("#errmsgPerHalfDay").html("Invalid Data").show().fadeOut("slow");
+                return false;
+            }
+        })
+        $("#FullDay").keypress(function (e) {
+            if ((e.which != 46 || $(this).val().indexOf('.') != -1) && (e.which < 48 || e.which > 57)) {
+                $('#errmsgFullDay').css('color', 'red');
+                $("#errmsgFullDay").html("Invalid Data").show().fadeOut("slow");
+                return false;
+            }
+        })
+        $("#FullMonth").keypress(function (e) {
+            if ((e.which != 46 || $(this).val().indexOf('.') != -1) && (e.which < 48 || e.which > 57)) {
+                $('#errmsgFullMonth').css('color', 'red');
+                $("#errmsgFullMonth").html("Invalid Data").show().fadeOut("slow");
+                return false;
+            }
+        })
+
+        $("#Rate").keypress(function (e) {
+            if ((e.which != 46 || $(this).val().indexOf('.') != -1) && (e.which < 48 || e.which > 57)) {
+                $('#errmsgRate').css('color', 'Red');
+                $("#errmsgRate").html("Invalid Data").show().fadeOut("slow");
+                return false;
+            }
+        })
+
+
+        $('#Btn_Submit').click(function () {
+            if ($('#ServiceCode').val() == '' || $('#ServiceCode').val() == "") {
+                alert('ServiceCode is required !!!');
+                $('#ServiceCode').focus();
+                return false;
+            }
+            else if ($('#ServiceName').val() == '' || $('#ServiceName').val() == "") {
+                alert('Please Enter Service Name..')
+                $('#ServiceName').focus();
+                return false;
+            }
+            else if ($('#Description').val() == '' || $('#Description').val() == "") {
+                alert('Please Enter Description..')
+                $('#Description').focus();
+                return false;
+            }
+            else if ($('#AvailabilityStatus').val() == '' || $('#AvailabilityStatus').val() == "") {
+                alert('Please Select Availability Status..')
+                $('#AvailabilityStatus').focus();
+                return false;
+            } else if ($('#Validity').val() == '' || $('#Validity').val() == "") {
+                alert('Please Select Validity ..')
+                $('#Validity').focus();
+                return false;
+            } else if ($('#PerHour').val() == '' || $('#PerHalfDay').val() == "" || $('#FullDay').val() == '' || $('#FullMonth').val() == "") {
+                alert('Please set any one of the charges')
+                $('#PerHour').focus();
+                return false;
+            } else {
+                return true;
+            }
+
+        })
+  });
+</script>
+
+
+

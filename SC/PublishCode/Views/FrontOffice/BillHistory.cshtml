@@ -1,0 +1,529 @@
+﻿@using System.Data
+@using NTCYApplication.Models.FrontOffice
+
+@{
+    ViewBag.Title="BillHistory";
+    Layout="~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .tab {
+        overflow: hidden;
+        border: 1px solid #ccc;
+        background-color: #f1f1f1;
+        border-radius: 10px 10px 0px 0px;
+    }
+
+        /* Style the buttons inside the tab */
+        .tab button {
+            background-color: inherit;
+            float: left;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            padding: 14px 16px;
+            transition: 0.3s;
+            font-size: 17px;
+        }
+
+            /* Change background color of buttons on hover */
+            .tab button:hover {
+                background-color: #ddd;
+            }
+
+            /* Create an active/current tablink class */
+            .tab button.active {
+                background-color: #ffc107;
+            }
+
+    /* Style the tab content */
+    .tabcontent {
+        display: none;
+        padding: 6px 12px;
+        border: 1px solid #ccc;
+        border-top: none;
+        border-radius: 0px 0px 10px 10px;
+        height: auto;
+    }
+</style>
+
+@*<script>
+    $(document).ready(function () {
+        // $("#Status").val("@ViewData["Status"]");
+        $('[data-toggle="tooltip"]').tooltip();
+        $(document).tooltip({
+            track: true
+        });
+    })
+</script>*@
+
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 main"><div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 page-title-outer">
+    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 page-title">Bill History</div>
+    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 page-title-btn">
+        <a href="@Url.Action("ViewAllFrontOfficePayment", "FrontOffice")" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Back">
+            <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
+        </a>
+    </div>
+</div>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 workarea-outer">
+  
+
+
+
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 scrolling-area">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 search-area">
+                <div class="col-xs-12 col-sm-6 col-md-1 col-lg-1 label-right">
+                    Search by
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-2 col-lg-2 textbox-area">
+                    <input type="text" maxlength="20" placeholder="Enter MemberName" name="MemberName" id="MemberName" class="blckthm-form-control">
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-2 col-lg-2 textbox-area">
+                    <input type="text" placeholder="From Date" name="From Date" id="FromDate" class="blckthm-form-control">
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-2 col-lg-2 textbox-area">
+                    <input type="text" placeholder="To Date" name="To Date" id="ToDate" class="blckthm-form-control">
+                </div>
+
+                <div class="col-xs-12 col-sm-6 col-md-2 col-lg-2 textbox-area">
+                    <button type="submit" value="Search" class="btn btn-primary" id="Search" data-toggle="tooltip" data-placement="bottom" title="Search"><span class="glyphicon glyphicon-search"></span></button>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-2 col-lg-2 textbox-area">
+                    <a href="@Url.Action("BillHistory", "FrontOffice")" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Refresh">
+                        <span class="glyphicon glyphicon-refresh"></span>
+                    </a>
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 table-title">List of Members</div>
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 table-responsive" id="disptable">
+
+
+                <table id="Table1" class="table blk-thm-table table-condensed">
+                    <thead>
+                        <tr>
+                            @*<th>Bill Number</th>*@
+                            <th>Membership No</th>
+                            <th>Member Name</th>
+                            <th>Date</th>
+                            <th>Amount</th>
+                            <th>Status</th>
+                            @*<td>Action</td>*@
+                        </tr>
+                    </thead>
+
+                    <tbody id="Searching">
+
+                        @{
+                            if (ViewData["FOPList"]!=null)
+                            {
+                                if (ViewData.Values!=null&&ViewData.Values.Count()>0)
+                                {
+                                    foreach (var Model in ViewBag.FOPList as List<FrontOfficePayment>)
+                                    {
+                                        <tr>
+                                            @*<td>@Model.OrderId</td>*@
+                                            <td>@Model.MembershipNo</td>
+                                            <td>@Model.MemberName</td>
+                                            <td>@Model.BillDate.ToString("dd/MM/yyyy")</td>
+                                            <td>@Model.TotalAmount</td>
+                                            <td>@Model.Status</td>
+                                            <td>
+                                                @Html.ActionLink(" ", "ViewBillPayHistory", "FrontOffice", new
+                                           {
+                                               MembershipNo = Model.MembershipNo,
+                                              // Membername = Model.MemberName,
+                                               BillDate = Model.BillDate
+                                              // Status = Model.Status,
+                                            //   TotalAmount = Model.TotalAmount
+                                           }, new { @id = "ViewDetailBill", @class = "btn btn-primary glyphicon glyphicon-list-alt", @title = "View Detail", data_toggle = "tooltip" })
+                                            </td>
+                                            @*else
+                                                {
+                                                @*<td></td>*@
+                                            @*<td><Button Value="ViewBill" class="btn-sm btn-primary" id="ViewBill">View Detailed Bill</Button></td>*@
+                                            @*   <td>
+                                                    @Html.ActionLink("Detailed Bill", "ViewBillPayHistory", "FrontOffice", new
+                                                   {
+                                                       MembershipNo = Model.MembershipNo,
+                                                       Membername = Model.MemberName,
+                                                       BillDate = Model.BillDate,
+                                                       Status = Model.Status,
+                                                       TotalAmount = Model.TotalAmount
+                                                   }, new { @id = "ViewDetailBill", @class = "btn btn-primary", @title = "View Detail", data_toggle = "tooltip", data_placement = "bottom", onclick = "myfunction();" })
+                                                </td>
+                                                }*@
+                                        </tr>
+                                    }
+                                }
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    // $(document).ready(function () {
+    //$("#Search").click(function () {
+    function SearchFunction() {
+        var memberName = $("#MemberName").val();
+        var fromDate = $("#FromDate").data('DateTimePicker').date();
+        var toDate = $("#ToDate").data('DateTimePicker').date();
+
+        var FrontOfficePayment = {};
+        FrontOfficePayment.MemberName = memberName;
+        FrontOfficePayment.FromDate = fromDate;
+        FrontOfficePayment.ToDate = toDate;
+        var SetData = $("#Searching");
+        SetData.html("");
+        $.ajax({
+
+            url: "@Url.Content("~/FrontOffice/SearchBillHistory")",
+            type: 'POST',
+            cache: false,
+            data: JSON.stringify({ 'PaymentData': FrontOfficePayment }),
+            contentType: 'application/json; charset=utf-8',
+            datatype: 'json',
+            success: function (result) {
+                if (result.length == 0) {
+                    SetData.append('<tr><td>No Records</td></tr>');
+                    var x = '<table class="table blk-thm-table table-condensed" id="norecord">' +
+                                '<thead>' +
+                                   '<tr>' +
+                                        '<td style="font-size:18px;font-weight:bold; text-align:center;">No Records Found</td>' +
+                                    '</tr></thead></table>'
+
+                    $("#disptable").html(x);
+                }
+                else {
+
+                    var x = '<table id="Table1" class="table blk-thm-table table-condensed"> <thead>' +
+                                 '<tr>' +
+                                        '<th>Membership No</th>' +
+                                        '<th>Member Name</th>' +
+                                        '<th>Date</th>' +
+                                        '<th>Amount</th>' +
+                                        '<th>Status</th>' +
+                                        '<td>Action</td>' +
+                                        //'<td></td>' +
+                                    '</tr>' +
+                                '</thead><tr>'
+
+                    for (var i = 0; i < result.length; i++) {
+                        x = x + "<td>" + result[i].MembershipNo + "</td>"
+                        x = x + '<td>' + result[i].MemberName + '</td>'
+                        var date = result[i].BillDate;
+                        var nowDate = new Date(parseInt(date.substr(6)));
+                        x = x + '<td>' + nowDate.toLocaleDateString() + '</td>'
+                        x = x + '<td>' + result[i].TotalAmount + '</td>'
+                        var status = result[i].Status
+                        x = x + '<td>' + status + '</td>'
+                        @*x = x + '<td>Html.ActionLink("ViewBillPayHistory", "FrontOffice", new { MembershipNo = Model.MembershipNo,BillDate = Model.BillDate}, new { @id = "ViewDetailBill", @class = "btn btn-primary glyphicon glyphicon-list-alt", @title = "View Detail", data_toggle = "tooltip" }*@
+                        x = x + '<td><a id = "ViewDetailBill", class = "btn btn-primary glyphicon glyphicon-list-alt", title = "View Detail", href="/FrontOffice/ViewBillPayHistory?MembershipNo=' + result[i].MembershipNo + '&BillDate=' + nowDate.toLocaleDateString() + '"></a>'
+                        x = x + '</td>'
+                        x = x + "</tr>"
+                    }
+                    x = x + "</table>"
+                    $("#disptable").html(x);
+                }
+            }
+        })
+
+    };
+
+</script>
+
+
+<script>
+    $("#Search").click(function () {
+
+        if ($("#MemberName").val() == '' || $("#MemberName").val() == 'null') {
+            alert("Please Enter Member Name");
+            return false;
+        } else if ($("#FromDate").val() == '' || $("#FromDate").val() == 'null') {
+            alert("Please Select From date");
+            return false;
+        } else if ($("#ToDate").val() == '' || $("#ToDate").val() == 'null') {
+            alert("Please Select To date");
+            return false;
+        } else {
+            SearchFunction();
+
+            return true;
+        }
+
+    });
+
+    //$("#btnsubmit2").click(function () {
+    //    if ($("#Creditcardno").val() == '' || $("#Creditcardno").val() == 'null') {
+    //        alert("Please Enter Credit Card Number");
+    //        return false;
+    //    } else if ($("#CreditExpirydate").val() == '' || $("#CreditExpirydate").val() == 'null') {
+    //        alert("Please Enter Expiry date");
+    //        return false;
+    //    } else if ($("#CreditCardType").val() == '' || $("#CreditCardType").val() == 'null') {
+    //        alert("Please Enter Credit Card Type");
+    //        return false;
+    //    } else {
+    //        SearchFunction();
+    //        return true;
+    //    }
+
+    //});
+
+    //$("#btnsubmit3").click(function () {
+    //    if ($("#Debitcardno").val() == '' || $("#Debitcardno").val() == 'null') {
+    //        alert("Please Enter Debit Card Number");
+    //        return false;
+    //    } else if ($("#DebitExpirydate").val() == '' || $("#DebitExpirydate").val() == 'null') {
+    //        alert("Please Enter Expiry date");
+    //        return false;
+    //    } else if ($("#Debitcardtype").val() == '' || $("#Debitcardtype").val() == 'null') {
+    //        alert("Please Enter Debit Card Type");
+    //        return false;
+    //    } else {
+    //        SearchFunction();
+    //        return true;
+    //    }
+
+    //});
+
+    //$("#btnsubmit4").click(function () {
+    //    if ($("#Chequeno").val() == '' || $("#Chequeno").val() == 'null') {
+    //        alert("Please Enter Cheque Number");
+    //        return false;
+    //    } else if ($("#chequedate").val() == '' || $("#chequedate").val() == 'null') {
+    //        alert("Please Enter Cheque Date");
+    //        return false;
+    //    } else if ($("#bankName").val() == '' || $("#bankName").val() == 'null') {
+    //        alert("Please Enter Bank Name");
+    //        return false;
+    //    } else {
+    //        SearchFunction();
+    //        return true;
+    //    }
+
+    //});
+
+</script>
+
+
+<script>
+    $(function () {
+        $('#FromDate').datetimepicker({
+            format: 'DD/MM/YYYY',
+            ignoreReadonly: true
+        });
+
+        $('#ToDate').datetimepicker({
+            format: 'DD/MM/YYYY',
+            ignoreReadonly: true
+        });
+        //$("#chequedate").datetimepicker({
+        //    format: 'DD/MM/YYYY',
+        //    ignoreReadonly: true
+        //});
+
+
+    });
+
+
+</script>
+
+
+
+
+@*//tabs*@
+<script>
+    function openCity(evt, cityName) {
+        var i, tabcontent, tablinks;
+        tabcontent = document.getElementsByClassName("tabcontent");
+        for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+        }
+        tablinks = document.getElementsByClassName("tablinks");
+        for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" active", "");
+        }
+        document.getElementById(cityName).style.display = "block";
+        evt.currentTarget.className += " active";
+    }
+
+    // Get the element with id="defaultOpen" and click on it
+    document.getElementById("defaultOpen").click();
+</script>
+
+@*<script>
+    //function myfunction(RowId) {
+    //    //debugger;
+    //    var Id = RowId;
+    //    var TableIndex = RowId.parentElement.parentElement;
+    //    var RowIndex = TableIndex.rowIndex - 1;
+
+    //    var currentRow = $(TableIndex).closest("tr");
+    //    membershipNo = currentRow.find("td:eq(0)").html(); // get current row 1st table cell TD value
+    //    date = currentRow.find("td:eq(2)").html();
+    //    totalamount = currentRow.find("td:eq(3)").html();
+
+
+    //    $("#MembershipNo").val(membershipNo);
+    //    $('#cash').val(totalamount);
+    //    $('#Creditcash').val(totalamount);
+    //    $('#Debitcash').val(totalamount);
+    //    $('#Chequecash').val(totalamount);
+    //    $('#Date').val(date);
+
+
+    //}
+    // Filter the membername
+    //$(document).ready(function () {
+    //    $("#MemberName").on("keyup", function () {
+    //        var value = $(this).val().toLowerCase();
+    //        $("#Searching tr").filter(function () {
+    //            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    //        });
+    //    });
+    //});
+
+
+
+    //fetch the row details
+
+    function myfunction(RowId) {
+
+        var Id = RowId;
+        var TableIndex = RowId.parentElement.parentElement;
+        var RowIndex = TableIndex.rowIndex - 1;
+
+        var currentRow = $(TableIndex).closest("tr");
+        membershipNo = currentRow.find("td:eq(0)").html(); // get current row 1st table cell TD value
+        date = currentRow.find("td:eq(2)").html();
+        totalamount = currentRow.find("td:eq(3)").html();
+
+
+        $("#MembershipNo").val(membershipNo);
+        $('#cash').val(totalamount);
+        $('#Creditcash').val(totalamount);
+        $('#Debitcash').val(totalamount);
+        $('#Chequecash').val(totalamount);
+        $('#Date').val(date);
+
+
+    }
+
+    //Cash
+    function submitCash() {
+
+        var Payment = {};
+        Payment.MembershipNo = $('#MembershipNo').val();
+        Payment.ModeOfPayment = "Cash";
+        Payment.BillDate = $('#Date').val();
+        Payment.CardType = "Empty";
+        Payment.CardNo_ChequeNo = "Empty";
+        Payment.ExpDate = "Empty";
+        Payment.BankName = "Empty";
+
+        $.ajax({
+
+            url: '../FrontOffice/InsertAllPayment',
+            type: 'POST',
+            cache: false,
+            data: JSON.stringify({ 'PaymentData': Payment }),
+            contentType: 'application/json; charset=utf-8',
+            datatype: 'json',
+            success: function (data) {
+
+            },
+
+        });
+
+    }
+
+    //Credit Card
+    function submitCredit() {
+
+        var Payment = {};
+        Payment.MembershipNo = $('#MembershipNo').val();
+        Payment.ModeOfPayment = "CreditCard";
+        Payment.BillDate = $('#Date').val();
+        Payment.CardType = $('#CreditCardType').val();
+        Payment.CardNo_ChequeNo = $('#Creditcardno').val();
+        Payment.ExpDate = $('#CreditExpirydate').val();
+        Payment.BankName = "Empty";
+
+        $.ajax({
+
+            url: '../FrontOffice/InsertAllPayment',
+            type: 'POST',
+            cache: false,
+            data: JSON.stringify({ 'PaymentData': Payment }),
+            contentType: 'application/json; charset=utf-8',
+            datatype: 'json',
+            success: function (data) {
+
+            },
+
+        });
+
+    }
+
+
+    //Debit Card Details
+    function submitDebit() {
+
+        var Payment = {};
+        Payment.MembershipNo = $('#MembershipNo').val();
+        Payment.ModeOfPayment = "DebitCard";
+        Payment.BillDate = $('#Date').val();
+        Payment.CardType = $('#Debitcardtype').val();
+        Payment.CardNo_ChequeNo = $('#Debitcardno').val();
+        Payment.ExpDate = $('#DebitExpirydate').val();
+        Payment.BankName = "Empty";
+
+        $.ajax({
+
+            url: '../FrontOffice/InsertAllPayment',
+            type: 'POST',
+            cache: false,
+            data: JSON.stringify({ 'PaymentData': Payment }),
+            contentType: 'application/json; charset=utf-8',
+            datatype: 'json',
+            success: function (data) {
+
+            },
+
+        });
+
+    }
+
+    //Cheque Details
+    function submitCheque() {
+
+        var Payment = {};
+        Payment.MembershipNo = $('#MembershipNo').val();
+        Payment.ModeOfPayment = "Cheque";
+        Payment.BillDate = $('#Date').val();
+        Payment.CardType = "Empty";
+        Payment.BankName = $('#bankName').val();
+        Payment.CardNo_ChequeNo = $('#Chequeno').val();
+        Payment.ExpDate = $('#chequedate').val();
+
+        $.ajax({
+
+            url: '../FrontOffice/InsertAllPayment',
+            type: 'POST',
+            cache: false,
+            data: JSON.stringify({ 'PaymentData': Payment }),
+            contentType: 'application/json; charset=utf-8',
+            datatype: 'json',
+            success: function (data) {
+
+            },
+
+        });
+
+    }
+</script>*@

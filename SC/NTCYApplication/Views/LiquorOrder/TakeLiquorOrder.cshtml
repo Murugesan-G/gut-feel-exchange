@@ -1,5 +1,6 @@
 ﻿﻿@using System.Data
 @using NTCYApplication.Models.Liquor
+@using NTCYApplication.Models.Club
 
 @{
     ViewBag.Title = "TakeLiquorOrder";
@@ -35,7 +36,19 @@
                     Waiter Name
                 </div>
                 <div class="col-xs-6 col-sm-6 col-md-3 col-lg-2 textbox-area" style="margin:0px !important;">
-                    @Html.TextBox("TableNo", ViewData["WaiterName"], new { @class = "blckthm-form-control", @id = "WaiterName", @autocomplete = "on" })<span id="errmsgWName"></span>
+                    @*@Html.TextBox("TableNo", ViewData["WaiterName"], new { @class = "blckthm-form-control", @id = "WaiterName", @autocomplete = "on" })<span id="errmsgWName"></span>*@
+                    @Html.DropDownList("WaiterName", new List<SelectListItem> {
+                        new SelectListItem { Text="Arun Kumar CP", Value="Arun Kumar CP"},
+                        new SelectListItem { Text="Ganesh SC", Value="Ganesh SC"},
+                        new SelectListItem { Text="Govinda Raj", Value="Govinda Raj"},
+                        new SelectListItem { Text="Madhusudhan R M", Value="Madhusudhan R M"},
+                        new SelectListItem { Text="Manjunatha C", Value="Manjunatha C"},
+                        new SelectListItem { Text="Nagaraja V", Value="Nagaraja V"},
+                        new SelectListItem { Text="Prashanth Kumar B", Value="Prashanth Kumar B"},
+                        new SelectListItem { Text="Santhosh Kumar", Value="Santhosh Kumar"},
+                        new SelectListItem { Text="Sreekanth ", Value="Sreekanth"},
+                        new SelectListItem { Text="Varadaraj", Value="Varadaraj"}
+                        }, "WaiterName", new { @class = "blckthm-form-control", @id = "WaiterName" })
                 </div>
             </div>
             <div class="col-xs-6 col-sm-6 col-md-1 col-lg-1 page-title-btn">
@@ -378,34 +391,7 @@
                 })
             },
         });
-        $("#WaiterName").autocomplete({
-    source: function (request, response) {
-        $.ajax({
-            url: "@Url.Content("~/Member/GetWaiterName")",
-            type: "POST",
-            dataType: "json",
-            data: { prefix: request.term },
-            success: function (data) {
-                if (!data.length) {
-                    var result = [
-                     {
-                         label: 'Enter only Valid Waiter Name',
-                         value: response.term
-                     }
-                    ];
-                    response(result);
-                    $("#Btn_Order").attr("disabled", true);
-                }
-                else {
-                    response($.map(data, function (item) {
-                        return { value: item.Waiter_Name, label: item.Waiter_Name};
-                    }))
-                    $("#Btn_Order").attr("disabled", false);
-                }
-            }
-        })
-    },
-});
+
         ////////////////////////////////////////////////////////////////////////////////////
         $("#Table1").on('click', '#Btn_Select', function (e) {
             if ($('#MembershipNo').val() == '' || $('#MembershipNo').val() == "") {

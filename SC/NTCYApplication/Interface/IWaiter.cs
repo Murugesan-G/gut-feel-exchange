@@ -11,5 +11,6 @@ namespace NTCYApplication.Interfaces
     public interface IWaiter
     {
         DataSet GetWaiters(string Prefix);
+        DataSet GetAllWaiters();
     }
 }

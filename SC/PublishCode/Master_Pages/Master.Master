@@ -1,0 +1,324 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Master.master.cs" Inherits="NTCYApplication.Master_Pages.Master" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title>@ViewBag.Title - New Town Club Yelahanka</title>
+    <script src="../../scripts/jquery.min.js"></script>
+    <script src="../../scripts/bootstrap.min.js"></script>
+
+    <script src="../../scripts/moment.min.js"></script>
+    <script src="../../scripts/jquery-1.12.4.js"></script>
+
+    <script src="../../scripts/jquery-ui.js"></script>
+
+    <script src="../../scripts/bootstrap-datetimepicker.min.js"></script>
+
+    <link href="../Content/bootstrap.css" rel="stylesheet" />
+    <link href="../Content/bootstrap-datetimepicker.css" rel="stylesheet" />
+
+    <link href="../Content/Site.css" rel="stylesheet" />
+    <link href="../Content/bootstrap.min.css" rel="stylesheet" />
+    <style>
+        body {
+            background-color: #1a1a1a;
+        }
+
+        .navbar-inverse .navbar-nav > li > a {
+            color: #ffffff !important;
+        }
+    </style>
+
+
+</head>
+<body>
+
+    <form id="form1" runat="server" style="height: 100%;">
+        <asp:ScriptManager runat="server"></asp:ScriptManager>
+        <div class="navbar navbar-inverse" style="margin-bottom: 0px;">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <div class="logo">
+                        <img src="../../Images/NTCYLogo-01.png" alt="New Town Club Yelahanka" />
+                    </div>
+
+                </div>
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav navbar-right mainmenu" style="padding-right: 12px;">
+
+                        <li>
+
+                            <a href="../../Club/CreateClub">
+                                <img src="../../Images/admin.png" />
+                                Admin
+                            </a>
+                            <ul class="dropdown-menu multi-level">
+
+                                <li><a href="#">Masters</a></li>
+
+                                <li class="divider"></li>
+                                <li class="dropdown-submenu">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" id="usermenu" onclick="showmenu();">Users<span class="caret"></span></a>
+                                    <ul id="usersubmenu" class="dropdown-menu" style="left: 158px;">
+                                        <li>Users</li>
+                                        <li class="divider"></li>
+                                        <li>ManageRoles</li>
+                                        <li class="divider"></li>
+                                        <li>registerLink</li>
+                                    </ul>
+
+
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li>
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                <img src="../../Images/frontoffice.png" />
+                                Front Office<span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a href="../../FrontOffice/ViewAllFrontOfficePayment">Payments</a></li>
+                                <li><a href="../../FrontOffice/Attendance">Attendance</a></li>
+                                <li><a href="../../RoomBooking/Room_Bookings">Room Bookings</a></li>
+                            </ul>
+                        </li>
+
+                        <li>
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                <img src="../../Images/kitty.png" />
+                                Store<span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a href="../../StockInward/AddStockInward">Stock Inward</a></li>
+                                <li><a href="../../StockAdjustment/AddStockAdjustment">Stock Adjustment</a></li>
+                            </ul>
+                        </li>
+
+                        <%-- <li>
+                        <a href="#">
+                            <img src="../../Images/accounts.png" />
+                            Accounts
+                        </a>
+                    </li>--%>
+                        <li>
+
+                            <a href="../../Report/ASPX/UserReport.aspx">
+                                <img src="../../Images/accounts.png" />
+                                Reports
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="../../KitchenOrder/ViewAllOrders">
+                                <img src="../../Images/kitchen.png" />
+                                Kitchen
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="../../LiquorAreaOrder/ViewAllOrders">
+                                <img src="../../Images/liquor.png" />
+                                Bar
+                            </a>
+                        </li>
+
+                        <li>
+
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                <img src="../../Images/cardtable.png" />
+                                Kitty Collection<span class="caret"></span>
+                            </a>
+
+                            <ul class="dropdown-menu">
+
+                                <li><a href="../../Collection/Collection">Collection</a></li>
+
+
+
+                                <li><a href="../../KittyPayment/KittyPaymentView">Payment</a></li>
+
+                            </ul>
+                        </li>
+
+
+                        <li class="dropdown">
+
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                <img src="../../Images/dinning.png" />
+                                Orders
+                            <span class="caret"></span>
+                            </a>
+
+                            <ul class="dropdown-menu">
+
+                                <li><a href="../../FoodOrder/TakeFoodOrder">Food Order</a></li>
+
+                                <li><a href="../../LiquorOrder/TakeLiquorOrder">Drinks Order</a></li>
+
+                            </ul>
+                        </li>
+
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                <img src="../../Images/login.png" />
+                                <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                
+                                <li>
+                                    <asp:LinkButton runat="server" OnClick="logout_click" ID="logout_btn">Log off</asp:LinkButton>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="container-fluid" style="background-color: #1a1a1a; height: 89%; overflow: hidden; padding: 0px;">
+
+            <div id="mySidenav" class="col-xs-4 col-sm-4 col-md-2 col-lg-2 sidenav">
+
+                <div class="admin-menu">
+
+                    <div class="left-menu-category-title">
+                        Reports
+                    </div>
+
+                    <a href="../../Report/ASPX/UserReport.aspx" rel="tooltip" title="User Reports">
+                        <div class="left-menu-category-img">
+                            <img src="../../Images/member.png" />
+                        </div>
+                        <div class="left-menu-category-link">User</div>
+                    </a>
+
+                    <a href="../../Report/ASPX/ServicesReport.aspx" rel="tooltip" title="Service">
+                        <div class="left-menu-category-img">
+                            <img src="../../Images/services.png" />
+                        </div>
+                        <div class="left-menu-category-link ">Service</div>
+                    </a>
+
+                    <a href="../../Report/ASPX/KittyCollectionReport.aspx" rel="tooltip" title="Kitty Collection">
+                        <div class="left-menu-category-img">
+                            <img src="../../Images/cardtable.png" />
+                        </div>
+                        <div class="left-menu-category-link">Kitty Collection</div>
+                    </a>
+
+                    <a href="../../Report/ASPX/FoodReport.aspx" rel="tooltip" title="Food Report">
+                        <div class="left-menu-category-img">
+                            <img src="../../Images/kitchen.png" />
+                        </div>
+                        <div class="left-menu-category-link">Food </div>
+                    </a>
+
+                    <a href="../../Report/ASPX/LiquorReport.aspx" rel="tooltip" title="Liquor Report">
+                        <div class="left-menu-category-img">
+                            <img src="../../Images/liquor.png" />
+                        </div>
+                        <div class="left-menu-category-link">Liquor </div>
+                    </a>
+
+                    <%-- <div class="left-menu-category-title">
+        Service
+    </div>--%>
+
+                    <a href="../../Report/ASPX/LiquorStockReport.aspx" rel="tooltip" title=" Liquor Stock">
+                        <div class="left-menu-category-img">
+                            <img src="../../Images/liquor.png" />
+                        </div>
+                        <div class="left-menu-category-link">Liquor Stock</div>
+                    </a>
+
+
+                    <a href="../../Report/ASPX/StockAdjustmentReport.aspx" rel="tooltip" title="Stock Adjustment">
+                        <div class="left-menu-category-img">
+                            <img src="../../Images/kitty.png" />
+                        </div>
+                        <div class="left-menu-category-link">Stock Adjustment</div>
+                    </a>
+
+                    <a href="../../Report/ASPX/MonthlySubscriptionReport.aspx" rel="tooltip" title="Subscription">
+                        <div class="left-menu-category-img">
+                            <img src="../../Images/subcription.png" />
+                        </div>
+                        <div class="left-menu-category-link">Subscription</div>
+                    </a>
+
+
+                    <a href="../../Report/ASPX/PendingBillsReport.aspx" rel="tooltip" title="Pending Bills">
+                        <div class="left-menu-category-img">
+                            <img src="../../Images/accounts.png" />
+                        </div>
+                        <div class="left-menu-category-link">Pending Bills </div>
+                    </a>
+
+                    <a href="../../Report/ASPX/MembersReport.aspx" rel="tooltip" title="Members Detail">
+                        <div class="left-menu-category-img">
+                            <img src="../../Images/clubcommit.png" />
+                        </div>
+                        <div class="left-menu-category-link">Members </div>
+                    </a>
+                      <a href="../../Report/ASPX/SMSLog.aspx" rel="tooltip" title="SMS Detail">
+                        <div class="left-menu-category-img">
+                            <img src="../../Images/sms.png" />
+                        </div>
+                        <div class="left-menu-category-link">SMS</div>
+                    </a>
+                   
+                    <%-- <a href="#" rel="tooltip" title="Room">
+        <div class="left-menu-category-img">   <img src="../../Images/room.png" /> </div>
+        <div class="left-menu-category-link">     Room</div>
+    </a>
+
+    <div class="left-menu-category-title">
+        User
+    </div>
+    <a href="#" rel="tooltip" title="Employee">
+        <div class="left-menu-category-img">    <img src="../../Images/employee.png" /> </div>
+        <div class="left-menu-category-link">       Employee</div>
+    </a>
+
+    <a href="#" rel="tooltip" title="Role Master">
+        <div class="left-menu-category-img">     <img src="../../Images/rolemaster.png" /></div>
+        <div class="left-menu-category-link">    Register User</div>
+    </a>
+
+    <a href="#" rel="tooltip" title="Accounts">
+        <div class="left-menu-category-img">  <img src="../../Images/accounts.png" /></div>
+        <div class="left-menu-category-link">    Accounts Config</div>
+    </a>
+    <a href="#" rel="tooltip" title="Biometric">
+        <div class="left-menu-category-img">   <img src="../../Images/biometric.png" /></div>
+        <div class="left-menu-category-link">    Biometric</div>
+    </a>--%>
+                </div>
+            </div>
+            <div class="col-xs-8 col-sm-8 col-md-10 col-lg-10 main">
+                <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+                </asp:ContentPlaceHolder>
+            </div>
+        </div>
+
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 footer">
+            <p style="margin: 0px; padding: 0px;">&copy;Powered By SPIGOT Software Pvt.Ltd</p>
+        </div>
+    </form>
+</body>
+
+</html>
+<script>
+  function preventBack(){window.history.forward();}
+  setTimeout("preventBack()", 0);
+  window.onunload=function(){null};
+</script>
+

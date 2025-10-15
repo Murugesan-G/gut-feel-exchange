@@ -1,0 +1,294 @@
+﻿@using System.Data
+@using NTCYApplication.Models.Stocks
+@{
+    ViewBag.Title = "ViewAllStockInward";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#Table1').DataTable({
+            initComplete: function () {
+                this.api().columns().every(function () {
+                    var column = this;
+                    var select = $('<select><option value=""></option></select>')
+                        .appendTo($(column.footer()).empty())
+                        .on('change', function () {
+                            var val = $.fn.dataTable.util.escapeRegex(
+                                $(this).val()
+                            );
+                            //to select and search from grid
+                            column
+                                .search(val ? '^' + val + '$' : '', true, false)
+                                .draw();
+                        });
+
+                    column.data().unique().sort().each(function (d, j) {
+                        select.append('<option value="' + d + '">' + d + '</option>')
+                    });
+                });
+            }
+        });
+    });
+</script>
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 main">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 page-title-outer">
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 page-title">View All Stock Inward</div>
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 page-title-btn">
+
+            <a href="@Url.Action("AddStockInward", "StockInward")" id="a_ViewStockInward" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="View">
+                <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
+            </a>
+            <button type="button" id="btn_Back" class="btn btn-primary">
+                <span class="glyphicon glyphicon-arrow-left"></span>
+            </button>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 workarea-outer">
+ 
+
+
+        <div id="Div_StockInward" class="col-xs-12 col-sm-12 col-md-12 col-lg-12 scrolling-area">
+            @*<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 search-area">
+                <div class="col-xs-12 col-sm-6 col-md-2 col-lg-2 label-right">
+                    Search by
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-2 col-lg-2 textbox-area">
+                    <input type="text" placeholder="Grn No" id="SearchGrnNo" class="blckthm-form-control" style="font-size:13px" onkeyup="myFunction()">
+                </div>
+
+                @*<div class="col-xs-12 col-sm-6 col-md-2 col-lg-2 textbox-area">
+                        <button type="button" value="Search" class="btn btn-primary" id="Search"><span class="glyphicon glyphicon-search"></span></button>
+                    </div>*@
+            @*</div>*@
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 table-title">Stock Inward List </div>
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 table-responsive" id="disptable"   style="height: 510px;overflow: auto;">
+                <table id="Table1" class="table blk-thm-table table-condensed">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th style="display:none"><h6><b>Grn Id</b></h6></th>
+                            <th><h6><b>Grn No</b></h6></th>
+                            <th><h6><b>Grn Date</b></h6></th>
+                            <th><h6><b>Supplier</b></h6></th>
+                            <th><h6><b>Delivery Date</b></h6></th>
+                            <th><h6><b>Delivery Challan No</b></h6></th>
+                            <th><h6><b>Purchase Order No</b></h6></th>
+                            <th><h6><b>Purchase Order Date</b></h6></th>
+                            <th><h6><b>Total Amount</b></h6></th>
+                            <th><h6><b>Total Tax</b></h6></th>
+                            <th><h6><b>Total Discount</b></h6></th>                            
+                            <th><h6><b>Net Amount</b></h6></th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="Searching">
+                      
+                            @{
+                                if (ViewData["StockInwardList"] != null)
+                                {
+                                    if (ViewData.Values != null && ViewData.Values.Count() > 0)
+                                    {
+                                        foreach (var Model in ViewBag.StockInwardList as List<StockInward>)
+                                        {
+                                        <tr>
+                                            @*<td>@Html.ActionLink("Detail", "ViewDetailStock", "StockInward", new { GrnId = Model.GrnId }, new { @Id= "btn_detail", @class = "btn-sm btn-primary", @title = "View Detail", data_toggle = "tooltip", data_placement = "bottom" })</td>*@
+                                            <td><button type="button" id="btn_detail" title="View Detail" class="btn btn-primary"><span class="glyphicon glyphicon-list-alt"></span></button></td>
+                                            <td style="display:none">@Model.GrnId</td>
+                                            <td>@Model.GrnNo</td>
+                                            <td>@Model.GrnDate.ToString("dd/MM/yyyy")</td>
+                                            <td>@Model.Supplier</td>
+                                            <td>@Model.Deliverydate.ToString("dd/MM/yyyy")</td>
+                                            <td>@Model.DeliveryChallan</td>
+                                            <td>@Model.PurchaseOrder</td>
+                                            <td>@Model.PurchaseOrderDate.ToString("dd/MM/yyyy")</td>
+                                            <td>@Model.TotalAmount</td>
+                                            <td>@Model.TotalTax</td>
+                                            <td>@Model.TotalDiscount</td>
+                                            <td>@Model.NetAmount</td>   
+                                        </tr>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <tr>
+                                            <td>
+                                                @ViewBag.message
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                            }
+ </tbody>
+                </table>
+            </div>
+        </div>
+
+
+       
+        <div id="Div_StockTitle" class="col-xs-12 col-sm-12 col-md-12 col-lg-12 table-title">Stock Detail</div>
+        <div id="Div_DetailStock" class="col-xs-12 col-sm-12 col-md-12 col-lg-12 scrolling-area">
+
+
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 table-responsive" id="DispTableStockDeatail">
+                <table id="Table2" class="table blk-thm-table table-condensed">
+                    <thead>
+                        <tr>
+                            @*<th></th>
+                            <th></th>*@
+                            <th style="display:none"><h6><b>Stock SubId</b></h6></th>
+                            <th style="display:none"><h6><b>Grn Id</b></h6></th>
+                            <th><h6><b>Item Name</b></h6></th>
+                            <th><h6><b>Purchase Order Rate</b></h6></th>
+                            <th><h6><b>Purchase Order Qty</b></h6></th>
+                            <th><h6><b>MRP</b></h6></th>
+                            <th><h6><b>Tax Amount</b></h6></th>
+                            <th><h6><b>Tax Percentage</b></h6></th>
+                            <th><h6><b>Discount Amount</b></h6></th>
+                            <th><h6><b>Discount Percentage</b></h6></th>
+                            <th><h6><b>Rejected Qty</b></h6></th>
+                            <th><h6><b>Accepted Qty</b></h6></th>  
+                            <th><h6><b>Rejected Remarks</b></h6></th>                          
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                       
+                        </tbody>
+                    </table>
+                </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $("#Div_StockInward").show();
+        $("#a_ViewStockInward").show();
+        $("#Div_DetailStock").hide();
+        $("#Div_StockTitle").hide();
+        $("#btn_Back").hide();
+    })
+    $("#btn_Back").click(function () {
+
+        $("#Div_StockInward").show();
+        $("#a_ViewStockInward").show();
+        $("#Div_DetailStock").hide();
+        $("#Div_StockTitle").hide();
+        $("#btn_Back").hide();
+    })
+</script>
+
+<script>
+    function myFunction() {
+        //debugger;
+        var input, filter, table, tr, td, i;
+        input = document.getElementById("SearchGrnNo");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("Table1");
+        tr = table.getElementsByTagName("tr");
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[2];
+            if (td) {
+                if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    }
+   
+</script>
+<script>
+    $("#Table1").on('click', '#btn_detail', function (e) {
+        //debugger;
+       
+        var currentRow = $(this).closest("tr");
+        var GrnId = currentRow.find("td:eq(1)").html();
+
+        $.ajax({
+
+            url: "@Url.Content("~/StockInward/ViewDetailStock")",
+            type: 'POST',
+            cache: false,
+            data: JSON.stringify({ 'GrnId': GrnId}),
+            contentType: 'application/json; charset=utf-8',
+            datatype: 'json',
+            success: function (data) {              
+                $("#Div_StockInward").hide();
+                $("#a_ViewStockInward").hide();
+                $("#Div_DetailStock").show();
+                $("#Div_StockTitle").show();
+                $("#btn_Back").show();                      
+                $('#Table2 > tbody').empty();
+                $.each(data, function (index) {               
+                   
+                    $('#Table2 tbody').append("<tr style='align-items:center' class='child'><td style='display:none'>" +
+                        //"<button title='Edit' class='btn btn-sm btn-primary' id='btn_Edit'><span class='glyphicon glyphicon-pencil'></span>" + "</td><td>" +
+                        // "<button title='Delete' class='btn btn-sm btn-primary' id='btn_Delete'><span class='glyphicon glyphicon-trash'></span>" + 
+                       data[index].StockSubId + "</td><td style='display:none'>" + data[index].GrnId + "</td><td>" +data[index].ItemName+"</td><td>"+
+                       data[index].PurchaseOrderRate+"</td><td>"+data[index].PurchaseOrderQty+"</td><td>"+
+                       data[index].MRP+"</td><td>"+data[index].TaxAmount+"</td><td>"+data[index].TaxPercentage+"</td><td>"+
+                       data[index].DiscountAmount + "</td><td>" + data[index].DiscountPercentage + "</td><td>" + data[index].RejectedQty + "</td><td>" + data[index].AcceptedQty + "</td><td>" + data[index].RejectedRemarks + "</td></tr>");
+
+                });
+
+            },
+
+        });
+
+
+    })
+
+    //$("#Table2").on('click', "#btn_Edit", function (e) {
+
+    //    var currentRow = $(this).closest("tr");
+    //    var value1 = currentRow.find("td:eq(4)");
+    //    var value2 = currentRow.find("td:eq(5)");
+    //    var value3 = currentRow.find("td:eq(6)");
+    //    var value4 = currentRow.find("td:eq(7)");
+    //    var value5 = currentRow.find("td:eq(8)");
+    //    var value6 = currentRow.find("td:eq(9)");
+    //    var value7 = currentRow.find("td:eq(10)");
+    //    var value8 = currentRow.find("td:eq(11)");
+    //    value1.html("<input type='text' id='txt_PurchaseOrderRate' value='" + value1.html() + "'/>");
+    //    value2.html("<input style='width:50px;' type='text' id='txt_PurchaseOrderQty' value='" + value2.html() + "'/>");
+    //    value3.html("<input style='width:50px;' type='text' id='txt_MRP' value='" + value3.html() + "'/>");
+    //    value4.html("<input style='width:50px;' type='text' id='txt_TaxAmount' value='" + value4.html() + "'/>");
+    //    value5.html("<input style='width:50px;' type='text' id='txt_TaxPercentage' value='" + value5.html() + "'/>");
+    //    value6.html("<input style='width:50px;' type='text' id='txt_DiscountAmount' value='" + value6.html() + "'/>");
+    //    value7.html("<input style='width:50px;' type='text' id='txt_DiscountPercentage' value='" + value7.html() + "'/>");
+    //    value8.html("<input style='width:50px;' type='text' id='txt_RejectedQty' value='" + value8.html() + "'/>");
+       
+    //})
+    //$("#Table2").on('click', "#btn_Delete", function (e) {
+    //    var currentRow = $(this).closest("tr");
+    //    var value1 = currentRow.find("td:eq(2)");
+    //    $.ajax({
+
+    //        url: '../StockInward/DeleteStockDetail',
+    //        type: 'POST',
+    //        cache: false,
+    //        data: JSON.stringify({ 'GrnId': GrnId}),
+    //        contentType: 'application/json; charset=utf-8',
+    //        datatype: 'json',
+    //        success: function (data) {      
+    //            $(this).closest("tr").remove();
+    //        },
+    //})
+
+    //$("#Table2 tr").prop('contenteditable', true)
+</script>
+@*<style>
+ #Table2 input[type=text] {
+        width:50px;
+        border-right:0;
+        border-left:0;
+        border-top:0;
+        border-color:gray;
+       border-bottom-style:dashed;
+    }
+</style>*@
+ 

@@ -53,5 +53,34 @@ namespace NTCYApplication.Models.Club
                 return ds;
             }
         }
+
+        public DataSet GetAllWaiters()
+        {
+            string response = string.Empty;
+            DataSet ds = new DataSet();
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.Parameters.Clear();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.CommandText = "spGetAllWaiterName";
+            using (SqlConnection MyCon = db.OpenConnection())
+            {
+                cmd.Connection = MyCon;
+                try
+                {
+                    SqlDataAdapter da = new SqlDataAdapter(cmd);
+                    da.Fill(ds);
+                }
+                catch (SqlException e)
+                {
+                    response = e.ToString();
+                }
+                finally
+                {
+                    db.CloseConnection();
+                }
+                return ds;
+            }
+        }
     }
 }

@@ -1,0 +1,927 @@
+﻿﻿@using NTCYApplication.Models.Club
+@{
+    ViewBag.Title = "CreateMember";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div id="mySidenav" class="col-xs-4 col-sm-4 col-md-2 col-lg-2 sidenav">
+
+    @Html.Partial("_left_admin_submenu")
+</div>
+
+<div>
+    @if (ViewBag.errList != null)
+    {
+        for (int i = 0; i < ViewBag.errList.count; i++)
+        {
+            <p>ViewBag.errList[i]</p>
+        }
+    }
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        $('#DOB').datetimepicker({
+            format: 'DD/MM/YYYY',
+            ignoreReadonly: true
+        });
+        $('#MemberSince').datetimepicker({
+            format: 'DD/MM/YYYY',
+            ignoreReadonly: true
+        });
+
+        $('#MembershipStartDate').datetimepicker({
+            format: 'DD/MM/YYYY',
+            ignoreReadonly: true
+        });
+
+        $('#MembershipValidity').datetimepicker({
+            format: 'DD/MM/YYYY',
+            ignoreReadonly: true
+        });
+
+        $('#DOBOfSpouse').datetimepicker({
+            format: 'DD/MM/YYYY',
+            ignoreReadonly: true
+        });
+
+        $('#DOBOfChild1').datetimepicker({
+            format: 'DD/MM/YYYY',
+            ignoreReadonly: true
+        });
+
+        $('#DOBOfChild2').datetimepicker({
+            format: 'DD/MM/YYYY',
+            ignoreReadonly: true
+        });
+        $('#DOBOfFather').datetimepicker({
+            format: 'DD/MM/YYYY',
+            ignoreReadonly: true
+        });
+
+
+
+    });
+</script>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $("#Gender").val("@ViewData["Gender"]");
+        $("#MembershipType").val("@ViewData["MembershipType"]");
+        $("#MembershipStatus").val("@ViewData["MemberShipStatus"]");
+       // $("#Alive").val("@ViewData["Alive"]");
+        var data = ViewData["Alive"];
+        if (data == "Yes") {
+
+            $("#RadioYes").prop("checked", true);
+
+        }
+        else if (data == "No") {
+
+            $("#RadioNo").prop("checked", true);
+
+        }
+
+
+    });
+</script>
+
+
+<div class="col-xs-8 col-sm-8 col-md-10 col-lg-10 main">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 page-title-outer">
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 page-title">Member Master</div>
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 page-title-btn">
+
+            <a href="@Url.Action("ViewMembers", "Member")" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="View All">
+                <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
+            </a>
+        </div>
+    </div>
+
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 workarea-outer">
+
+
+
+        @using (Html.BeginForm("CreateMember", "Member", new { @class = "beginform-outer" }, FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 scrolling-area">
+                <!--////////////////Member Details////////////////////////////////-->
+
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 form-outer" style="margin-bottom:4px; border-bottom:1px solid #4a4a4a; padding-bottom:8px;">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 form-outer" style="font-weight: normal; margin-bottom: 4px;
+                         margin-left: 12px;
+                         color: #ffcd1c;">
+                        Enter Member Details
+                    </div>
+
+                    <!--*$$$$$$$$$$$$$$$$-->
+
+                    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 form-outer">
+                        @Html.Hidden("MemId", ViewData["MemId"], new { @id = "MemId" })
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 bold-label-right">
+                            Member ID
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 textbox-area">
+                            @Html.TextBox("MemberId", ViewData["MemberId"], new { @maxlength = "10", @class = "blckthm-form-control", @id = "MemberId" })
+                            <span id="errmsgMName"></span>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 bold-label-right">
+                            Membership No
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 textbox-area">
+                            @if (ViewData["MembershipNo"] != null)
+                            {
+                                @Html.TextBox("MembershipNo", ViewData["membershipNo"], new { @readonly = "readonly", @class = "blckthm-form-control", @id = "membershipNo" })
+                            }
+                            else
+                            {
+                                @Html.TextBox("MembershipNo", "", new { @maxlength = "10", @class = "blckthm-form-control", @id = "membershipNo" })
+
+                            }
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 bold-label-right">
+                            Member Name
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-2 textbox-area">
+                            @Html.DropDownList("Salutation", new List<SelectListItem> {
+                                new SelectListItem { Text="Mr.", Value="Mr."},
+                                new SelectListItem { Text="Ms.", Value="Ms."},
+                                new SelectListItem { Text="Mrs.", Value="Mrs."},
+                                new SelectListItem { Text="Dr.", Value="Dr."},
+                                new SelectListItem { Text="Major.", Value="Major."},
+                                new SelectListItem { Text="Prof.", Value="Prof."}
+                                }, "Select", new { @class = "blckthm-form-control", @id = "Salutation" })
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 textbox-area">
+                            @Html.TextBox("MemberName", ViewData["memberName"], new { @maxlength = "100", @class = "blckthm-form-control", @id = "memberName" })
+                            <span id="errmsgMName"></span>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 bold-label-right">
+                            Gender
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 textbox-area">
+
+                            @Html.DropDownList("Gender", new List<SelectListItem> {
+                        new SelectListItem { Text="Male", Value="Male"},
+                        new SelectListItem { Text="Female", Value="Female"},
+                        new SelectListItem { Text="Transgender", Value="Transgender"}
+                        }, "Select Gender", new { @class = "blckthm-form-control", @id = "Gender" })
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 bold-label-right">
+                            Date of Birth
+                        </div>
+                        <div class='col-xs-12 col-sm-12 col-md-6 col-lg-6 textbox-area'>
+                            @Html.TextBox("DOB", ViewData["DOB"], new
+                            {@*@readonly = "readonly",*@@maxlength = "10",
+                                @class = "blckthm-form-control",
+                                @id = "DOB"
+                                })
+
+                        </div>
+
+
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 bold-label-right">
+                            Marital Status
+                        </div>
+                        @*<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 textbox-area">
+                                @Html.TextBox("MaritalStatus", ViewData["MaritalStatus"], new { @maxlength = "30", @class = "blckthm-form-control", @id = "MaritalStatus" })
+
+                            </div>*@
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 textbox-area">
+                            @*@Html.DropDownList("MembershipStatus", ViewData["MemberStatus"] as IEnumerable<SelectListItem>, "--Membership Status--", new { @class = "blckthm-form-control" })*@
+                            @Html.DropDownList("MaritalStatus", new List<SelectListItem> {
+                        new SelectListItem { Text="Single", Value="Single"},
+                        new SelectListItem { Text="Married", Value="Married"},
+                        new SelectListItem { Text="Divorced", Value="Divorced"}
+                        }, "MaritalStatus", new { @class = "blckthm-form-control", @id = "MaritalStatus" })
+                        </div>
+
+
+
+
+
+                    </div>
+                    <!--*$$$$$$$$$$$$$$$$-->
+                    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 form-outer">
+
+
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 bold-label-right">
+                            Phone/ Mobile
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 textbox-area">
+                            @Html.TextBox("MobileNo", ViewData["MobileNo"], new { @maxlength = "100", @class = "blckthm-form-control", @id = "MobileNo" })
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 bold-label-right">
+                            Alternate Phone/ Mobile
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 textbox-area">
+                            @Html.TextBox("AltMobileNo", ViewData["AltMobileNo"], new { @maxlength = "100", @class = "blckthm-form-control", @id = "AltMobileNo" })
+
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 bold-label-right">
+                            Email ID
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 textbox-area">
+                            @Html.TextBox("EmailId", ViewData["EmailId"], new { @type = "email", @maxlength = "100", @class = "blckthm-form-control", @id = "EmailId" })
+
+                        </div>
+
+
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 bold-label-right">
+                            Qualification
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 textbox-area">
+                            @Html.TextBox("Qualification", ViewData["Qualification"], new { @maxlength = "200", @class = "blckthm-form-control", @id = "Qualification" })
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 bold-label-right">
+                            Profession
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 textbox-area">
+                            @Html.TextBox("Profession", ViewData["Profession"], new { @maxlength = "200", @class = "blckthm-form-control", @id = "Profession" })
+
+                        </div>
+
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 bold-label-right">
+                            Member Type
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 textbox-area">
+                            @Html.DropDownList("MemberType", new List<SelectListItem> {
+                        new SelectListItem { Text="PERMANENT MEMBER", Value="Permanent"},
+                        new SelectListItem { Text="TEMPORARY MEMBERSHIP", Value="Temporary"},
+                        new SelectListItem { Text="SPONSERED MEMBERSHIP", Value="Sponsored"},
+                        new SelectListItem { Text="TRANSFERRED MEMBERSHIP", Value="Transferred"},
+                        new SelectListItem { Text="LIFE MEMBERS", Value="LifeMember"},
+                        new SelectListItem { Text="HONORARY LIFE MEMBER", Value="Honourly.L.M"}
+                        }, "MemberType", new { @class = "blckthm-form-control", @id = "MemberType" })
+                        </div>
+
+                    </div>
+                    <!--*$$$$$$$$$$$$$$$$-->
+                    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 form-outer">
+
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 bold-label-right">
+                            Primary Proximity Card
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 textbox-area">
+                            @Html.TextBox("ProximityCardNo", ViewData["ProximityCardNo"], new { @maxlength = "100", @class = "blckthm-form-control", @id = "ProximityCardNo" })
+                        </div>
+                        <div class="clearfix"></div>
+
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 bold-label-right">
+                            Address
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 textbox-area">
+                            @Html.TextArea("Address", new { @maxlength = "250", @class = "blckthm-form-control", @id = "Address" })
+
+                        </div>
+
+                        @*<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 bold-label-right">
+                            Pin Code
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 textbox-area">
+                            @Html.TextBox("PinCode", ViewData["PinCode"], new { @maxlength = "30", @class = "blckthm-form-control", @id = "PinCode" })
+
+                        </div>*@
+
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 bold-label-right">
+                            Amenities Interested
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 textbox-area">
+                            @Html.TextBox("AmenitiesInterested", ViewData["AmenitiesInterested"], new { @maxlength = "200", @class = "blckthm-form-control", @id = "AmenitiesInterested" })
+
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 bold-label-right">
+                            Member Photo
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 textbox-area">
+                            <img id = "user_img" height = "100" width = "120" style = "border:solid" src="@ViewData["MemberPhoto"]"/>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 bold-label-right">
+                            
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 textbox-area">
+                            <input type="file" title="search image" id="file" name="imgfile" onchange="show(event)" />
+                        </div>
+                    </div>
+                    <!--*$$$$$$$$$$$$$$$$-->
+
+                </div>
+
+
+                <!--/////////////////////Spouse Destails///////////////////////////-->
+
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 form-outer" style="margin-bottom:4px; border-bottom:1px solid #4a4a4a; padding-bottom:8px;">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 form-outer" style="font-weight: normal; margin-bottom: 4px;
+                         margin-left: 12px;
+                         color: #ffcd1c;">
+                        Enter Member's Family Details
+                    </div>
+
+                    <!--*$$$$$$$$$$$$$$$$-->
+
+                    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 form-outer">
+
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 bold-label-right">
+                            Spouse Name
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 textbox-area">
+                            @Html.TextBox("SpouseName", ViewData["SpouseName"], new { @maxlength = "100", @class = "blckthm-form-control", @id = "SpouseName" })
+                            <span id="errmsgIMAmount"></span>
+                        </div>
+                        <div class="clearfix"></div>
+
+
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 bold-label-right">
+                            Father's Name
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 textbox-area">
+                            @Html.TextBox("FatherName", ViewData["FatherName"], new { @maxlength = "100", @class = "blckthm-form-control", @id = "FatherName" })
+                            <span id="errmsgIMAmount"></span>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 bold-label-right">
+                            Child1 Name
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 textbox-area">
+                            @Html.TextBox("Child1sName", ViewData["Child1sName"], new { @maxlength = "100", @class = "blckthm-form-control", @id = "Child1sName" })
+                            <span id="errmsgIMAmount"></span>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 bold-label-right">
+                            Child2 Name
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 textbox-area">
+                            @Html.TextBox("Child2sName", ViewData["Child2sName"], new { @maxlength = "100", @class = "blckthm-form-control", @id = "Child2sName" })
+                            <span id="errmsgIMAmount"></span>
+                        </div>
+                    </div>
+
+                    <!--*$$$$$$$$$$$$$$$$-->
+                    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 form-outer">
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 bold-label-right">
+                            DOB of Spouse
+                        </div>
+                        <div class='col-xs-12 col-sm-12 col-md-6 col-lg-6 textbox-area'>
+                            @Html.TextBox("DOBOfSpouse", ViewData["DOBOfSpouse"], new
+                       {@*@readonly = "readonly",*@@maxlength = "10",
+@class = "blckthm-form-control",
+@id = "DOBOfSpouse"
+})
+
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 bold-label-right">
+                            DOB of Father
+                        </div>
+                        <div class='col-xs-12 col-sm-12 col-md-6 col-lg-6 textbox-area'>
+                            @Html.TextBox("DOBOfFather", ViewData["DOBOfFather"], new
+                       {@*@readonly = "readonly",*@@maxlength = "10",
+@class = "blckthm-form-control",
+@id = "DOBOfFather"
+})
+
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 bold-label-right">
+                            DOB of Child 1
+                        </div>
+                        <div class='col-xs-12 col-sm-12 col-md-6 col-lg-6 textbox-area'>
+                            @Html.TextBox("DOBOfChild1", ViewData["DOBOfChild1"], new
+                       {@*@readonly = "readonly",*@@maxlength = "10",
+@class = "blckthm-form-control",
+@id = "DOBOfChild1"
+})
+
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 bold-label-right">
+                            DOB of Child 2
+                        </div>
+                        <div class='col-xs-12 col-sm-12 col-md-6 col-lg-6 textbox-area'>
+                            @Html.TextBox("DOBOfChild2", ViewData["DOBOfChild2"], new
+                       {@*@readonly = "readonly",*@@maxlength = "10",
+@class = "blckthm-form-control",
+@id = "DOBOfChild2"
+})
+
+                        </div>
+
+                    </div>
+
+
+                    <!--*$$$$$$$$$$$$$$$$-->
+                    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 form-outer">
+
+                        @*<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 bold-label-right">
+                                Address 2
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 textbox-area">
+                                @Html.TextArea("Address2", new { @class = "blckthm-form-control", @id = "Address2" })
+
+                            </div>*@
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 bold-label-right">
+                            Hobbies
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 textbox-area">
+                            @Html.TextBox("Hobbies", ViewData["Hobbies"], new { @maxlength = "200", @class = "blckthm-form-control", @id = "Hobbies" })
+                            <span id="errmsgIMAmount"></span>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!--/////////////////////Membership Destails///////////////////////////-->
+
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 form-outer" style="margin-bottom:4px;  padding-bottom:8px;">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 form-outer" style="font-weight: normal; margin-bottom: 4px;
+                         margin-left: 12px;
+                         color: #ffcd1c;">
+                        Enter Membership Details
+                    </div>
+
+                    <!--*$$$$$$$$$$$$$$$$-->
+
+                    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 form-outer">
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 bold-label-right">
+                            Membership Status
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 textbox-area">
+                            @*@Html.DropDownList("MembershipStatus", ViewData["MemberStatus"] as IEnumerable<SelectListItem>, "--Membership Status--", new { @class = "blckthm-form-control" })*@
+                            @Html.DropDownList("MembershipStatus", new List<SelectListItem> {
+                        new SelectListItem { Text="Active", Value="Active"},
+                        new SelectListItem { Text="InActive", Value="InActive"}
+                        }, "MembershipStatus", new { @class = "blckthm-form-control", @id = "MembershipStatus" })
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 bold-label-right">
+                            Alive
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 textbox-area">
+                            <input type="radio" id="RadioYes" name="RadioChk" value="Yes" />Yes
+                            <input type="radio" id="RadioNo" name="RadioChk" value="No" />No
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 bold-label-right">
+                            Subscription Type
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 textbox-area">
+                            <select name="MembershipType" id="MembershipType" class="blckthm-form-control">
+                                <option value="">
+                                    Select Subscription Type
+                                </option>
+                                @foreach (var Model in ViewBag.SubList as List<Subscription>)
+                                {
+
+                                    <option value="@Model.SubscriptionType" class="blckthm-form-control">
+                                        @Model.SubscriptionType:@Model.SubscriptionRate
+                                    </option>
+                                }
+                            </select>
+                        </div>
+                        <div class="clearfix"></div>
+
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 bold-label-right">
+                            Initial Membership Amount
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 textbox-area">
+                            @Html.TextBox("InitialMembershipAmount", ViewData["InitialMembershipAmount"], new { @maxlength = "10", @class = "blckthm-form-control", @id = "InitialMembershipAmount" })
+                            <span id="errmsgIMAmount"></span>
+                        </div>
+                        <div class="clearfix"></div>
+
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 bold-label-right">
+                            Member Since
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 textbox-area">
+                            @Html.TextBox("MemberSince", ViewData["MemberSince"], new
+                       {@*@readonly = "readonly",*@@maxlength = "10",
+@class = "blckthm-form-control",
+@id = "MemberSince"
+})
+
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 bold-label-right">
+
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 textbox-area">
+                            @*@Html.TextBox("MembershipStartDate", ViewData["MembershipStartDate"], new { @readonly = "readonly", @class = "blckthm-form-control", @id = "MembershipStartDate" })*@
+
+                        </div>
+                        <div class="clearfix"></div>
+
+
+                    </div>
+
+                    <!--*$$$$$$$$$$$$$$$$-->
+                    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 form-outer">
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 bold-label-right">
+                            Subscription Start Date
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 textbox-area">
+                            @Html.TextBox("MembershipStartDate", ViewData["MembershipStartDate"], new
+                       {@*@readonly = "readonly",*@@maxlength = "10",
+@class = "blckthm-form-control",
+@id = "MembershipStartDate"
+})
+
+                        </div>
+
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 bold-label-right">
+                            Subscription End Date
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 textbox-area">
+                            @Html.TextBox("MembershipValidity", ViewData["MembershipValidity"], new
+                       {@*@readonly = "readonly",*@@maxlength = "10",
+@class = "blckthm-form-control",
+@id = "MembershipValidity"
+})
+
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 bold-label-right">
+                            Subscription Amount
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 textbox-area">
+                            @Html.TextBox("SubscriptionAmountPaid", ViewData["SubscriptionAmountPaid"], new { @maxlength = "10", @class = "blckthm-form-control", @id = "SubscriptionAmountPaid" })
+                            <span id="errmsgSAPaid"></span>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 bold-label-right">
+                            Last Subscription Paid
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 textbox-area">
+                            @Html.TextBox("LastSubscriptionPaid", ViewData["LastSubscriptionPaid"], new { @maxlength = "10", @class = "blckthm-form-control", @id = "LastSubscriptionPaid" })
+                            <span id="errmsgLSPaid"></span>
+                        </div>
+                        <div class="clearfix"></div>
+
+                    </div>
+
+
+                    <!--*$$$$$$$$$$$$$$$$-->
+                    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 form-outer">
+
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 bold-label-right">
+                            Guests
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 textbox-area">
+                            @Html.TextBox("Guests", ViewData["Guests"], new { @maxlength = "100", @class = "blckthm-form-control", @id = "Guests" })
+
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 bold-label-right">
+                            Guest Card No
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 textbox-area">
+                            @Html.TextBox("GuestCards", ViewData["GuestCards"], new { @maxlength = "100", @class = "blckthm-form-control", @id = "GuestCards" })
+
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 bold-label-right">
+                            Payment Status
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 textbox-area">
+                            @*@Html.DropDownList("MembershipStatus", ViewData["MemberStatus"] as IEnumerable<SelectListItem>, "--Membership Status--", new { @class = "blckthm-form-control" })*@
+                            @Html.DropDownList("PaymentStatus", new List<SelectListItem> {
+                        new SelectListItem { Text="Paid", Value="Paid"},
+                        new SelectListItem { Text="UnPaid", Value="UnPaid"}
+                        }, "PaymentStatus", new { @class = "blckthm-form-control", @id = "PaymentStatus" })
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 bold-label-right">
+                            Balance
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 textbox-area">
+                            @Html.TextBox("Balance", ViewData["Balance"], new { @maxlength = "20", @class = "blckthm-form-control", @id = "Balance" })
+
+                        </div>
+
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 textbox-area">
+
+                        </div>
+
+
+                        <input type="hidden" name="RadioHidden" id="RadioHidden">
+                    </div>
+                </div>
+
+
+                @*@Html.Hidden("MemberId", ViewData["MemberId"], new { @id = "MemberId" })*@
+                @Html.Hidden("ClubId", 13, new { @id = "ClubId" })
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 action-outer">
+                @*@Html.ActionLink("Submit", "Club_master", "Admin", null, new { @class = "btn btn-primary  " })*@
+                @*<input type="submit" value="@ViewBag.submit" class="btn btn-primary" id="Btn_Submit" />*@
+                <button type="submit" value="@ViewBag.submit" class="btn btn-primary" id="Btn_Submit" data-toggle="tooltip" title="Save">
+                    <span class="glyphicon glyphicon-floppy-save"> </span>
+                </button>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 label-area">
+                @ViewBag.message
+                @ViewBag.innerEx
+            </div>
+
+        }
+    </div>
+
+</div>
+
+<script type="text/javascript">
+    //function show(input)
+    //{
+    //    if (input.files && input.files[0])
+    //    {
+    //        var filerdr = new FileReader();
+    //        filerdr.onload = function (e) {$('#user_img').attr('src', e.target.result);
+    //    }
+    //    filerdr.readAsDataURL(input.files[0]);
+    //}
+
+    var show = function (event) {
+        var result = document.getElementById("user_img");
+        result.src = URL.createObjectURL(event.target.files[0]);
+    };
+    $("#MembershipType").change(function () {
+        //debugger;
+        var cost = $("#MembershipType option:selected").text();
+        var len = jQuery.trim(cost);
+        var array = [];
+        array = len.split(':');
+        $('#SubscriptionAmountPaid').val(array[1]);
+    });
+
+
+    $(document).ready(function () {
+        $("#InitialMembershipAmount").keypress(function (e) {
+            if ((e.which != 46 || $(this).val().indexOf('.') != -1) && (e.which < 48 || e.which > 57)) {
+                //$('#errmsgIMAmount').css('color', 'red');
+                //$("#errmsgIMAmount").html("Invalid Data").show().fadeOut("slow");
+                return false;
+            }
+        })
+        $("#LastSubscriptionPaid").keypress(function (e) {
+            if ((e.which != 46 || $(this).val().indexOf('.') != -1) && (e.which < 48 || e.which > 57)) {
+                $('#errmsgLSPaid').css('color', 'red');
+                $("#errmsgLSPaid").html("Invalid Data").show().fadeOut("slow");
+                return false;
+            }
+        })
+
+        $("#EmailId").keypress(function (e) {
+            if (e.which == 32) {
+
+                return false;
+            }
+        })
+
+        $("#SubscriptionAmountPaid").keypress(function (e) {
+            if ((e.which != 46 || $(this).val().indexOf('.') != -1) && (e.which < 48 || e.which > 57)) {
+                $('#errmsgSAPaid').css('color', 'red');
+                $("#errmsgSAPaid").html("Invalid Data").show().fadeOut("slow");
+                return false;
+            }
+        })
+        $("#memberName").keypress(function (e) {
+            if ((e.which >= 33 && e.which <= 64) || (e.which >= 91 && e.which <= 96) ||
+                e.which >= 123 && e.which <= 126) {
+                $('#errmsgMName').css('color', 'red');
+                $("#errmsgMName").html("Invalid Data").show().fadeOut("slow");
+                return false;
+            }
+        })
+
+    });
+    //required field validation
+    $('#Btn_Submit').click(function () {
+        //debugger;
+        if ($('input[name=RadioChk]:checked').val() == "Yes") {
+            $("#RadioHidden").val("Yes");
+        }
+        else if ($('input[name=RadioChk]:checked').val() == "No") { $("#RadioHidden").val("No"); }
+        else {
+            alert("Please Select Alive Status");
+            return false;
+        }
+
+        if ($('#membershipNo').val() == '' || $('#membershipNo').val() == "") {
+            alert('MembershipNo field is required !!!');
+            $('#membershipNo').focus();
+            return false;
+        }
+        else if ($('#memberName').val() == '' || $('#memberName').val() == "") {
+            alert('Please Enter MemberName...')
+            $('#memberName').focus();
+            return false;
+        }
+        else if ($('#Address').val() == '' || $('#Address').val() == "") {
+            alert('Please Enter Address..')
+            $('#Address').focus();
+            return false;
+        }
+        else if ($('#DOB').val() == '' || $('#DOB').val() == "") {
+            alert('Please select Date of Birth..')
+            $('#DOB').focus();
+            return false;
+        }
+        else if ($('#Gender').val() == '' || $('#Gender').val() == "") {
+            alert('Please Select Gender..')
+            $('#Gender').focus();
+            return false;
+        }
+        else if ($('#MobileNo').val() == '' || $('#MobileNo').val() == "") {
+            alert('Enter Mobile Number..')
+            $('#MobileNo').focus();
+            return false;
+        }
+        else if ($('#EmailId').val() == '' || $('#EmailId').val() == "") {
+            alert('EmailId required!!!')
+            $('#EmailId').focus();
+            return false;
+        }
+        else if ($('#ProximityCardNo').val() == '' || $('#ProximityCardNo').val() == "") {
+            alert('Proximity Card Number is Required!!!')
+            $('#ProximityCardNo').focus();
+            return false;
+        }
+        else if ($('#AmenitiesInterested').val() == '' || $('#AmenitiesInterested').val() == "") {
+            alert('AmenitiesInterested Field is Required!!!')
+            $('#AmenitiesInterested').focus();
+            return false;
+        }
+        else if ($('#MembershipStatus').val() == '' || $('#MembershipStatus').val() == "") {
+            alert('Select Membership Status!!!')
+            $('#MembershipStatus').focus();
+            return false;
+        }
+        else if ($('#InitialMembershipAmount').val() == '' || $('#InitialMembershipAmount').val() == "") {
+            alert('please Enter Initial Membership Amount..')
+            $('#InitialMembershipAmount').focus();
+            return false;
+        }
+        else if ($('#MembershipType').val() == "" || $('#MembershipType').val() == '' || $('#MembershipType').val() == "Select MemberShip Type") {
+            alert('Please Select Membership Type..')
+            $('#MembershipType').focus();
+            return false;
+        }
+        else if ($('#MemberSince').val() == '' || $('#MemberSince').val() == "") {
+            alert('MemberSince Field is Required..')
+            $('#MemberSince').focus();
+            return false;
+        }
+        else if ($('#MembershipStartDate').val() == '' || $('#MembershipStartDate').val() == "") {
+            alert('MembershipStartDate  Field is Required..')
+            $('#MembershipStartDate').focus();
+            return false;
+        }
+        else if ($('#MembershipValidity').val() == '' || $('#MembershipValidity').val() == "") {
+            alert('MembershipValidity  Field is Required..')
+            $('#MembershipValidity').focus();
+            return false;
+        }
+        else if ($('#SubscriptionAmountPaid').val() == '' || $('#SubscriptionAmountPaid').val() == "") {
+            alert('Please Enter SubscriptionAmountPaid..')
+            $('#SubscriptionAmountPaid').focus();
+            return false;
+        }
+        else if ($('#LastSubscriptionPaid').val() == '' || $('#LastSubscriptionPaid').val() == "") {
+            alert('Please Enter LastSubscriptionPaid ..')
+            $('#LastSubscriptionPaid').focus();
+            return false;
+        }
+        else if ($('#Guests').val() == '' || $('#Guests').val() == "") {
+            alert('Please Enter Guests ..')
+            $('#Guests').focus();
+            return false;
+        }
+        else if ($('#GuestCards').val() == '' || $('#GuestCards').val() == "") {
+            alert('Please Enter GuestCards ..')
+            $('#GuestCards').focus();
+            return false;
+        }
+        else if ($('#PaymentStatus').val() == '' || $('#PaymentStatus').val() == "") {
+            alert('Select Payment Status!!!')
+            $('#PaymentStatus').focus();
+            return false;
+        }
+
+        else { return true; }
+    })
+
+
+    $("#RadioNo").click(function () {
+        $("#MembershipStatus").val("InActive");
+    })
+    $("#RadioYes").click(function () {
+        $("#MembershipStatus").val("Active");
+    })
+
+
+
+
+    $("#DOB").keypress(function (e) {
+        if (e.which <= 47 || e.which >= 58) {
+            return false;
+        }
+    })
+    $("#DOBOfSpouse").keypress(function (e) {
+        if (e.which <= 47 || e.which >= 58) {
+            return false;
+        }
+    })
+    $("#DOBOfFather").keypress(function (e) {
+        if (e.which <= 47 || e.which >= 58) {
+            return false;
+        }
+    })
+    $("#DOBOfChild1").keypress(function (e) {
+        if (e.which <= 47 || e.which >= 58) {
+            return false;
+        }
+    })
+    $("#DOBOfChild2").keypress(function (e) {
+        if (e.which <= 47 || e.which >= 58) {
+            return false;
+        }
+    })
+    $("#MemberSince").keypress(function (e) {
+        if (e.which <= 47 || e.which >= 58) {
+            return false;
+        }
+    })
+    $("#MembershipStartDate").keypress(function (e) {
+        if (e.which <= 47 || e.which >= 58) {
+            return false;
+        }
+    })
+    $("#MembershipValidity").keypress(function (e) {
+        if (e.which <= 47 || e.which >= 58) {
+            return false;
+        }
+    })
+
+
+    $("#MobileNo").keypress(function (e) {
+        if (e.which <= 47 || e.which >= 58) {
+            return false;
+        }
+    })
+    $("#AltMobileNo").keypress(function (e) {
+        if (e.which <= 47 || e.which >= 58) {
+            return false;
+        }
+    })
+
+    $("#SpouseName").keypress(function (e) {
+        if ((e.which >= 33 && e.which <= 64) || (e.which >= 91 && e.which <= 96) ||
+            e.which >= 123 && e.which <= 126) {
+            return false;
+        }
+    })
+    $("#FatherName").keypress(function (e) {
+        if ((e.which >= 33 && e.which <= 64) || (e.which >= 91 && e.which <= 96) ||
+            e.which >= 123 && e.which <= 126) {
+            return false;
+        }
+    })
+    $("#Child1sName").keypress(function (e) {
+        if ((e.which >= 33 && e.which <= 64) || (e.which >= 91 && e.which <= 96) ||
+            e.which >= 123 && e.which <= 126) {
+            return false;
+        }
+    })
+    $("#Child2sName").keypress(function (e) {
+        if ((e.which >= 33 && e.which <= 64) || (e.which >= 91 && e.which <= 96) ||
+            e.which >= 123 && e.which <= 126) {
+            return false;
+        }
+    })
+    $("#Guests").keypress(function (e) {
+        if ((e.which >= 33 && e.which <= 43) || (e.which >= 91 && e.which <= 96) ||
+            e.which >= 123 && e.which <= 126 || (e.which >= 45 && e.which <= 64)) {
+            return false;
+        }
+    })
+
+    $("#GuestCards").keypress(function (e) {
+        if ((e.which >= 33 && e.which <= 43) || (e.which >= 91 && e.which <= 96) ||
+            e.which >= 123 && e.which <= 126 || (e.which >= 45 && e.which <= 47) || (e.which >= 58 && e.which <= 64)) {
+            return false;
+        }
+    })
+
+    $("#Balance").keypress(function (e) {
+        if ((e.which >= 33 && e.which <= 45) || (e.which >= 58 && e.which <= 126)) {
+            return false;
+        }
+    })
+    $("#Profession").keypress(function (e) {
+        if ((e.which >= 33 && e.which <= 64) || (e.which >= 91 && e.which <= 96) ||
+            e.which >= 123 && e.which <= 126) {
+            return false;
+        }
+    })
+
+
+
+
+
+</script>

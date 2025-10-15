@@ -29,6 +29,11 @@ begin
  select Waiter_Name from WaiterDetails where Waiter_Name like '%'+@Waiter_Name+'%' order by Waiter_Name
 end  
 
+Create Proc spGetAllWaiterName As
+Begin
+	Select * From WaiterDetails Order By Waiter_Name Asc
+End
+
 ALTER PROCEDURE [dbo].[spInsertMemberDetails] (  
     @MemberId varchar(10),  
     @MembershipNo varchar(32),  

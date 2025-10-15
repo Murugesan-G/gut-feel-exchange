@@ -1,0 +1,999 @@
+﻿@using System.Data
+@using NTCYApplication.Models.Food
+
+@{
+    ViewBag.Title="TakeFoodOrder";
+}
+
+
+<script>
+
+    $(".page-title-outer").on('input', '#TableNo', function () {
+        var value = $(this).val();
+        if (value >= 51) {
+            alert("Maximun Allowed 50");
+        }
+        if ((value !== '') && (value.indexOf('.') === -1)) {
+            $(this).val(Math.max(Math.min(value, 50), -50));
+        }
+    });
+</script>
+<script type="text/javascript">
+    $(document).ready(function () {
+       // var $rows = $('#Table1 tr:not(:first-child)');
+        $('#txtSearchFoodveg').keyup(function () {
+
+            //var val = '^(?=.*\\b' + $.trim($(this).val()).split(/\s+/).join('\\b)(?=.*\\b') + ').*$',
+            //    reg = RegExp(val, 'i'),
+            //    text;
+
+            //$rows.show().filter(function () {
+            //    text = $(this).text().replace(/\s+/g, ' ');
+            //    return !reg.test(text);
+            //}).hide();
+
+            var input, filter, table, tr, td, i, txtValue;
+            input = document.getElementById("txtSearchFoodveg");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("Table1");
+            tr = table.getElementsByTagName("tr");
+            for (i = 0; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td")[0];
+                if (td) {
+                    txtValue = td.textContent || td.innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+
+
+        });
+       // var $rows1 = $('#Table3 tr:not(:first-child)');
+        $('#txtSearchFoodNonveg').keyup(function () {
+
+            //var val = '^(?=.*\\b' + $.trim($(this).val()).split(/\s+/).join('\\b)(?=.*\\b') + ').*$',
+            //    reg = RegExp(val, 'i'),
+            //    text;
+
+            //$rows1.show().filter(function () {
+            //    text = $(this).text().replace(/\s+/g, ' ');
+            //    return !reg.test(text);
+            //}).hide();
+
+            var input, filter, table, tr, td, i, txtValue;
+            input = document.getElementById("txtSearchFoodNonveg");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("Table3");
+            tr = table.getElementsByTagName("tr");
+            for (i = 0; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td")[0];
+                if (td) {
+                    txtValue = td.textContent || td.innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+        });
+
+
+        $("ul[id*=FoodType] li").click(function () {
+            //var type = ($(this).attr('id')); // gets text contents of clicked li
+            var search_r = $('a', this).attr('id');
+
+            $('FoodTypeSelected').val('type');
+
+            $.ajax({
+                type: "POST",
+                url: "@Url.Content("~/FoorOrder/SelectMethod")",
+                content: "application/json; charset=utf-8",
+                dataType: "json",
+                data: { category: search_r },
+                success: function (data) {
+                    //  alert(data);
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    // TODO: Show error
+                }
+            });
+        });
+
+        //Insert FoodOrderList
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Content("~/FoodOrder/TakeFoodOrders")",
+            content: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+            },
+            error: function (abc, textstatus, errorthrown) {
+
+            }
+
+        });
+
+        $(document).ready(function () {
+            $('#TotalAmountValue').hide();
+            $('#TotalGstValue').hide();
+
+            ///////////////////////MembershipNo Search option//////////////////////////
+            $("#MembershipNo").autocomplete({
+                source: function (request, response) {
+                    //debugger;
+                    $.ajax({
+                        url: "@Url.Content("~/Member/GetMembers")",
+                        type: "POST",
+                        dataType: "json",
+                        data: { prefix: request.term },
+                        success: function (data) {
+                            if (!data.length) {
+                                var result = [
+                                 {
+                                     label: 'Enter only Valid MembershipNo',
+                                     value: response.term
+                                 }
+                                ];                               
+                                response(result);
+                                $("#Btn_Order").attr("disabled", true);
+                            }
+                            else {
+                                response($.map(data, function (item) {
+
+                                    return { value: item.MembershipNo, label: item.MembershipNo + "-" + item.MemberName };
+                                }))
+                                $("#Btn_Order").attr("disabled", false);
+                            }
+                        }
+                    })
+                },
+            });
+            ////////////////////////////////////////////////////////////////////////
+            $("#TableNo").keypress(function (e) {
+                if (e.which <= 47 || e.which >= 58) {
+                    $('#errmsgTNo').css('color', 'tomato');
+                    $("#errmsgTNo").html("Enter Digits Only").show().fadeOut(1500);
+                    return false;
+                }
+            })
+
+
+            var arrData = [];
+
+            $("#x").on('input', '#Qty', function () {
+                var value = $(this).val();
+                if (value >= 101) {
+                    alert("Max Qty Allowed 100");
+                }
+                if ((value !== '') && (value.indexOf('.') === -1)) {
+                    $(this).val(Math.max(Math.min(value, 100), -100));
+                }
+            });
+
+            $("#Btn_Order").on('click', function () {
+                if ($('#MembershipNo').val() == '' || $('#MembershipNo').val() == "") {
+                    alert('MembershipNo is required !!!');
+                    $('#MembershipNo').focus();
+                    return false;
+                }
+                else if ($('#TableNo').val() == '' || $('#TableNo').val() == "") {
+                    alert('Please EnterTable Number..')
+                    $('#TableNo').focus();
+                    return false;
+                }
+                if ($('#TableNo').val() == '' || $('#TableNo').val() == "" || $('#TableNo').val() == "0") {
+                    alert('Enter Valid Table No..')
+                    return false;
+                }
+                var inr = '<span class="fa fa-inr">&nbsp;</span>'
+                if ($('#Total').html() == '' || $('#Total').html() == "" || $('#Total').html() == "0" || $('#Total').html() == inr + "0") {
+                    alert('Please Select Items..')
+                    return false;
+                }
+
+                var TotalAmt = $('#TotalAmountValue').val();
+                var GSTValue = $('#TotalGstValue').val();
+                var GrossAmount = parseFloat($('#TotalAmountValue').val()) - parseFloat($('#TotalGstValue').val());
+
+                var FoodOrders = {};
+                FoodOrders.MembershipNo = $('#MembershipNo').val();
+                FoodOrders.TotalAmount = $('#TotalAmountValue').val();
+                FoodOrders.TotalGST = $('#TotalGstValue').val();
+                FoodOrders.TableNo = $('#TableNo').val();
+                FoodOrders.GrossAmount = GrossAmount;
+
+                $("#Table2 tr").each(function () {
+
+                    var currentRow = $(this);
+                    debugger
+                    var col1_value = currentRow.find("td:eq(0)").text();
+                    var col2_value = currentRow.find("td:eq(1)").text();
+                    var col3_value = currentRow.find("td:eq(2)").text();
+                    var col5_value = currentRow.find("td:eq(3)").text();
+                    if (col1_value != "") {
+                        var FoodOrderlist = {};
+                        //if (FoodOrderlist > 0) {
+                        FoodOrderlist.FoodName = col1_value;
+                        FoodOrderlist.Quantity = col2_value;
+                        FoodOrderlist.Price = col3_value;
+                        FoodOrderlist.GST = col5_value;
+
+                        arrData.push(FoodOrderlist);
+                    }
+                    //}
+                });
+                //alert(arrData);
+                $.ajax({
+
+                    url: "@Url.Content("~/FoodOrder/TakeFoodOrders")",
+                    type: 'POST',
+                    cache: false,
+                    data: JSON.stringify({ 'ExList': arrData, 'FoodOrderData': FoodOrders }),
+                    contentType: 'application/json; charset=utf-8',
+                    datatype: 'json',
+                    success: function (data) {
+
+                    },
+
+
+                    //error: function () { alert("error excution"); }
+                });
+
+            });
+
+
+            //when we will click the order button
+            //$('#Btn_Order').click(function () {
+            //    //debugger;
+            //    $("#TotalGst").val(($("#Tax").html()));
+            //    $("#TotalAmount").val(($("#Total").html()));
+            //    if ($('#MembershipId').val() == '' || $('#MembershipId').val() == "") {
+            //        alert('MembershipId is required !!!');
+            //        $('#MembershipId').focus();
+            //        return false;
+            //    }
+            //    else if ($('#TableNo').val() == '' || $('#TableNo').val() == "") {
+            //        alert('Please EnterTable Number..')
+            //        $('#TableNo').focus();
+            //        return false;
+            //    }
+
+            //    else { return true; }
+            //})
+
+            //FOR VEG FOOD
+            $("#Table1").on('click', '#btnSelect', function (e) {
+
+                // //debugger;
+                var currentRow = $(this).closest("tr");
+                col1 = currentRow.find("td:eq(0)").html();
+                col2 = currentRow.find("td:eq(1)").html(); // get current row 2nd table cell TD value
+                col3 = currentRow.find('#Qty').val();
+                col4 = col2 * col3;
+
+                if (col1 == "") {
+                    col1 = 0;
+                }
+                else if (col2 == "") {
+                    col2 = 0;
+                }
+                else if (col4 == "") {
+                    col4 = 0;
+                }
+                if (col3 == "" || col3 <= "0") {
+                    alert('Please Enter valid Quantity');
+                    return false;
+                }
+
+                Getgst = currentRow.find("td:eq(2)").html();
+                gst = eval(col2 * Getgst * col3) / 100;
+
+
+                var markup = "<tr><td>" + col1 + "</td><td>" + col3 + "</td><td id='Amount'>" + col4 + "</td><td id='gst2'>" + gst + "</td><td>" +
+                '<button value="Cancel" id="Btn_Cancel" data-toggle="tooltip" data-placement="bottom" title="Cancel Item" class="btn-xs btn-danger"><span class="glyphicon glyphicon-remove"></span></button>' +
+               "</td></tr>";
+                //   //debugger;
+                currentRow.find("#Qty").val("");
+                $("#Table2 tbody").append(markup);
+
+                var columnAmount = 3;
+                var columnTax = 4;
+                var tot = 0;
+                $("#Table2").find("tr").children("td:nth-child(" + columnTax + ")")
+                .each(function () {
+                    $this = $(this);
+                    if (!$this.hasClass("sum") && $this.html() != "") {
+                        tot += parseFloat($this.html());
+                    }
+                });
+                var inr = '<span class="fa fa-inr">&nbsp;</span>'
+                $("#Tax").html(inr + tot);
+
+                $("#TotalGstValue").val(tot);
+
+
+                $("#Table2").find("tr").children("td:nth-child(" + columnAmount + ")")
+                  .each(function () {
+                      $this = $(this);
+                      if (!$this.hasClass("sum1") && $this.html() != "") {
+                          tot += parseFloat($this.html());
+                      }
+                  });
+                $("#Total").html(inr + tot);
+                $("#TotalAmountValue").val(tot);
+                return false;
+            });
+
+            //FOR NONVEG FOOD
+            $("#Table3").on('click', '#btnSelect', function () {
+                // get the current row
+                ////debugger;
+                var currentRow = $(this).closest("tr");
+                col1 = currentRow.find("td:eq(0)").html();
+                col2 = currentRow.find("td:eq(1)").html(); // get current row 2nd table cell TD value
+                col3 = currentRow.find('#Qty').val();
+                col4 = col2 * col3;
+
+                if (col1 == "") {
+                    col1 = 0;
+                }
+                else if (col2 == "") {
+                    col2 = 0;
+                }
+                else if (col4 == "") {
+                    col4 = 0;
+                }
+                if (col3 == "" || col3 <= "0") {
+                    alert('Please Enter valid Quantity');
+                    return false;
+                }
+
+                Getgst = currentRow.find("td:eq(2)").html();
+                gst = eval(col2 * Getgst * col3) / 100;
+
+                var markup = "<tr><td>" + col1 + "</td><td>" + col3 + "</td><td id='Amount'>" + col4 + "</td><td id='gst2'>" + gst + "</td><td>" +
+        '<button value="Cancel" id="Btn_Cancel" data-toggle="tooltip" data-placement="bottom" title="Cancel Item" class="btn-xs btn-danger"><span class="glyphicon glyphicon-remove"></span></button>' +
+        "</td></tr>";
+
+                currentRow.find("#Qty").val("");
+                $("#Table2 tbody").append(markup);
+
+                ////debugger;
+                var columnAmount = 3;
+                var columnTax = 4;
+                var tot = 0;
+                $("#Table2").find("tr").children("td:nth-child(" + columnTax + ")")
+                .each(function () {
+                    $this = $(this);
+                    if (!$this.hasClass("sum") && $this.html() != "") {
+                        tot += parseFloat($this.html());
+                    }
+                });
+                var inr = '<span class="fa fa-inr">&nbsp;</span>'
+                $("#Tax").html(inr + tot);
+                $("#TotalGstValue").val(tot);
+                $("#Table2").find("tr").children("td:nth-child(" + columnAmount + ")")
+                  .each(function () {
+                      $this = $(this);
+                      if (!$this.hasClass("sum1") && $this.html() != "") {
+                          tot += parseFloat($this.html());
+                      }
+                  });
+                $("#Total").html(inr + tot);
+                $("#TotalAmountValue").val(tot);
+                return false;
+            });
+
+            //Cancel selected item
+            $("#Table2").on('click', '#Btn_Cancel', function () {
+                ////debugger;
+                $(this).closest("tr").remove();
+
+
+                var columnAmount = 3;
+                var columnTax = 4;
+                var tot = 0;
+                $("#Table2").find("tr").children("td:nth-child(" + columnTax + ")")
+                .each(function () {
+                    $this = $(this);
+                    if (!$this.hasClass("sum") && $this.html() != "") {
+                        tot += parseFloat($this.html());
+
+                    }
+                });
+                var inr = '<span class="fa fa-inr">&nbsp;</span>'
+                $("#Tax").html(inr + tot);
+
+                $("#Table2").find("tr").children("td:nth-child(" + columnAmount + ")")
+                  .each(function () {
+                      $this = $(this);
+                      if (!$this.hasClass("sum1") && $this.html() != "") {
+                          tot += parseFloat($this.html());
+                      }
+                  });
+                $("#Total").html(inr + tot);
+                $("#TotalAmountValue").val(tot);
+
+            });
+        });
+
+
+        //FOR JUICE
+        $(document).ready(function () {
+            // code to read selected table row cell data (values).
+            $("#Table4").on('click', '#btnSelect', function () {
+                ////debugger;
+                var currentRow = $(this).closest("tr");
+                col1 = currentRow.find("td:eq(0)").html();
+                col2 = currentRow.find("td:eq(1)").html(); // get current row 2nd table cell TD value
+                col3 = currentRow.find('#Qty').val();
+                col4 = col2 * col3;
+
+                if (col1 == "") {
+                    col1 = 0;
+                }
+                else if (col2 == "") {
+                    col2 = 0;
+                }
+                else if (col4 == "") {
+                    col4 = 0;
+                }
+                if (col3 == "" || col3 <= "0") {
+                    alert('Please Enter valid Quantity');
+                    return false;
+                }
+
+                Getgst = currentRow.find("td:eq(2)").html();
+                gst = eval(col2 * Getgst * col3) / 100;
+
+
+                var markup = "<tr><td>" + col1 + "</td><td>" + col3 + "</td><td id='Amount'>" + col4 + "</td><td id='gst2'>" + gst + "</td><td>" +
+        '<button value="Cancel" id="Btn_Cancel" data-toggle="tooltip" data-placement="bottom" title="Cancel Item" class="btn-xs btn-danger"><span class="glyphicon glyphicon-remove"></span></button>' +
+       "</td></tr>";
+                currentRow.find("#Qty").val("");
+                $("#Table2 tbody").append(markup);
+
+                ////debugger;
+                var columnAmount = 3;
+                var columnTax = 4;
+                var tot = 0;
+                $("#Table2").find("tr").children("td:nth-child(" + columnTax + ")")
+                .each(function () {
+                    $this = $(this);
+                    if (!$this.hasClass("sum") && $this.html() != "") {
+                        tot += parseFloat($this.html());
+                    }
+                });
+
+                var inr = '<span class="fa fa-inr">&nbsp;</span>'
+                $("#Tax").html(inr + tot);
+                $("#TotalGstValue").val(tot);
+
+                $("#Table2").find("tr").children("td:nth-child(" + columnAmount + ")")
+                  .each(function () {
+                      $this = $(this);
+                      if (!$this.hasClass("sum1") && $this.html() != "") {
+                          tot += parseFloat($this.html());
+                      }
+                  });
+                $("#Total").html(inr + tot);
+                $("#TotalAmountValue").val(tot);
+                return false;
+            });
+            $("#Table2").on('click', '#Btn_Cancel', function () {
+                ////debugger;
+                $(this).closest("tr").remove();
+
+
+                var columnAmount = 3;
+                var columnTax = 4;
+                var tot = 0;
+                $("#Table2").find("tr").children("td:nth-child(" + columnTax + ")")
+                .each(function () {
+                    $this = $(this);
+                    if (!$this.hasClass("sum") && $this.html() != "") {
+                        tot += parseFloat($this.html());
+
+                    }
+                });
+                var inr = '<span class="fa fa-inr">&nbsp;</span>'
+                $("#Tax").html(inr + tot);
+
+                $("#Table2").find("tr").children("td:nth-child(" + columnAmount + ")")
+                  .each(function () {
+                      $this = $(this);
+                      if (!$this.hasClass("sum1") && $this.html() != "") {
+                          tot += parseFloat($this.html());
+                      }
+                  });
+                $("#Total").html(inr + tot);
+
+            });
+        });
+
+        //FOR ICECREAM/DESSERTS
+        $(document).ready(function () {
+
+            // code to read selected table row cell data (values).
+            $("#Table5").on('click', '#btnSelect', function () {
+                // get the current row
+                ////debugger;
+                var currentRow = $(this).closest("tr");
+                col1 = currentRow.find("td:eq(0)").html();
+                col2 = currentRow.find("td:eq(1)").html(); // get current row 2nd table cell TD value
+                col3 = currentRow.find('#Qty').val();
+                col4 = col2 * col3;
+
+                if (col1 == "") {
+                    col1 = 0;
+                }
+                else if (col2 == "") {
+                    col2 = 0;
+                }
+                else if (col4 == "") {
+                    col4 = 0;
+                }
+                if (col3 == "" || col3 <= "0") {
+                    alert('Please Enter valid Quantity');
+                    return false;
+                }
+
+                Getgst = currentRow.find("td:eq(2)").html();
+                gst = eval(col2 * Getgst * col3) / 100;
+
+
+                var markup = "<tr><td>" + col1 + "</td><td>" + col3 + "</td><td id='Amount'>" + col4 + "</td><td id='gst2'>" + gst + "</td><td>" +
+                '<button value="Cancel" id="Btn_Cancel" data-toggle="tooltip" data-placement="bottom" title="Cancel Item" class="btn-xs btn-danger"><span class="glyphicon glyphicon-remove"></span></button>' +
+                "</td></tr>";
+                currentRow.find("#Qty").val("");
+                $("#Table2 tbody").append(markup);
+
+                ////debugger;
+                var columnAmount = 3;
+                var columnTax = 4;
+                var tot = 0;
+                $("#Table2").find("tr").children("td:nth-child(" + columnTax + ")")
+                .each(function () {
+                    $this = $(this);
+                    if (!$this.hasClass("sum") && $this.html() != "") {
+                        tot += parseFloat($this.html());
+                    }
+                });
+                var inr = '<span class="fa fa-inr">&nbsp;</span>'
+                $("#Tax").html(inr + tot);
+                $("#TotalGstValue").val(tot);
+                $("#Table2").find("tr").children("td:nth-child(" + columnAmount + ")")
+                  .each(function () {
+                      $this = $(this);
+                      if (!$this.hasClass("sum1") && $this.html() != "") {
+                          tot += parseFloat($this.html());
+                      }
+                  });
+                $("#Total").html(inr + tot);
+                $("#TotalAmountValue").val(tot);
+                return false;
+
+            });
+            $("#Table2").on('click', '#Btn_Cancel', function () {
+                ////debugger;
+                $(this).closest("tr").remove();
+
+
+                var columnAmount = 3;
+                var columnTax = 4;
+                var tot = 0;
+                $("#Table2").find("tr").children("td:nth-child(" + columnTax + ")")
+                .each(function () {
+                    $this = $(this);
+                    if (!$this.hasClass("sum") && $this.html() != "") {
+                        tot += parseFloat($this.html());
+
+                    }
+                });
+                var inr = '<span class="fa fa-inr">&nbsp;</span>'
+                $("#Tax").html(inr + tot);
+
+                $("#Table2").find("tr").children("td:nth-child(" + columnAmount + ")")
+                  .each(function () {
+                      $this = $(this);
+                      if (!$this.hasClass("sum1") && $this.html() != "") {
+                          tot += parseFloat($this.html());
+                      }
+                  });
+                $("#Total").html(inr + tot);
+
+            });
+        });
+    });
+</script>
+
+@*</form>*@
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 main">
+
+    @using (Html.BeginForm("TakeFoodOrders", "FoodOrder", new { }, FormMethod.Post))
+            {
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 page-title-outer">
+
+            <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 page-title">Dining Area - Food Orders</div>
+            <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 page-title">
+
+                <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 bold-label-left" style="text-align: right;">
+                    Membership No
+                </div>
+                @Html.Hidden("FoodTypeSelected", ViewData["FoodTypeSelected"], new { @id = "FoodTypeSelected" })
+                <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 textbox-area" style="margin:0px !important;">
+                    <input type="text" maxlength="20" autocomplete="off" placeholder="Enter MembershipNo.." name="MembershipNo" id="MembershipNo" class="blckthm-form-control">
+                    @*<i class="glyphicon glyphicon-search form-control-feedback"></i>*@
+                </div>
+
+
+                <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 bold-label-left" style="text-align: right;">
+                    Table No
+                </div>
+                <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 textbox-area" style="margin:0px !important;">
+                    @Html.TextBox("TableNo", ViewData["TableNo"], new { @maxlength = "2", @class = "blckthm-form-control", @id = "TableNo", @autocomplete = "off" })
+                    <span id="errmsgTNo"></span>
+                </div>
+
+
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-1 col-lg-1 page-title-btn">
+
+                <a href="@Url.Action("TakeFoodOrder", "FoodOrder")" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Reset">
+
+                    <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>
+                </a>
+            </div>
+
+        </div>
+
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 workarea-outer">
+
+            @Html.AntiForgeryToken()
+
+            <div id="x" class="col-xs-12 col-sm-12 col-md-8 col-lg-8 scrolling-area" style="min-height: 488px; overflow: visible;">
+
+                <ul class="nav nav-tabs" id="FoodType">
+
+                    <li class="active"><a data-toggle="tab" href="#home" id="Veg">Veg</a></li>
+                    <li><a data-toggle="tab" href="#menu1" id="NonVeg">Non Veg</a></li>
+                    <li><a data-toggle="tab" href="#menu2" id="Juice">Juice</a></li>
+                    @*<li><a data-toggle="tab" href="#menu3" id="Icecream">Ice cream /Desserts</a></li>*@
+                </ul>
+
+                <div class="tab-content" style="min-height: 275px;overflow:auto;border: 1px solid #eee;">
+                    <div id="home" class="tab-pane fade in active">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 table-responsive">
+                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6" style="padding: 10px 0px;">                                
+                             <input type="text" class="blckthm-form-control" id="txtSearchFoodveg" placeholder="Search Here" style="height:28px;border-color:white" />                                  
+                            </div>
+                            <table id="Table1" class="table blk-thm-table table-condensed">
+                                <thead style="display:block;">
+                                    <tr>
+                                        <th style="width:23%;">Item</th>
+                                        <th style="width:22.7%;">Price</th>
+                                        <th style="width:23%;">GST%</th>
+                                        <th style="width:22%;">Qty</th>
+                                        <th style="width:20%;">Select Item</th>
+                                    </tr>
+                                </thead>
+                                <tbody style="height: 170px; overflow-y: auto;display:block;">
+                                    @{
+                                        if (ViewBag.FoodVegList!=null)
+                                        {
+
+
+                                            if (ViewData.Values!=null&&ViewData.Values.Count()>0)
+
+                                            {
+                                                foreach (var Model in ViewBag.FoodVegList as List<Food>)
+                                                {
+                                                    <tr>
+                                                        <td style="width:20%;">@Model.FoodName</td>
+                                                        <td style="width:20%;">@Model.Price</td>
+                                                        <td style="width:20%;">@Model.GST</td>
+                                                        @*<td><input id="QuantityPerItem" type="text" name="Quantity" /></td>*@
+                                                        <td style="width:20%;">@Html.TextBox("Qty", ViewData["Qty"], new { @min = "1", @max = "20", @type = "number", @class = "qty-box", @id = "Qty" })</td>
+                                                        <td style="width:20%;">
+                                                            <button class="btn btn-primary btn-sm" type="submit" value="Select" id="btnSelect" data-toggle="tooltip" data-placement="bottom" title="Select Item">
+                                                                <span class="glyphicon glyphicon-ok"></span>
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+
+                                                }
+                                            }
+                                        }
+                                    }
+
+                                </tbody>
+                            </table>
+                        </div>
+
+
+                    </div>
+                    <div id="menu1" class="tab-pane fade">
+
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 table-responsive">
+                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6" style="padding: 10px 0px;">
+
+                                <input type="text" class="blckthm-form-control" id="txtSearchFoodNonveg" placeholder="Search Here" style="height:28px;border-color:white" />
+
+                            </div>
+                            <table id="Table3" class="table blk-thm-table table-condensed">
+                                <thead style="display:block;">
+                                    <tr>
+                                        <th style="width:23%;">Item</th>
+                                        <th style="width:22.7%;">Price</th>
+                                        <th style="width:23%;">GST</th>
+                                        <th style="width:22%;">Qty</th>
+                                        <th style="width:20%;">Select Item</th>
+                                    </tr>
+                                </thead>
+                                <tbody style="height: 170px; overflow-y: auto;display:block;">
+                                    @{
+
+                                        if (ViewBag.FoodNonVegList!=null)
+                                        {
+                                            if (ViewData.Values!=null&&ViewData.Values.Count()>0)
+                                            {
+
+                                                foreach (var Model in ViewBag.FoodNonVegList as List<Food>)
+                                                {
+                                    <tr>
+                                        <td style="width:20%;">@Model.FoodName</td>
+                                        <td style="width:20%;">@Model.Price</td>
+                                        <td style="width:20%;">@Model.GST</td>
+                                        @*<td><input id="QuantityPerItem" type="text" name="Quantity" /></td>*@
+                                        <td style="width:20%;">@Html.TextBox("Qty", ViewData["Qty"], new { @min = "1", @max = "20", @type = "number", @class = "qty-box", @id = "Qty" })</td>
+                                        <td style="width:20%;">
+                                            <button class="btn btn-primary btn-sm" type="submit" value="Select" id="btnSelect" data-toggle="tooltip" data-placement="bottom" title="Select Item">
+                                                <span class="glyphicon glyphicon-ok"></span>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                                }
+                                            }
+                                        }
+
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                    <div id="menu2" class="tab-pane fade">
+
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 table-responsive">
+                            <table id="Table4" class="table blk-thm-table table-condensed">
+                                <thead>
+                                    <tr>
+                                        <th>Item</th>
+                                        <th>Price</th>
+                                        <th>GST</th>
+                                        <th>Qty</th>
+                                        <th>Select Item</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    @{
+                                        if (ViewData["FoodJuiceList"]!=null)
+                                        {
+                                            if (ViewData.Values!=null&&ViewData.Values.Count()>0)
+                                            {
+                                                foreach (var Model in ViewBag.FoodJuiceList as List<Food>)
+                                                {
+                                    <tr>
+                                        <td>@Model.FoodName</td>
+                                        <td>@Model.Price</td>
+                                        <td>@Model.GST</td>
+                                        @*<td><input id="QuantityPerItem" type="text" name="Quantity" /></td>*@
+                                        <td>@Html.TextBox("Qty", ViewData["Qty"], new { @min = "1", @max = "20", @type = "number", @class = "qty-box", @id = "Qty" })</td>
+                                        <td>
+                                            <button class="btn btn-primary btn-sm" type="submit" value="Select" id="btnSelect" data-toggle="tooltip" data-placement="bottom" title="Select Item">
+                                                <span class="glyphicon glyphicon-ok"></span>
+                                            </button>
+                                        </td>
+                                    </tr>
+
+                                                }
+                                            }
+                                        }
+                                    }
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div id="menu3" class="tab-pane fade">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 table-responsive">
+                            <table id="Table5" class="table blk-thm-table table-condensed">
+                                <thead>
+                                    <tr>
+                                        <th>Item</th>
+                                        <th>Price</th>
+                                        <th>GST</th>
+                                        <th>Qty</th>
+                                        <th>Select Item</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @{
+
+                                        if (ViewBag.FoodIceCreamList!=null)
+                                        {
+                                            if (ViewData.Values!=null&&ViewData.Values.Count()>0)
+                                            {
+                                                foreach (var Model in ViewBag.FoodIceCreamList as List<Food>)
+                                                {
+                                    <tr>
+                                        <td>@Model.FoodName</td>
+                                        <td>@Model.Price</td>
+                                        <td>@Model.GST</td>
+                                        @*<td><input id="QuantityPerItem" type="text" name="Quantity" /></td>*@
+                                        <td>@Html.TextBox("Qty", ViewData["Qty"], new { @min = "1", @max = "20", @type = "number", @class = "qty-box", @id = "Qty" })</td>
+                                        <td>
+                                            <button class="btn btn-primary btn-sm" type="submit" value="Select" id="btnSelect" data-toggle="tooltip" data-placement="bottom" title="Select Item">
+                                                <span class="glyphicon glyphicon-ok"></span>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                                }
+                                            }
+                                        }
+
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                @*<div  style="width:100%">
+                        <marquee direction="left" scrolldelay="90" style="font-size:14px; font-weight:bold;" id="marque"></marquee>
+                    </div>*@
+
+                @*$$$$$$$$$$$$$$$$$$$$$$$$$$$$*@
+
+
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 table-title"> Completed Orders </div>
+                <div id="div1" class="col-xs-12 col-sm-12 col-md-12 col-lg-12 table-responsive" style="height: 224px;overflow: auto;">
+                    <table id="OrdersTable" class="table blk-thm-table table-condensed">
+                        <thead>
+                            <tr>
+                                <th>Order Number</th>
+                                <th>Membership No</th>
+                                <th>Table</th>
+                                <th>FoodName</th>
+                                <th>Quantity</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+
+
+
+                @*$$$$$$$$$$$$$$$$$$$$$$$$$$$$*@
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 pricing-area">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 table-responsive">
+                    <table id="Table2" class="table blk-thm-table table-condensed">
+                        <thead>
+                            <tr>
+                                <th>Items</th>
+                                <th>Qty</th>
+                                <th>Amount</th>
+                                <th>GST</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 action-outer">
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 label-left">
+                        Total Tax
+                    </div>
+
+
+
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 bold-label-right">
+                        <span id="Tax"></span>
+                    </div><div class="clearfix"></div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 label-left">
+                        Total Amount
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 bold-label-right">
+                        <span id="Total"></span>
+
+                    </div><div class="clearfix"></div>
+
+                    <Button type="submit" value="@ViewBag.submit" class="btn btn-success" id="Btn_Order" data-toggle="tooltip" data-placement="bottom" title="Order">
+                        <span class="glyphicon glyphicon-shopping-cart"></span>
+                    </Button>
+                    @ViewBag.message
+                </div>
+            </div>
+            @*@Html.Hidden("TotalGst", ViewData["TotalGst"], new { @value = "javascript:parseInt('0')", @id = "TotalGstvalue" })
+                @Html.Hidden("TotalAmount", ViewData["TotalAmount"], new { @value = "javascript:parseInt('0')",  @id = "TotalAmountvalue" })*@
+            @Html.TextBox("TotalAmountValue", ViewData["TotalAmountValue"], new { @type = "text", @class = "qty-box", @id = "TotalAmountValue" })
+            @Html.TextBox("TotalGstValue", ViewData["TotalGstValue"], new { @min = "1", @max = "20", @type = "text", @class = "qty-box", @id = "TotalGstValue" })
+
+
+
+        </div>
+                                        }
+</div>
+
+<script type="text/javascript">
+
+
+    function marqueefun() {
+        $.ajax({
+
+            url: "@Url.Content("~/FoodOrder/DisplayCompletedOrders")",
+            type: 'POST',
+            cache: false,
+            contentType: 'application/json; charset=utf-8',
+            datatype: 'json',
+            success: function (data) {
+
+                var x = "";
+                for (i = 0; i < data.length; i++) {
+
+                    x = x + "<tr><td>" + data[i].OrderNumber + "</td>" +
+                     "<td>" + data[i].MembershipNo + "</td>" +
+                     "<td>" + data[i].TableNo + "</td>" +
+                     "<td>" + data[i].FoodName + "</td>" +
+                     "<td>" + data[i].Quantity + "</td>" +
+                     "<td>" + "<button type='button' value='cancel' id='btn_Ok' title='Serve Food' class='btn btn-xs btn-primary'><span class='glyphicon glyphicon-ok'></button>" + "</td></tr>"
+                }
+                $("#OrdersTable tbody").empty();
+                $("#OrdersTable tbody").append(x)
+
+            },
+
+        });
+    }
+
+    marqueefun();
+    setInterval("marqueefun()", 20000);
+
+    $("#OrdersTable").on('click', '#btn_Ok', function () {
+        var arrData = [];
+
+        var cRow = $(this).closest("tr");
+        // var Mno = cRow.find('td:eq(1)').html();
+        var Ono = cRow.find('td:eq(0)').html();
+        var Item = cRow.find('td:eq(3)').html();
+        // arrData.push(Mno);
+        arrData.push(Ono);
+        arrData.push(Item);
+        $(this).closest("tr").remove();
+        $.ajax({
+
+            url: "@Url.Content("~/FoodOrder/ServeFood")",
+            type: 'POST',
+            cache: false,
+            data: JSON.stringify({ 'OrderList': arrData }),
+            contentType: 'application/json; charset=utf-8',
+            datatype: 'json',
+            success: function (data) {
+
+
+            },
+
+        });
+
+    });
+
+
+</script>

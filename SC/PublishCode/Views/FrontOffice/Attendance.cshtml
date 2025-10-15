@@ -1,0 +1,92 @@
+﻿@using NTCYApplication.Models.FrontOffice
+@{
+    ViewBag.Title = "Attendance";
+   
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+ <div id="mySidenav" class="col-xs-4 col-sm-4 col-md-2 col-lg-2 sidenav">
+    @Html.Partial("_left_admin_submenu")
+</div>
+
+<div class="col-xs-8 col-sm-8 col-md-10 col-lg-10 main">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 page-title-outer">
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 page-title">View All Attendence Details</div>
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 page-title-btn">
+
+            <a href="@Url.Action("CreateClub", "Club")" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Back">
+                <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
+            </a>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 workarea-outer">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 table-title">Today's Attendence</div>
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 table-responsive  " style="height: 412px;overflow: auto;">
+            <table id="TableView" class="table blk-thm-table table-condensed">
+                <thead>
+                    <tr>                    
+                        <th>Membership No</th>
+                        <th>MemberName</th>
+                        <th>Services Used</th>
+                        <th>TimeSpent</th>
+                       
+                    </tr>
+                </thead>
+                <tbody>              
+                        @{
+                            if (ViewData["Attendance"] != null)
+                            {
+                                if (ViewData.Values != null && ViewData.Values.Count() > 0)
+                                {
+                                    foreach (var Model in ViewBag.Attendance as List<FrontOfficePayment>)
+                                    {
+                                     <tr>
+
+                                        <td>@Model.MembershipNo</td>
+                                        <td>@Model.MemberName</td>
+                                        <td>@Model.Qty</td>
+                                        <td>@Model.Status</td>
+                                     
+                                    </tr>
+
+                                }
+                                
+
+                            }
+                        }
+                    }
+           
+                    </tbody>
+                </table>
+            </div>
+            @*///////////////////////////////////////////////////////////////////////////////////*@
+
+            <!-- Modal -->
+            <div class="modal fade" id="ModalClub" tabindex="-1" role="dialog">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" style="color:black;font-family:'Bookman Old Style'" id="myModalLabel"><b>Club Details</b></h4>
+                        </div>
+                        <div style="color:darkslateblue" class="modal-body">
+                            @*<table class="table" id="ClubDetailTable">
+                                 <tbody>
+                                   </tbody>
+                                </table>*@
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @*///////////////////////////////////////////////////////////////////////////////////////////////////////////*@
+
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 label-area">
+                <p>@ViewBag.message</p>
+                <p>@ViewBag.innerEx</p>
+            </div>
+        </div>
+    </div>

@@ -1,0 +1,93 @@
+﻿@using System.Data
+@using NTCYApplication.Models.Club
+@{
+    ViewBag.Title="ViewAllSubscriptions";
+    Layout="~/Views/Shared/_Layout.cshtml";
+}
+
+<div id="mySidenav" class="col-xs-4 col-sm-4 col-md-2 col-lg-2 sidenav">
+
+    @Html.Partial("_left_admin_submenu")
+</div>
+
+@*<script>
+    $(document).ready(function () {
+        // $("#Status").val("@ViewData["Status"]");
+        $('[data-toggle="tooltip"]').tooltip();
+        $(document).tooltip({
+            track: true
+        });
+    })
+</script>*@
+
+<div class="col-xs-8 col-sm-8 col-md-10 col-lg-10 main">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 page-title-outer">
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 page-title">View All Subscriptions</div>
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 page-title-btn">
+
+            <a href="@Url.Action("CreateSubscription", "Subscription")" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Back">
+                <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
+            </a>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 workarea-outer">
+
+
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 scrolling-area" style="height: 570px;">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 table-title">Subscriptions</div>
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 table-responsive" style="height: 510px;overflow: auto;">
+                <table class="table blk-thm-table table-condensed">
+                    <thead>
+                        <tr>
+                            <th style="display:none">Subscription Id</th>
+                            <th>Subscription Type</th>
+                            <th>Subscription Rate</th>
+                            <th>Subscription Validity</th>
+                            <th>Payment Installments </th>
+                            <th>Status</th>
+                            <th>Joining Amount</th>
+                            <th>Edit</th>
+                            <th>Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+
+                            @{
+                                    if (ViewData["SubList"]!=null)
+                                    {
+                                        if (ViewData.Values!=null&&ViewData.Values.Count()>0)
+                                        {
+                                            foreach (var Model in ViewBag.SubList as List<Subscription>)
+                                            {
+                        <tr>
+                            <td style="display:none">@Model.SubscriptionId</td>
+                            <td>@Model.SubscriptionType</td>
+                            <td>@Model.SubscriptionRate</td>
+                            <td>@Model.SubscriptionValidity.ToString("dd/MM/yyyy")</td>
+                            <td>@Model.PaymentInstallments</td>
+                            <td>@Model.Status</td>
+                            <td>@Model.JoiningAmount</td>
+                            <td>@Html.ActionLink(" ", "ViewSubscription", "Subscription", new { SubscriptionId = Model.SubscriptionId }, new { @class = "btn-sm btn-primary glyphicon glyphicon-pencil", @title = "Edit", data_toggle = "tooltip", data_placement = "bottom" })</td>
+                            <td>@Html.ActionLink(" ", "DeleteSubscription", "Subscription", new { SubscriptionId = Model.SubscriptionId }, new { @class = "btn-sm btn-primary glyphicon glyphicon-trash", @title = "Delete", data_toggle = "tooltip", data_placement = "bottom" })</td>
+
+                        </tr>
+                                            }
+                                        }
+                                    }
+
+                            }
+
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <p>@ViewBag.message</p>
+            <p>@ViewBag.innerEx</p>
+        </div>
+
+    </div>
+
+

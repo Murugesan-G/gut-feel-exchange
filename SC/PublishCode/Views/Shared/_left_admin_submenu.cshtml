@@ -1,0 +1,86 @@
+﻿<div class="admin-menu">
+
+    <div class="left-menu-category-title">
+        Club
+    </div>
+
+    <a href="@Url.Action("CreateClub", "Club")" rel="tooltip" title="Club">
+        <div class="left-menu-category-img">  <img src="~/Images/club.png" /></div> <div class="left-menu-category-link">Club</div>
+    </a>
+
+    <a href="@Url.Action("CreateMember", "Member")" rel="tooltip" title="Member">
+        <div class="left-menu-category-img">  <img src="~/Images/member.png" /> </div>
+        <div class="left-menu-category-link ">  Member</div>
+    </a>
+
+    <a href="@Url.Action("CreateCommittee", "ClubCommittee")" rel="tooltip" title=" Club Committee">
+        <div class="left-menu-category-img">    <img src="~/Images/clubcommit.png" /></div>
+        <div class="left-menu-category-link">     Club Committee</div>
+    </a>
+
+    <a href="@Url.Action("CreateSubscription", "Subscription")" rel="tooltip" title="Subscription">
+        <div class="left-menu-category-img">    <img src="~/Images/subcription.png" /></div>
+        <div class="left-menu-category-link">    Subscription </div>
+    </a>
+    <a href="@Url.Action("SendSMS", "SMS")" rel="tooltip" title="Send SMS">
+        <div class="left-menu-category-img">    <img src="~/Images/sms.png" /></div>
+        <div class="left-menu-category-link">    SMS </div>
+    </a>
+
+    @*<a href="@Url.Action("Payment", "Payment")">
+        <img src="~/Images/payment.png" />
+        Payment</a>*@
+
+    <div class="left-menu-category-title">
+        Service
+    </div>
+
+    <a href="@Url.Action("CreateService", "Service")" rel="tooltip" title="Services">
+        <div class="left-menu-category-img">    <img src="~/Images/services.png" /></div>
+        <div class="left-menu-category-link">   Services</div>
+    </a>
+    <a href="@Url.Action("CreateCardTable","CardTable")" rel="tooltip" title="Card Table">
+        <div class="left-menu-category-img">    <img src="~/Images/cardtable.png" /></div>
+        <div class="left-menu-category-link">    Card Table</div>
+    </a>
+    <a href="@Url.Action("CreateFoodItems", "Kitchen")" rel="tooltip" title="Kitchen">
+        <div class="left-menu-category-img">   <img src="~/Images/kitchen.png" /> </div>
+        <div class="left-menu-category-link">    Kitchen</div>
+    </a>
+    <a href="@Url.Action("CreateLiquorItem", "Liquor")" rel="tooltip" title="Liquor">
+        <div class="left-menu-category-img">    <img src="~/Images/liquor.png" /></div>
+        <div class="left-menu-category-link">    Liquor </div>
+    </a>
+    <a href="@Url.Action("CreateRoom", "Room")" rel="tooltip" title="Room">
+        <div class="left-menu-category-img">   <img src="~/Images/room.png" /> </div>
+        <div class="left-menu-category-link">     Room</div>
+    </a>
+
+    <div class="left-menu-category-title">
+        User
+    </div>
+    <a href="@Url.Action("CreateEmployee", "Employee")" rel="tooltip" title="Employee">
+        <div class="left-menu-category-img">    <img src="~/Images/employee.png" /> </div>
+        <div class="left-menu-category-link">       Employee</div>
+    </a>
+    @*<a href="@Url.Action("UsersWithRoles", "ManageUsers")" rel="tooltip" title=" User Master">
+        <div class="left-menu-category-img">   <img src="~/Images/usermaster.png" /></div>
+        <div class="left-menu-category-link">     User Master</div>
+    </a>*@
+
+    <a href="@Url.Action("Register", "Account",new { id = "registerLink" })" rel="tooltip" title="Role Master">
+        <div class="left-menu-category-img">     <img src="~/Images/rolemaster.png" /></div>
+        <div class="left-menu-category-link">    Register User</div>
+    </a>
+
+    @*<a href="@Url.Action("CreateAccountDetails", "ClubAccounts")" rel="tooltip" title="Accounts">
+        <div class="left-menu-category-img">  <img src="~/Images/accounts.png" /></div>
+        <div class="left-menu-category-link">    Accounts Config</div>
+    </a>
+    <a href="@Url.Action("CreateBiometricDetails", "Biometric")" rel="tooltip" title="Biometric">
+        <div class="left-menu-category-img">   <img src="~/Images/biometric.png" /></div>
+        <div class="left-menu-category-link">    Biometric</div>
+    </a>*@
+
+</div>
+

@@ -1,0 +1,225 @@
+﻿@using System.Data
+@using NTCYApplication.Models.Food
+
+@{
+    ViewBag.Title = "ViewAllOrders";
+}
+<script type="text/javascript">
+
+
+    $(document).ready(function () {
+        $('#Table1').DataTable({
+            initComplete: function () {
+                this.api().columns().every(function () {
+                    var column = this;
+                    var select = $('<select><option value=""></option></select>')
+                        .appendTo($(column.footer()).empty())
+                        .on('change', function () {
+                            var val = $.fn.dataTable.util.escapeRegex(
+                                $(this).val()
+                            );
+                            //to select and search from grid
+                            column
+                                .search(val ? '^' + val + '$' : '', true, false)
+                                .draw();
+                        });
+
+                    column.data().unique().sort().each(function (d, j) {
+                        select.append('<option value="' + d + '">' + d + '</option>')
+                    });
+                });
+            }
+        });
+    });
+</script>
+<meta charset="utf-8">
+<meta http-equiv="refresh" content="120">
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 main" id="MainDiv">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 page-title-outer">
+    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 page-title">Kitchen Area - Food Orders</div>
+    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 page-title-btn">
+
+        <a href="@Url.Action("ViewCompletedKitchenOrder", "KitchenOrder")" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="View All">
+            <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
+        </a>
+    </div>
+</div>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 workarea-outer">
+ 
+
+
+        @*@using (Html.BeginForm("CompleteOrder", "KitchenOrder", new { }, FormMethod.Post))
+        {*@
+            @*@Html.AntiForgeryToken()*@
+
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 scrolling-area">
+            
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 table-title"> Pending Orders </div>
+                <div id="div1" class="col-xs-12 col-sm-12 col-md-12 col-lg-12 table-responsive" style="height: 517px;overflow: auto;">
+                    <table id="Table1" class="table blk-thm-table table-condensed">
+                        <thead>
+                            <tr>
+                                <th>Order Number</th>
+                                <th>Membership No</th>
+                                <th>Member Name</th>
+                                <th>Table</th>
+                                <th>FoodName</th>
+                                <th>Quantity</th>
+                                <th>Status</th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                if (ViewData["KitchenList"] != null)
+                                {
+                                    if (ViewData.Values != null && ViewData.Values.Count() > 0)
+                                    {
+                                        foreach (var Model in ViewBag.KitchenList as List<KitchenOrder>)
+                                        {
+                                            <tr>
+                                                <td>@Model.OrderNumber</td>
+                                                <td>@Model.MembershipNo</td>
+                                                <td>@Model.MemberName</td>
+                                                <td>@Model.TableNo</td>
+                                                <td>@Model.FoodName</td>
+                                                <td>@Model.Quantity</td>
+                                                <td>@Html.Label("Processing", new { id = "Status" })</td>
+                                                <td><Button Value="Complete" class="btn-sm btn-primary" id="Complete" data-toggle="tooltip" data-placement="bottom" title="Complete Order"><span class="glyphicon glyphicon-ok"></span></Button></td>
+                                                <td style="display:none">@Model.SubOrderId</td>
+                                                <td><Button Value="Print" class="btn-sm btn-primary" id="btnPrint" data-toggle="tooltip" data-placement="bottom" title="Print KOT"><span class="glyphicon glyphicon-print"></span></Button></td>
+                                            </tr>
+                                        }
+                                    }
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>    
+    </div>  
+</div>
+<div id="KOTPrint">
+   <table id="KOTTable">
+       <thead>
+           <tr>
+               <td colspan="5" style="vertical-align:middle;text-align:center">
+                   THE NEW TOWN CLUB, Yelahanka (R)<br />
+                   Managed by:-Aishwarya Catering<br />
+                   <b>KOT</b>
+               </td>                 
+           </tr>              
+       </thead>
+       <tbody></tbody>
+   </table>
+</div>
+
+<script>
+    $("KOTPrint").hide();
+    $(document).ready(function () {
+
+        $("#Table1").on('click', '#Complete', function (e) {
+            //debugger;
+            var currentRow = $(this).closest("tr");
+            suborderid = currentRow.find("td:eq(8)").html(); // get current row 1st table cell TD value
+            var url = '@Url.Action("CompleteOrder", "KitchenOrder")'
+            $.post(url, { SubOrderId: suborderid }, function (data) {
+
+            });
+            $(this).closest('tr').remove();
+        })
+
+    })
+</script>
+<script>  
+
+    //$(document).ready(function () {     
+    //    
+    //})
+        @*$("#Table1").on('click', '#Complete',function (e) {
+            //debugger;   
+
+            var currentRow = $(this).closest("tr");
+            suborderid = currentRow.find("td:eq(7)").html(); // get current row 1st table cell TD value
+            var url = '@Url.Action("CompleteOrder", "KitchenOrder")'
+            $.post(url, { SubOrderId: suborderid }, function (data) {
+
+            });
+            $(this).closest('tr').remove();
+        })*@
+
+</script>
+<style type="text/css">
+    .ui-tooltip {
+        font-size: large;
+        font-family: Arial;
+    }
+</style>
+
+ 
+<link href="~/Content/print_KOT.css" media="print" rel="stylesheet" />
+      
+
+
+<script>
+
+    $("#Table1").on('click', '#btnPrint', function (e) {
+        //debugger;
+        var d = new Date();
+        var strDate = d.getDate() + "/" + (d.getMonth() + 1) + "/" + d.getFullYear();
+        // var time = d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds();
+        var hours = d.getHours();
+        var minutes = d.getMinutes();
+        var ampm = hours >= 12 ? 'PM' : 'AM';
+        hours = hours % 12;
+        hours = hours ? hours : 12; // the hour '0' should be '12'
+        minutes = minutes < 10 ? '0' + minutes : minutes;
+        var time = hours + ':' + minutes + ":" + d.getSeconds() + ' ' + ampm;
+        $("#app_footer").hide();
+
+        $("#MainDiv").hide();
+        $("#KOTPrint").show();
+        var CRow = $(this).closest("tr");
+        var orderno = CRow.find('td:eq(0)').html();
+        var mno = CRow.find('td:eq(1)').html();
+        var mname = CRow.find('td:eq(2)').html();
+        var markup1 = "<tr><td align='left'>W.Name:</td>"+"<td colspan='4' align='center'></td></tr><tr><td align='left'>KOT No.</td><td align='center'>" + orderno + "</td><td align='center'>Ord No.</td><td  colspan='2' align='center'>" + orderno +
+                     "</td></tr><tr><td>Date: </td><td colspan='4' align='center'>" +strDate+"  "+time+ "</td></tr>" +
+                     "<tr style='border-bottom:1px solid black'><td>Member # </td><td colspan='4' align='center'><b>" + mno + "</b>-" + mname +
+                     "</td></tr><tr style='border-bottom:1px solid'><td align='center'>#</td><td colspan='3' align='center'>Item Name</td><td align='center'>Qty</td></tr>";
+        $("#KOTTable tbody").append(markup1);
+        var cnt = 0;
+        $("#div1 #Table1 tbody tr").each(function () {
+            //debugger;
+            var row = $(this);
+            var ordno = row.find("td:eq(0)").html();
+            var item = row.find("td:eq(4)").html();
+            var qty = row.find("td:eq(5)").html();
+            if(orderno == ordno)
+            {
+                cnt = cnt + 1;
+                var markup2 = "<tr><td align='center'>"+cnt+"</td><td colspan='3' align='center'>"+item+"</td><td align='center'>"+qty+"</td></tr>";
+                $("#KOTTable tbody").append(markup2);
+            }
+        })
+        var markup3 = "<tr style='border-bottom:1px solid'><td colspan='5'></td></tr>"
+        $("#KOTTable tbody").append(markup3);
+        var divText = document.getElementById("KOTPrint").outerHTML;
+         window.print();
+        //var printWin = window.open();
+       // window.close();
+        //printWin.document.write(divText);
+        //printWin.document.close();
+        //printWin.focus();
+        //printWin.print();
+        //printWin.close();
+        $("#MainDiv").show();
+        $("#KOTPrint").hide();
+        $("#app_footer").show();
+        $("#KOTTable tbody").empty();
+    })
+</script>
+
+

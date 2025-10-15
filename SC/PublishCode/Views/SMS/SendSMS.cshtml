@@ -1,0 +1,160 @@
+﻿@using NTCYApplication.Models.Club;
+@{
+    ViewBag.Title="SendSMS";
+    Layout="~/Views/Shared/_Layout.cshtml";
+}
+
+<div id="mySidenav" class="col-xs-4 col-sm-4 col-md-2 col-lg-2 sidenav">
+    @Html.Partial("_left_admin_submenu")
+</div>
+<div class="col-xs-8 col-sm-8 col-md-10 col-lg-10 main">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 page-title-outer">
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 page-title">SMS</div>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 workarea-outer">
+        @Html.AntiForgeryToken()
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 scrolling-area">
+            <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 form-outer">
+
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 textbox-area">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 table-title"> Members Name </div>
+                    <select multiple="multiple" id='lstBox1' class="blckthm-form-control" style="height:360px; width:100% !important;">
+                        @{
+                            if (ViewData["SubList"]!=null)
+                            {
+                                if (ViewData.Values!=null&&ViewData.Values.Count()>0)
+                                {
+                                    foreach (var Model in ViewBag.SubList as List<Member>)
+                                    {
+                                        <option data-MNo="@Model.MembershipNo" data-MobileNo="@Model.MobileNo">@Model.MemberName</option>
+                                    }
+                                }
+                            }
+
+                        }
+                    </select>
+                </div>
+
+            </div>
+            <div class="col-xs-12 col-sm-1 col-md-1 col-lg-1 form-outer" style="border: 1px solid #4e4e4e;margin-top: 5%;padding: 30px;text-align: center;    border-radius: 4px;">
+
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+                </div>
+               
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <input type="button" id="btnRight" value=">" class="sms-swap-btn" title="Select " />
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <input type="button" id="btnLeft" value="<" class="sms-swap-btn" title="Remove" />  
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <input type="button" id="btnAllRight" value=">>" class="sms-swap-btn" title="Select All" />
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <input type="button" id="btnAllLeft" value="<<" class="sms-swap-btn" title="Remove All" />
+                </div>
+
+
+            </div>
+            <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 form-outer">
+
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 textbox-area">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 table-title">Selected Members Name </div>
+                    <select multiple="multiple" id='lstBox2' class="blckthm-form-control" style="height:360px;width:100% !important;"></select>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 form-outer" style="padding-top:2%;">
+                <div class="col-xs-12 col-sm-2 col-md-1 col-lg-1 label-right">
+                    Text
+                </div>
+                <div class="col-xs-12 col-sm-8 col-md-8 col-lg-8 textbox-area">
+                    <textarea spellcheck="true" id="txtMessage" class="blckthm-form-control" style="height:66px"></textarea>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            </div>
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 action-outer" style="text-align: right;">
+            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                <button type="submit" class="btn btn-primary" id="Btn_Submit" data-toggle="tooltip" title="Send SMS">
+                    <span class="glyphicon glyphicon-ok"> </span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+
+</div>
+
+
+<script>  
+
+    $("#Btn_Submit").click(function () {
+        debugger;
+        var mNo = 0;
+        var msg = $("#txtMessage").val();
+        for(var i=0;i<lstBox2.length;i++)
+        {
+            var mNo = $(lstBox2[i]).attr("data-MNo");
+            var mobileNo = $(lstBox2[i]).attr("data-MobileNo");
+           $.ajax({
+               url: "@Url.Content("~/SMS/SendSMS")",
+                type: 'POST',
+            cache: false,
+            data: JSON.stringify({ 'mNo': mNo ,'mobileNo':mobileNo,'msg':msg}),
+            contentType: 'application/json; charset=utf-8',
+            datatype: 'json',
+            success: function (data) {
+                
+            },
+            });
+        }
+        
+    })
+
+    (function () {
+        $('#btnRight').click(function (e) {
+            var selectedOpts = $('#lstBox1 option:selected');
+            if (selectedOpts.length == 0) {
+                alert("Nothing to move.");
+                e.preventDefault();
+            }
+            $('#lstBox2').append($(selectedOpts).clone());
+            $(selectedOpts).remove();
+            e.preventDefault();
+        });
+        $('#btnAllRight').click(function (e) {
+            var selectedOpts = $('#lstBox1 option');
+            if (selectedOpts.length == 0) {
+                alert("Nothing to move.");
+                e.preventDefault();
+            }
+            $('#lstBox2').append($(selectedOpts).clone());
+            $(selectedOpts).remove();
+            e.preventDefault();
+        });
+        $('#btnLeft').click(function (e) {
+            var selectedOpts = $('#lstBox2 option:selected');
+            if (selectedOpts.length == 0) {
+                alert("Nothing to move.");
+                e.preventDefault();
+            }
+            $('#lstBox1').append($(selectedOpts).clone());
+            $(selectedOpts).remove();
+            e.preventDefault();
+        });
+        $('#btnAllLeft').click(function (e) {
+            var selectedOpts = $('#lstBox2 option');
+            if (selectedOpts.length == 0) {
+                alert("Nothing to move.");
+                e.preventDefault();
+            }
+            $('#lstBox1').append($(selectedOpts).clone());
+            $(selectedOpts).remove();
+            e.preventDefault();
+        });
+    }(jQuery));
+</script>

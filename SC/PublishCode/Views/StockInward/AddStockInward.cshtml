@@ -1,0 +1,783 @@
+﻿@{
+    ViewBag.Title="AddStockInward";
+    Layout="~/Views/Shared/_Layout.cshtml";
+}
+
+
+<script>
+    function selectRow(elm) {
+        //alert(elm);
+        $("#Table1 tr").removeClass('sel');
+        $(elm).closest("tr").addClass('sel');
+    }
+
+    function populatetable(Id) {
+        if ($('.sel #LiquorId')) {
+            $('.sel #LiquorId').val(Id);
+        }
+    }
+    $(document).ready(function () {
+        $("#GrnNo").val("@ViewBag.finalGrnNo");
+        $("#TableSelect").hide();
+        $(function () {
+            $("#GrnDate").datetimepicker({
+                format: 'DD/MM/YYYY',
+                ignoreReadonly: true
+            });
+            $("#GrnDate").datetimepicker();
+
+            $("#Deliverydate").datetimepicker({
+                format: 'DD/MM/YYYY',
+                ignoreReadonly: true
+            });
+            $("#Deliverydate").datetimepicker();
+
+            $("#PurchaseOrderDate").datetimepicker({
+                format: 'DD/MM/YYYY',
+                ignoreReadonly: true
+            });
+            $("#PurchaseOrderDate").datetimepicker();
+        });
+
+        $(function () {
+            $("#Btn_Select").click(function () {
+                $("#Table1").show();
+                //debugger;
+                var markup = '<tr><td>@Html.TextBox("Item Name", ViewData["ItemName"], new { @maxlength = "20", style = "width:150px", placeholder ="search",@class = "blckthm-form-control right-inner-addon", @id = "ItemName", @autocomplete = "off",@onclick = "selectRow(this);" })</td>'
+                    + '<td>@Html.TextBox("PurchaseOrder Rate", ViewData["PurchaseOrderRate"], new { @maxlength = "10", style = "width:50px", @class = "blckthm-form-control", @id = "PurchaseOrderRate", @autocomplete = "off", @onclick = "selectRow(this);" })</td>'
+                    + '<td>@Html.TextBox("PurchaseOrder Qty", ViewData["PurchaseOrderQty"], new { @maxlength = "5", style = "width:50px", @class = "blckthm-form-control", @id = "PurchaseOrderQty", @autocomplete = "off", @onclick = "selectRow(this);" })</td>'
+                    + '<td>@Html.TextBox("Rejected Qty", ViewData["RejectedQty"], new { @maxlength = "5", style = "width:60px", @class = "blckthm-form-control", @id = "RejectedQty", @autocomplete = "off", @onclick = "selectRow(this);" })</td>'
+                    + '<td>@Html.TextBox("Discount Percentage", ViewData["DiscountPercentage"], new { @maxlength = "5", style = "width:60px", @class = "blckthm-form-control", @id = "DiscountPercentage", @autocomplete = "off", @onclick = "selectRow(this);" })</td>'
+                    + '<td>@Html.TextBox("Discount Amount", ViewData["DiscountAmount"], new { @maxlength = "8", style = "width:160px", @class = "blckthm-form-control", @id = "DiscountAmount", @autocomplete = "off", @onclick = "selectRow(this);" })</td>'
+                    + '<td>@Html.TextBox("Tax Percentage", ViewData["TaxPercentage"], new { @maxlength = "5", style = "width:60px", @class = "blckthm-form-control", @id = "TaxPercentage", @autocomplete = "off", @onclick = "selectRow(this);" })</td>'
+                    + '<td>@Html.TextBox("Tax Amount", ViewData["TaxAmount"], new { @maxlength = "8", style = "width:160px", @class = "blckthm-form-control", @id = "TaxAmount", @autocomplete = "off", @onclick = "selectRow(this);" })</td>'
+                    + '<td>@Html.TextBox("MRP", ViewData["MRP"], new { @maxlength = "10", style = "width:160px", @class = "blckthm-form-control", @id = "MRP", @autocomplete = "off", @onclick = "selectRow(this);" })</td>'
+                    + '<td>@Html.TextBox("Rejected Remarks", ViewData["RejectedRemarks"], new { @maxlength = "150", @class = "blckthm-form-control", @id = "RejectedRemarks", @autocomplete = "off", @onclick = "selectRow(this);" })</td>'
+                    + '<td style="display:none">@Html.TextBox("LiquorId", ViewData["LiquorId"], new { @class = "blckthm-form-control glyphicon", @id = "LiquorId", @onclick = "selectRow(this);" })</td>'
+                   //+ '<td><button type="button" class="btn-sm btn-primary" data-toggle="modal" data-target="#myModal" data-backdrop="static" onclick = "selectRow(this);">Edit</button></td>'
+                    + '<td><button value="Cancel" id="Btn_Cancel" data-toggle="tooltip" data-placement="bottom" title="Cancel Item" class="btn-xs btn-danger"><span class="glyphicon glyphicon-remove"></span></button></td>'
+                "</tr>"
+                //       $('#PurchaseOrderRate').val() + "</td><td>" + $('#PurchaseOrderQty').val() + "</td><td>" + $('#MRP').val() + "</td><td>" +
+                //   $('#SupplierName').val() + "</td><td>" + $('#TaxAmount').val() + "</td><td>" + $('#TaxPercentage').val() + "</td><td>" + $('#DiscountAmount').val() + "</td><td>" + $('#DiscountPercentage').val() +
+                //"</td><td>" + $('#RejectedQty').val() + "</td><td>" + $('#AcceptedQty').val() + "</td></tr>";
+                $("#Table1 tbody").append(markup);
+            });
+        });
+
+        $("#Table1").on('click', '#Btn_Cancel', function () {
+
+            $(this).closest("tr").detach();
+
+        });
+
+
+
+    });
+
+
+
+</script>
+<script>
+    $(document).ready(function () {
+
+        $('#Table1').on('keydown.autocomplete', '#ItemName', function () {
+            $(this).autocomplete({
+                source: function (request, response) {
+                    //debugger;
+                    $.ajax({
+
+                        url: "@Url.Content("~/StockAdjustment/GetLiquors")",
+                        type: "POST",
+                        dataType: "json",
+                        data: { prefix: request.term },
+                        success: function (data) {
+                            response($.map(data, function (item) {
+
+                                return { value: item.LiquorName, Id: item.LiquorId };
+
+                            }))
+
+
+                        }
+                    })
+                },
+                select: function (event, ui) {
+                    var Id = ui.item.Id;
+                    populatetable(Id);
+                    @*debugger;
+                    $.ajax({
+
+                        url: "@Url.Content("~/StockAdjustment/GetLiquorsDetails")",
+                        type: "POST",
+                        dataType: "json",
+                        data: { LiquorId: ui.item.Id },
+                        success: function (data) {
+                          
+                            populatetable(data,Id);
+
+                            //debugger;
+                        },
+                    })*@
+                }});
+      
+        })
+
+    });
+
+</script>
+
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 main">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 page-title-outer">
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 page-title">Stock Inward</div>
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 page-title-btn">
+
+            <a href="@Url.Action("ViewAllStockInward", "StockInward")" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="View">
+                <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
+            </a>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 workarea-outer">
+
+        @using (Html.BeginForm("AddStockInward", "StockInward", new { @class = "beginform-outer" }, FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 scrolling-area">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 form-outer">
+
+                    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-1 label-left">
+                        GRN No
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-3 textbox-area">
+                        @Html.TextBox("GrnNo", "", new { @maxlength = "20", @class = "blckthm-form-control", @id = "GrnNo", @autocomplete = "off", @readonly = "readonly" })
+                        <span id="errmsgRoomNo"></span>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-1 label-left">
+                        GRN Date
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-3 textbox-area">
+                        @Html.TextBox("GrnDate", ViewData["GrnDate"], new { @class = "blckthm-form-control", @id = "GrnDate", @autocomplete = "off" })
+
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-1 label-left">
+                        Supplier
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-3 textbox-area">
+                        @Html.TextBox("Supplier", ViewData["Supplier"], new { @maxlength = "20", @class = "blckthm-form-control", @id = "Supplier", @autocomplete = "off" })
+                        <span id="errmsgCharges"></span>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-1 label-left">
+                       Permit No
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-3 textbox-area">
+                        @Html.TextBox("DeliveryChallan", ViewData["DeliveryChallan"], new { @maxlength = "20", @class = "blckthm-form-control", @id = "DeliveryChallan", @autocomplete = "off" })
+                        <span id="errmsgDeliveryChallanNo"></span>
+
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-1 label-left">
+                        Delivery Date
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-3 textbox-area">
+                        @Html.TextBox("Deliverydate", ViewData["Deliverydate"], new {  @class = "blckthm-form-control", @id = "Deliverydate", @autocomplete = "off" })
+
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-1 label-left"> &nbsp </div>
+                    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-3 textbox-area">&nbsp </div>
+                    <div class="clearfix"></div>
+
+                    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-1 label-left">
+                        Purchase Order No
+
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-3 textbox-area">
+                        @Html.TextBox("PurchaseOrder", ViewData["PurchaseOrder"], new { @maxlength = "20", @class = "blckthm-form-control", @id = "PurchaseOrder", @autocomplete = "off" })
+                        <span id="errmsgPurchaseOrderno"></span>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-1 label-left">
+                        PurchaseOrder Date
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-3 textbox-area">
+                        @Html.TextBox("PurchaseOrderDate", ViewData["PurchaseOrderDate"], new {  @class = "blckthm-form-control", @id = "PurchaseOrderDate", @autocomplete = "off" })
+                    </div>
+
+
+                </div>
+
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 form-outer ">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 table-title">
+                        Stock Entry
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 table-responsive " id="disptable">
+                        <table id="Table1" class="table blk-thm-table table-condensed">
+                            <thead>
+                                <tr>
+                                    <th>Liquor_Name</th>
+                                    <th>PO Rate</th>
+                                    <th>PO Qty</th>  
+                                    <th>Rejected Qty</th>  
+                                    <th>Discount %</th> 
+                                    <th>Discount Amt</th>  
+                                    <th>Tax %</th>
+                                    <th>Tax Amt</th>
+                                    <th>MRP</th>                                      
+                                    <th>Rejected Remark</th>
+                                    <th>
+                                        <button class="btn btn-primary btn-sm" onclick="return false;" type="submit" value="Select" id="Btn_Select" data-toggle="tooltip" data-placement="bottom" title="Select">
+                                            <span class="glyphicon glyphicon-plus"></span>
+                                        </button>
+                                    </th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <tr class="sel">
+                                    <td>@Html.TextBox("Item Name", ViewData["ItemName"], new { @maxlength = "20",style="width:150px", placeholder = "search", @class = "blckthm-form-control glyphicon", @id = "ItemName", @autocomplete = "off", @onclick = "selectRow(this);" })</td>
+                                    <td>@Html.TextBox("PurchaseOrder Rate", ViewData["PurchaseOrderRate"], new { @maxlength = "10", style = "width:50px", @class = "blckthm-form-control", @id = "PurchaseOrderRate", @autocomplete = "off", @onclick = "selectRow(this);" })</td>
+                                    <td>@Html.TextBox("PurchaseOrder Qty", ViewData["PurchaseOrderQty"], new { @maxlength = "5", style = "width:50px", @class = "blckthm-form-control", @id = "PurchaseOrderQty", @autocomplete = "off", @onclick = "selectRow(this);" })</td>
+                                    <td>@Html.TextBox("Rejected Qty", ViewData["RejectedQty"], new { @maxlength = "5", style = "width:60px", @class = "blckthm-form-control", @id = "RejectedQty", @autocomplete = "off", @onclick = "selectRow(this);" })</td>
+                                    <td>@Html.TextBox("Discount Percentage", ViewData["DiscountPercentage"], new { @maxlength = "7", style = "width:60px", @class = "blckthm-form-control", @id = "DiscountPercentage", @autocomplete = "off", @onclick = "selectRow(this);" })</td>
+                                    <td>@Html.TextBox("Discount Amount", ViewData["DiscountAmount"], new { @maxlength = "8", style = "width:160px", @class = "blckthm-form-control", @id = "DiscountAmount", @autocomplete = "off", @onclick = "selectRow(this);" })</td>  
+                                    <td>@Html.TextBox("Tax Percentage", ViewData["TaxPercentage"], new { @maxlength = "5", style = "width:60px", @class = "blckthm-form-control", @id = "TaxPercentage", @autocomplete = "off", @onclick = "selectRow(this);" })</td>
+                                    <td>@Html.TextBox("Tax Amount", ViewData["TaxAmount"], new { @maxlength = "8", style = "width:160px", @class = "blckthm-form-control", @id = "TaxAmount", @autocomplete = "off", @onclick = "selectRow(this);" })</td>
+                                    <td>@Html.TextBox("MRP", ViewData["MRP"], new { @maxlength = "10", style = "width:160px", @class = "blckthm-form-control", @id = "MRP", @autocomplete = "off", @onclick = "selectRow(this);" })</td>   
+                                    <td>@Html.TextBox("Rejected Remarks", ViewData["RejectedRemarks"], new { @maxlength = "150", @class = "blckthm-form-control", @id = "RejectedRemarks", @autocomplete = "off", @onclick = "selectRow(this);" })</td>
+                                    <td style="display:none">@Html.TextBox("LiquorId", ViewData["LiquorId"], new { @class = "blckthm-form-control glyphicon", @id = "LiquorId", @onclick = "selectRow(this);" })</td>
+                                    @*<td><button type="button" class="btn-sm btn-primary" data-toggle="modal" data-target="#myModal" data-backdrop="static" onclick="selectRow(this);">Edit</button></td>*@
+                                    <td><button value="Cancel" id="Btn_Cancel" data-toggle="tooltip" data-placement="bottom" title="Cancel Item" class="btn-xs btn-danger"><span class="glyphicon glyphicon-remove"></span></button></td>
+
+                                </tr>
+                                @*<tr border="none"></tr>*@
+
+                            </tbody>
+
+                        </table><br />
+
+                    </div>
+
+                </div>
+
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 form-outer">
+
+                    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2 label-left">
+                        Total Amount
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2 textbox-area">
+                        @Html.TextBox("TotalAmount", ViewData["TotalAmount"], new { @maxlength = "10", @class = "blckthm-form-control", @id = "TotalAmount", @autocomplete = "off" })
+                        <span id="errmsgTotalAmount"></span>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2 label-left">
+                        Total Tax
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2 textbox-area">
+                        @Html.TextBox("TotalTax", ViewData["TotalTax"], new { @maxlength = "10", @class = "blckthm-form-control", @id = "TotalTax", @autocomplete = "off" })
+                        <span id="errmsgTotalTax"></span>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2 label-left">
+                        Total Discount
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2 textbox-area">
+                        @Html.TextBox("TotalDiscount", ViewData["TotalDiscount"], new { @maxlength = "10", @class = "blckthm-form-control", @id = "TotalDiscount" })
+                        <span id="errmsgTotalDiscount"></span>
+                    </div>
+
+
+                    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2 label-left">
+                        Net Amount
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2 textbox-area">
+                        @Html.TextBox("NetAmount", ViewData["NetAmount"], new { @maxlength = "10", @class = "blckthm-form-control", @id = "NetAmount", @autocomplete = "off" })
+                        <span id="errmsgNetAmount"></span>
+                    </div>
+
+                    @*<div class="clearfix"></div>*@
+                </div>
+
+
+
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 action-outer">
+                @*<input type="submit" value="@ViewBag.submit" class="btn btn-primary" id="Btn_Submit" />*@
+                <button type="submit" value="@ViewBag.submit" class="btn btn-primary" id="Btn_Submit" data-toggle="tooltip" title="Save">
+
+                    <span class="glyphicon glyphicon-floppy-save"> </span>
+                </button>
+            </div>
+
+        }
+    </div>
+</div>
+
+
+
+
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Rejected Remark </h4>
+            </div>
+
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 form-outer">
+
+                <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 label-left">
+                    Enter Remark
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9 textbox-area">
+                    @Html.TextBox("Stock No", ViewData["RoomNo"], new { @maxlength = "10", @class = "blckthm-form-control", @id = "RoomNo" })
+                    <span id="errmsgRoomNo"></span>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+
+    $(document).ready(function () {
+
+        $("#Table1").on('input', '#RejectedQty', function () {
+            var cr = $(this).closest("tr");
+            var temp = cr.find("#PurchaseOrderQty").val();
+        
+            var value = $(this).val();
+            //if (value >= temp) {
+               // alert("Rejected Quantity cannot be greater than Purchase Order Quantity");
+            //}
+            if ((value !== '') && (value.indexOf('.') === -1)) {
+                $(this).val(Math.max(Math.min(value, temp), -temp));
+            }
+        });
+
+
+
+        $("#DeliveryChallan").keypress(function (e) {
+            if ((e.which != 46 || $(this).val().indexOf('.') != -1) && (e.which < 48 || e.which > 57)) {
+                $('#errmsgDeliveryChallanNo').css('color', 'red');
+                $("#errmsgDeliveryChallanNo").html("Numbers only").show().fadeOut("slow");
+                return false;
+            }
+        })
+
+        $("#PurchaseOrder").keypress(function (e) {
+            if ((e.which != 46 || $(this).val().indexOf('.') != -1) && (e.which < 48 || e.which > 57)) {
+                $('#errmsgPurchaseOrderno').css('color', 'red');
+                $("#errmsgPurchaseOrderno").html("Numbers only").show().fadeOut("slow");
+                return false;
+            }
+        })
+
+           
+
+        $("#TotalAmount").keypress(function (e) {
+            if ((e.which != 46 || $(this).val().indexOf('.') != -1) && (e.which < 48 || e.which > 57)) {
+                $('#errmsgTotalAmount').css('color', 'red');
+                $("#errmsgTotalAmount").html("Numbers only").show().fadeOut("slow");
+                return false;
+            }
+        })
+        $("#NetAmount").keypress(function (e) {
+            if ((e.which != 46 || $(this).val().indexOf('.') != -1) && (e.which < 48 || e.which > 57)) {
+                $('#errmsgNetAmount').css('color', 'red');
+                $("#errmsgNetAmount").html("Numbers only").show().fadeOut("slow");
+                return false;
+            }
+        })
+
+        $("#TotalDiscount").keypress(function (e) {
+            if ((e.which != 46 || $(this).val().indexOf('.') != -1) && (e.which < 48 || e.which > 57)) {
+                $('#errmsgTotalDiscount').css('color', 'red');
+                $("#errmsgTotalDiscount").html("Numbers only").show().fadeOut("slow");
+                return false;
+            }
+        })
+
+        $("#TotalTax").keypress(function (e) {
+            if ((e.which != 46 || $(this).val().indexOf('.') != -1) && (e.which < 48 || e.which > 57)) {
+                $('#errmsgTotalTax').css('color', 'red');
+                $("#errmsgTotalTax").html("Numbers only").show().fadeOut("slow");
+                return false;
+            }
+        })
+
+
+        $("#Table1").on("keypress", function (e) {
+            //debugger;
+            //var currentRow = $(this).closest("tr");
+
+
+
+            //$('.sel #PurchaseOrderRate').keypress(function (e) {
+            //    if ((e.which != 46 || $(this).val().indexOf('.') != -1) && (e.which < 48 || e.which > 57)) {
+            //        return false;
+            //    }
+            //})
+
+            $('.sel #PurchaseOrderRate').keypress(function (e) {
+                if ((e.which != 46 || $(this).val().indexOf('.') != -1) && (e.which < 48 || e.which > 57)) {
+                    return false;
+                }
+            })
+
+            $('.sel #PurchaseOrderQty').keypress(function (e) {
+                if ((e.which != 46 || $(this).val().indexOf('.') != -1) && (e.which < 48 || e.which > 57)) {
+                    $('#PurchaseOrderQty').addClass('errorClass');
+                    return false;
+                    $('#PurchaseOrderQty').addClass('errorClass');
+                }
+            })
+
+            $('.sel #MRP').keypress(function (e) {
+                if ((e.which != 46 || $(this).val().indexOf('.') != -1) && (e.which < 48 || e.which > 57)) {
+                    return false;
+                }
+            })
+
+            $('.sel #TaxAmount').keypress(function (e) {
+                if ((e.which != 46 || $(this).val().indexOf('.') != -1) && (e.which < 48 || e.which > 57)) {
+                    return false;
+                }
+            })
+
+
+            $('.sel #TaxPercentage').keypress(function (e) {
+                if ((e.which != 46 || $(this).val().indexOf('.') != -1) && (e.which < 48 || e.which > 57)) {
+                    return false;
+                }
+            })
+
+            $('.sel #DiscountAmount').keypress(function (e) {
+                if ((e.which != 46 || $(this).val().indexOf('.') != -1) && (e.which < 48 || e.which > 57)) {
+                    return false;
+                }
+            })
+
+            $('.sel #DiscountPercentage').keypress(function (e) {
+                if ((e.which != 46 || $(this).val().indexOf('.') != -1) && (e.which < 48 || e.which > 57)) {
+                    return false;
+                }
+            })
+
+            $('.sel #RejectedQty').keypress(function (e) {
+                if ((e.which != 46 || $(this).val().indexOf('.') != -1) && (e.which < 48 || e.which > 57)) {
+                   return false;
+                }
+                //var box1 = parseFloat(document.getElementById("#PurchaseOrderQty"));
+                //var box2 = parseFloat(document.getElementById("#RejectedQty"));
+                //if (box2 > box1) {
+                //    alert("Rejected Quantity cannot be gretaer than PurchaseorderQuantity")
+                //}
+                //return false;
+            })
+
+        })
+
+    });
+
+    $('#Btn_Submit').click(function () {
+
+        if ($('#GrnDate').val() == '' || $('#GrnDate').val() == "") {
+            alert('GrnDate field is required !!!');
+            $('#GrnDate').focus();
+            return false;
+        }
+        else if ($('#Supplier').val() == '' || $('#Supplier').val() == "") {
+            alert('Please Enter SupplierName...')
+            $('#Supplier').focus();
+            return false;
+        }
+        else if ($('#DeliveryChallan').val() == '' || $('#DeliveryChallan').val() == "") {
+            alert('Please Enter DeliveryChallan Number...')
+            $('#DeliveryChallan').focus();
+            return false;
+        }
+        else if ($('#Deliverydate').val() == '' || $('#Deliverydate').val() == "") {
+            alert('Please Enter Deliverydate...')
+            $('#Deliverydate').focus();
+            return false;
+        }
+        else if ($('#PurchaseOrder').val() == '' || $('#PurchaseOrder').val() == "") {
+            alert('Please Enter PurchaseOrder Number...')
+            $('#PurchaseOrder').focus();
+            return false;
+        } else if ($('#PurchaseOrderDate').val() == '' || $('#PurchaseOrderDate').val() == "") {
+            alert('Please Enter PurchaseOrder Date...')
+            $('#PurchaseOrderDate').focus();
+            return false;
+        } else if ($('.sel #ItemName').val() == '' || $('.sel #ItemName').val() == "") {
+            alert('Please Enter ItemName...')
+            $('.sel #ItemName').focus();
+            return false;
+        } else if ($('.sel #PurchaseOrderRate').val() == '' || $('.sel #PurchaseOrderRate').val() == "") {
+            alert('Please Enter PurchaseOrderRate...')
+            $('.sel #PurchaseOrderRate').focus();
+            return false;
+        }
+        else if ($('.sel #PurchaseOrderQty').val() == '' || $('.sel #PurchaseOrderQty').val() == "") {
+            alert('Please Enter PurchaseOrderQty...')
+            $('.sel #PurchaseOrderQty').focus();
+            return false;
+        }
+        else if ($('.sel #MRP').val() == '' || $('.sel #MRP').val() == "") {
+            alert('Please Enter MRP...')
+            $('.sel #MRP').focus();
+            return false;
+        } else if ($('.sel #TaxAmount').val() == '' || $('.sel #TaxAmount').val() == "") {
+            alert('Please Enter TaxAmount...')
+            $('.sel #TaxAmount').focus();
+            return false;
+        }
+        else if ($('.sel #TaxPercentage').val() == '' || $('.sel #TaxPercentage').val() == "") {
+            alert('Please Enter TaxPercentage...')
+            $('.sel #TaxPercentage').focus();
+            return false;
+        }
+        else if ($('.sel #ItemName').val() == '' || $('.sel #ItemName').val() == "") {
+            alert('Please Enter ItemName...')
+            $('.sel #ItemName').focus();
+            return false;
+        }
+        else if ($('.sel #DiscountAmount').val() == '' || $('.sel #DiscountAmount').val() == "") {
+            alert('Please Enter DiscountAmount...')
+            $('.sel #DiscountAmount').focus();
+            return false;
+        }
+        else if ($('.sel #DiscountPercentage').val() == '' || $('.sel #DiscountPercentage').val() == "") {
+            alert('Please Enter DiscountPercentage...')
+            $('.sel #DiscountPercentage').focus();
+            return false;
+        } else if ($('.sel #RejectedQty').val() == '' || $('.sel #RejectedQty').val() == "") {
+            alert('Please Enter RejectedQty...')
+            $('.sel #RejectedQty').focus();
+            return false;
+        } else if ($('#TotalAmount').val() == '' || $('#TotalAmount').val() == "") {
+            alert('Please Enter TotalAmount...')
+            $('#TotalAmount').focus();
+            return false;
+        } else if ($('#TotalTax').val() == '' || $('#TotalTax').val() == "") {
+            alert('Please Enter TotalTax...')
+            $('#TotalTax').focus();
+            return false;
+        } else if ($('#TotalDiscount').val() == '' || $('#TotalDiscount').val() == "") {
+            alert('Please Enter TotalDiscount...')
+            $('#TotalDiscount').focus();
+            return false;
+        } else if ($('#NetAmount').val() == '' || $('#NetAmount').val() == "") {
+            alert('Please Enter NetAmount...')
+            $('#NetAmount').focus();
+            return false;
+        }
+        
+        else {
+            SubmitStock();
+            return true;
+
+        }
+
+    })
+    function SubmitStock() {
+
+        //  $("#Btn_Submit").click(function () { //Click on submit button to insert
+        //debugger;
+        var StockInwards = {};
+        StockInwards.GrnNo = $('#GrnNo').val();
+        StockInwards.GrnDate = $('#GrnDate').data('DateTimePicker').date();
+        StockInwards.Supplier = $('#Supplier').val();
+        StockInwards.Deliverydate = $('#Deliverydate').data('DateTimePicker').date();
+        StockInwards.DeliveryChallan = $('#DeliveryChallan').val();
+        StockInwards.PurchaseOrder = $('#PurchaseOrder').val();
+        StockInwards.PurchaseOrderDate = $('#PurchaseOrderDate').data('DateTimePicker').date();
+        StockInwards.TotalAmount = $('#TotalAmount').val();
+        StockInwards.TotalTax = $('#TotalTax').val();
+        StockInwards.TotalDiscount = $('#TotalDiscount').val();
+        StockInwards.NetAmount = $('#NetAmount').val();
+
+
+        var arrData = [];
+        $('#Table1 tr').each(function (i) {//for each row in the table
+            var StockInwardSubTable = new Object();
+            $(this).children('td').each(function (j) {//for each cell in the row
+
+                if (j < 11) {
+                    var cellVal = $(this).children('input').val(); //value of the input box within the table cell;
+                    //StockInwardSubTable.push( cellVal );
+
+                    switch (j) {
+                        case 0:
+                            //execute code block 1
+                            StockInwardSubTable.ItemName = cellVal;
+                            break;
+                        case 1:
+                            //execute code block 2
+                            StockInwardSubTable.PurchaseOrderRate = cellVal;
+                            break;
+                        case 2:
+                            //execute code block 1
+                            StockInwardSubTable.PurchaseOrderQty = cellVal;
+                            break;
+                        case 3:
+                            //execute code block 1
+                            StockInwardSubTable.RejectedQty = cellVal;
+                            break;
+                        case 4:
+                            //execute code block 1
+                            StockInwardSubTable.DiscountPercentage = cellVal;
+                            break;
+                        case 5:
+                            //execute code block 1
+                            StockInwardSubTable.DiscountAmount = cellVal;
+                            break;
+                        case 6:
+                            //execute code block 1
+                            StockInwardSubTable.TaxPercentage = cellVal;
+                            break;
+                        case 7:
+                            //execute code block 1
+                            StockInwardSubTable.TaxAmount = cellVal;
+                            break;
+                        case 8:
+                            //execute code block 1
+                            StockInwardSubTable.MRP = cellVal;
+                            break;
+                        case 9:
+                            //execute code block 1
+                            StockInwardSubTable.RejectedRemarks = cellVal;
+                            break;
+                        case 10:
+                            //execute code block 1
+                            StockInwardSubTable.LiquorId = cellVal;
+                            break;
+
+                        default:
+                            // code to be executed if n is different from case 1 and 2
+                    }
+                }
+            });
+            //here a record for the row is complete. will now go to the next record (row)
+            if (StockInwardSubTable.ItemName) {
+                arrData.push(StockInwardSubTable);
+
+            }
+        });
+
+        $.ajax({
+
+            url:  "@Url.Content("~/StockInward/AddStockInward")",
+            type: "POST",
+            cache: false,
+            data: JSON.stringify({ 'ExList': arrData, 'StockInwardData': StockInwards }),
+            contentType: 'application/json',
+            datatype: 'json',
+            success: function (data) {
+
+            },
+        });
+
+    }
+
+
+
+    $(document).on('keyup', "#Table1 input[id='DiscountPercentage']", function () {
+          var x = 0; var y = 0; var z = 0; var w = 0; var temp = 0;
+          var z1 = 0, y1 = 0, x1 = 0, w1 = 0;
+
+          var currentRow = $(this).closest("tr");
+         x= parseFloat(currentRow.find("#PurchaseOrderRate").val());
+          y= parseFloat(currentRow.find("#PurchaseOrderQty").val());
+          z = parseFloat(currentRow.find("#DiscountPercentage").val());
+          x1 = parseFloat(currentRow.find("#RejectedQty").val());
+           w = (x * (y - x1) * z) / 100;
+           currentRow.find("#DiscountAmount").val(w);
+          
+      });
+
+
+    $(document).on('keyup', "#Table1 tbody #TaxPercentage", function () {
+        //debugger;
+        var a = 0; var b = 0; var c = 0; var d = 0; var e = 0;
+        var f = 0;
+        var x = 0; var y = 0; var z = 0; var w = 0;
+        var temp = 0,temp1=0;
+        var z1 = 0, y1 = 0, x1 = 0, w1 = 0;
+        var currentRow = $(this).closest("tr");
+        a = parseFloat(currentRow.find("#PurchaseOrderRate").val());
+        b = parseFloat(currentRow.find("#PurchaseOrderQty").val());
+        c = parseFloat(currentRow.find("#DiscountAmount").val());
+        d = parseFloat(currentRow.find("#RejectedQty").val());
+        e = parseFloat(currentRow.find("#TaxPercentage").val());
+        f = ((a * (b - d) - c)* e ) / 100;
+        currentRow.find("#TaxAmount").val(f);
+
+        $("#Table1 tbody tr").each(function () {
+
+            cRow = $(this).closest("tr");
+            if (x != null || x != "" && !(isNaN(a))) {
+                x = parseFloat(cRow.find("#PurchaseOrderRate").val());
+                y = parseFloat(cRow.find("#PurchaseOrderQty").val());
+                y1 = parseFloat(cRow.find("#RejectedQty").val());
+                if (!(isNaN(x)) && !(isNaN(x))) {
+                    z = parseFloat(z) + parseFloat(x * (y-y1));
+                }
+            }     
+            $("#TotalAmount").val(z);
+            //debugger;
+            if (w1 != null || w1 != "" && !(isNaN(w1))) {
+                w1 = parseFloat(cRow.find("#TaxAmount").val());
+                if (!(isNaN(w1))) {
+                    temp = parseFloat(temp) + w1;
+                }
+            }        
+            $("#TotalTax").val(temp);           
+          
+            if (x1 != null || x1 != "" && !(isNaN(x1))) {
+                x1 = parseFloat(cRow.find("#DiscountAmount").val());
+                if (!(isNaN(x1))) {
+                    temp1 = parseFloat(temp1) + x1;
+                }
+            }
+            $("#TotalDiscount").val(temp1);
+
+
+            $("#NetAmount").val(parseFloat($("#TotalAmount").val()) + parseFloat($("#TotalTax").val()) - parseFloat($("#TotalDiscount").val()));
+
+        })
+    });
+
+
+
+    //$(document).ready(function () {
+    //    debugger;
+    //$(document).on('keypress', "#Table1 input[id='RejectedQty']", function () {
+        //debugger;
+        //$("#RejectedQty").keypress(function () {
+        //    debugger;
+        //    var box1 = parseFloat(document.getElementById("#PurchaseOrderQty").value);
+        //    var box2 = parseFloat(document.getElementById("#RejectedQty").value);
+        //    if (box2 > box1)
+        //    {
+        //        alert("Rejected Quantity cannot be gretaer than PurchaseorderQuantity")
+        //    }
+        //    return false;
+        //})
+       
+        //});
+    //function CheckValue() {
+    //var box1 = parseint(document.getElementById('<%=PurchaseOrderQty%>').value);
+    //var box2 = parseInt(document.getElementById('<%=RejectedQty%>').value);
+    //if (box2 > box1) {
+    //    alert("Rejected Quantity cannot be gretaer than PurchaseorderQuantity")
+    //}
+
+    //}
+
+</script>
+

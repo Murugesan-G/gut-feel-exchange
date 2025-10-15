@@ -1,0 +1,119 @@
+﻿@using NTCYApplication.Models.Liquor
+
+@{
+    ViewBag.Title = "ViewAllOrders";
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#Table1').DataTable({
+            initComplete: function () {
+                this.api().columns().every(function () {
+                    var column = this;
+                    var select = $('<select><option value=""></option></select>')
+                        .appendTo($(column.footer()).empty())
+                        .on('change', function () {
+                            var val = $.fn.dataTable.util.escapeRegex(
+                                $(this).val()
+                            );
+                            //to select and search from grid
+                            column
+                                .search(val ? '^' + val + '$' : '', true, false)
+                                .draw();
+                        });
+
+                    column.data().unique().sort().each(function (d, j) {
+                        select.append('<option value="' + d + '">' + d + '</option>')
+                    });
+                });
+            }
+        });
+    });
+</script>
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 main">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 page-title-outer">
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 page-title">Dining Area - Liquor Orders</div>
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 page-title-btn">
+
+            <a href="@Url.Action("ViewAllOrders", "LiquorAreaOrder")" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Back">
+
+                <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
+            </a>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 workarea-outer">
+
+
+
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 scrolling-area">
+
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 table-title">  Completed Orders</div>
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 table-responsive" style="height: 514px;overflow: auto;">
+                <table class="table blk-thm-table table-condensed" id="Table1">
+                    <thead>
+                        <tr>
+                            <th>Order Number</th>
+                            <th>Membership No</th>
+                            <th>Table</th>
+                            <th>Items</th>
+                            <th>Qty</th>
+                            <th>Type</th>
+                            <th>Status</th>
+                            
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            if (ViewData["LiquorOrderlist"] != null)
+                            {
+                                if (ViewData.Values != null && ViewData.Values.Count() > 0)
+                                {
+                                    foreach (var Model in ViewBag.LiquorOrderlist as List<LiquorOrderArea>)
+                                    {
+                                        <tr>
+                                            <td>@Model.OrderNumber</td>
+                                            <td>@Model.MembershipNo</td>
+                                            <td>@Model.TableNo</td>
+                                            <td>@Model.Items</td>
+                                            <td>@Model.Qty</td>
+                                            <td>@Model.Type</td>
+                                            <td>@Html.Label("Completed", new { id = "Status" })</td>
+                                           
+                                        </tr>
+                                    }
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td>
+                                            @ViewBag.message
+                                        </td>
+                                    </tr>
+                                }
+                            }
+
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<style type="text/css">
+    .ui-tooltip {
+        font-size: large;
+        font-family: Arial;
+    }
+</style>
+@*<script>
+    $(document).ready(function () {
+        $('[data-toggle="tooltip"]').tooltip();
+        $(document).tooltip({
+            track: true
+        });
+    })
+</script>*@
+
+
+
+

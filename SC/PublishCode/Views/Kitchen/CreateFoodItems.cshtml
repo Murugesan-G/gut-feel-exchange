@@ -1,0 +1,211 @@
+﻿@{
+    ViewBag.Title = "CreateFoodItems";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script>
+    $(document).ready(function () {
+        $("#Status").val("@ViewData["Status"]");
+
+    });
+</script>
+
+<div id="mySidenav" class="col-xs-4 col-sm-4 col-md-2 col-lg-2 sidenav">
+
+    @Html.Partial("_left_admin_submenu")
+</div>
+
+@*<script>
+    $(document).ready(function () {
+       // $("#Status").val("@ViewData["Status"]");
+        $('[data-toggle="tooltip"]').tooltip();
+        $(document).tooltip({
+            track: true
+        });
+    })
+</script>*@
+
+<div class="col-xs-8 col-sm-8 col-md-10 col-lg-10 main"><div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 page-title-outer">
+    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 page-title">Create Food Items</div>
+    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 page-title-btn">
+
+        <a href="@Url.Action("ViewAllFoodItems", "Kitchen")" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="View All">
+            <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
+        </a>
+    </div>
+</div>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 workarea-outer">
+ 
+
+
+        @using (Html.BeginForm("CreateFoodItems", "Kitchen", new { @class = "beginform-outer" }, FormMethod.Post))
+        { 
+            @Html.AntiForgeryToken()
+
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 scrolling-area">
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 form-outer">
+                    @Html.Hidden("FoodId", ViewData["FoodId"], new { @id = "FoodId" })
+
+                     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 label-right">
+                        Item Code
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 textbox-area">
+                        @Html.TextBox("ItemCode", ViewData["ItemCode"], new { @maxlength = "15", @class = "blckthm-form-control", @id = "ItemCode" })
+                    <span id="errmsgItemCode"></span>
+                    </div>
+                     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 label-right">
+                        Item Name
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 textbox-area">
+                        @Html.TextBox("ItemName", ViewData["ItemName"], new { @maxlength = "30", @class = "blckthm-form-control", @id = "ItemName" })
+                    <span id="errmsgItemName"></span>
+                    </div>
+                     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 label-right">
+                        Item Category
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 textbox-area">
+                        @Html.DropDownList("ItemCategory", new List<SelectListItem> {
+                        new SelectListItem { Text="Veg", Value="Veg"},
+                        new SelectListItem { Text="Non-Veg", Value="Non-Veg"},
+                         new SelectListItem { Text="Juice", Value="Juice"}
+                        }, "Select Category", new { @class = "blckthm-form-control", @id = "ItemCategory" })
+                    </div>
+                     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 label-right">
+                        Description
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 textbox-area">
+                        @Html.TextArea("Description"@*, ViewData["Description"]*@, new {@maxlength="30", @class = "blckthm-form-control", @id = "Description" })
+                    </div>
+                     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 label-right">
+                        Quantity
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 textbox-area">
+                        @Html.TextBox("Quantity", ViewData["Quantity"], new { @maxlength = "10", @class = "blckthm-form-control", @id = "Quantity" })
+                    </div><span id="errmsgQty"></span>
+                     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 label-right">
+                        Rate/Unit
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 textbox-area">
+                        @Html.TextBox("RatePerUnit", ViewData["RatePerUnit"], new { @maxlength = "4", @class = "blckthm-form-control", @id = "RatePerUnit" })
+                    </div><span id="errmsgRate"></span>
+                     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 label-right">
+                        GST %
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 textbox-area">
+                        @Html.TextBox("GST", ViewData["GST"], new { @maxlength = "5", @class = "blckthm-form-control", @id = "GST" })
+                    </div><span id="errmsgGST"></span>
+
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 label-right">
+                        Status
+                    </div>
+                    <div id="ddlstatus" class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                        @Html.DropDownList("Status", new List<SelectListItem> {
+                        new SelectListItem { Text="Available", Value="Yes"},
+                        new SelectListItem { Text="Not Available", Value="No"}
+                        }, "Select Status", new { @class = "blckthm-form-control", @id = "Status" })
+
+                    </div>
+
+                </div>
+
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 form-outer">
+                </div>
+            </div>
+                   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 action-outer">
+                @*@Html.ActionLink("Submit", "Club_master", "Admin", null, new { @class = "btn btn-primary  " })*@
+                @*<input type="submit" value="@ViewBag.submit" class="btn btn-primary" id="Btn_Submit" />*@
+                       <button type="submit" value="@ViewBag.submit" class="btn btn-primary" id="Btn_Submit" data-toggle="tooltip" title="Save">
+                           <span class="glyphicon glyphicon-floppy-save"> </span>
+                       </button>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 label-area">
+                <p>@ViewBag.message</p>
+                <p>@ViewBag.innerEx</p>
+
+            </div>
+        }
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+               
+//textbox validation--accepts only digits
+        $("#RatePerUnit").keypress(function (e) {
+            if ((e.which != 46 || $(this).val().indexOf('.') != -1) && (e.which < 48 || e.which > 57)) {
+                $('#errmsgRate').css('color', 'red');
+                $("#errmsgRate").html("Invalid Data").show().fadeOut("slow");
+                return false;
+            }
+        })
+
+        $("#GST").keypress(function (e) {
+            if ((e.which != 46 || $(this).val().indexOf('.') != -1) && (e.which < 48 || e.which > 57)) {
+                $('#errmsgGST').css('color', 'red');
+                $("#errmsgGST").html("Invalid Data").show().fadeOut("slow");
+                return false;
+            }
+        })
+        $("#ItemCode").keypress(function (e) {
+            if((e.which>=33 && e.which<=47)||(e.which>=58 && e.which<=64)||(e.which>=91 && e.which<=96)||
+                e.which>=123 && e.which<=126){
+                $('#errmsgItemCode').css('color', 'red');
+                $("#errmsgItemCode").html("Invalid Data").show().fadeOut("slow");
+                return false;
+            }
+        })
+        $("#ItemName").keypress(function (e) {
+            if ((e.which >= 33 && e.which <= 47) || (e.which >= 58 && e.which <= 64) || (e.which >= 91 && e.which <= 96) ||
+                e.which >= 123 && e.which <= 126) {
+                $('#errmsgItemName').css('color', 'red');
+                $("#errmsgItemName").html("Invalid Data").show().fadeOut("slow");
+                return false;
+            }
+        })
+
+
+
+//Required Field Validation
+        $('#Btn_Submit').click(function () {
+            if ($('#ItemCode').val() == '' || $('#ItemCode').val() == "") {
+                alert('ItemCode field is required !!!');
+                $('#ItemCode').focus();
+                return false;
+            }
+
+            else if ($('#ItemName').val() == '' || $('#ItemCode').val() == ""){
+                alert('Item Name is Required!!!')
+                $('#ItemName').focus();
+                return false;
+            }
+            else if ($('#ItemCategory').val() == '' || $('#ItemCategory').val() == "") {
+                alert('Item Category is Required!!!')
+                $('#ItemCategory').focus();
+                return false;
+            }
+            else if ($('#Quantity').val() == '' || $('#Quantity').val() == "") {
+                alert('Quantity Field is Required!!!')
+                $('#Quantity').focus();
+                return false;
+            }
+            else if ($('#RatePerUnit').val() == '' || $('#RatePerUnit').val() == "") {
+                alert('Please enter Rate/Unit..')
+                $('#RatePerUnit').focus();
+                return false;
+            }
+            else if ($('#GST').val() == '' || $('#GST').val() == "") {
+                alert('GST Field is Required!!!')
+                $('#GST').focus();
+                return false;
+            }
+            else if ($('#Status').val() == '' || $('#Status').val() == "") {
+                alert('Please select status..')
+                $('#Status').focus();
+                return false;
+            }
+
+            else { return true; }
+        })
+    });
+
+    </script>

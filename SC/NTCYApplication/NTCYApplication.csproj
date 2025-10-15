@@ -479,21 +479,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="bin\AjaxControlToolkit.dll" />
-    <Content Include="bin\AjaxControlToolkit.pdb" />
     <Content Include="bin\Antlr3.Runtime.dll" />
     <Content Include="bin\CrystalDecisions.CrystalReports.Engine.dll" />
-    <Content Include="bin\CrystalDecisions.ReportAppServer.ClientDoc.dll" />
-    <Content Include="bin\CrystalDecisions.ReportAppServer.CommLayer.dll" />
-    <Content Include="bin\CrystalDecisions.ReportAppServer.CommonControls.dll" />
-    <Content Include="bin\CrystalDecisions.ReportAppServer.CommonObjectModel.dll" />
-    <Content Include="bin\CrystalDecisions.ReportAppServer.Controllers.dll" />
-    <Content Include="bin\CrystalDecisions.ReportAppServer.CubeDefModel.dll" />
-    <Content Include="bin\CrystalDecisions.ReportAppServer.DataDefModel.dll" />
-    <Content Include="bin\CrystalDecisions.ReportAppServer.DataSetConversion.dll" />
-    <Content Include="bin\CrystalDecisions.ReportAppServer.ObjectFactory.dll" />
-    <Content Include="bin\CrystalDecisions.ReportAppServer.Prompting.dll" />
-    <Content Include="bin\CrystalDecisions.ReportAppServer.ReportDefModel.dll" />
-    <Content Include="bin\CrystalDecisions.ReportAppServer.XmlSerialize.dll" />
     <Content Include="bin\CrystalDecisions.ReportSource.dll" />
     <Content Include="bin\CrystalDecisions.Shared.dll" />
     <Content Include="bin\CrystalDecisions.Web.dll" />

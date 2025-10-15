@@ -54,20 +54,20 @@ namespace NTCYApplication.Controllers.Clubs
         public ActionResult CreateMember(FormCollection Form, HttpPostedFileBase imgfile)
         {
             //string memberFolder = Server.MapPath("~/Member_Images/") + Form["MembershipNo"].ToString();
-            string memberFolder = "/Member_Images/" + Form["MembershipNo"].ToString() + "/";
+            //string memberFolder = "/Member_Images/" + Form["MembershipNo"].ToString() + "/";
             string imgname, imgpath;
             imgname = "";
             imgpath = "";
-            if (Directory.Exists(Server.MapPath("~/Member_Images/") + Form["MembershipNo"].ToString()) == false)
+            if (Directory.Exists(Server.MapPath("~/Member/Member_Images/") + Form["MembershipNo"].ToString()) == false)
             {
-                Directory.CreateDirectory(Server.MapPath("~/Member_Images/") + Form["MembershipNo"].ToString());
+                Directory.CreateDirectory(Server.MapPath("~/Member/Member_Images/") + Form["MembershipNo"].ToString());
             }
-            if (imgfile !=null && imgfile.ContentLength > 0)
+            if (imgfile != null && imgfile.ContentLength > 0)
             {
                 imgname = Path.GetFileName(imgfile.FileName);
                 //string imgext = Path.GetExtension(imgname);
-                imgpath = @"\Member_Images\" + Form["MembershipNo"].ToString() + @"\" + imgname;
-                imgfile.SaveAs(Path.Combine(Server.MapPath("~/Member_Images/") + Form["MembershipNo"].ToString(), imgname));
+                imgpath = "Member_Images/" + Form["MembershipNo"].ToString() + "/" + imgname;
+                imgfile.SaveAs(Path.Combine(Server.MapPath("~/Member/Member_Images/") + Form["MembershipNo"].ToString(), imgname));
             }
 
             lockobj.AcquireWriterLock(-1);
